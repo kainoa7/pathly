@@ -77,8 +77,8 @@ const TermsOfService = () => {
             <p className="mb-4">
               For questions about these Terms, please contact us at:
               <br />
-              <a href="mailto:legal@pathly.com" className="text-[#71ADBA] hover:underline">
-                legal@pathly.com
+              <a href="mailto:pathly.help@gmail.com" className="text-[#71ADBA] hover:underline">
+                pathly.help@gmail.com
               </a>
             </p>
           </section>

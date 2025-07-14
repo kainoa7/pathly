@@ -117,8 +117,10 @@ const ContactPage = () => {
     try {
       // First, send the message to ourselves using EmailJS
       const templateParams = {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
+        to_email: 'pathly.help@gmail.com',
+        reply_to: formData.email.trim(),
+        from_name: formData.name.trim(),
+        from_email: 'pathly.help@gmail.com',
         subject: formData.subject.trim(),
         category: formData.category,
         message: formData.message.trim(),
@@ -134,9 +136,10 @@ const ContactPage = () => {
 
       // Send an auto-response to the user
       const autoResponseParams = {
-        name: formData.name.trim(),
-        email: formData.email.trim(),
-        subject: formData.subject.trim(),
+        to_email: formData.email.trim(),
+        from_email: 'pathly.help@gmail.com',
+        to_name: formData.name.trim(),
+        subject: `Re: ${formData.subject.trim()}`,
         category: formData.category
       };
 

@@ -71,8 +71,8 @@ const PrivacyPolicy = () => {
             <p className="mb-4">
               If you have questions about this Privacy Policy or your personal data, please contact us at:
               <br />
-              <a href="mailto:privacy@pathly.com" className="text-[#71ADBA] hover:underline">
-                privacy@pathly.com
+              <a href="mailto:pathly.help@gmail.com" className="text-[#71ADBA] hover:underline">
+                pathly.help@gmail.com
               </a>
             </p>
           </section>
