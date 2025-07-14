@@ -5,9 +5,9 @@ const Header = () => {
   const navigate = useNavigate();
   
   return (
-    <header className="fixed w-full z-50 bg-opacity-50 backdrop-blur-lg bg-[#0f172a]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
+    <header className="fixed w-full z-50 bg-opacity-50 backdrop-blur-lg bg-[#0f172a] h-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex justify-between items-center h-full">
           <Link to="/" className="flex items-center space-x-2">
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -17,7 +17,7 @@ const Header = () => {
               <img 
                 src="/logo.png" 
                 alt="PathFinder Logo" 
-                className="w-16 h-16 relative z-10" 
+                className="w-12 h-12 relative z-10" 
               />
             </motion.div>
             <span className="text-2xl font-bold text-[#71ADBA]">PathFinder</span>
