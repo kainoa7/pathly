@@ -11,14 +11,14 @@ export const testimonials: Testimonial[] = [
     id: 1,
     name: "Alex Chen",
     rating: 5,
-    review: "PathFinder helped me discover my passion for software engineering. Now I'm interning at Google!",
+    review: "Pathly helped me discover my passion for software engineering. Now I'm interning at Google!",
     role: "CS Student @ Stanford"
   },
   {
     id: 2,
     name: "Sarah Miller",
     rating: 5,
-    review: "Switched from Biology to Data Science thanks to PathFinder's guidance. Just landed my dream role at Meta.",
+    review: "Switched from Biology to Data Science thanks to Pathly's guidance. Just landed my dream role at Meta.",
     role: "Data Science Graduate"
   },
   {
@@ -32,7 +32,7 @@ export const testimonials: Testimonial[] = [
     id: 4,
     name: "Emily Rodriguez",
     rating: 5,
-    review: "PathFinder showed me how my love for creativity could lead to UX Design. Currently at Apple!",
+    review: "Pathly showed me how my love for creativity could lead to UX Design. Currently at Apple!",
     role: "UX Designer"
   }
 ]; 

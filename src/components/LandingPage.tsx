@@ -18,20 +18,6 @@ const LandingPage = () => {
           className="max-w-4xl text-center"
         >
           <motion.div
-            initial={{ scale: 0.5 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mb-8 relative group"
-          >
-            <div className="absolute inset-0 bg-[#71ADBA] blur-3xl opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
-            <img 
-              src="/logo.png" 
-              alt="PathFinder Logo" 
-              className="w-40 h-40 mx-auto relative z-10 hover:rotate-12 transition-transform duration-300" 
-            />
-          </motion.div>
-
-          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -119,7 +105,7 @@ const LandingPage = () => {
             Ready to unlock your future? 🔓
           </h2>
           <p className="text-xl text-[#71ADBA] mb-8">
-            Join thousands of students who found their path with PathFinder
+            Join thousands of students who found their path with Pathly
             <br />
             <span className="text-[#EDEAB1]">Your dream career is just a few clicks away!</span>
           </p>

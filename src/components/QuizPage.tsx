@@ -41,6 +41,33 @@ const QuizPage = () => {
         { icon: BusinessIcon, text: "Business and market trends", value: "business" },
         { icon: PeopleIcon, text: "Understanding human behavior", value: "social" }
       ]
+    },
+    {
+      question: "When working on a group project, you usually... 👥",
+      options: [
+        { icon: CodeIcon, text: "Handle the technical details and planning", value: "analytical" },
+        { icon: BrushIcon, text: "Come up with innovative ideas", value: "creative" },
+        { icon: BusinessIcon, text: "Take charge and delegate tasks", value: "leadership" },
+        { icon: PeopleIcon, text: "Make sure everyone's voice is heard", value: "social" }
+      ]
+    },
+    {
+      question: "What kind of YouTube videos do you binge? 🎥",
+      options: [
+        { icon: ScienceIcon, text: "Tech reviews and science experiments", value: "stem" },
+        { icon: MusicNoteIcon, text: "DIY crafts and art tutorials", value: "arts" },
+        { icon: BusinessIcon, text: "Entrepreneurship and success stories", value: "business" },
+        { icon: PeopleIcon, text: "Lifestyle vlogs and social commentary", value: "social" }
+      ]
+    },
+    {
+      question: "Your dream internship would be at... 💼",
+      options: [
+        { icon: CodeIcon, text: "A cutting-edge tech company", value: "tech" },
+        { icon: BrushIcon, text: "A creative design studio", value: "creative" },
+        { icon: BusinessIcon, text: "A fast-growing startup", value: "business" },
+        { icon: PeopleIcon, text: "A non-profit helping others", value: "helping" }
+      ]
     }
   ];
 
@@ -74,7 +101,7 @@ const QuizPage = () => {
         />
       </div>
 
-      <div className="main-content max-w-2xl mx-auto">
+      <div className="main-content max-w-2xl mx-auto pt-24 md:pt-32">
         {/* Question Counter */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -101,7 +128,7 @@ const QuizPage = () => {
             </h2>
 
             {/* Options */}
-            <div className="grid gap-4">
+            <div className="grid gap-6 md:gap-8">
               {questions[currentQuestion].options.map((option, index) => {
                 const Icon = option.icon;
                 return (
@@ -111,7 +138,7 @@ const QuizPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => !isTransitioning && handleAnswer(option.value)}
-                    className="group relative glass-panel p-6 text-left transition-all duration-300
+                    className="group relative glass-panel p-6 md:p-8 text-left transition-all duration-300
                              hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(113,173,186,0.2)]"
                     disabled={isTransitioning}
                   >
