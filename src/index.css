@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --celestial-yellow: #EDEAB1;
+    --retro-blue: #71ADBA;
+    --future-dusk: #4C5578;
+  }
+  
+  body {
+    @apply bg-[#0f172a] text-gray-100;
+    background: linear-gradient(to bottom right, #0f172a, #1e1b4b, #312e81);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 rounded-full font-semibold transition-all duration-300;
+  }
+  
+  .btn-primary {
+    @apply bg-[#71ADBA] text-white hover:bg-[#8ec5d0] 
+           hover:shadow-[0_0_20px_rgba(113,173,186,0.5)] 
+           hover:scale-105 transform;
+  }
+  
+  .btn-secondary {
+    @apply bg-white/10 backdrop-blur-sm text-white 
+           hover:bg-white/20 hover:shadow-[0_0_20px_rgba(255,255,255,0.2)];
+  }
+  
+  .card {
+    @apply bg-white/10 backdrop-blur-lg p-6 rounded-2xl 
+           border border-white/10 hover:border-white/20
+           hover:shadow-[0_0_30px_rgba(113,173,186,0.2)]
+           transition-all duration-300;
+  }
+  
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-lg rounded-3xl 
+           border border-white/10 shadow-xl;
+  }
+  
+  .heading-gradient {
+    @apply bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] 
+           bg-clip-text text-transparent;
+  }
+  
+  .neon-glow {
+    @apply hover:shadow-[0_0_20px_rgba(113,173,186,0.5)] 
+           transition-shadow duration-300;
+  }
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-[#0f172a];
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[#4C5578] rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-[#71ADBA];
+}
