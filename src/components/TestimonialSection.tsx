@@ -71,7 +71,7 @@ const TestimonialSection = () => {
           onClick={handlePrev}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg 
+          className="absolute left-[-3rem] top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg 
                      hover:bg-white/20 transition-all hover:shadow-lg hover:shadow-[#71ADBA]/20"
         >
           ←
@@ -80,7 +80,7 @@ const TestimonialSection = () => {
           onClick={handleNext}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg 
+          className="absolute right-[-3rem] top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg 
                      hover:bg-white/20 transition-all hover:shadow-lg hover:shadow-[#71ADBA]/20"
         >
           →
