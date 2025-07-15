@@ -12,170 +12,176 @@ import CreateIcon from '@mui/icons-material/Create';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
 import LanguageIcon from '@mui/icons-material/Language';
 import WorkIcon from '@mui/icons-material/Work';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PersonIcon from '@mui/icons-material/Person';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import { useTheme } from '../context/ThemeContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const services = [
     {
-      title: 'Resume Builder',
-      description: 'Create a professional resume that stands out',
-      icon: <CreateIcon className="w-5 h-5" />,
-      path: '/services/resume-builder'
+      name: 'Resume Builder',
+      icon: DescriptionIcon,
+      path: '/resume-builder',
+      description: 'Create a professional resume'
     },
     {
-      title: 'Resume Review',
-      description: 'Get expert feedback on your existing resume',
-      icon: <DescriptionIcon className="w-5 h-5" />,
-      path: '/services/resume-review'
+      name: 'Career Roadmap',
+      icon: RouteIcon,
+      path: '/career-roadmap',
+      description: 'Plan your career journey'
     },
     {
-      title: 'Career Roadmap',
-      description: 'Personalized guide to your dream career',
-      icon: <RouteIcon className="w-5 h-5" />,
-      path: '/services/career-roadmap'
+      name: 'Resume Review',
+      icon: CreateIcon,
+      path: '/resume-review',
+      description: 'Get expert feedback'
     },
     {
-      title: 'Interview Templates',
-      description: 'Major-specific interview prep templates',
-      icon: <QuestionAnswerIcon className="w-5 h-5" />,
-      path: '/services/interview-templates'
+      name: 'Interview Prep',
+      icon: QuestionAnswerIcon,
+      path: '/interview-templates',
+      description: 'Practice with real questions'
     },
     {
-      title: 'Website Builder',
-      description: 'Custom websites for your portfolio or business',
-      icon: <LanguageIcon className="w-5 h-5" />,
-      path: '/services/website-builder'
+      name: 'Website Builder',
+      icon: LanguageIcon,
+      path: '/website-service',
+      description: 'Create your portfolio'
+    },
+    {
+      name: 'Job Board',
+      icon: WorkIcon,
+      path: '/coming-soon-feature',
+      description: 'Find your next role'
     }
   ];
 
-  const navigationItems = [
-    { label: 'About', path: '/about' },
-    { 
-      label: 'Services',
-      path: '#',
-      children: [
-        { label: 'Career Roadmap', path: '/services/career-roadmap' },
-        { label: 'Resume Builder', path: '/services/resume-builder' },
-        { label: 'Resume Review', path: '/services/resume-review' }
-      ]
-    },
-    { label: 'Campus Life', path: '/campus-life' },
-    { label: 'Internships', path: '/internships', badge: 'New' },
-    { label: 'Feedback', path: '/feedback' }
-  ];
-
   return (
-    <header className="bg-[#0f172a] py-3 px-6 sticky top-0 z-50 border-b border-gray-800">
-      <nav className="max-w-7xl mx-auto flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-3 group">
-          <div className="relative w-12 h-12 transition-transform duration-300 group-hover:scale-110">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 rounded-full blur-lg group-hover:blur-xl transition-all duration-300"></div>
-            <img 
-              src="/logo.svg" 
-              alt="Pathly Logo" 
-              className="w-full h-full relative z-10 drop-shadow-[0_0_10px_rgba(113,173,186,0.3)] group-hover:drop-shadow-[0_0_15px_rgba(156,113,186,0.4)] transition-all duration-300"
-            />
-          </div>
-          <span className="pathly-logo text-2xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent font-bold group-hover:opacity-90 transition-opacity">
-            Pathly
-          </span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link to="/about" className="text-gray-300 hover:text-[#71ADBA] transition-colors py-2">
-            About
-          </Link>
-          
-          {/* Services Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setIsServicesOpen(true)}
-            onMouseLeave={() => setIsServicesOpen(false)}
-          >
-            <button 
-              className="flex items-center text-gray-300 hover:text-[#71ADBA] transition-colors py-2"
-            >
-              <span>Services</span>
-              <KeyboardArrowDownIcon className={`w-5 h-5 ml-1 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
-            </button>
-            
-            <AnimatePresence>
-              {isServicesOpen && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute top-full left-0 mt-2 w-72 bg-[#1a1f36] rounded-xl shadow-xl border border-gray-700 overflow-hidden"
+    <header className="fixed top-0 left-0 right-0 z-50 bg-light-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-light-border dark:border-dark-border">
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-16">
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center">
+              <img src="/logo.png" alt="Pathly" className="h-8 w-auto" />
+              <span className="ml-2 text-xl font-bold text-light-text dark:text-dark-text">Pathly</span>
+            </Link>
+            <div className="hidden md:flex md:ml-10 space-x-8">
+              <Link to="/about" className="nav-link">About</Link>
+              <div className="relative">
+                <button
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className="nav-link flex items-center"
                 >
-                  <div className="p-2">
-                    {services.map((service, index) => (
-                      <Link
-                        key={service.path}
-                        to={service.path}
-                        className="flex items-start space-x-4 p-3 hover:bg-[#2d3a4f] rounded-lg transition-colors"
-                      >
-                        <div className="p-2 bg-[#71ADBA]/10 rounded-lg text-[#71ADBA]">
-                          {service.icon}
-                        </div>
-                        <div>
-                          <div className="text-white font-medium">{service.title}</div>
-                          <div className="text-sm text-gray-400">{service.description}</div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  Services
+                  <KeyboardArrowDownIcon className={`ml-1 transform transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {isServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute top-full left-0 w-64 mt-2 bg-light-background dark:bg-dark-backgroundSecondary rounded-lg shadow-lg border border-light-border dark:border-dark-border"
+                    >
+                      <div className="p-2">
+                        {services.map((service) => (
+                          <Link
+                            key={service.name}
+                            to={service.path}
+                            onClick={() => setIsServicesOpen(false)}
+                            className="flex items-start p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
+                          >
+                            <service.icon className="w-5 h-5 mt-0.5 text-light-primary dark:text-dark-primary" />
+                            <div className="ml-3">
+                              <div className="text-light-text dark:text-dark-text font-medium">{service.name}</div>
+                              <div className="text-sm text-light-textSoft dark:text-dark-textSoft">{service.description}</div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              <Link to="/campus-life" className="nav-link">Campus Life</Link>
+              <Link to="/internships" className="nav-link">
+                Internships
+                <span className="ml-1 text-xs bg-light-primary dark:bg-dark-primary text-white px-2 py-0.5 rounded-full">New</span>
+              </Link>
+            </div>
           </div>
 
-          <Link to="/campus-life" className="text-gray-300 hover:text-[#71ADBA] transition-colors py-2">
-            Campus Life
-          </Link>
-
-          <Link to="/internships" className="flex items-center text-gray-300 hover:text-[#71ADBA] transition-colors py-2">
-            <span>Internships</span>
-            <div className="ml-2 px-2 py-0.5 text-xs bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full">
-              New
+          <div className="hidden md:flex md:items-center md:space-x-6">
+            <Link to="/announcements" className="nav-link">
+              <NotificationsActiveIcon className="w-6 h-6" />
+            </Link>
+            <Link to="/pricing" className="nav-link">
+              <WorkspacePremiumIcon className="w-6 h-6" />
+              <span className="ml-2">Premium</span>
+            </Link>
+            <div className="relative">
+              <button
+                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                className="nav-link flex items-center"
+              >
+                <SettingsIcon className="w-6 h-6" />
+              </button>
+              <AnimatePresence>
+                {isSettingsOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full right-0 w-48 mt-2 bg-light-background dark:bg-dark-backgroundSecondary rounded-lg shadow-lg border border-light-border dark:border-dark-border"
+                  >
+                    <div className="p-2">
+                      <button
+                        onClick={() => {
+                          toggleTheme();
+                          setIsSettingsOpen(false);
+                        }}
+                        className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
+                      >
+                        {theme === 'dark' ? (
+                          <LightModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                        ) : (
+                          <DarkModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                        )}
+                        <span className="ml-3 text-light-text dark:text-dark-text">
+                          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                        </span>
+                      </button>
+                      <Link
+                        to="/profile"
+                        className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
+                        onClick={() => setIsSettingsOpen(false)}
+                      >
+                        <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                        <span className="ml-3 text-light-text dark:text-dark-text">Profile</span>
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </Link>
+          </div>
 
-          <Link
-            to="/announcements"
-            className="flex items-center space-x-1 text-gray-300 hover:text-[#71ADBA] transition-colors py-2"
-          >
-            <NotificationsActiveIcon className="w-5 h-5" />
-            <span>Announcements</span>
-          </Link>
-
-          <Link
-            to="/pricing"
-            className="flex items-center space-x-1 text-gray-300 hover:text-[#71ADBA] transition-colors py-2"
-          >
-            <WorkspacePremiumIcon className="w-5 h-5" />
-            <span>Premium</span>
-          </Link>
+          <div className="flex md:hidden">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-light-text dark:text-dark-text hover:text-light-primary dark:hover:text-dark-primary"
+            >
+              {isOpen ? <CloseIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          onClick={toggleMenu}
-          className="md:hidden p-2 rounded-lg hover:bg-gray-800 transition-colors"
-        >
-          {isOpen ? (
-            <CloseIcon className="w-6 h-6 text-gray-300" />
-          ) : (
-            <MenuIcon className="w-6 h-6 text-gray-300" />
-          )}
-        </button>
       </nav>
 
       {/* Mobile menu */}
@@ -185,58 +191,63 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden"
+            className="md:hidden bg-light-background dark:bg-dark-background border-t border-light-border dark:border-dark-border"
           >
-            <div className="py-4 space-y-2">
-              <Link
-                to="/about"
-                className="block px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                About
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              <Link to="/about" className="mobile-nav-link">About</Link>
+              <Link to="/campus-life" className="mobile-nav-link">Campus Life</Link>
+              <Link to="/internships" className="mobile-nav-link">
+                Internships
+                <span className="ml-2 text-xs bg-light-primary dark:bg-dark-primary text-white px-2 py-0.5 rounded-full">New</span>
               </Link>
+              <div className="border-t border-light-border dark:border-dark-border my-2"></div>
               {services.map((service) => (
                 <Link
-                  key={service.path}
+                  key={service.name}
                   to={service.path}
-                  className="block px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
                   onClick={() => setIsOpen(false)}
+                  className="mobile-nav-link"
                 >
-                  {service.title}
+                  <div className="flex items-center">
+                    <service.icon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                    <span className="ml-3">{service.name}</span>
+                  </div>
                 </Link>
               ))}
-              <Link
-                to="/campus-life"
-                className="block px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Campus Life
-              </Link>
-              <Link
-                to="/internships"
-                className="block px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
+              <div className="border-t border-light-border dark:border-dark-border my-2"></div>
+              <Link to="/announcements" className="mobile-nav-link">
                 <div className="flex items-center">
-                  <span>Internships</span>
-                  <div className="ml-2 px-2 py-0.5 text-xs bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full">
-                    New
-                  </div>
+                  <NotificationsActiveIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                  <span className="ml-3">Announcements</span>
                 </div>
               </Link>
-              <Link
-                to="/announcements"
-                className="block px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                Announcements
+              <Link to="/pricing" className="mobile-nav-link">
+                <div className="flex items-center">
+                  <WorkspacePremiumIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                  <span className="ml-3">Premium</span>
+                </div>
               </Link>
-              <Link
-                to="/pricing"
-                className="block px-4 py-2 text-gray-300 hover:bg-gray-800 rounded-lg transition-colors"
-                onClick={() => setIsOpen(false)}
+              <button
+                onClick={() => {
+                  toggleTheme();
+                  setIsOpen(false);
+                }}
+                className="mobile-nav-link w-full text-left"
               >
-                Premium
+                <div className="flex items-center">
+                  {theme === 'dark' ? (
+                    <LightModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                  ) : (
+                    <DarkModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                  )}
+                  <span className="ml-3">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+                </div>
+              </button>
+              <Link to="/profile" className="mobile-nav-link">
+                <div className="flex items-center">
+                  <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                  <span className="ml-3">Profile</span>
+                </div>
               </Link>
             </div>
           </motion.div>

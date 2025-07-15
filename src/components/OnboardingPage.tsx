@@ -81,51 +81,73 @@ const OnboardingPage = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1
+        staggerChildren: 0.15
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5
+        type: "spring",
+        stiffness: 100,
+        damping: 10,
+        duration: 0.6
       }
     }
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-[#0f172a] via-[#1a1f36] to-[#0f172a] pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-[#71ADBA]/10 to-transparent rounded-full blur-3xl transform rotate-12 animate-pulse"></div>
+        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-[#EDEAB1]/10 to-transparent rounded-full blur-3xl transform -rotate-12 animate-pulse"></div>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="max-w-2xl mx-auto mb-8"
+        className="max-w-3xl mx-auto mb-8"
       >
         <button
           onClick={() => navigate('/')}
-          className="p-2 rounded-full text-[#71ADBA] hover:text-[#EDEAB1] transition-colors duration-200"
+          className="p-3 rounded-full bg-[#1a1f36]/50 text-[#71ADBA] hover:text-[#EDEAB1] hover:bg-[#1a1f36]/80 
+                   transition-all duration-300 backdrop-blur-sm border border-white/10"
         >
           <ArrowBackIcon className="w-6 h-6" />
         </button>
       </motion.div>
 
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-3xl mx-auto relative z-10">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl md:text-4xl font-bold text-center heading-gradient mb-12"
+          className="text-4xl md:text-5xl font-bold text-center mb-4"
         >
-          Where are you in your education journey?
+          <span className="bg-gradient-to-r from-[#71ADBA] via-[#EDEAB1] to-[#71ADBA] bg-clip-text text-transparent 
+                         bg-[length:200%_auto] animate-gradient">
+            Where are you in your education journey?
+          </span>
         </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-center text-gray-400 text-lg mb-16"
+        >
+          Select your current status to get personalized guidance
+        </motion.p>
 
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid gap-8"
+          className="grid gap-6"
         >
           {options.map((option) => {
             const Icon = option.icon;
@@ -133,39 +155,44 @@ const OnboardingPage = () => {
               <motion.div key={option.id} variants={itemVariants}>
                 <div
                   onClick={() => handleSelection(option.action)}
-                  className="relative overflow-hidden bg-[#1a1f36] rounded-2xl p-6 cursor-pointer group hover:bg-[#1a1f36]/80 
-                           transition-all duration-300 border border-white/5 hover:border-[#71ADBA]/20"
+                  className="relative overflow-hidden rounded-2xl cursor-pointer group"
                 >
-                  {/* Background glow effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/10 to-[#EDEAB1]/10 blur-xl"></div>
-                  </div>
-
-                  <div className="relative flex items-center gap-6">
-                    {/* Icon container with enhanced gradient */}
-                    <div className="flex-shrink-0 p-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] 
-                                  shadow-lg group-hover:shadow-[#71ADBA]/30 transition-all duration-300">
-                      <Icon className="text-[#0f172a] w-8 h-8 group-hover:scale-110 transition-transform duration-300" />
+                  {/* Card container with glass effect */}
+                  <div className="relative bg-[#1a1f36]/40 backdrop-blur-xl border border-white/10 
+                               p-6 sm:p-8 hover:bg-[#1a1f36]/60 transition-all duration-500 
+                               group-hover:border-[#71ADBA]/30">
+                    {/* Glow effect */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/20 to-[#EDEAB1]/20 blur-2xl"></div>
                     </div>
 
-                    {/* Content with enhanced typography and spacing */}
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-semibold bg-gradient-to-r from-[#EDEAB1] to-[#71ADBA] 
-                                   bg-clip-text text-transparent group-hover:from-white group-hover:to-white 
-                                   transition-all duration-300">
-                        {option.title}
-                      </h3>
-                      <p className="mt-3 text-lg text-gray-400 group-hover:text-[#71ADBA] transition-colors duration-200">
-                        {option.description}
-                      </p>
-                    </div>
+                    <div className="relative flex items-center gap-8">
+                      {/* Icon container */}
+                      <div className="flex-shrink-0 p-4 rounded-2xl bg-gradient-to-br from-[#71ADBA] to-[#EDEAB1] 
+                                    shadow-lg group-hover:shadow-[#71ADBA]/30 transition-all duration-500 
+                                    group-hover:scale-105">
+                        <Icon className="text-[#0f172a] w-8 h-8 transform group-hover:rotate-12 transition-all duration-500" />
+                      </div>
 
-                    {/* Arrow indicator */}
-                    <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transform translate-x-2 
-                                  group-hover:translate-x-0 transition-all duration-300">
-                      <svg className="w-6 h-6 text-[#71ADBA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-semibold bg-gradient-to-r from-white to-white/90 
+                                     bg-clip-text text-transparent group-hover:from-[#EDEAB1] group-hover:to-[#71ADBA] 
+                                     transition-all duration-300">
+                          {option.title}
+                        </h3>
+                        <p className="mt-2 text-lg text-gray-400 group-hover:text-gray-300 transition-colors duration-300">
+                          {option.description}
+                        </p>
+                      </div>
+
+                      {/* Arrow indicator */}
+                      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transform translate-x-4 
+                                    group-hover:translate-x-0 transition-all duration-500">
+                        <svg className="w-8 h-8 text-[#71ADBA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 </div>

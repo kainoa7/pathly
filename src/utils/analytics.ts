@@ -1,33 +1,33 @@
-// Initialize analytics in a way that won't block the app if it fails
-let mixpanel: any;
+import mixpanel from 'mixpanel-browser';
 
-try {
-  mixpanel = await import('mixpanel-browser');
-  const MIXPANEL_TOKEN = import.meta.env.VITE_MIXPANEL_TOKEN;
+const initAnalytics = () => {
+  try {
+    const MIXPANEL_TOKEN = import.meta.env.VITE_MIXPANEL_TOKEN;
 
-  if (!MIXPANEL_TOKEN) {
-    console.warn('Mixpanel token not found. Analytics will not be tracked.');
-  } else {
+    if (!MIXPANEL_TOKEN) {
+      console.warn('Mixpanel token not found. Analytics will not be tracked.');
+      return false;
+    }
+
     mixpanel.init(MIXPANEL_TOKEN, {
-      debug: true,
+      debug: import.meta.env.DEV,
       track_pageview: true,
       persistence: 'localStorage'
     });
+    
     console.log('Mixpanel initialized successfully');
+    return true;
+  } catch (error) {
+    console.warn('Failed to initialize analytics:', error);
+    return false;
   }
-} catch (error) {
-  console.warn('Failed to initialize analytics:', error);
-  // Provide a mock implementation so the app doesn't crash
-  mixpanel = {
-    track: (event: string, properties?: any) => {
-      console.log('Analytics disabled - would track:', event, properties);
-    },
-    init: () => {},
-  };
-}
+};
+
+const isInitialized = initAnalytics();
 
 export const Analytics = {
   trackPageView: (pageName: string) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('Page View', {
         page: pageName,
@@ -39,6 +39,7 @@ export const Analytics = {
   },
 
   trackQuizStart: () => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('Quiz Started', {
         timestamp: new Date().toISOString()
@@ -49,6 +50,7 @@ export const Analytics = {
   },
 
   trackQuizComplete: (results: any) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('Quiz Completed', {
         results,
@@ -60,6 +62,7 @@ export const Analytics = {
   },
 
   trackFeatureUsage: (featureName: string) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('Feature Used', {
         feature: featureName,
@@ -71,6 +74,7 @@ export const Analytics = {
   },
 
   trackUserSignup: (method: string) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('User Signup', {
         method,
@@ -82,6 +86,7 @@ export const Analytics = {
   },
 
   trackCareerPathView: (careerPath: string) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('Career Path Viewed', {
         path: careerPath,
@@ -93,6 +98,7 @@ export const Analytics = {
   },
 
   trackInteraction: (componentId: string, action: string) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('User Interaction', {
         component: componentId,
@@ -105,6 +111,7 @@ export const Analytics = {
   },
 
   trackTimeSpent: (sectionName: string, timeInSeconds: number) => {
+    if (!isInitialized) return;
     try {
       mixpanel.track('Time Spent', {
         section: sectionName,

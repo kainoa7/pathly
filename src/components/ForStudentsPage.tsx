@@ -9,7 +9,7 @@ const ForStudentsPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+    <div className="page-container">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
