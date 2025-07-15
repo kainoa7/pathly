@@ -3,160 +3,149 @@ import { motion } from 'framer-motion';
 import LanguageIcon from '@mui/icons-material/Language';
 import DomainIcon from '@mui/icons-material/Domain';
 import CodeIcon from '@mui/icons-material/Code';
-import UpdateIcon from '@mui/icons-material/Update';
-import StorageIcon from '@mui/icons-material/Storage';
-import SupportIcon from '@mui/icons-material/Support';
-import SpeedIcon from '@mui/icons-material/Speed';
-import SecurityIcon from '@mui/icons-material/Security';
-import Analytics from '../utils/analytics';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CloseIcon from '@mui/icons-material/Close';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+
+const websiteTypes = [
+  {
+    id: 'personal',
+    name: 'Personal Website',
+    basePrice: 499,
+    icon: <LanguageIcon />,
+    description: 'Perfect for portfolios and personal branding',
+    features: [
+      'Custom Design',
+      'Mobile Responsive',
+      'Contact Form',
+      '3 Pages',
+      'Basic SEO'
+    ]
+  },
+  {
+    id: 'business',
+    name: 'Business Website',
+    basePrice: 999,
+    icon: <DomainIcon />,
+    description: 'Professional site for your business',
+    features: [
+      'Custom Design',
+      'Mobile Responsive',
+      'Contact Forms',
+      '5-7 Pages',
+      'Advanced SEO',
+      'Analytics Integration'
+    ]
+  },
+  {
+    id: 'ecommerce',
+    name: 'E-commerce Website',
+    basePrice: 1499,
+    icon: <CodeIcon />,
+    description: 'Full-featured online store',
+    features: [
+      'Custom Design',
+      'Mobile Responsive',
+      'Product Management',
+      'Payment Integration',
+      'Order System',
+      'Customer Accounts'
+    ]
+  }
+];
 
 const WebsiteServicePage = () => {
-  const [selectedPlan, setSelectedPlan] = useState('');
-  const [customFeatures, setCustomFeatures] = useState<string[]>([]);
-
-  const websiteTypes = [
-    {
-      id: 'portfolio',
-      name: 'Portfolio Website',
-      icon: <LanguageIcon className="w-6 h-6" />,
-      description: 'Showcase your work and skills with a professional portfolio',
-      basePrice: 299,
-      features: [
-        'Custom Design',
-        'Mobile Responsive',
-        'Project Showcase',
-        'Contact Form',
-        'Social Media Integration'
-      ]
-    },
-    {
-      id: 'business',
-      name: 'Business Website',
-      icon: <DomainIcon className="w-6 h-6" />,
-      description: 'Professional website for your business or startup',
-      basePrice: 499,
-      features: [
-        'Custom Design',
-        'Mobile Responsive',
-        'Product/Service Pages',
-        'Contact Form',
-        'Google Maps Integration',
-        'Basic SEO Setup'
-      ]
-    },
-    {
-      id: 'ecommerce',
-      name: 'E-commerce Website',
-      icon: <StorageIcon className="w-6 h-6" />,
-      description: 'Full-featured online store for your products',
-      basePrice: 999,
-      features: [
-        'Custom Design',
-        'Mobile Responsive',
-        'Product Management',
-        'Shopping Cart',
-        'Payment Integration',
-        'Order Management',
-        'Inventory Tracking'
-      ]
-    }
-  ];
-
-  const additionalServices = [
-    {
-      id: 'domain',
-      name: 'Custom Domain & Hosting',
-      icon: <CodeIcon />,
-      price: 15,
-      period: 'monthly',
-      description: 'Custom domain name and reliable hosting'
-    },
-    {
-      id: 'maintenance',
-      name: 'Maintenance & Updates',
-      icon: <UpdateIcon />,
-      price: 49,
-      period: 'monthly',
-      description: 'Regular updates, backups, and technical maintenance'
-    },
-    {
-      id: 'support',
-      name: 'Priority Support',
-      icon: <SupportIcon />,
-      price: 29,
-      period: 'monthly',
-      description: '24/7 priority support and consulting'
-    }
-  ];
-
-  const handlePlanSelect = (planId: string) => {
-    setSelectedPlan(planId);
-    Analytics.trackInteraction('website_service', `select_plan_${planId}`);
-  };
-
-  const handleFeatureToggle = (featureId: string) => {
-    setCustomFeatures(prev => 
-      prev.includes(featureId)
-        ? prev.filter(f => f !== featureId)
-        : [...prev, featureId]
-    );
-    Analytics.trackInteraction('website_service', `toggle_feature_${featureId}`);
-  };
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [email, setEmail] = useState('');
+  const [description, setDescription] = useState('');
 
   const calculateTotal = () => {
-    if (!selectedPlan) return 0;
-    const basePlan = websiteTypes.find(plan => plan.id === selectedPlan);
-    const basePrice = basePlan?.basePrice || 0;
-    
-    const monthlyServices = customFeatures.reduce((total, featureId) => {
-      const service = additionalServices.find(s => s.id === featureId);
-      return total + (service?.price || 0);
+    const baseTotal = selectedServices.reduce((total, serviceId) => {
+      const service = websiteTypes.find(type => type.id === serviceId);
+      return total + (service?.basePrice || 0);
     }, 0);
 
-    return {
-      oneTime: basePrice,
-      monthly: monthlyServices
-    };
+    // Apply $30 discount if multiple services selected
+    const discount = selectedServices.length >= 2 ? 30 : 0;
+    return baseTotal - discount;
+  };
+
+  const handleServiceToggle = (serviceId: string) => {
+    setSelectedServices(prev => {
+      if (prev.includes(serviceId)) {
+        return prev.filter(id => id !== serviceId);
+      }
+      return [...prev, serviceId];
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const selectedPlans = selectedServices.map(id => 
+      websiteTypes.find(type => type.id === id)?.name
+    ).join(', ');
+    
+    const mailtoLink = `mailto:pathly.help@gmail.com?subject=Website Service Inquiry - ${selectedPlans}&body=Selected Services: ${selectedPlans}%0D%0ATotal Price: $${calculateTotal()}%0D%0A%0D%0AEmail: ${email}%0D%0A%0D%0AProject Description:%0D%0A${description}`;
+    
+    window.location.href = mailtoLink;
+    setShowContactForm(false);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 py-16 px-4">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Professional Website Solutions
-          </h1>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Get a custom-built website that perfectly represents your brand or portfolio. Includes ongoing support and maintenance options.
-          </p>
-        </motion.div>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-white mb-4">Professional Website Solutions</h1>
+          <p className="text-xl text-gray-300 mb-6">Choose your perfect website package</p>
+          
+          {/* Stats Banner */}
+          <div className="bg-gray-800/50 rounded-lg p-4 mb-8">
+            <p className="text-[#71ADBA] font-semibold">
+              Currently maintaining 47 active client websites 🚀
+            </p>
+          </div>
 
-        {/* Website Types Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {/* Limited Time Offer */}
+          {selectedServices.length >= 2 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg p-6 mb-8"
+            >
+              <LocalOfferIcon className="text-white text-3xl mb-2" />
+              <h2 className="text-2xl font-bold text-white mb-2">Limited Time Offer! 🎉</h2>
+              <p className="text-white text-lg">
+                Bundle Discount Applied: Save $30!
+              </p>
+            </motion.div>
+          )}
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
           {websiteTypes.map((type) => (
             <motion.div
               key={type.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
               whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className={`
-                cursor-pointer rounded-xl p-8 border transition-all
-                ${selectedPlan === type.id
-                  ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-[#71ADBA]'
-                  : 'bg-gray-800/50 border-gray-700 hover:border-[#71ADBA]/50'
+                relative cursor-pointer rounded-xl p-6 transition-all
+                ${selectedServices.includes(type.id)
+                  ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-2 border-[#71ADBA]'
+                  : 'bg-gray-800/50 border-2 border-gray-700 hover:border-[#71ADBA]/50'
                 }
               `}
-              onClick={() => handlePlanSelect(type.id)}
+              onClick={() => handleServiceToggle(type.id)}
             >
+              {/* Clickable Indicator */}
+              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse">
+                Click to Select
+              </div>
+
               <div className="flex items-center mb-4">
                 <div className={`
                   p-3 rounded-lg mr-4
-                  ${selectedPlan === type.id
+                  ${selectedServices.includes(type.id)
                     ? 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white'
                     : 'bg-gray-700 text-gray-300'
                   }
@@ -168,115 +157,124 @@ const WebsiteServicePage = () => {
                   <p className="text-2xl font-bold text-[#71ADBA] mt-1">${type.basePrice}</p>
                 </div>
               </div>
+
               <p className="text-gray-400 mb-4">{type.description}</p>
+              
               <ul className="space-y-2">
                 {type.features.map((feature, index) => (
                   <li key={index} className="flex items-center text-gray-300">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#71ADBA] mr-2" />
+                    <CheckCircleIcon className="text-[#71ADBA] mr-2 text-sm" />
                     {feature}
                   </li>
                 ))}
               </ul>
+
+              {selectedServices.includes(type.id) && (
+                <div className="absolute top-2 left-2">
+                  <CheckCircleIcon className="text-[#71ADBA] text-xl" />
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
 
-        {/* Additional Services */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800/50 rounded-xl p-8 border border-gray-700 mb-16"
-        >
-          <h2 className="text-2xl font-semibold text-white mb-6">Additional Services</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            {additionalServices.map((service) => (
-              <div
-                key={service.id}
-                className={`
-                  cursor-pointer rounded-lg p-6 border transition-all
-                  ${customFeatures.includes(service.id)
-                    ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-[#71ADBA]'
-                    : 'bg-gray-800/50 border-gray-700 hover:border-[#71ADBA]/50'
-                  }
-                `}
-                onClick={() => handleFeatureToggle(service.id)}
-              >
-                <div className="flex items-center mb-4">
-                  <div className={`
-                    p-2 rounded-lg mr-3
-                    ${customFeatures.includes(service.id)
-                      ? 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white'
-                      : 'bg-gray-700 text-gray-300'
-                    }
-                  `}>
-                    {service.icon}
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-white">{service.name}</h3>
-                    <p className="text-[#71ADBA] font-semibold">
-                      ${service.price}/{service.period}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-gray-400">{service.description}</p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Why Choose Us */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
-        >
-          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-            <SpeedIcon className="text-[#71ADBA] mb-4 w-8 h-8" />
-            <h3 className="text-lg font-semibold text-white mb-2">Fast Performance</h3>
-            <p className="text-gray-400">Optimized for speed and user experience</p>
-          </div>
-          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-            <SecurityIcon className="text-[#71ADBA] mb-4 w-8 h-8" />
-            <h3 className="text-lg font-semibold text-white mb-2">Secure & Reliable</h3>
-            <p className="text-gray-400">Built with security best practices</p>
-          </div>
-          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-            <UpdateIcon className="text-[#71ADBA] mb-4 w-8 h-8" />
-            <h3 className="text-lg font-semibold text-white mb-2">Regular Updates</h3>
-            <p className="text-gray-400">Keep your site fresh and maintained</p>
-          </div>
-          <div className="bg-gray-800/50 rounded-xl p-6 border border-gray-700">
-            <SupportIcon className="text-[#71ADBA] mb-4 w-8 h-8" />
-            <h3 className="text-lg font-semibold text-white mb-2">Expert Support</h3>
-            <p className="text-gray-400">Help when you need it</p>
-          </div>
-        </motion.div>
-
-        {/* Price Calculator */}
-        {selectedPlan && (
+        {selectedServices.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl p-8 border border-[#71ADBA]/30 text-center"
+            className="mt-8 text-center"
           >
-            <h2 className="text-2xl font-semibold text-white mb-6">Your Custom Package</h2>
-            <div className="flex justify-center gap-8 mb-8">
-              <div>
-                <p className="text-gray-400 mb-2">One-time Payment</p>
-                <p className="text-3xl font-bold text-white">${calculateTotal().oneTime}</p>
-              </div>
-              <div>
-                <p className="text-gray-400 mb-2">Monthly Services</p>
-                <p className="text-3xl font-bold text-white">${calculateTotal().monthly}/mo</p>
-              </div>
-            </div>
+            <p className="text-xl text-white mb-4">
+              Total: ${calculateTotal()}
+              {selectedServices.length >= 2 && (
+                <span className="text-[#71ADBA] ml-2">(Includes $30 bundle discount!)</span>
+              )}
+            </p>
             <button
-              onClick={() => Analytics.trackInteraction('website_service', 'request_quote')}
-              className="px-8 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-lg hover:opacity-90 transition-opacity"
+              onClick={() => setShowContactForm(true)}
+              className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
             >
-              Request Quote
+              Get Started
             </button>
           </motion.div>
+        )}
+
+        {/* Contact Form Modal */}
+        {showContactForm && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-gray-800 rounded-xl p-8 max-w-lg w-full relative"
+            >
+              <button
+                onClick={() => setShowContactForm(false)}
+                className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              >
+                <CloseIcon />
+              </button>
+
+              <h2 className="text-2xl font-semibold text-white mb-6">
+                Get Started with Your Website
+              </h2>
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]"
+                    placeholder="Enter your email"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Project Description
+                  </label>
+                  <textarea
+                    required
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA] min-h-[100px]"
+                    placeholder="Tell us about your project and any specific requirements"
+                  />
+                </div>
+
+                <div className="bg-gray-700/50 p-4 rounded-lg">
+                  <h3 className="text-white font-medium mb-2">Selected Services:</h3>
+                  <ul className="space-y-1">
+                    {selectedServices.map(serviceId => {
+                      const service = websiteTypes.find(type => type.id === serviceId);
+                      return (
+                        <li key={serviceId} className="text-gray-300">
+                          • {service?.name} - ${service?.basePrice}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                  <p className="text-white font-medium mt-4">
+                    Total: ${calculateTotal()}
+                    {selectedServices.length >= 2 && (
+                      <span className="text-[#71ADBA] ml-2">(Includes bundle discount!)</span>
+                    )}
+                  </p>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full px-6 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+                >
+                  Send Inquiry
+                </button>
+              </form>
+            </motion.div>
+          </div>
         )}
       </div>
     </div>
