@@ -158,7 +158,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mt-16 pt-8 border-t border-gray-700 text-center relative z-10">
+      <div className="mt-16 pt-8 pb-20 md:pb-8 border-t border-gray-700 text-center relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} Pathly. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">

@@ -141,26 +141,14 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-16 px-4 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(113,173,186,0.1),rgba(156,113,186,0.05))]" />
-      <motion.div
-        className="absolute -top-1/2 -right-1/2 w-full h-full bg-[radial-gradient(circle,rgba(113,173,186,0.1)_0%,transparent_50%)]"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-
+    <section className="relative overflow-hidden">
+      {/* Subtle section transition gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={controls}
-        className="max-w-6xl mx-auto relative z-10"
+        className="max-w-6xl mx-auto relative z-10 py-16 px-4"
       >
         <div className="text-center mb-16">
           <motion.div
@@ -213,7 +201,7 @@ const HowItWorks = () => {
                   onMouseEnter={() => setActiveStep(index)}
                   onMouseLeave={() => setActiveStep(-1)}
                 >
-                  <div className={`glass-panel p-8 relative z-10 h-full rounded-xl transition-all duration-300 transform-gpu ${step.bgGlow} hover:-translate-y-2`}>
+                  <div className={`glass-panel p-8 relative z-10 h-full rounded-xl transition-all duration-300 transform-gpu ${step.bgGlow} hover:-translate-y-2 backdrop-blur-sm bg-[rgba(26,34,52,0.4)] border border-[rgba(113,173,186,0.1)]`}>
                     {/* Animated gradient border */}
                     <motion.div
                       className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
@@ -251,59 +239,11 @@ const HowItWorks = () => {
                       </p>
                     </div>
                   </div>
-
-                  {/* Background glow effect */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${step.color} opacity-0 group-hover:opacity-5 rounded-xl blur-xl transition-all duration-300`} />
                 </motion.div>
               </Card3D>
             );
           })}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-          className="mt-16 relative"
-        >
-          <div className="max-w-2xl mx-auto">
-            <Card3D className="group">
-              <div className="glass-panel p-8 rounded-xl relative overflow-hidden">
-                {/* Animated gradient border */}
-                <motion.div
-                  className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
-                  style={{
-                    background: 'linear-gradient(to right, transparent, rgba(113, 173, 186, 0.1), transparent)',
-                    backgroundSize: '200% 100%',
-                  }}
-                  animate={{
-                    backgroundPosition: ['100% 0%', '-100% 0%'],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-                
-                <div className="relative">
-                  <motion.div
-                    className="flex items-center gap-2 mb-4"
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <span className="text-2xl">🔥</span>
-                    <h4 className="text-xl font-bold text-[#EDEAB1]">Fun fact</h4>
-                  </motion.div>
-                  
-                  <p className="text-gray-300 leading-relaxed">
-                    Over <span className="text-[#71ADBA] font-semibold">70%</span> of Gen Z wants to start their own business or work remotely. 
-                    We'll help you find the path that matches your dreams! ✨
-                  </p>
-                </div>
-              </div>
-            </Card3D>
-          </div>
-        </motion.div>
       </motion.div>
     </section>
   );

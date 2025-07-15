@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, useScroll, useAnimation } from 'framer-motion';
 import CompanyLogos from './CompanyLogos';
-import TestimonialSection from './TestimonialSection';
+import InteractiveTestimonial from './InteractiveTestimonial';
 import HowItWorks from './HowItWorks';
-import SuccessCounter from './SuccessCounter';
-import EmailSignup from './EmailSignup';
 import CommunityStories from './CommunityStories';
 import ActiveUsersBanner from './ActiveUsersBanner';
-import { useEffect, useState } from 'react';
+import QuickStatsCarousel from './QuickStatsCarousel';
+import BackgroundAnimation from './BackgroundAnimation';
+import { useEffect, useState, useRef } from 'react';
 import Analytics from '../utils/analytics';
 import PeopleIcon from '@mui/icons-material/People';
 import ForumIcon from '@mui/icons-material/Forum';
@@ -15,13 +15,14 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import WorkIcon from '@mui/icons-material/Work';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import LockIcon from '@mui/icons-material/Lock';
 
-const FloatingShape = ({ delay = 0, className = "" }) => (
+const FloatingShape = ({ delay = 0, className = "", scale = 1 }) => (
   <motion.div
     className={`absolute rounded-full mix-blend-screen filter blur-xl ${className}`}
     animate={{
       y: ["0%", "-50%", "0%"],
-      scale: [1, 1.2, 1],
+      scale: [scale, scale * 1.2, scale],
       opacity: [0.3, 0.5, 0.3]
     }}
     transition={{
@@ -33,185 +34,148 @@ const FloatingShape = ({ delay = 0, className = "" }) => (
   />
 );
 
-const CommunitySection = () => {
-  const navigate = useNavigate();
+const GradientOrb = ({ className = "", initialPosition = { x: 0, y: 0 } }) => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
   
+  const springConfig = { damping: 20, stiffness: 200 };
+  const x = useSpring(mouseX, springConfig);
+  const y = useSpring(mouseY, springConfig);
+
+  const handleMouseMove = (e: MouseEvent) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    mouseX.set((e.clientX - centerX) * 0.1);
+    mouseY.set((e.clientY - centerY) * 0.1);
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
-    <section className="py-20 px-4 relative overflow-hidden">
+    <motion.div
+      className={`absolute rounded-full opacity-30 mix-blend-screen filter blur-3xl ${className}`}
+      style={{ x, y }}
+      initial={initialPosition}
+    />
+  );
+};
+
+const WaitlistSection = () => {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      // TODO: Implement actual waitlist API call
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
+      setIsSubmitted(true);
+      Analytics.trackInteraction('waitlist_form', 'signup_submitted');
+    } catch (error) {
+      console.error('Error submitting to waitlist:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section className="py-20 px-4 relative overflow-hidden bg-navy-800/30">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="max-w-6xl mx-auto"
+        className="max-w-6xl mx-auto text-center"
       >
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent"
-          >
-            Join Our Growing Community
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-xl text-gray-300 max-w-2xl mx-auto"
-          >
-            Connect with peers, share experiences, and stay updated on the latest job market trends
-          </motion.p>
-        </div>
-
-        {/* Community Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3 }}
-            className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20"
-          >
-            <div className="flex items-start space-x-4">
-              <div className="p-3 bg-[#71ADBA]/10 rounded-lg">
-                <PeopleIcon className="w-6 h-6 text-[#71ADBA]" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-[#EDEAB1] mb-2">Peer Network</h3>
-                <p className="text-gray-300">Connect with others in your field, share experiences, and build valuable relationships</p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
-            className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20"
-          >
-            <div className="flex items-start space-x-4">
-              <div className="p-3 bg-[#71ADBA]/10 rounded-lg">
-                <ForumIcon className="w-6 h-6 text-[#71ADBA]" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-[#EDEAB1] mb-2">Discussion Forums</h3>
-                <p className="text-gray-300">Engage in meaningful discussions about career paths, industry trends, and job opportunities</p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 }}
-            className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20"
-          >
-            <div className="flex items-start space-x-4">
-              <div className="p-3 bg-[#71ADBA]/10 rounded-lg">
-                <TrendingUpIcon className="w-6 h-6 text-[#71ADBA]" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-[#EDEAB1] mb-2">Market Insights</h3>
-                <p className="text-gray-300">Stay informed about the latest job market trends, salary data, and industry developments</p>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.6 }}
-            className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20"
-          >
-            <div className="flex items-start space-x-4">
-              <div className="p-3 bg-[#71ADBA]/10 rounded-lg">
-                <WorkIcon className="w-6 h-6 text-[#71ADBA]" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold text-[#EDEAB1] mb-2">Job Board</h3>
-                <p className="text-gray-300">Access exclusive job postings and opportunities shared by community members</p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Discord Coming Soon Card */}
-        <motion.div
+        <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.7 }}
-          className="bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20 text-center max-w-2xl mx-auto mb-12"
+          className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent"
         >
-          <img src="/discord-logo.svg" alt="Discord" className="w-16 h-16 mx-auto mb-6" />
-          <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">
-            Discord Community Coming Soon!
-          </h3>
-          <p className="text-gray-300 mb-6">
-            Be one of the first to join our exclusive Discord community. Limited spots available for early members!
-          </p>
-          <button
-            onClick={() => navigate('/waitlist')}
-            className="px-8 py-3 bg-[#5865F2] rounded-xl text-white font-semibold hover:bg-[#4752C4] transition-colors duration-300 flex items-center justify-center mx-auto"
-          >
-            <span>Join Waitlist</span>
-            <span className="ml-2 text-sm bg-white/20 px-2 py-1 rounded">500 spots left</span>
-          </button>
-        </motion.div>
-
-        {/* Social Media Platforms */}
-        <motion.div
+          Ready to be part of something bigger?
+        </motion.h2>
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.8 }}
-          className="text-center max-w-2xl mx-auto"
+          transition={{ delay: 0.2 }}
+          className="text-xl text-gray-300 max-w-2xl mx-auto mb-8"
         >
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <h3 className="text-2xl font-bold text-[#EDEAB1]">
-              Join Our Social Community
-            </h3>
-            <span className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] px-2 py-0.5 rounded-full text-white text-sm font-medium">
-              Just Launched!
-            </span>
-          </div>
-          <p className="text-gray-300 mb-4">
-            We're excited to announce our new social media presence! Be among the first to follow us and join our growing community.
-          </p>
-          <p className="text-gray-400 text-sm mb-8">
-            Early followers will get exclusive access to career resources and community events
-          </p>
-          <div className="flex justify-center space-x-6">
-            <motion.a
-              href="https://instagram.com/pathly"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="group p-4 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl border border-[#71ADBA]/20 hover:border-[#71ADBA]/40 transition-colors duration-300 relative"
+          Join our exclusive community of ambitious students and professionals
+        </motion.p>
+
+        {/* Waitlist Form */}
+        <div className="max-w-md mx-auto">
+          {!isSubmitted ? (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="relative">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="w-full px-6 py-4 rounded-xl bg-navy-900/50 border border-[#71ADBA]/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]/50"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+              >
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+              </button>
+              <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
+                <LockIcon className="w-4 h-4" />
+                <span>Join 1,000+ students who found their dream career</span>
+              </div>
+              <div className="mt-4 inline-block bg-[#5865F2]/20 backdrop-blur-sm px-4 py-2 rounded-full border border-[#5865F2]/30">
+                <span className="text-[#EDEAB1]">🔥 Only 50 spots remaining today!</span>
+              </div>
+            </form>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-navy-900/50 border border-[#71ADBA]/20 rounded-xl p-8"
             >
-              <InstagramIcon className="w-8 h-8 text-[#EDEAB1]" />
-              <span className="absolute -top-2 -right-2 bg-[#71ADBA] px-1.5 py-0.5 rounded text-xs text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">New!</span>
-            </motion.a>
-            <motion.a
-              href="https://linkedin.com/company/pathly"
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              className="group p-4 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl border border-[#71ADBA]/20 hover:border-[#71ADBA]/40 transition-colors duration-300 relative"
-            >
-              <LinkedInIcon className="w-8 h-8 text-[#EDEAB1]" />
-              <span className="absolute -top-2 -right-2 bg-[#71ADBA] px-1.5 py-0.5 rounded text-xs text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">New!</span>
-            </motion.a>
-          </div>
-        </motion.div>
+              <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">🎉 You're on the list!</h3>
+              <p className="text-gray-300">
+                We'll notify you as soon as your spot is ready. In the meantime, follow us on social media for updates!
+              </p>
+              <div className="flex justify-center space-x-6 mt-6">
+                <motion.a
+                  href="https://instagram.com/pathly"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl border border-[#71ADBA]/20"
+                >
+                  <InstagramIcon className="w-6 h-6 text-[#EDEAB1]" />
+                </motion.a>
+                <motion.a
+                  href="https://linkedin.com/company/pathly"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="p-3 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl border border-[#71ADBA]/20"
+                >
+                  <LinkedInIcon className="w-6 h-6 text-[#EDEAB1]" />
+                </motion.a>
+              </div>
+            </motion.div>
+          )}
+        </div>
       </motion.div>
     </section>
   );
@@ -219,185 +183,128 @@ const CommunitySection = () => {
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
-  
-  // Mouse parallax effect
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const springConfig = { damping: 25, stiffness: 150 };
-  const mouseXSpring = useSpring(x, springConfig);
-  const mouseYSpring = useSpring(y, springConfig);
+  const controls = useAnimation();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-  const moveX = useTransform(mouseXSpring, [0, 1], [50, -50]);
-  const moveY = useTransform(mouseYSpring, [0, 1], [50, -50]);
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      const { clientX, clientY } = event;
-      const { innerWidth, innerHeight } = window;
-      
-      x.set(clientX / innerWidth);
-      y.set(clientY / innerHeight);
-      
-      setMousePosition({ x: clientX, y: clientY });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [x, y]);
+    controls.start({
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8 }
+    });
+  }, [controls]);
 
   return (
-    <div className="page-container bg-gradient-to-br from-[#0f172a] via-[#1a2234] to-[#0f172a] overflow-hidden">
-      {/* Active Users Banner */}
-      <div className="absolute top-[calc(var(--header-height)+1rem)] right-4 z-50 md:right-6">
+    <div className="relative min-h-screen bg-gradient-to-b from-navy-900 to-navy-950 overflow-hidden">
+      {/* Background animations */}
+      <BackgroundAnimation />
+      
+      {/* Active Users Counter - Fixed positioning */}
+      <div className="fixed top-20 right-4 sm:right-6 lg:right-8 z-50">
         <ActiveUsersBanner />
       </div>
 
       {/* Early Access Banner */}
-      <div className="early-access-banner flex justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          whileHover={{ scale: 1.02 }}
-          className="inline-flex items-center bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] 
-                     rounded-full px-6 py-3 shadow-lg shadow-[#71ADBA]/20
-                     hover:shadow-[#71ADBA]/40 transition-all duration-300"
-        >
-          <span className="text-[#1a1f36] font-semibold text-base md:text-lg">
-            <span className="mr-2">🚀</span>
-            Early Access Now Available - Limited Time Only!
-          </span>
-        </motion.div>
+      <div className="relative z-10 w-full backdrop-blur-sm mt-16">
+        <div className="max-w-7xl mx-auto py-3 px-4 sm:px-6 lg:px-8">
+          <div className="pr-16 sm:text-center sm:px-16">
+            <p className="font-medium text-white">
+              <span className="md:hidden">Early access now live!</span>
+              <span className="hidden md:inline">Big news! We're excited to announce early access is now live.</span>
+              <span className="block sm:ml-2 sm:inline-block">
+                <a href="#signup" className="text-white font-semibold underline">
+                  Learn more<span aria-hidden="true"> &rarr;</span>
+                </a>
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Hero Section */}
-      <div className="relative z-10 max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-center mb-16 px-4 sm:px-6 lg:px-8"
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent leading-tight"
-          >
-            Don't Let Others Decide<br className="hidden sm:block" /> Your Future Career
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-8"
-          >
-            Join <span className="text-[#EDEAB1]">1,000+ early adopters</span> who found their dream career path.
-          </motion.p>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            <button
-              onClick={() => navigate('/onboarding')}
-              className="w-full sm:w-auto px-8 py-4 bg-[#71ADBA] text-white rounded-xl font-semibold hover:bg-[#5C919C] transition-colors shadow-lg hover:shadow-xl hover:shadow-[#71ADBA]/20"
+      {/* Main content */}
+      <div className="relative z-10">
+        {/* Hero Section */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16">
+          <div className="text-center mt-8 mb-16">
+            <motion.h1 
+              className="text-5xl md:text-7xl font-bold mb-8"
+              style={{
+                background: "linear-gradient(to right, #71ADBA, #9C71BA, #BA71AD)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
-              Get Started
-            </button>
-            <button
-              onClick={() => navigate('/how-it-works')}
-              className="w-full sm:w-auto px-8 py-4 bg-[#1a2234] text-white rounded-xl font-semibold hover:bg-[#1a2234]/80 transition-colors border border-[#71ADBA]/20"
+              Find Your Dream Career Path
+            </motion.h1>
+            <motion.p 
+              className="text-xl md:text-2xl text-gray-300 mb-12"
+            >
+              AI-powered guidance to help you make moves fr fr 🚀
+            </motion.p>
+          </div>
+
+          {/* Stats Carousel */}
+          <div className="flex justify-center mb-16">
+            <div className="w-full max-w-lg">
+              <QuickStatsCarousel />
+            </div>
+          </div>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-12">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-full bg-gradient-to-r from-primary-500 to-secondary-500 text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => navigate('/onboarding')}
+            >
+              Start Your Journey
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-4 rounded-full bg-navy-800/50 backdrop-blur-sm text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+              onClick={() => navigate('/about')}
             >
               Learn More
-            </button>
-          </motion.div>
-        </motion.div>
-
-        {/* Rest of the content */}
-        {/* Statistics Section - Moved below hero */}
-        <section className="py-20 px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Stats Grid */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-              <div className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  className="text-4xl md:text-5xl font-bold text-[#71ADBA] mb-4"
-                >
-                  76%
-                </motion.div>
-                <p className="text-gray-300 text-lg">
-                  of students are unsure about their career path
-                </p>
-              </div>
-
-              <div className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.1 }}
-                  className="text-4xl md:text-5xl font-bold text-[#71ADBA] mb-4"
-                >
-                  48%
-                </motion.div>
-                <p className="text-gray-300 text-lg">
-                  switch majors due to lack of guidance
-                </p>
-              </div>
-
-              <div className="bg-[#1a1f36]/40 backdrop-blur-sm p-8 rounded-xl border border-[#71ADBA]/20">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.2 }}
-                  className="text-4xl md:text-5xl font-bold text-[#71ADBA] mb-4"
-                >
-                  83%
-                </motion.div>
-                <p className="text-gray-300 text-lg">
-                  wish they had better career guidance early on
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Solution Statement */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-              className="mt-12 text-center max-w-3xl mx-auto"
-            >
-              <h2 className="text-2xl md:text-3xl font-semibold text-white mb-4">
-                You're not alone in this journey.
-              </h2>
-              <p className="text-gray-300 text-lg">
-                In today's competitive job market, making the right career choice is harder than ever. 
-                That's why we've built Pathly - your AI-powered career guidance companion that understands 
-                your unique potential.
-              </p>
-            </motion.div>
+            </motion.button>
           </div>
-        </section>
+        </div>
 
-        {/* Rest of the sections */}
-        <CompanyLogos />
-        <TestimonialSection />
-        <HowItWorks />
-        <SuccessCounter />
-        <EmailSignup />
-        <CommunityStories />
+        {/* Company Logos Section */}
+        <div className="py-16 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
+          <CompanyLogos />
+        </div>
+
+        {/* How It Works Section */}
+        <div className="relative">
+          <HowItWorks />
+        </div>
+
+        {/* Testimonials Section */}
+        <div className="relative py-20">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
+          <InteractiveTestimonial />
+        </div>
+
+        {/* Community Stories Section */}
+        <div className="relative py-20">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
+          <CommunityStories />
+        </div>
+
+        {/* Waitlist Section */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
+          <WaitlistSection />
+        </div>
       </div>
     </div>
   );
