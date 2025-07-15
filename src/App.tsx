@@ -5,40 +5,72 @@ import LandingPage from './components/LandingPage';
 import AboutPage from './components/AboutPage';
 import OnboardingPage from './components/OnboardingPage';
 import QuizPage from './components/QuizPage';
-import CollegeQuizPage from './components/CollegeQuizPage';
-import MajorSelectionPage from './components/MajorSelectionPage';
-import SwitchingMajorPage from './components/SwitchingMajorPage';
 import ResultsPage from './components/ResultsPage';
-import CareerRoadmapPage from './components/CareerRoadmapPage';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsOfService from './components/TermsOfService';
-import ContactPage from './components/ContactPage';
-import ForStudentsPage from './components/ForStudentsPage';
-import ForUniversitiesPage from './components/ForUniversitiesPage';
+import ComingSoonPage from './components/ComingSoonPage';
+import AnnouncementsPage from './components/AnnouncementsPage';
+import PricingPage from './components/PricingPage';
+import FloatingCTA from './components/FloatingCTA';
+import ScrollToTop from './components/ScrollToTop';
+import ResumeBuilder from './pages/services/ResumeBuilder';
+import ResumeReview from './pages/services/ResumeReview';
+import CareerRoadmap from './pages/services/CareerRoadmap';
+import DemoPage from './components/DemoPage';
+import BreakingIntoTechPage from './components/BreakingIntoTechPage';
+import DiscordWaitlistPage from './components/DiscordWaitlistPage';
+import Analytics from './utils/analytics';
+import './App.css';
 
 function App() {
   return (
     <Router>
-      <div className="flex flex-col min-h-screen w-full overflow-x-hidden">
+      <ScrollToTop />
+      <div className="flex flex-col min-h-screen bg-[#0f172a]">
         <Header />
-        <main className="flex-grow">
+        <main className="flex-1">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/onboarding" element={<OnboardingPage />} />
-            <Route path="/quiz/highschool" element={<QuizPage />} />
-            <Route path="/quiz/college" element={<CollegeQuizPage />} />
-            <Route path="/major-selection" element={<MajorSelectionPage />} />
-            <Route path="/switching-major" element={<SwitchingMajorPage />} />
+            <Route path="/breaking-into-tech" element={<BreakingIntoTechPage />} />
+            <Route path="/demo" element={<DemoPage />} />
+            <Route path="/quiz">
+              <Route index element={<OnboardingPage />} />
+              <Route path="highschool" element={<QuizPage quizType="highschool" />} />
+              <Route path="college" element={<QuizPage quizType="college" />} />
+              <Route path="graduated" element={
+                <ComingSoonPage 
+                  title="Post-High School Guidance Coming Soon"
+                  description="We're creating a specialized guide to help recent high school graduates explore their options, whether it's college, trade school, gap year, or entering the workforce. Get personalized recommendations based on your interests and goals."
+                  icon="🎓"
+                />
+              } />
+            </Route>
             <Route path="/results" element={<ResultsPage />} />
-            <Route path="/roadmap/:careerId" element={<CareerRoadmapPage />} />
-            <Route path="/privacy" element={<PrivacyPolicy />} />
-            <Route path="/terms" element={<TermsOfService />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/for-students" element={<ForStudentsPage />} />
-            <Route path="/for-universities" element={<ForUniversitiesPage />} />
+            <Route path="/services">
+              <Route path="resume-builder" element={<ResumeBuilder />} />
+              <Route path="resume-review" element={<ResumeReview />} />
+              <Route path="career-roadmap" element={<CareerRoadmap />} />
+            </Route>
+            <Route path="/major-selection" element={
+              <ComingSoonPage 
+                title="Major Selection Coming Soon"
+                description="Discover the perfect major for your interests and career goals. Get personalized recommendations and insights."
+                icon="🎓"
+              />
+            } />
+            <Route path="/switching-major" element={
+              <ComingSoonPage 
+                title="Major Switching Guide Coming Soon"
+                description="We're building a comprehensive guide to help you explore alternative paths that might be a better fit for your interests and goals."
+                icon="🔄"
+              />
+            } />
+            <Route path="/announcements" element={<AnnouncementsPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/waitlist" element={<DiscordWaitlistPage />} />
           </Routes>
         </main>
+        <FloatingCTA />
         <Footer />
       </div>
     </Router>
