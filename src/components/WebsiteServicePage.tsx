@@ -189,7 +189,7 @@ const WebsiteServicePage = () => {
               onClick={() => setSelectedPackage(package_.id)}
             >
               {/* Clickable Indicator */}
-              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse">
+              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse z-10 bg-gray-800/90 px-2 py-1 rounded text-sm">
                 Click to Select
               </div>
 
@@ -247,7 +247,7 @@ const WebsiteServicePage = () => {
               onClick={() => setSelectedAddOn(addOn.id)}
             >
               {/* Clickable Indicator */}
-              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse">
+              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse z-10 bg-gray-800/90 px-2 py-1 rounded text-sm">
                 Click to Select
               </div>
 
