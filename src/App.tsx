@@ -67,7 +67,6 @@ function AppLayout() {
       <FeedbackSection />
       <Footer />
       <FloatingCTA />
-      <ActiveUsersBanner />
     </div>
   );
 }
