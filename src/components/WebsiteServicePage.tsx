@@ -3,11 +3,15 @@ import { motion } from 'framer-motion';
 import LanguageIcon from '@mui/icons-material/Language';
 import DomainIcon from '@mui/icons-material/Domain';
 import CodeIcon from '@mui/icons-material/Code';
+import UpdateIcon from '@mui/icons-material/Update';
+import SupportIcon from '@mui/icons-material/Support';
+import SecurityIcon from '@mui/icons-material/Security';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CloseIcon from '@mui/icons-material/Close';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
-const websiteTypes = [
+const websitePackages = [
   {
     id: 'personal',
     name: 'Personal Website',
@@ -54,39 +58,84 @@ const websiteTypes = [
   }
 ];
 
+const subscriptionAddOns = [
+  {
+    id: 'basic-maintenance',
+    name: 'Basic Maintenance',
+    price: 29,
+    period: 'monthly',
+    icon: <UpdateIcon />,
+    description: 'Keep your site running smoothly',
+    features: [
+      'Monthly Updates',
+      'Security Patches',
+      'Basic Support',
+      'Performance Monitoring'
+    ]
+  },
+  {
+    id: 'premium-maintenance',
+    name: 'Premium Maintenance',
+    price: 79,
+    period: 'monthly',
+    icon: <SecurityIcon />,
+    description: 'Enhanced security and support',
+    features: [
+      'Weekly Updates',
+      'Priority Support',
+      'Advanced Security',
+      'Daily Backups',
+      'SEO Monitoring'
+    ]
+  },
+  {
+    id: 'lifetime',
+    name: 'Lifetime Package',
+    price: 199,
+    period: 'monthly',
+    icon: <AutorenewIcon />,
+    description: 'Complete care for your website',
+    features: [
+      '24/7 Support',
+      'Unlimited Updates',
+      'Custom Changes',
+      'Marketing Support',
+      'Monthly Reports'
+    ]
+  }
+];
+
 const WebsiteServicePage = () => {
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+  const [selectedAddOn, setSelectedAddOn] = useState<string | null>(null);
   const [showContactForm, setShowContactForm] = useState(false);
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
 
   const calculateTotal = () => {
-    const baseTotal = selectedServices.reduce((total, serviceId) => {
-      const service = websiteTypes.find(type => type.id === serviceId);
-      return total + (service?.basePrice || 0);
-    }, 0);
-
-    // Apply $30 discount if multiple services selected
-    const discount = selectedServices.length >= 2 ? 30 : 0;
-    return baseTotal - discount;
-  };
-
-  const handleServiceToggle = (serviceId: string) => {
-    setSelectedServices(prev => {
-      if (prev.includes(serviceId)) {
-        return prev.filter(id => id !== serviceId);
-      }
-      return [...prev, serviceId];
-    });
+    const package_ = websitePackages.find(p => p.id === selectedPackage);
+    const addOn = subscriptionAddOns.find(a => a.id === selectedAddOn);
+    
+    const basePrice = package_?.basePrice || 0;
+    const monthlyPrice = addOn?.price || 0;
+    
+    // Apply $30 discount if both package and add-on are selected
+    const discount = (selectedPackage && selectedAddOn) ? 30 : 0;
+    
+    return {
+      oneTime: basePrice,
+      monthly: monthlyPrice,
+      discount: discount
+    };
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const selectedPlans = selectedServices.map(id => 
-      websiteTypes.find(type => type.id === id)?.name
-    ).join(', ');
+    const package_ = websitePackages.find(p => p.id === selectedPackage);
+    const addOn = subscriptionAddOns.find(a => a.id === selectedAddOn);
+    const total = calculateTotal();
     
-    const mailtoLink = `mailto:pathly.help@gmail.com?subject=Website Service Inquiry - ${selectedPlans}&body=Selected Services: ${selectedPlans}%0D%0ATotal Price: $${calculateTotal()}%0D%0A%0D%0AEmail: ${email}%0D%0A%0D%0AProject Description:%0D%0A${description}`;
+    const mailtoLink = `mailto:pathly.help@gmail.com?subject=Website Service Inquiry - ${package_?.name}&body=Selected Package: ${package_?.name} ($${total.oneTime})%0D%0A${addOn ? `Selected Add-on: ${addOn.name} ($${addOn.price}/month)%0D%0A` : ''}${total.discount ? `Bundle Discount Applied: -$${total.discount}%0D%0A` : ''}%0D%0ATotal:%0D%0AOne-time: $${total.oneTime - total.discount}%0D%0AMonthly: $${total.monthly}%0D%0A%0D%0AEmail: ${email}%0D%0A%0D%0AProject Description:%0D%0A${description}`;
     
     window.location.href = mailtoLink;
     setShowContactForm(false);
@@ -107,35 +156,37 @@ const WebsiteServicePage = () => {
           </div>
 
           {/* Limited Time Offer */}
-          {selectedServices.length >= 2 && (
+          {selectedPackage && selectedAddOn && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg p-6 mb-8"
             >
               <LocalOfferIcon className="text-white text-3xl mb-2" />
-              <h2 className="text-2xl font-bold text-white mb-2">Limited Time Offer! 🎉</h2>
+              <h2 className="text-2xl font-bold text-white mb-2">Limited Time Bundle Offer! 🎉</h2>
               <p className="text-white text-lg">
-                Bundle Discount Applied: Save $30!
+                Save $30 when you combine any website package with a maintenance plan!
               </p>
             </motion.div>
           )}
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {websiteTypes.map((type) => (
+        {/* Website Packages */}
+        <h2 className="text-2xl font-bold text-white mb-6">Choose Your Website Package</h2>
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {websitePackages.map((package_) => (
             <motion.div
-              key={type.id}
+              key={package_.id}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={`
                 relative cursor-pointer rounded-xl p-6 transition-all
-                ${selectedServices.includes(type.id)
+                ${selectedPackage === package_.id
                   ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-2 border-[#71ADBA]'
                   : 'bg-gray-800/50 border-2 border-gray-700 hover:border-[#71ADBA]/50'
                 }
               `}
-              onClick={() => handleServiceToggle(type.id)}
+              onClick={() => setSelectedPackage(package_.id)}
             >
               {/* Clickable Indicator */}
               <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse">
@@ -145,23 +196,23 @@ const WebsiteServicePage = () => {
               <div className="flex items-center mb-4">
                 <div className={`
                   p-3 rounded-lg mr-4
-                  ${selectedServices.includes(type.id)
+                  ${selectedPackage === package_.id
                     ? 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white'
                     : 'bg-gray-700 text-gray-300'
                   }
                 `}>
-                  {type.icon}
+                  {package_.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-white">{type.name}</h3>
-                  <p className="text-2xl font-bold text-[#71ADBA] mt-1">${type.basePrice}</p>
+                  <h3 className="text-xl font-semibold text-white">{package_.name}</h3>
+                  <p className="text-2xl font-bold text-[#71ADBA] mt-1">${package_.basePrice}</p>
                 </div>
               </div>
 
-              <p className="text-gray-400 mb-4">{type.description}</p>
+              <p className="text-gray-400 mb-4">{package_.description}</p>
               
               <ul className="space-y-2">
-                {type.features.map((feature, index) => (
+                {package_.features.map((feature, index) => (
                   <li key={index} className="flex items-center text-gray-300">
                     <CheckCircleIcon className="text-[#71ADBA] mr-2 text-sm" />
                     {feature}
@@ -169,7 +220,7 @@ const WebsiteServicePage = () => {
                 ))}
               </ul>
 
-              {selectedServices.includes(type.id) && (
+              {selectedPackage === package_.id && (
                 <div className="absolute top-2 left-2">
                   <CheckCircleIcon className="text-[#71ADBA] text-xl" />
                 </div>
@@ -178,24 +229,108 @@ const WebsiteServicePage = () => {
           ))}
         </div>
 
-        {selectedServices.length > 0 && (
+        {/* Subscription Add-ons */}
+        <h2 className="text-2xl font-bold text-white mb-6">Add Maintenance & Support</h2>
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {subscriptionAddOns.map((addOn) => (
+            <motion.div
+              key={addOn.id}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className={`
+                relative cursor-pointer rounded-xl p-6 transition-all
+                ${selectedAddOn === addOn.id
+                  ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-2 border-[#71ADBA]'
+                  : 'bg-gray-800/50 border-2 border-gray-700 hover:border-[#71ADBA]/50'
+                }
+              `}
+              onClick={() => setSelectedAddOn(addOn.id)}
+            >
+              {/* Clickable Indicator */}
+              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse">
+                Click to Select
+              </div>
+
+              <div className="flex items-center mb-4">
+                <div className={`
+                  p-3 rounded-lg mr-4
+                  ${selectedAddOn === addOn.id
+                    ? 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white'
+                    : 'bg-gray-700 text-gray-300'
+                  }
+                `}>
+                  {addOn.icon}
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold text-white">{addOn.name}</h3>
+                  <p className="text-2xl font-bold text-[#71ADBA] mt-1">
+                    ${addOn.price}
+                    <span className="text-sm text-gray-400">/{addOn.period}</span>
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-gray-400 mb-4">{addOn.description}</p>
+              
+              <ul className="space-y-2">
+                {addOn.features.map((feature, index) => (
+                  <li key={index} className="flex items-center text-gray-300">
+                    <CheckCircleIcon className="text-[#71ADBA] mr-2 text-sm" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              {selectedAddOn === addOn.id && (
+                <div className="absolute top-2 left-2">
+                  <CheckCircleIcon className="text-[#71ADBA] text-xl" />
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Total and Get Started Button */}
+        {selectedPackage && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-8 text-center"
           >
-            <p className="text-xl text-white mb-4">
-              Total: ${calculateTotal()}
-              {selectedServices.length >= 2 && (
-                <span className="text-[#71ADBA] ml-2">(Includes $30 bundle discount!)</span>
-              )}
-            </p>
-            <button
-              onClick={() => setShowContactForm(true)}
-              className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
-            >
-              Get Started
-            </button>
+            <div className="bg-gray-800/50 rounded-lg p-6 inline-block">
+              <h3 className="text-xl font-bold text-white mb-4">Your Selected Package</h3>
+              <div className="space-y-2 mb-4 text-left">
+                <p className="text-gray-300">
+                  Website Package: <span className="text-[#71ADBA] font-semibold">
+                    {websitePackages.find(p => p.id === selectedPackage)?.name}
+                  </span>
+                </p>
+                {selectedAddOn && (
+                  <p className="text-gray-300">
+                    Maintenance Plan: <span className="text-[#71ADBA] font-semibold">
+                      {subscriptionAddOns.find(a => a.id === selectedAddOn)?.name}
+                    </span>
+                  </p>
+                )}
+              </div>
+              <div className="text-xl text-white mb-6">
+                <p>One-time: ${calculateTotal().oneTime - calculateTotal().discount}</p>
+                {selectedAddOn && (
+                  <p className="mt-2">Monthly: ${calculateTotal().monthly}</p>
+                )}
+                {calculateTotal().discount > 0 && (
+                  <p className="text-[#71ADBA] text-sm mt-2">
+                    Bundle discount applied: -${calculateTotal().discount}
+                  </p>
+                )}
+              </div>
+              <button
+                onClick={() => setShowContactForm(true)}
+                className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
+              >
+                Get Started
+              </button>
+            </div>
           </motion.div>
         )}
 
@@ -248,22 +383,34 @@ const WebsiteServicePage = () => {
 
                 <div className="bg-gray-700/50 p-4 rounded-lg">
                   <h3 className="text-white font-medium mb-2">Selected Services:</h3>
-                  <ul className="space-y-1">
-                    {selectedServices.map(serviceId => {
-                      const service = websiteTypes.find(type => type.id === serviceId);
-                      return (
-                        <li key={serviceId} className="text-gray-300">
-                          • {service?.name} - ${service?.basePrice}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <p className="text-white font-medium mt-4">
-                    Total: ${calculateTotal()}
-                    {selectedServices.length >= 2 && (
-                      <span className="text-[#71ADBA] ml-2">(Includes bundle discount!)</span>
+                  <div className="space-y-2">
+                    <p className="text-gray-300">
+                      Website Package: {websitePackages.find(p => p.id === selectedPackage)?.name}
+                      <span className="float-right">${calculateTotal().oneTime}</span>
+                    </p>
+                    {selectedAddOn && (
+                      <p className="text-gray-300">
+                        Maintenance Plan: {subscriptionAddOns.find(a => a.id === selectedAddOn)?.name}
+                        <span className="float-right">${calculateTotal().monthly}/month</span>
+                      </p>
                     )}
-                  </p>
+                    {calculateTotal().discount > 0 && (
+                      <p className="text-[#71ADBA]">
+                        Bundle Discount
+                        <span className="float-right">-${calculateTotal().discount}</span>
+                      </p>
+                    )}
+                    <div className="border-t border-gray-600 mt-2 pt-2">
+                      <p className="text-white font-medium">
+                        Total One-time: ${calculateTotal().oneTime - calculateTotal().discount}
+                      </p>
+                      {selectedAddOn && (
+                        <p className="text-white font-medium">
+                          Total Monthly: ${calculateTotal().monthly}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <button
