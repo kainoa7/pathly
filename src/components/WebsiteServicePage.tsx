@@ -180,7 +180,7 @@ const WebsiteServicePage = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={`
-                relative cursor-pointer rounded-xl p-6 transition-all
+                relative cursor-pointer rounded-xl p-6 pt-12 transition-all
                 ${selectedPackage === package_.id
                   ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-2 border-[#71ADBA]'
                   : 'bg-gray-800/50 border-2 border-gray-700 hover:border-[#71ADBA]/50'
@@ -188,12 +188,22 @@ const WebsiteServicePage = () => {
               `}
               onClick={() => setSelectedPackage(package_.id)}
             >
+              {/* Selection Status */}
+              {selectedPackage === package_.id && (
+                <div className="absolute top-3 left-3">
+                  <div className="flex items-center">
+                    <CheckCircleIcon className="text-[#71ADBA] text-xl" />
+                    <span className="text-[#71ADBA] ml-2 text-sm">Selected</span>
+                  </div>
+                </div>
+              )}
+
               {/* Clickable Indicator */}
-              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse z-10 bg-gray-800/90 px-2 py-1 rounded text-sm">
+              <div className="absolute top-3 right-3 text-[#71ADBA] animate-pulse z-10 bg-gray-800/90 px-2 py-1 rounded text-sm">
                 Click to Select
               </div>
 
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-4 mt-2">
                 <div className={`
                   p-3 rounded-lg mr-4
                   ${selectedPackage === package_.id
@@ -219,12 +229,6 @@ const WebsiteServicePage = () => {
                   </li>
                 ))}
               </ul>
-
-              {selectedPackage === package_.id && (
-                <div className="absolute top-2 left-2">
-                  <CheckCircleIcon className="text-[#71ADBA] text-xl" />
-                </div>
-              )}
             </motion.div>
           ))}
         </div>
@@ -238,7 +242,7 @@ const WebsiteServicePage = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className={`
-                relative cursor-pointer rounded-xl p-6 transition-all
+                relative cursor-pointer rounded-xl p-6 pt-12 transition-all
                 ${selectedAddOn === addOn.id
                   ? 'bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 border-2 border-[#71ADBA]'
                   : 'bg-gray-800/50 border-2 border-gray-700 hover:border-[#71ADBA]/50'
@@ -246,12 +250,22 @@ const WebsiteServicePage = () => {
               `}
               onClick={() => setSelectedAddOn(addOn.id)}
             >
+              {/* Selection Status */}
+              {selectedAddOn === addOn.id && (
+                <div className="absolute top-3 left-3">
+                  <div className="flex items-center">
+                    <CheckCircleIcon className="text-[#71ADBA] text-xl" />
+                    <span className="text-[#71ADBA] ml-2 text-sm">Selected</span>
+                  </div>
+                </div>
+              )}
+
               {/* Clickable Indicator */}
-              <div className="absolute top-4 right-4 text-[#71ADBA] animate-pulse z-10 bg-gray-800/90 px-2 py-1 rounded text-sm">
+              <div className="absolute top-3 right-3 text-[#71ADBA] animate-pulse z-10 bg-gray-800/90 px-2 py-1 rounded text-sm">
                 Click to Select
               </div>
 
-              <div className="flex items-center mb-4">
+              <div className="flex items-center mb-4 mt-2">
                 <div className={`
                   p-3 rounded-lg mr-4
                   ${selectedAddOn === addOn.id
@@ -280,12 +294,6 @@ const WebsiteServicePage = () => {
                   </li>
                 ))}
               </ul>
-
-              {selectedAddOn === addOn.id && (
-                <div className="absolute top-2 left-2">
-                  <CheckCircleIcon className="text-[#71ADBA] text-xl" />
-                </div>
-              )}
             </motion.div>
           ))}
         </div>
@@ -297,36 +305,90 @@ const WebsiteServicePage = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mt-8 text-center"
           >
-            <div className="bg-gray-800/50 rounded-lg p-6 inline-block">
-              <h3 className="text-xl font-bold text-white mb-4">Your Selected Package</h3>
-              <div className="space-y-2 mb-4 text-left">
-                <p className="text-gray-300">
-                  Website Package: <span className="text-[#71ADBA] font-semibold">
-                    {websitePackages.find(p => p.id === selectedPackage)?.name}
-                  </span>
-                </p>
-                {selectedAddOn && (
-                  <p className="text-gray-300">
-                    Maintenance Plan: <span className="text-[#71ADBA] font-semibold">
-                      {subscriptionAddOns.find(a => a.id === selectedAddOn)?.name}
+            <div className="bg-gray-800/50 rounded-lg p-8 inline-block max-w-2xl w-full">
+              <h3 className="text-3xl font-bold text-white mb-6">Your Selected Package</h3>
+              
+              <div className="space-y-4 mb-8 text-left">
+                <div className="flex justify-between items-center">
+                  <p className="text-xl text-gray-300">
+                    Website Package: <span className="text-[#71ADBA] font-semibold">
+                      {websitePackages.find(p => p.id === selectedPackage)?.name}
                     </span>
                   </p>
-                )}
-              </div>
-              <div className="text-xl text-white mb-6">
-                <p>One-time: ${calculateTotal().oneTime - calculateTotal().discount}</p>
-                {selectedAddOn && (
-                  <p className="mt-2">Monthly: ${calculateTotal().monthly}</p>
-                )}
-                {calculateTotal().discount > 0 && (
-                  <p className="text-[#71ADBA] text-sm mt-2">
-                    Bundle discount applied: -${calculateTotal().discount}
+                  <p className="text-xl text-[#71ADBA] font-semibold">
+                    ${websitePackages.find(p => p.id === selectedPackage)?.basePrice}
                   </p>
+                </div>
+
+                {selectedAddOn && (
+                  <div className="flex justify-between items-center">
+                    <p className="text-xl text-gray-300">
+                      Maintenance Plan: <span className="text-[#71ADBA] font-semibold">
+                        {subscriptionAddOns.find(a => a.id === selectedAddOn)?.name}
+                      </span>
+                    </p>
+                    <p className="text-xl text-[#71ADBA] font-semibold">
+                      ${subscriptionAddOns.find(a => a.id === selectedAddOn)?.price}/month
+                    </p>
+                  </div>
+                )}
+
+                {calculateTotal().discount > 0 && (
+                  <div className="bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 p-4 rounded-lg border-2 border-[#71ADBA] mt-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="text-[#71ADBA] font-bold text-lg">Bundle Discount Applied! 🎉</h4>
+                        <p className="text-gray-300 text-sm mt-1">
+                          Special offer when you combine a website package with maintenance
+                        </p>
+                      </div>
+                      <p className="text-[#71ADBA] font-bold text-xl">-${calculateTotal().discount}</p>
+                    </div>
+                  </div>
                 )}
               </div>
+
+              <div className="border-t border-gray-700 pt-6 mb-8">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <h4 className="text-xl font-semibold text-white">Initial Payment:</h4>
+                    <p className="text-2xl font-bold text-[#71ADBA]">
+                      ${calculateTotal().oneTime - calculateTotal().discount}
+                    </p>
+                  </div>
+
+                  {selectedAddOn && (
+                    <>
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-xl font-semibold text-white">Monthly Payment:</h4>
+                        <p className="text-2xl font-bold text-[#71ADBA]">
+                          ${calculateTotal().monthly}
+                        </p>
+                      </div>
+                      
+                      <div className="bg-gray-800 rounded-lg p-4 mt-4">
+                        <p className="text-gray-300 text-sm">
+                          Initial payment includes website development (${calculateTotal().oneTime - calculateTotal().discount}) 
+                          {calculateTotal().discount > 0 && ` with $${calculateTotal().discount} bundle discount applied`}.
+                          Then ${calculateTotal().monthly}/month for maintenance and support.
+                        </p>
+                      </div>
+                    </>
+                  )}
+
+                  {!selectedAddOn && (
+                    <div className="bg-gray-800 rounded-lg p-4 mt-4">
+                      <p className="text-[#71ADBA] text-sm">
+                        💡 Add a maintenance plan to save $30 on your website package!
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               <button
                 onClick={() => setShowContactForm(true)}
-                className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-3 rounded-lg font-medium hover:opacity-90 transition-opacity"
+                className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-12 py-4 rounded-lg font-medium text-lg hover:opacity-90 transition-opacity w-full md:w-auto"
               >
                 Get Started
               </button>
