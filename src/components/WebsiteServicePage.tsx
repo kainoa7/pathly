@@ -352,9 +352,23 @@ const WebsiteServicePage = () => {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <h4 className="text-xl font-semibold text-white">Initial Payment:</h4>
-                    <p className="text-2xl font-bold text-[#71ADBA]">
-                      ${calculateTotal().oneTime - calculateTotal().discount}
-                    </p>
+                    <div className="text-right">
+                      {calculateTotal().discount > 0 && (
+                        <p className="text-gray-400 line-through text-lg">
+                          ${calculateTotal().oneTime}
+                        </p>
+                      )}
+                      <div className="flex items-center gap-2">
+                        <p className="text-2xl font-bold text-[#71ADBA]">
+                          ${calculateTotal().oneTime - calculateTotal().discount}
+                        </p>
+                        {calculateTotal().discount > 0 && (
+                          <span className="bg-[#71ADBA] text-white text-sm px-2 py-1 rounded">
+                            Bundle Deal!
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {selectedAddOn && (
@@ -368,8 +382,14 @@ const WebsiteServicePage = () => {
                       
                       <div className="bg-gray-800 rounded-lg p-4 mt-4">
                         <p className="text-gray-300 text-sm">
-                          Initial payment includes website development (${calculateTotal().oneTime - calculateTotal().discount}) 
-                          {calculateTotal().discount > 0 && ` with $${calculateTotal().discount} bundle discount applied`}.
+                          Initial payment includes website development 
+                          {calculateTotal().discount > 0 ? (
+                            <span>
+                              {" "}(was <span className="line-through">${calculateTotal().oneTime}</span>, now ${calculateTotal().oneTime - calculateTotal().discount} with bundle savings)
+                            </span>
+                          ) : (
+                            <span> (${calculateTotal().oneTime})</span>
+                          )}.
                           Then ${calculateTotal().monthly}/month for maintenance and support.
                         </p>
                       </div>
