@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import WorkIcon from '@mui/icons-material/Work';
 import SchoolIcon from '@mui/icons-material/School';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 const TestimonialSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,6 +17,7 @@ const TestimonialSection = () => {
       tag: "Career Changer",
       icon: WorkIcon,
       stats: "150k+ first job",
+      companyLogo: "/company-logos/google.svg"
     },
     {
       name: "Sarah, 19",
@@ -25,6 +27,7 @@ const TestimonialSection = () => {
       tag: "College Student",
       icon: SchoolIcon,
       stats: "Dream internship",
+      companyLogo: "/company-logos/tesla.svg"
     },
     {
       name: "Mike, 20",
@@ -34,6 +37,7 @@ const TestimonialSection = () => {
       tag: "Entrepreneur",
       icon: TrendingUpIcon,
       stats: "Raised $1M",
+      companyLogo: "/company-logos/meta.svg"
     }
   ];
 
@@ -63,87 +67,137 @@ const TestimonialSection = () => {
 
       <div className="max-w-4xl mx-auto relative">
         {/* Navigation Buttons */}
-        <button
+        <motion.button
           onClick={handlePrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg hover:bg-white/20 transition-all"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg 
+                     hover:bg-white/20 transition-all hover:shadow-lg hover:shadow-[#71ADBA]/20"
         >
           ←
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={handleNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg hover:bg-white/20 transition-all"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 rounded-full bg-white/10 backdrop-blur-lg 
+                     hover:bg-white/20 transition-all hover:shadow-lg hover:shadow-[#71ADBA]/20"
         >
           →
-        </button>
+        </motion.button>
 
         {/* Testimonial Cards */}
         <div className="relative h-[500px]">
-          {testimonials.map((testimonial, idx) => {
-            const Icon = testimonial.icon;
-            return (
-              <motion.div
-                key={idx}
-                initial={false}
-                animate={{
-                  scale: idx === activeIndex ? 1 : 0.8,
-                  opacity: idx === activeIndex ? 1 : 0,
-                  x: `${(idx - activeIndex) * 100}%`,
-                  zIndex: idx === activeIndex ? 1 : 0,
-                }}
-                transition={{ duration: 0.3 }}
-                className="absolute top-0 left-0 w-full"
-              >
-                <div className="glass-panel p-8 relative group">
-                  {/* Viral Tag */}
-                  <div className="absolute -top-3 left-6 bg-gradient-to-r from-pink-500 to-purple-500 px-4 py-1 rounded-full text-white text-sm font-medium">
-                    {testimonial.tag} 🔥
-                  </div>
+          <AnimatePresence mode="sync">
+            {testimonials.map((testimonial, idx) => {
+              const Icon = testimonial.icon;
+              const isActive = idx === activeIndex;
+              
+              return (
+                <motion.div
+                  key={idx}
+                  initial={false}
+                  animate={{
+                    scale: isActive ? 1 : 0.8,
+                    opacity: isActive ? 1 : 0,
+                    x: `${(idx - activeIndex) * 100}%`,
+                    zIndex: isActive ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute top-0 left-0 w-full"
+                >
+                  <div className="glass-panel p-8 relative group">
+                    {/* Viral Tag */}
+                    <div className="absolute -top-3 left-6 bg-gradient-to-r from-pink-500 to-purple-500 px-4 py-1 rounded-full text-white text-sm font-medium">
+                      {testimonial.tag} 🔥
+                    </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] p-1 mb-6">
-                      <div className="w-full h-full rounded-full bg-[#0f172a] flex items-center justify-center">
-                        <Icon className="w-10 h-10 text-[#EDEAB1]" />
+                    {/* Verified Badge */}
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="absolute -top-3 right-6 bg-[#71ADBA] px-3 py-1 rounded-full text-white text-sm font-medium
+                               flex items-center gap-1"
+                    >
+                      <VerifiedIcon className="w-4 h-4" />
+                      Verified
+                    </motion.div>
+
+                    {/* Content */}
+                    <div className="flex flex-col items-center">
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] p-1 mb-6">
+                        <div className="w-full h-full rounded-full bg-[#0f172a] flex items-center justify-center">
+                          <Icon className="w-10 h-10 text-[#EDEAB1]" />
+                        </div>
                       </div>
+
+                      <div className="flex items-center gap-2 mb-2">
+                        <h3 className="text-2xl font-bold text-[#EDEAB1]">
+                          {testimonial.name}
+                        </h3>
+                      </div>
+                      
+                      <div className="flex items-center gap-2 mb-6">
+                        <p className="text-lg text-[#71ADBA]">
+                          {testimonial.role}
+                        </p>
+                        {testimonial.companyLogo && (
+                          <img 
+                            src={testimonial.companyLogo} 
+                            alt="Company Logo" 
+                            className="h-6 w-6 object-contain"
+                          />
+                        )}
+                      </div>
+
+                      <div className="text-2xl mb-8 leading-relaxed">
+                        {testimonial.content}
+                      </div>
+
+                      {/* Stats with enhanced design */}
+                      <motion.div 
+                        className="glass-effect px-6 py-3 text-[#EDEAB1] relative overflow-hidden group"
+                        whileHover={{ scale: 1.05 }}
+                      >
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/10 via-[#EDEAB1]/10 to-[#71ADBA]/10"
+                          animate={{
+                            x: ["0%", "100%"],
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "linear",
+                          }}
+                        />
+                        <span className="relative">🎯 {testimonial.stats}</span>
+                      </motion.div>
                     </div>
 
-                    <h3 className="text-2xl font-bold text-[#EDEAB1] mb-2">
-                      {testimonial.name}
-                    </h3>
-                    <p className="text-lg text-[#71ADBA] mb-6">
-                      {testimonial.role}
-                    </p>
-
-                    <div className="text-2xl mb-8 leading-relaxed">
-                      {testimonial.content}
-                    </div>
-
-                    {/* Stats */}
-                    <div className="glass-effect px-6 py-3 text-[#EDEAB1]">
-                      🎯 {testimonial.stats}
-                    </div>
+                    {/* Decorative Elements */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-full blur-3xl pointer-events-none"></div>
                   </div>
-
-                  {/* Decorative Elements */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                  <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-r from-blue-500/20 to-green-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </div>
 
-        {/* Dots */}
+        {/* Enhanced Dots */}
         <div className="flex justify-center gap-2 mt-6">
           {testimonials.map((_, idx) => (
-            <button
+            <motion.button
               key={idx}
               onClick={() => setActiveIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              className={`h-2 rounded-full transition-all duration-300 ${
                 idx === activeIndex
-                  ? 'w-8 bg-[#EDEAB1]'
-                  : 'bg-white/30 hover:bg-white/50'
+                  ? 'w-8 bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1]'
+                  : 'w-2 bg-white/30 hover:bg-white/50'
               }`}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
             />
           ))}
         </div>

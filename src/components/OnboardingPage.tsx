@@ -5,6 +5,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import WorkIcon from '@mui/icons-material/Work';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 
 const OnboardingPage = () => {
   const navigate = useNavigate();
@@ -14,6 +15,9 @@ const OnboardingPage = () => {
       case 'highschool':
         navigate('/quiz/highschool');
         break;
+      case 'graduated':
+        navigate('/quiz/graduated');
+        break;
       case 'college':
         navigate('/quiz/college');
         break;
@@ -21,7 +25,13 @@ const OnboardingPage = () => {
         navigate('/major-selection');
         break;
       case 'switching':
-        navigate('/switching-major');
+        navigate('/switching-major', {
+          state: {
+            title: "Major Switching Guide Coming Soon",
+            description: "We're building a comprehensive guide to help you explore alternative paths that might be a better fit for your interests and goals.",
+            icon: "🔄"
+          }
+        });
         break;
       default:
         navigate('/quiz/highschool');
@@ -35,6 +45,13 @@ const OnboardingPage = () => {
       description: 'Explore options and find what interests you most',
       icon: SchoolIcon,
       action: 'highschool'
+    },
+    {
+      id: 'graduated',
+      title: 'Graduated high school, need guidance',
+      description: 'Get help planning your next steps and exploring possibilities',
+      icon: EmojiPeopleIcon,
+      action: 'graduated'
     },
     {
       id: 'college',
@@ -108,7 +125,7 @@ const OnboardingPage = () => {
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="grid gap-6"
+          className="grid gap-8"
         >
           {options.map((option) => {
             const Icon = option.icon;
@@ -116,19 +133,39 @@ const OnboardingPage = () => {
               <motion.div key={option.id} variants={itemVariants}>
                 <div
                   onClick={() => handleSelection(option.action)}
-                  className="card hover:scale-[1.02] cursor-pointer group"
+                  className="relative overflow-hidden bg-[#1a1f36] rounded-2xl p-6 cursor-pointer group hover:bg-[#1a1f36]/80 
+                           transition-all duration-300 border border-white/5 hover:border-[#71ADBA]/20"
                 >
-                  <div className="flex items-start space-x-4">
-                    <div className="p-3 bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] rounded-xl shadow-lg group-hover:shadow-[#71ADBA]/30">
-                      <Icon className="text-[#0f172a] w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+                  {/* Background glow effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/10 to-[#EDEAB1]/10 blur-xl"></div>
+                  </div>
+
+                  <div className="relative flex items-center gap-6">
+                    {/* Icon container with enhanced gradient */}
+                    <div className="flex-shrink-0 p-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] 
+                                  shadow-lg group-hover:shadow-[#71ADBA]/30 transition-all duration-300">
+                      <Icon className="text-[#0f172a] w-8 h-8 group-hover:scale-110 transition-transform duration-300" />
                     </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-[#EDEAB1] group-hover:text-white transition-colors duration-200">
+
+                    {/* Content with enhanced typography and spacing */}
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-semibold bg-gradient-to-r from-[#EDEAB1] to-[#71ADBA] 
+                                   bg-clip-text text-transparent group-hover:from-white group-hover:to-white 
+                                   transition-all duration-300">
                         {option.title}
                       </h3>
-                      <p className="mt-2 text-gray-400 group-hover:text-[#71ADBA] transition-colors duration-200">
+                      <p className="mt-3 text-lg text-gray-400 group-hover:text-[#71ADBA] transition-colors duration-200">
                         {option.description}
                       </p>
+                    </div>
+
+                    {/* Arrow indicator */}
+                    <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transform translate-x-2 
+                                  group-hover:translate-x-0 transition-all duration-300">
+                      <svg className="w-6 h-6 text-[#71ADBA]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
                     </div>
                   </div>
                 </div>

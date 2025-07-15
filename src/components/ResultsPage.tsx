@@ -5,12 +5,18 @@ import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import WorkIcon from '@mui/icons-material/Work';
 import SchoolIcon from '@mui/icons-material/School';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import Analytics from '../utils/analytics';
 
 const ResultsPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isExploding, setIsExploding] = useState(true);
+
+  useEffect(() => {
+    // Track results view
+    Analytics.trackCareerPathView(results.topCareerPath);
+  }, []);
 
   // Mock results based on answers
   const results = {

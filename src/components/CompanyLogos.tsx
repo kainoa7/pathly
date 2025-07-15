@@ -1,62 +1,42 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import SchoolIcon from '@mui/icons-material/School';
+import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
-const companies = [
+const features = [
   {
-    name: 'Meta',
-    logo: '/company-logos/meta.png',
-    stats: {
-      avgSalary: 'Up to $170K+',
-      positions: 'Software Engineering',
-      location: 'Multiple Locations'
-    },
-    glowColor: 'rgba(0, 132, 255, 0.3)' // Meta blue glow
+    title: "Start From Zero",
+    description: "No experience? Perfect! Everyone starts somewhere. We'll guide you from day one.",
+    icon: EmojiPeopleIcon,
+    color: "rgba(113, 173, 186, 0.3)" // Pathly blue glow
   },
   {
-    name: 'Apple',
-    logo: '/company-logos/apple.png',
-    stats: {
-      avgSalary: 'Up to $180K+',
-      positions: 'Tech & Design',
-      location: 'Global Opportunities'
-    },
-    glowColor: 'rgba(255, 255, 255, 0.2)' // White glow for Apple
+    title: "Learn By Doing",
+    description: "Gain real experience through guided projects and internships tailored to beginners.",
+    icon: SchoolIcon,
+    color: "rgba(237, 234, 177, 0.3)" // Yellow glow
   },
   {
-    name: 'Amazon',
-    logo: '/company-logos/amazon.png',
-    stats: {
-      avgSalary: 'Up to $160K+',
-      positions: 'Tech & Business',
-      location: 'Global Positions'
-    },
-    glowColor: 'rgba(255, 153, 0, 0.2)' // Amazon orange glow
+    title: "Grow Step by Step",
+    description: "Follow our proven roadmap from beginner to professional. No rushing, just steady progress.",
+    icon: TrendingUpIcon,
+    color: "rgba(156, 113, 186, 0.3)" // Purple glow
   },
   {
-    name: 'Netflix',
-    logo: '/company-logos/netflix.png',
-    stats: {
-      avgSalary: 'Up to $200K+',
-      positions: 'Engineering & Content',
-      location: 'Multiple Locations'
-    },
-    glowColor: 'rgba(229, 9, 20, 0.3)' // Netflix red glow
-  },
-  {
-    name: 'Google',
-    logo: '/company-logos/google.png',
-    stats: {
-      avgSalary: 'Up to $190K+',
-      positions: 'Tech & Research',
-      location: 'Global Opportunities'
-    },
-    glowColor: 'rgba(66, 133, 244, 0.3)' // Google blue glow
+    title: "Get Recognized",
+    description: "Build a portfolio that showcases your growth and makes employers take notice.",
+    icon: WorkspacePremiumIcon,
+    color: "rgba(113, 173, 186, 0.3)" // Pathly blue glow
   }
 ];
 
 const CompanyLogos = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  const navigate = useNavigate();
 
   return (
     <section className="py-16 px-4" ref={ref}>
@@ -67,90 +47,77 @@ const CompanyLogos = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-[#71ADBA] via-[#EDEAB1] to-[#71ADBA] bg-clip-text text-transparent">
-            Dream Big, Aim High
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-[#71ADBA] via-[#EDEAB1] to-[#9C71BA] bg-clip-text text-transparent">
+              No Experience? No Problem!
+            </span>
           </h2>
-          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto">
-            Discover pathways to opportunities at top companies. Let's help you build the skills and knowledge needed to get there.
+          <p className="text-gray-300 text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed">
+            Everyone starts as a beginner. We're here to help you take your first steps with confidence.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center">
-          {companies.map((company, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {features.map((feature, index) => (
             <motion.div
-              key={company.name}
+              key={feature.title}
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="relative group"
             >
-              {/* Company Logo Card */}
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="relative bg-[#1a1f36] rounded-xl p-4 border border-white/10
+                className="relative bg-[#1a1f36] rounded-xl p-6 border border-white/10
                          hover:border-[#71ADBA]/20 hover:bg-[#1a1f36]/80 transition-all duration-300
-                         overflow-hidden"
+                         h-full flex flex-col items-center text-center"
                 style={{
-                  boxShadow: `0 0 20px ${company.glowColor}`,
+                  boxShadow: `0 0 20px ${feature.color}`,
                 }}
               >
                 {/* Glow effect */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   style={{
-                    background: `radial-gradient(circle at center, ${company.glowColor} 0%, transparent 70%)`,
+                    background: `radial-gradient(circle at center, ${feature.color} 0%, transparent 70%)`,
                   }}
                 />
                 
-                <div className="flex items-center justify-center h-16 relative z-10">
-                  <img
-                    src={company.logo}
-                    alt={`${company.name} opportunities`}
-                    className="max-h-full max-w-full object-contain filter brightness-100 group-hover:brightness-110 transition-all duration-300"
-                  />
+                <div className="relative z-10 mb-4">
+                  <feature.icon className="w-12 h-12 text-[#EDEAB1]" />
                 </div>
-              </motion.div>
 
-              {/* Opportunity Info Tooltip */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileHover={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2 }}
-                className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-48 bg-[#1a1f36]/90 
-                         backdrop-blur-lg rounded-lg p-3 border border-white/10 opacity-0 group-hover:opacity-100
-                         pointer-events-none z-50"
-              >
-                <div className="text-center">
-                  <p className="text-[#EDEAB1] font-semibold mb-1">{company.stats.avgSalary}</p>
-                  <p className="text-sm text-gray-300 mb-1">{company.stats.positions}</p>
-                  <p className="text-xs text-[#71ADBA]">{company.stats.location}</p>
-                </div>
+                <h3 className="text-xl font-semibold text-[#71ADBA] mb-3 relative z-10">
+                  {feature.title}
+                </h3>
+
+                <p className="text-gray-300 relative z-10">
+                  {feature.description}
+                </p>
               </motion.div>
             </motion.div>
           ))}
         </div>
 
+        {/* Call to Action */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <p className="text-gray-400 text-sm mb-6">
-            * Salary ranges are estimates based on public data and may vary by location, experience, and role
+          <p className="text-[#EDEAB1] text-lg mb-6">
+            Join thousands of students who started from zero and found their path to success
           </p>
-          <motion.a
-            href="/breaking-into-tech"
+          <motion.button
+            onClick={() => navigate('/onboarding')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl text-white font-medium
-                     hover:brightness-110 transition-all duration-300"
+            className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-3 rounded-lg
+                     shadow-lg hover:shadow-xl transition-all duration-300"
           >
-            <span>See How Others Broke Into Big Tech</span>
-            <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </motion.a>
+            Start Your Journey
+          </motion.button>
         </motion.div>
       </div>
     </section>

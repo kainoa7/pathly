@@ -19,6 +19,10 @@ import BreakingIntoTechPage from './components/BreakingIntoTechPage';
 import DiscordWaitlistPage from './components/DiscordWaitlistPage';
 import Analytics from './utils/analytics';
 import './App.css';
+import InterviewTemplatesPage from './components/InterviewTemplatesPage';
+import WebsiteServicePage from './components/WebsiteServicePage';
+import CampusLifePage from './components/CampusLifePage';
+import InternshipPage from './components/InternshipPage';
 
 function App() {
   return (
@@ -46,28 +50,16 @@ function App() {
               } />
             </Route>
             <Route path="/results" element={<ResultsPage />} />
-            <Route path="/services">
-              <Route path="resume-builder" element={<ResumeBuilder />} />
-              <Route path="resume-review" element={<ResumeReview />} />
-              <Route path="career-roadmap" element={<CareerRoadmap />} />
-            </Route>
-            <Route path="/major-selection" element={
-              <ComingSoonPage 
-                title="Major Selection Coming Soon"
-                description="Discover the perfect major for your interests and career goals. Get personalized recommendations and insights."
-                icon="🎓"
-              />
-            } />
-            <Route path="/switching-major" element={
-              <ComingSoonPage 
-                title="Major Switching Guide Coming Soon"
-                description="We're building a comprehensive guide to help you explore alternative paths that might be a better fit for your interests and goals."
-                icon="🔄"
-              />
-            } />
             <Route path="/announcements" element={<AnnouncementsPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/waitlist" element={<DiscordWaitlistPage />} />
+            <Route path="/services/resume-builder" element={<ResumeBuilder />} />
+            <Route path="/services/resume-review" element={<ResumeReview />} />
+            <Route path="/services/career-roadmap" element={<CareerRoadmap />} />
+            <Route path="/services/interview-templates" element={<InterviewTemplatesPage />} />
+            <Route path="/services/website-builder" element={<WebsiteServicePage />} />
+            <Route path="/campus-life" element={<CampusLifePage />} />
+            <Route path="/internships" element={<InternshipPage />} />
           </Routes>
         </main>
         <FloatingCTA />

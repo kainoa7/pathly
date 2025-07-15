@@ -93,7 +93,7 @@ const SwitchingMajorPage = () => {
       </motion.div>
 
       <div className="max-w-2xl mx-auto">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {step === 1 ? (
             <motion.div
               key="step1"

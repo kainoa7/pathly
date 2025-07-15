@@ -128,38 +128,40 @@ const CollegeQuizPage = () => {
           </p>
         </div>
 
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={currentQuestion}
-            custom={direction}
-            variants={slideVariants}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{
-              x: { type: "spring", stiffness: 300, damping: 30 },
-              opacity: { duration: 0.2 }
-            }}
-          >
-            <div className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-lg p-8 mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
-                {question.text}
-              </h2>
-              <div className="grid gap-4">
-                {question.options.map((option, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => handleAnswer(index)}
-                    className="w-full p-4 text-left rounded-xl border-2 border-gray-200 hover:border-fuchsia-500 hover:bg-fuchsia-50 transition-all duration-200 group"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <span className="text-lg text-gray-800 group-hover:text-fuchsia-700">{option}</span>
-                  </motion.button>
-                ))}
+        <AnimatePresence mode="sync">
+          {questions.map((question, idx) => (
+            <motion.div
+              key={idx}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.2 }
+              }}
+            >
+              <div className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-lg p-8 mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
+                  {question.text}
+                </h2>
+                <div className="grid gap-4">
+                  {question.options.map((option, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => handleAnswer(index)}
+                      className="w-full p-4 text-left rounded-xl border-2 border-gray-200 hover:border-fuchsia-500 hover:bg-fuchsia-50 transition-all duration-200 group"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <span className="text-lg text-gray-800 group-hover:text-fuchsia-700">{option}</span>
+                    </motion.button>
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          ))}
         </AnimatePresence>
       </div>
     </div>
