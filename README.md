@@ -1,69 +1,108 @@
-# React + TypeScript + Vite
+# Pathly
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Career guidance platform helping students find their ideal college major and career path through personalized assessments, roadmaps, and interview preparation.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Core Features
+- 🎯 Career Quiz & Major Selection
+- 📚 Major-specific Career Roadmaps
+- 📊 Salary Insights & Industry Trends
+- 💼 Resume Builder & Review
+- 🎓 College Major Guidance
 
-## Expanding the ESLint configuration
+### Interview Preparation
+- 🎯 Major-specific Interview Templates
+- 💡 Technical & Behavioral Questions
+- 📝 Entry-level Position Guides
+- 🔄 Mock Interview Sessions (Premium)
+- 📚 Industry-specific Case Studies
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Documentation
+- [Architecture Overview](docs/ARCHITECTURE.md)
+- [Development Guide](docs/DEVELOPMENT.md)
+- [Component Library](docs/COMPONENTS.md)
+- [API Documentation](docs/API.md)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Quick Start
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start development server:
+   ```bash
+   npm run dev
+   ```
+4. Visit `http://localhost:5173` in your browser
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Tech Stack
+- React 18 with TypeScript
+- Vite for build tooling
+- Tailwind CSS for styling
+- Framer Motion for animations
+- Material UI Icons
+- React Router for navigation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project Structure
+```
+src/
+├── components/     # React components
+├── data/          # Static data and configurations
+├── utils/         # Utility functions and helpers
+├── types/         # TypeScript type definitions
+└── pages/         # Page components
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Service Tiers
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Free (Explorer)
+- Basic Career Quiz
+- Major Recommendations
+- Basic Career Insights
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### Pro
+- Everything in Explorer
+- Detailed Career Roadmaps
+- Salary Insights & Trends
+- Industry Expert Tips
+- Resume Builder
+- Basic Interview Templates
+
+### Premium
+- Everything in Pro
+- 1-on-1 Career Coaching
+- Advanced Interview Templates
+- Mock Interview Sessions
+- Private Discord Community
+- Priority Support
+
+## Project Status
+See our [TODO list](TODO.md) for current development status and upcoming features.
+
+## Getting Help
+1. Check the [Development Guide](docs/DEVELOPMENT.md) for best practices
+2. Review component documentation in the code
+3. When asking for help:
+   - Describe current vs expected behavior
+   - Share error messages
+   - List steps to reproduce
+   - Reference relevant files/components
+
+## Contributing
+1. Follow the [Development Guide](docs/DEVELOPMENT.md)
+2. Create feature branches from main
+3. Update documentation
+4. Add tests for new features
+5. Submit pull requests with clear descriptions
+
+## Analytics
+We use custom analytics to track user interactions and improve the platform. Key events:
+- Career quiz completions
+- Major selections
+- Service tier selections
+- Interview template usage
+- Feature engagement
+
+## License
+Copyright © 2024 Pathly. All rights reserved.
