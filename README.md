@@ -1,108 +1,127 @@
-# Pathly
+# 🚀 Pathly - Navigate Your Career Path with Confidence
 
-Career guidance platform helping students find their ideal college major and career path through personalized assessments, roadmaps, and interview preparation.
+<div align="center">
 
-## Features
+[![Website](https://img.shields.io/badge/Visit-Pathly.com-71ADBA?style=for-the-badge)](https://pathly.com)
+[![Contact](https://img.shields.io/badge/Contact-pathly.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:pathly.help@gmail.com)
 
-### Core Features
-- 🎯 Career Quiz & Major Selection
-- 📚 Major-specific Career Roadmaps
-- 📊 Salary Insights & Industry Trends
-- 💼 Resume Builder & Review
-- 🎓 College Major Guidance
+**Your AI-Powered Career Navigation & Professional Development Platform**
 
-### Interview Preparation
-- 🎯 Major-specific Interview Templates
-- 💡 Technical & Behavioral Questions
-- 📝 Entry-level Position Guides
-- 🔄 Mock Interview Sessions (Premium)
-- 📚 Industry-specific Case Studies
+[🎯 Features](#-key-features) • [💼 Services](#-professional-services) • [🌟 Benefits](#-why-choose-pathly) • [📱 Get Started](#-get-started)
 
-## Documentation
-- [Architecture Overview](docs/ARCHITECTURE.md)
-- [Development Guide](docs/DEVELOPMENT.md)
-- [Component Library](docs/COMPONENTS.md)
-- [API Documentation](docs/API.md)
+---
 
-## Quick Start
-1. Clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start development server:
-   ```bash
-   npm run dev
-   ```
-4. Visit `http://localhost:5173` in your browser
+</div>
 
-## Tech Stack
-- React 18 with TypeScript
+## 🎯 Our Mission
+
+Pathly is dedicated to revolutionizing career development and professional growth. We combine AI-powered guidance with personalized professional services to help individuals make informed career decisions and establish a strong professional presence.
+
+### 🌟 Core Purpose
+
+1. **Career Guidance & Development**
+   - Help students choose the right college major
+   - Guide professionals in career transitions
+   - Provide data-driven career path recommendations
+   - Offer skill gap analysis and learning roadmaps
+
+2. **Professional Online Presence**
+   - Create professional websites for personal branding
+   - Build business and e-commerce platforms
+   - Maintain and optimize web presence
+   - Provide ongoing technical support
+
+3. **Continuous Professional Growth**
+   - Offer interview preparation resources
+   - Provide networking opportunities
+   - Deliver industry insights and trends
+   - Support continuous skill development
+
+## ✨ Key Features
+
+### 🤖 AI-Powered Career Guidance
+- **Smart Career Assessment** - Get personalized career recommendations based on your interests, skills, and goals
+- **Major Selection Tool** - Make informed decisions about your college major with data-driven insights
+- **Salary Insights** - Access real-time industry compensation data and trends
+- **Skills Gap Analysis** - Identify and bridge the skills needed for your dream career
+
+### 🌐 Professional Website Services
+
+#### Website Packages
+
+| Package | Features | Investment |
+|---------|----------|------------|
+| **Personal** | • Custom Design<br>• Mobile Responsive<br>• Contact Form<br>• 3 Pages<br>• Basic SEO<br>• Portfolio Showcase | $499 |
+| **Business** | • Custom Design<br>• Mobile Responsive<br>• Contact Forms<br>• 5-7 Pages<br>• Advanced SEO<br>• Analytics Integration | $999 |
+| **E-commerce** | • Custom Design<br>• Mobile Responsive<br>• Product Management<br>• Payment Integration<br>• Order System<br>• Customer Accounts | $1499 |
+
+#### 🔄 Flexible Maintenance Plans
+
+| Plan | Features | Monthly Investment |
+|------|----------|-------------------|
+| **Basic** | • Monthly Updates<br>• Security Patches<br>• Basic Support | $29 |
+| **Premium** | • Weekly Updates<br>• Priority Support<br>• Advanced Security<br>• Daily Backups | $79 |
+| **Lifetime** | • 24/7 Support<br>• Unlimited Updates<br>• Marketing Support<br>• Monthly Reports | $199 |
+
+### 💎 Premium Features
+- **1-on-1 Career Coaching** - Personalized guidance from industry experts
+- **Mock Interview Sessions** - Practice with real interview scenarios
+- **Private Discord Community** - Network with peers and professionals
+- **Priority Support** - Get help when you need it most
+
+## 🌟 Why Choose Pathly?
+
+### For Career Development
+- **Data-Driven Decisions** - Make choices based on real market insights
+- **Personalized Guidance** - Get recommendations tailored to your goals
+- **Comprehensive Support** - From college to career advancement
+- **Industry Insights** - Stay updated with latest trends and opportunities
+
+### For Website Development
+- **Professional Design** - Stand out with a modern, responsive website
+- **Affordable Solutions** - Premium features at competitive prices
+- **Flexible Payment** - Multiple payment options including Venmo and Cash App
+- **Preview Option** - Start with a mockup before full development
+- **Bundle Savings** - Save with website + maintenance packages
+
+## 📱 Get Started
+
+1. **Visit [Pathly.com](https://pathly.com)**
+2. **Take our Career Assessment**
+3. **Explore Personalized Recommendations**
+4. **Build Your Professional Presence**
+
+## 🛠️ Technical Stack
+
+- React 18 + TypeScript
 - Vite for build tooling
 - Tailwind CSS for styling
+- EmailJS for form submissions
 - Framer Motion for animations
 - Material UI Icons
-- React Router for navigation
+- Mobile-first responsive design
 
-## Project Structure
-```
-src/
-├── components/     # React components
-├── data/          # Static data and configurations
-├── utils/         # Utility functions and helpers
-├── types/         # TypeScript type definitions
-└── pages/         # Page components
-```
+## 📞 Contact & Support
 
-## Service Tiers
+- **Email**: [pathly.help@gmail.com](mailto:pathly.help@gmail.com)
+- **Website**: [pathly.com](https://pathly.com)
+- **Discord**: Join our community for exclusive updates and networking
 
-### Free (Explorer)
-- Basic Career Quiz
-- Major Recommendations
-- Basic Career Insights
+## 🔒 Our Commitment
 
-### Pro
-- Everything in Explorer
-- Detailed Career Roadmaps
-- Salary Insights & Trends
-- Industry Expert Tips
-- Resume Builder
-- Basic Interview Templates
+- **Quality** - Professional, modern solutions
+- **Support** - Responsive customer service
+- **Value** - Competitive pricing with premium features
+- **Growth** - Regular updates and new features
 
-### Premium
-- Everything in Pro
-- 1-on-1 Career Coaching
-- Advanced Interview Templates
-- Mock Interview Sessions
-- Private Discord Community
-- Priority Support
+---
 
-## Project Status
-See our [TODO list](TODO.md) for current development status and upcoming features.
+<div align="center">
 
-## Getting Help
-1. Check the [Development Guide](docs/DEVELOPMENT.md) for best practices
-2. Review component documentation in the code
-3. When asking for help:
-   - Describe current vs expected behavior
-   - Share error messages
-   - List steps to reproduce
-   - Reference relevant files/components
+**Ready to take your career to the next level?**
 
-## Contributing
-1. Follow the [Development Guide](docs/DEVELOPMENT.md)
-2. Create feature branches from main
-3. Update documentation
-4. Add tests for new features
-5. Submit pull requests with clear descriptions
+[Get Started with Pathly Today →](https://pathly.com)
 
-## Analytics
-We use custom analytics to track user interactions and improve the platform. Key events:
-- Career quiz completions
-- Major selections
-- Service tier selections
-- Interview template usage
-- Feature engagement
+Made with ❤️ by the Pathly Team
 
-## License
-Copyright © 2024 Pathly. All rights reserved.
+</div>

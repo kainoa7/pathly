@@ -5,6 +5,7 @@ import TestimonialSection from './TestimonialSection';
 import HowItWorks from './HowItWorks';
 import SuccessCounter from './SuccessCounter';
 import EmailSignup from './EmailSignup';
+import CommunityStories from './CommunityStories';
 import { useEffect, useState } from 'react';
 import Analytics from '../utils/analytics';
 import PeopleIcon from '@mui/icons-material/People';
@@ -435,6 +436,9 @@ const LandingPage = () => {
 
       {/* Testimonials Section */}
       <TestimonialSection />
+
+      {/* Community Stories Section */}
+      <CommunityStories />
     </div>
   );
 };

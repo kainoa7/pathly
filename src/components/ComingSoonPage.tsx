@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 interface ComingSoonPageProps {
   title: string;
@@ -9,6 +11,33 @@ interface ComingSoonPageProps {
 
 const ComingSoonPage = ({ title, description, icon = '🚀' }: ComingSoonPageProps) => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setIsSubmitting(true);
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          to_email: 'pathly.help@gmail.com',
+          from_email: email,
+          subject: `Early Access Request - ${title}`,
+          message: `Early access request for: ${title}\nEmail: ${email}`
+        }
+      );
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error('Failed to submit:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0f172a] to-[#1e293b] flex items-center justify-center p-4">
@@ -53,20 +82,34 @@ const ComingSoonPage = ({ title, description, icon = '🚀' }: ComingSoonPagePro
         >
           <div className="bg-[#1a1f36] p-6 rounded-xl w-full max-w-md">
             <h3 className="text-[#EDEAB1] font-semibold mb-4">Get Early Access</h3>
-            <div className="flex gap-2">
+            <form onSubmit={handleSubmit} className="flex gap-2">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-2 rounded-lg bg-[#2d3a4f] text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#71ADBA]"
+                required
               />
               <motion.button
+                type="submit"
+                disabled={isSubmitting}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg text-white font-medium"
+                className={`px-6 py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg text-white font-medium ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                Notify Me
+                {isSubmitting ? 'Sending...' : isSubmitted ? 'Sent!' : 'Notify Me'}
               </motion.button>
-            </div>
+            </form>
+            {isSubmitted && (
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-4 text-[#71ADBA] text-sm"
+              >
+                Thanks! We'll keep you updated about early access.
+              </motion.p>
+            )}
           </div>
 
           <motion.button

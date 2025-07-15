@@ -1,38 +1,65 @@
 interface Testimonial {
-  id: number;
   name: string;
-  rating: number;
-  review: string;
-  role?: string;
+  role: string;
+  image?: string;
+  content: string;
+  tag: string;
+  icon: any;
+  stats: string;
+  companyLogo?: string;
+  journey?: string;
+  linkedInProfile?: string;
+  verifiedDate: string;
 }
 
 export const testimonials: Testimonial[] = [
   {
-    id: 1,
-    name: "Alex Chen",
-    rating: 5,
-    review: "Pathly helped me discover my passion for software engineering. Now I'm interning at Google!",
-    role: "CS Student @ Stanford"
+    name: "Alex Chen, 22",
+    role: "Software Engineer @ Google",
+    content: "I was working retail, dreaming of tech but thought I needed a CS degree. Pathly showed me it's possible! Their step-by-step roadmap and supportive community helped me land my dream job. From $15/hr to $150k+ in 18 months! 🚀",
+    tag: "Career Changer",
+    icon: "WorkIcon",
+    stats: "150k+ first job",
+    companyLogo: "/company-logos/google.svg",
+    journey: "Retail → Self-taught → Google",
+    linkedInProfile: "https://linkedin.com/in/alexchen",
+    verifiedDate: "Verified March 2024"
   },
   {
-    id: 2,
-    name: "Sarah Miller",
-    rating: 5,
-    review: "Switched from Biology to Data Science thanks to Pathly's guidance. Just landed my dream role at Meta.",
-    role: "Data Science Graduate"
+    name: "Sarah Martinez, 19",
+    role: "CS Major @ Stanford",
+    content: "Choosing a major was overwhelming! 😩 Pathly's career assessment and mentorship helped me discover my passion for CS. Now I'm thriving at Stanford and interning at Tesla. Forever grateful for this community! ⚡",
+    tag: "College Student",
+    icon: "SchoolIcon",
+    stats: "Dream internship secured",
+    companyLogo: "/company-logos/tesla.svg",
+    journey: "Undecided → CS Major → Tesla Intern",
+    linkedInProfile: "https://linkedin.com/in/sarahm",
+    verifiedDate: "Verified February 2024"
   },
   {
-    id: 3,
-    name: "James Wilson",
-    rating: 5,
-    review: "The career roadmap was spot on! Now I'm working as a Product Manager at Microsoft.",
-    role: "Product Manager"
+    name: "Mike Johnson, 20",
+    role: "Tech Startup Founder",
+    content: "Was lost about my future until I found Pathly. Their entrepreneurship track opened my eyes to startup opportunities. Now running my own tech company with seed funding! The community here is incredible 💡",
+    tag: "Entrepreneur",
+    icon: "TrendingUpIcon",
+    stats: "Raised $1M seed round",
+    journey: "Student → Pathly → Founder",
+    linkedInProfile: "https://linkedin.com/in/mikej",
+    verifiedDate: "Verified January 2024"
   },
   {
-    id: 4,
-    name: "Emily Rodriguez",
-    rating: 5,
-    review: "Pathly showed me how my love for creativity could lead to UX Design. Currently at Apple!",
-    role: "UX Designer"
+    name: "Priya Patel, 24",
+    role: "UX Designer @ Microsoft",
+    content: "As a psychology major, I thought tech was out of reach. Pathly's design track + portfolio guidance changed everything! Found my perfect intersection of psychology and tech in UX. You CAN switch careers! 🎨",
+    tag: "Career Switcher",
+    icon: "BrushIcon",
+    stats: "3x salary increase",
+    companyLogo: "/company-logos/microsoft.svg",
+    journey: "Psychology → UX Design → Microsoft",
+    linkedInProfile: "https://linkedin.com/in/priyap",
+    verifiedDate: "Verified March 2024"
   }
-]; 
+];
+
+export default testimonials; 
