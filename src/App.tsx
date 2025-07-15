@@ -17,12 +17,15 @@ import CareerRoadmap from './pages/services/CareerRoadmap';
 import DemoPage from './components/DemoPage';
 import BreakingIntoTechPage from './components/BreakingIntoTechPage';
 import DiscordWaitlistPage from './components/DiscordWaitlistPage';
+import ComingSoonFeaturePage from './components/ComingSoonFeaturePage';
 import Analytics from './utils/analytics';
 import './App.css';
 import InterviewTemplatesPage from './components/InterviewTemplatesPage';
 import WebsiteServicePage from './components/WebsiteServicePage';
 import CampusLifePage from './components/CampusLifePage';
 import InternshipPage from './components/InternshipPage';
+import FeedbackSection from './components/FeedbackSection';
+import FeedbackPage from './components/FeedbackPage';
 
 function App() {
   return (
@@ -37,6 +40,7 @@ function App() {
             <Route path="/onboarding" element={<OnboardingPage />} />
             <Route path="/breaking-into-tech" element={<BreakingIntoTechPage />} />
             <Route path="/demo" element={<DemoPage />} />
+            <Route path="/coming-soon-feature" element={<ComingSoonFeaturePage />} />
             <Route path="/quiz">
               <Route index element={<OnboardingPage />} />
               <Route path="highschool" element={<QuizPage quizType="highschool" />} />
@@ -53,6 +57,7 @@ function App() {
             <Route path="/announcements" element={<AnnouncementsPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/waitlist" element={<DiscordWaitlistPage />} />
+            <Route path="/feedback" element={<FeedbackPage />} />
             <Route path="/services/resume-builder" element={<ResumeBuilder />} />
             <Route path="/services/resume-review" element={<ResumeReview />} />
             <Route path="/services/career-roadmap" element={<CareerRoadmap />} />
@@ -64,6 +69,7 @@ function App() {
         </main>
         <FloatingCTA />
         <Footer />
+        <FeedbackSection />
       </div>
     </Router>
   );
