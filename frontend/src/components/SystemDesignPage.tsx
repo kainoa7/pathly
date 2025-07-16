@@ -18,66 +18,80 @@ const SystemDesignPage = () => {
     architecture: {
       title: "System Architecture",
       icon: ArchitectureIcon,
-      content: `Our system follows a microservices architecture pattern, with distinct services for user management, career guidance, and content delivery. This approach allows for:
+      content: `Pathly follows a clean separation between frontend and backend with a modern full-stack architecture:
 
-• Independent scaling of services based on demand
-• Improved fault isolation
-• Easier maintenance and updates
-• Better team autonomy and development velocity`
+• React frontend with TypeScript for type safety
+• Node.js + Express backend for API endpoints
+• Prisma ORM for database management and migrations
+• RESTful API design with proper error handling
+• Context-based state management for user sessions
+• Modular component architecture for maintainability`
     },
     database: {
       title: "Database Design",
       icon: StorageIcon,
-      content: `We utilize a hybrid database approach:
+      content: `Our database strategy focuses on user-centric design with scalable schema:
 
-• MongoDB for user profiles and career data
-• Redis for caching and real-time features
-• Elasticsearch for powerful career search capabilities
-• Regular backups and data redundancy`
+• SQLite for development with easy migration to PostgreSQL
+• Prisma ORM for type-safe database operations
+• Comprehensive user profiles with account types (Explorer, Pro, Premium)
+• Career quiz results and major recommendations storage
+• Skill demand tracking and career timeline data
+• AI impact analysis for future-proofing career advice
+• Automated migrations and schema version control`
     },
     security: {
       title: "Security Architecture",
       icon: SecurityIcon,
-      content: `Security is paramount in our design:
+      content: `Security is built into every layer of our application:
 
-• JWT-based authentication
-• Role-based access control (RBAC)
-• Data encryption at rest and in transit
-• Regular security audits and penetration testing
-• GDPR and CCPA compliance measures`
+• JWT-based authentication with secure token storage
+• bcrypt password hashing with salt rounds
+• Role-based access control (Explorer, Pro, Premium tiers)
+• Protected routes preventing unauthorized access
+• Input validation on both client and server sides
+• Secure environment variable management
+• HTTPS enforcement and secure headers`
     },
     performance: {
       title: "Performance Optimization",
       icon: SpeedIcon,
-      content: `We ensure optimal performance through:
+      content: `We prioritize fast, responsive user experiences:
 
-• CDN for static content delivery
-• Aggressive caching strategies
-• Load balancing across multiple regions
-• Database query optimization
-• Regular performance monitoring and optimization`
+• Vite for lightning-fast development and builds
+• React lazy loading and code splitting
+• Efficient state management with Context API
+• Local storage for persistent user preferences
+• Optimized database queries with Prisma
+• Framer Motion for smooth animations
+• Compressed assets and efficient bundling`
     },
     cloud: {
-      title: "Cloud Infrastructure",
+      title: "Development & Infrastructure",
       icon: CloudIcon,
-      content: `Our cloud-native infrastructure includes:
+      content: `Our development workflow emphasizes reliability and efficiency:
 
-• AWS for core infrastructure
-• Auto-scaling based on demand
-• Multi-region deployment
-• Disaster recovery procedures
-• Continuous monitoring and alerting`
+• Git-based version control with GitHub
+• Hot module replacement for instant development feedback
+• Prisma Studio for visual database management
+• Environment-based configuration management
+• Structured folder organization for scalability
+• Local development with production-ready architecture
+• Easy deployment with environment portability`
     },
     api: {
       title: "API Design",
       icon: ApiIcon,
-      content: `Our API architecture follows REST principles:
+      content: `Our API follows REST principles with modern best practices:
 
-• Versioned endpoints
-• Rate limiting
-• Comprehensive documentation
-• GraphQL for complex data queries
-• WebSocket for real-time features`
+• RESTful endpoints with clear resource naming
+• Comprehensive input validation and sanitization
+• Structured error responses with proper HTTP status codes
+• Authentication middleware for protected routes
+• User signup and authentication endpoints
+• Health check endpoints for monitoring
+• Type-safe request/response handling with TypeScript
+• Modular route organization for maintainability`
     }
   };
 
@@ -109,7 +123,7 @@ const SystemDesignPage = () => {
             System Design & Architecture
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Explore how we've built Pathly to be scalable, secure, and efficient
+            Discover how Pathly is engineered to be reliable, secure, and user-focused
           </p>
         </motion.div>
 

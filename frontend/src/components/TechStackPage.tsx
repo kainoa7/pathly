@@ -22,79 +22,83 @@ const TechStackPage = () => {
         { name: "TypeScript", description: "Static typing for enhanced code reliability" },
         { name: "Tailwind CSS", description: "Utility-first CSS with custom design system" },
         { name: "Framer Motion", description: "Advanced animations and micro-interactions" },
-        { name: "Material UI", description: "Component library with custom theme integration" },
-        { name: "Vite", description: "Next-gen build tool with HMR and optimized bundling" }
+        { name: "Material UI", description: "Component library with icons and theming" },
+        { name: "Vite", description: "Next-gen build tool with HMR and optimized bundling" },
+        { name: "React Router", description: "Client-side routing with protected routes" }
       ]
     },
     design: {
       title: "Design System",
       icon: DesignServicesIcon,
       technologies: [
-        { name: "Figma", description: "Collaborative design and prototyping platform" },
         { name: "Custom Components", description: "Reusable UI components with brand consistency" },
-        { name: "Design Tokens", description: "Standardized design variables for theming" },
-        { name: "Storybook", description: "Component documentation and visual testing" }
+        { name: "Gradient Themes", description: "Beautiful color schemes and design tokens" },
+        { name: "Responsive Design", description: "Mobile-first approach with Tailwind breakpoints" },
+        { name: "Interactive Elements", description: "Hover states, animations, and user feedback" }
       ]
     },
     backend: {
       title: "Backend Infrastructure",
       icon: StorageIcon,
       technologies: [
-        { name: "Node.js", description: "Event-driven runtime with Express.js framework" },
-        { name: "MongoDB Atlas", description: "Cloud-hosted NoSQL database with aggregation pipeline" },
-        { name: "Redis", description: "In-memory caching for session and real-time data" },
-        { name: "GraphQL", description: "Flexible API queries with Apollo Server" },
-        { name: "WebSocket", description: "Real-time communication for live features" }
+        { name: "Node.js", description: "JavaScript runtime with Express.js framework" },
+        { name: "Express.js", description: "Fast, minimalist web framework for Node.js" },
+        { name: "Prisma ORM", description: "Type-safe database client with migrations" },
+        { name: "SQLite", description: "Lightweight, file-based database for development" },
+        { name: "bcryptjs", description: "Password hashing and security" },
+        { name: "JWT", description: "JSON Web Tokens for authentication" }
       ]
     },
     cloud: {
-      title: "Cloud Infrastructure",
+      title: "Development & Deployment",
       icon: CloudIcon,
       technologies: [
-        { name: "AWS", description: "EC2, S3, CloudFront, and Route 53 integration" },
-        { name: "Docker", description: "Containerization with multi-stage builds" },
-        { name: "GitHub Actions", description: "CI/CD pipelines with automated testing" },
-        { name: "Vercel", description: "Edge network deployment with automatic scaling" }
+        { name: "Git & GitHub", description: "Version control and collaborative development" },
+        { name: "Local Development", description: "Hot reloading with Vite and Nodemon" },
+        { name: "Environment Config", description: "Secure environment variable management" },
+        { name: "Prisma Studio", description: "Database management and visualization" }
       ]
     },
     analytics: {
-      title: "Analytics & Monitoring",
+      title: "Analytics & Tracking",
       icon: AnalyticsIcon,
       technologies: [
-        { name: "Mixpanel", description: "User behavior tracking and funnel analysis" },
-        { name: "Sentry", description: "Error tracking and performance monitoring" },
-        { name: "LogRocket", description: "Session replay and debugging tools" },
-        { name: "Custom Analytics", description: "Internal metrics dashboard for insights" }
+        { name: "Mixpanel", description: "User behavior tracking and event analytics" },
+        { name: "Custom Events", description: "Career quiz completion and signup tracking" },
+        { name: "User Journey", description: "Funnel analysis and conversion optimization" },
+        { name: "Real-time Metrics", description: "Live user activity and engagement data" }
       ]
     },
     security: {
       title: "Security & Authentication",
       icon: SecurityIcon,
       technologies: [
-        { name: "JWT & OAuth", description: "Secure authentication with refresh tokens" },
-        { name: "bcrypt", description: "Password hashing with salt rounds" },
-        { name: "Helmet.js", description: "HTTP headers security with CSP" },
-        { name: "reCAPTCHA", description: "Bot protection and form security" }
+        { name: "JWT Authentication", description: "Secure token-based user sessions" },
+        { name: "bcrypt Hashing", description: "Strong password encryption with salt rounds" },
+        { name: "Input Validation", description: "Server-side validation and sanitization" },
+        { name: "Protected Routes", description: "Role-based access control (RBAC)" },
+        { name: "HTTPS Enforcement", description: "Secure data transmission" }
       ]
     },
     performance: {
-      title: "Performance Optimization",
+      title: "Performance & UX",
       icon: SpeedIcon,
       technologies: [
-        { name: "React Query", description: "Smart data fetching with caching" },
-        { name: "Code Splitting", description: "Dynamic imports and lazy loading" },
-        { name: "Image Optimization", description: "Next-gen formats and responsive loading" },
-        { name: "Service Workers", description: "Offline support and caching strategies" }
+        { name: "React Lazy Loading", description: "Dynamic imports and code splitting" },
+        { name: "Context API", description: "Efficient state management" },
+        { name: "Local Storage", description: "Persistent user preferences and session data" },
+        { name: "Optimized Assets", description: "Compressed images and efficient bundling" },
+        { name: "Fast Development", description: "Hot module replacement and instant updates" }
       ]
     },
     testing: {
-      title: "Testing & Quality",
+      title: "Code Quality & Testing",
       icon: IntegrationInstructionsIcon,
       technologies: [
-        { name: "Jest & RTL", description: "Unit and integration testing" },
-        { name: "Cypress", description: "E2E testing with custom commands" },
+        { name: "TypeScript", description: "Compile-time error checking and type safety" },
         { name: "ESLint", description: "Code quality and style enforcement" },
-        { name: "Husky", description: "Git hooks for pre-commit checks" }
+        { name: "Prisma Migrations", description: "Database schema version control" },
+        { name: "API Testing", description: "Manual endpoint testing and validation" }
       ]
     }
   };
@@ -127,7 +131,7 @@ const TechStackPage = () => {
             Our Technology Stack
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Built with modern, scalable technologies to deliver a seamless and secure experience
+            Built with modern, reliable technologies to deliver a seamless career guidance experience
           </p>
         </motion.div>
 

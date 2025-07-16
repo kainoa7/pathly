@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum AccountType {
+  EXPLORER
+  PRO
+  PREMIUM
+}
+
+model User {
+  id            String      @id @default(cuid())
+  email         String      @unique
+  password      String?
+  firstName     String
+  lastName      String
+  accountType   AccountType @default(EXPLORER)
+  githubId      String?     @unique
+  university    String?
+  graduationYear String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  
+  // Pro & Explorer Features
+  careerQuizResults     CareerQuizResult[]
+  majorRecommendations  MajorRecommendation[]
+  skillDemands          SkillDemand[]
+  careerTimeline        CareerTimeline?
+  
+  // Pro-specific Features
+  aiImpactAnalyses      AIImpactAnalysis[]    @relation("UserAIAnalyses")
+  notificationSettings  NotificationSettings?
+  salaryTrends         SalaryTrend[]
+  weeklyUpdates        WeeklyUpdate[]
+}
+
+model CareerQuizResult {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  results   String   // JSON string of quiz results
+  createdAt DateTime @default(now())
+}
+
+model MajorRecommendation {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  majorName   String
+  confidence  Float
+  reasoning   String
+  createdAt   DateTime @default(now())
+}
+
+model SkillDemand {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  skillName   String
+  demandScore Float
+  trending    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+}
+
+model CareerTimeline {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  timeline    String   // JSON string of career timeline
+  updatedAt   DateTime @updatedAt
+}
+
+// Pro-specific Models
+model AIImpactAnalysis {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation("UserAIAnalyses", fields: [userId], references: [id])
+  industry    String
+  impact      String   // JSON string of AI impact analysis
+  createdAt   DateTime @default(now())
+}
+
+model NotificationSettings {
+  id                String  @id @default(cuid())
+  userId           String  @unique
+  user             User    @relation(fields: [userId], references: [id])
+  emailEnabled     Boolean @default(true)
+  pushEnabled      Boolean @default(false)
+  preferences      String  // JSON string of notification preferences
+}
+
+model SalaryTrend {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  jobTitle    String
+  salaryData  String   // JSON string of salary trend data
+  updatedAt   DateTime @updatedAt
+}
+
+model WeeklyUpdate {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  content     String   // JSON string of weekly update content
+  createdAt   DateTime @default(now())
+  readAt      DateTime?
+}

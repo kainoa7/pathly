@@ -6,6 +6,7 @@ import WorkIcon from '@mui/icons-material/Work';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useEffect } from 'react';
 
 const OnboardingPage = () => {
@@ -40,6 +41,15 @@ const OnboardingPage = () => {
             title: "Major Switching Guide Coming Soon",
             description: "We're building a comprehensive guide to help you explore alternative paths that might be a better fit for your interests and goals.",
             icon: "🔄"
+          }
+        });
+        break;
+      case 'other':
+        // Navigate to feedback page or open contact form
+        navigate('/feedback', {
+          state: {
+            from: 'onboarding',
+            message: 'We\'d love to hear about your specific situation so we can better serve students like you!'
           }
         });
         break;
@@ -251,6 +261,25 @@ const OnboardingPage = () => {
               </motion.div>
             );
           })}
+        </motion.div>
+
+        {/* Don't see your option section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="mt-12 text-center"
+        >
+          <div className="inline-flex items-center gap-2 text-[#71ADBA] hover:text-[#EDEAB1] transition-colors duration-300 cursor-pointer group"
+               onClick={() => handleSelection('other')}>
+            <HelpOutlineIcon className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+            <span className="text-lg font-medium underline decoration-[#71ADBA]/30 hover:decoration-[#EDEAB1]/60 transition-all duration-300">
+              Don't see your option? Let us know!
+            </span>
+          </div>
+          <p className="mt-2 text-sm text-[#71ADBA]/70">
+            We're constantly improving our platform based on student feedback
+          </p>
         </motion.div>
       </div>
     </div>

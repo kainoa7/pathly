@@ -44,8 +44,8 @@ const CampusLifePage = () => {
 
   return (
     <div className="min-h-screen bg-light-background dark:bg-dark-background">
-      {/* Hero Section */}
-      <motion.div 
+        {/* Hero Section */}
+        <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="relative h-[400px] flex items-center justify-center overflow-hidden bg-gradient-to-r from-[#A1DDE6]/10 to-[#FDF6E3]/20 dark:from-[#A1DDE6]/5 dark:to-[#FDF6E3]/10"
@@ -83,14 +83,14 @@ const CampusLifePage = () => {
           >
             Get a glimpse of what it's really like at your future school.
           </motion.p>
-        </div>
-      </motion.div>
+            </div>
+          </motion.div>
 
       {/* Preview Cards */}
       <div className="max-w-6xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Local Spots Card */}
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -105,13 +105,13 @@ const CampusLifePage = () => {
                     <h4 className="font-medium text-light-text dark:text-dark-text">{location.name}</h4>
                     <p className="text-sm text-light-textSoft dark:text-dark-textSoft">{location.description}</p>
                   </div>
-                </div>
+              </div>
               ))}
             </div>
           </motion.div>
 
           {/* Vibe Check Card */}
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
@@ -131,13 +131,13 @@ const CampusLifePage = () => {
                       style={{ width: `${metric.value}%` }}
                     />
                   </div>
-                </div>
+              </div>
               ))}
             </div>
           </motion.div>
 
           {/* Clubs Card */}
-          <motion.div 
+          <motion.div
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -193,7 +193,7 @@ const CampusLifePage = () => {
               <div className="h-20 bg-light-border dark:bg-dark-border rounded animate-pulse" />
             </div>
           </div>
-        </div>
+              </div>
 
         {/* Overlay Card */}
         <div className="absolute inset-0 flex items-center justify-center bg-light-background/50 dark:bg-dark-background/50 backdrop-blur-sm">

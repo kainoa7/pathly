@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 interface PricingTier {
   name: string;
@@ -11,6 +12,7 @@ interface PricingTier {
   buttonText: string;
   buttonVariant: 'outline' | 'primary';
   highlight?: boolean;
+  buttonLink?: string;
 }
 
 interface FAQItem {
@@ -90,6 +92,7 @@ const FAQSection: React.FC = () => {
 };
 
 const PricingPage = () => {
+  const navigate = useNavigate();
   // Simulate analytics for FOMO
   const [viewers, setViewers] = useState<number>(23);
   const [spotsLeft, setSpotsLeft] = useState<number>(28);
@@ -116,7 +119,8 @@ const PricingPage = () => {
         'Limited AI Job Impact Reports'
       ],
       buttonText: 'Get Started',
-      buttonVariant: 'outline'
+      buttonVariant: 'outline',
+      buttonLink: '/signup/explorer'
     },
     {
       name: 'Pro',
@@ -136,7 +140,8 @@ const PricingPage = () => {
       ],
       buttonText: 'Join Free Now',
       buttonVariant: 'primary',
-      highlight: true
+      highlight: true,
+      buttonLink: '/signup/pro'
     },
     {
       name: 'Premium',
@@ -241,7 +246,10 @@ const PricingPage = () => {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-lg border-2 border-dark-primary text-dark-primary hover:bg-dark-primary hover:text-white transition-all duration-300">
+              <button
+                onClick={() => navigate(pricingTiers[0].buttonLink || '#')}
+                className="w-full py-3 rounded-lg border-2 border-dark-primary text-dark-primary hover:bg-dark-primary hover:text-white transition-all duration-300"
+              >
                 Get Started
               </button>
             </div>
@@ -270,7 +278,10 @@ const PricingPage = () => {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold hover:opacity-90 transition-all duration-300 shadow-lg">
+              <button
+                onClick={() => navigate(pricingTiers[1].buttonLink || '#')}
+                className="w-full py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold hover:opacity-90 transition-all duration-300 shadow-lg"
+              >
                 Join Free Now
               </button>
             </div>

@@ -43,7 +43,7 @@ const ActiveUsersBanner = ({ className = "" }: ActiveUsersBannerProps) => {
       }}
       transition={{ duration: 0.3 }}
     >
-      <motion.div 
+      <motion.div
         className="bg-[#1a2234]/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#71ADBA]/20 shadow-lg"
         whileHover={{ scale: 1.02 }}
       >

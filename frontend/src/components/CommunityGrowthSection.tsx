@@ -150,18 +150,18 @@ const CommunityGrowthSection = () => {
                 delay={index * 0.2}
               />
             ))}
-          </div>
+        </div>
 
-          <motion.button
+        <motion.button
             onClick={() => navigate('/pricing')}
-            initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.8 }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="mt-12 px-8 py-4 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
-          >
+        >
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
               initial={{ x: '-100%' }}
@@ -169,7 +169,7 @@ const CommunityGrowthSection = () => {
               transition={{ duration: 0.6 }}
             />
             <span className="relative">Join Our Community</span>
-          </motion.button>
+        </motion.button>
 
           <p className="text-gray-400 text-sm mt-4">
             Limited spots available - secure your spot now! 🔥

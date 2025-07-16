@@ -118,73 +118,73 @@ const InternshipAlerts: React.FC<InternshipAlertsProps> = ({ onSubmit }) => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-white font-medium mb-2">
-              Your Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-[#71ADBA] focus:ring-2 focus:ring-[#71ADBA]/50 outline-none transition-colors"
-              placeholder="you@example.com"
-            />
-          </div>
+        <form onSubmit={handleSubmit} className="space-y-8">
+          <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-white font-medium mb-2">
+                Your Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:border-[#71ADBA] focus:ring-2 focus:ring-[#71ADBA]/50 outline-none transition-colors"
+                placeholder="you@example.com"
+              />
+            </div>
 
-          <div>
-            <label className="block text-white font-medium mb-4">
-              Select Internship Categories
-              <span className="text-gray-400 text-sm ml-2">(Choose as many as you like)</span>
-            </label>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {internshipCategories.map((category) => (
-                <div
-                  key={category.id}
-                  onClick={() => handleCategoryToggle(category.id)}
-                  className={`relative cursor-pointer rounded-lg p-4 transition-all ${
-                    selectedCategories.includes(category.id)
+            <div>
+              <label className="block text-white font-medium mb-4">
+                Select Internship Categories
+                <span className="text-gray-400 text-sm ml-2">(Choose as many as you like)</span>
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {internshipCategories.map((category) => (
+                  <div
+                    key={category.id}
+                    onClick={() => handleCategoryToggle(category.id)}
+                    className={`relative cursor-pointer rounded-lg p-4 transition-all ${
+                      selectedCategories.includes(category.id)
                       ? 'bg-gradient-to-r from-[#71ADBA]/30 to-[#9C71BA]/30 border border-[#71ADBA]'
-                      : 'bg-gray-700/50 hover:bg-gray-700'
-                  }`}
-                >
-                  <div className="flex items-start space-x-3">
-                    <div className="text-2xl">{category.icon}</div>
-                    <div>
-                      <div className="flex items-center">
-                        <h3 className="font-medium text-white">{category.name}</h3>
-                        {category.popular && (
-                          <span className="ml-2 px-2 py-1 text-xs bg-[#71ADBA]/30 text-[#71ADBA] rounded-full">
-                            Popular
-                          </span>
-                        )}
+                        : 'bg-gray-700/50 hover:bg-gray-700'
+                    }`}
+                  >
+                    <div className="flex items-start space-x-3">
+                      <div className="text-2xl">{category.icon}</div>
+                      <div>
+                        <div className="flex items-center">
+                          <h3 className="font-medium text-white">{category.name}</h3>
+                          {category.popular && (
+                            <span className="ml-2 px-2 py-1 text-xs bg-[#71ADBA]/30 text-[#71ADBA] rounded-full">
+                              Popular
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-sm text-gray-400 mt-1">{category.description}</p>
                       </div>
-                      <p className="text-sm text-gray-400 mt-1">{category.description}</p>
                     </div>
+                    <input
+                      type="checkbox"
+                      checked={selectedCategories.includes(category.id)}
+                      onChange={() => {}}
+                      className="absolute top-4 right-4 h-5 w-5 accent-[#71ADBA]"
+                    />
                   </div>
-                  <input
-                    type="checkbox"
-                    checked={selectedCategories.includes(category.id)}
-                    onChange={() => {}}
-                    className="absolute top-4 right-4 h-5 w-5 accent-[#71ADBA]"
-                  />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="text-center">
-          <button
-            type="submit"
+          <div className="text-center">
+            <button
+              type="submit"
             className="px-8 py-3 rounded-full text-white font-medium transition-all transform hover:scale-105 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] hover:opacity-90"
-          >
-            Sign Up for Alerts
-          </button>
-        </div>
-      </form>
+            >
+              Sign Up for Alerts
+            </button>
+          </div>
+        </form>
 
       <div className="mt-8 text-center">
         <p className="text-sm text-gray-400">

@@ -16,6 +16,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LoginIcon from '@mui/icons-material/Login';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +27,7 @@ const Header = () => {
   const [shouldShowHeader, setShouldShowHeader] = useState(true);
   const [isSignUpHovered, setIsSignUpHovered] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const { isAuthenticated, user, logout } = useAuth();
   
   const { scrollY } = useScroll();
   const backgroundColor = useTransform(
@@ -48,7 +50,7 @@ const Header = () => {
     [0, 100],
     [0.85, 1]
   );
-
+  
   // Add refs for dropdown containers
   const servicesRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -100,8 +102,37 @@ const Header = () => {
     };
   }, []);
 
-  // TODO: Replace with actual auth state
-  const [isAuthenticated] = useState(false);
+  // Get user initials for profile display
+  const getUserInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
+
+  // Get account type styling
+  const getAccountTypeStyle = (accountType: string) => {
+    switch (accountType) {
+      case 'PRO':
+        return {
+          ring: 'ring-4 ring-gradient-to-r from-[#71ADBA] to-[#9C71BA] ring-opacity-75',
+          bg: 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA]',
+          glow: 'shadow-lg shadow-[#71ADBA]/30',
+          badge: '✨ PRO'
+        };
+      case 'PREMIUM':
+        return {
+          ring: 'ring-4 ring-yellow-400 ring-opacity-75',
+          bg: 'bg-gradient-to-r from-yellow-400 to-orange-500',
+          glow: 'shadow-lg shadow-yellow-400/30',
+          badge: '👑 PREMIUM'
+        };
+      default: // EXPLORER
+        return {
+          ring: 'ring-4 ring-gray-400 ring-opacity-50',
+          bg: 'bg-gradient-to-r from-gray-400 to-gray-600',
+          glow: 'shadow-lg shadow-gray-400/20',
+          badge: '🔍 EXPLORER'
+        };
+    }
+  };
 
   const services = [
     {
@@ -175,7 +206,7 @@ const Header = () => {
                 />
               </div>
               <motion.span 
-                className="ml-2 text-xl font-bold text-light-text dark:text-dark-text font-outfit tracking-tight"
+                className="ml-2 text-xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent font-outfit tracking-tight drop-shadow-sm"
                 whileHover={{ scale: 1.02 }}
               >
                 Pathly
@@ -257,14 +288,25 @@ const Header = () => {
             style={{ opacity: textOpacity }}
           >
             {/* Account Section */}
-            {isAuthenticated ? (
+            {isAuthenticated && user ? (
               <div className="relative" ref={profileRef}>
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center space-x-2 nav-link"
+                  className="flex items-center space-x-3 nav-link group"
                 >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] flex items-center justify-center text-white">
-                    <PersonIcon className="w-5 h-5" />
+                  <div className="relative">
+                    <div className={`w-10 h-10 rounded-full ${getAccountTypeStyle(user.accountType).bg} ${getAccountTypeStyle(user.accountType).glow} flex items-center justify-center text-white font-semibold text-sm transition-all duration-300 group-hover:scale-105`}>
+                      {getUserInitials(user.firstName, user.lastName)}
+                    </div>
+                    <div className={`absolute -inset-1 rounded-full ${getAccountTypeStyle(user.accountType).ring} animate-pulse`}></div>
+                  </div>
+                  <div className="hidden lg:block text-left">
+                    <div className="text-sm font-medium text-light-text dark:text-dark-text">
+                      {user.firstName} {user.lastName}
+                    </div>
+                    <div className="text-xs text-light-textSoft dark:text-dark-textSoft">
+                      {getAccountTypeStyle(user.accountType).badge}
+                    </div>
                   </div>
                   <KeyboardArrowDownIcon className={`transform transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
                 </button>
@@ -277,13 +319,24 @@ const Header = () => {
                       className="absolute top-full right-0 w-64 mt-2 bg-light-background dark:bg-dark-backgroundSecondary rounded-lg shadow-lg border border-light-border dark:border-dark-border"
                     >
                       <div className="p-2">
+                        <div className="px-3 py-2 border-b border-light-border dark:border-dark-border">
+                          <div className="font-medium text-light-text dark:text-dark-text">
+                            {user.firstName} {user.lastName}
+                          </div>
+                          <div className="text-sm text-light-textSoft dark:text-dark-textSoft">
+                            {user.email}
+                          </div>
+                          <div className="text-xs mt-1 px-2 py-1 rounded-full bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 text-[#71ADBA] dark:text-[#71ADBA] inline-block">
+                            {getAccountTypeStyle(user.accountType).badge}
+                          </div>
+                        </div>
                         <Link
-                          to="/profile"
+                          to="/dashboard"
                           className="flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
                           onClick={() => setIsProfileOpen(false)}
                         >
                           <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                          <span className="ml-3 text-light-text dark:text-dark-text">Profile</span>
+                          <span className="ml-3 text-light-text dark:text-dark-text">Dashboard</span>
                         </Link>
                         <button
                           onClick={() => {
@@ -304,8 +357,9 @@ const Header = () => {
                         <div className="border-t border-light-border dark:border-dark-border my-1"></div>
                         <button
                           onClick={() => {
-                            // TODO: Implement logout
+                            logout();
                             setIsProfileOpen(false);
+                            window.location.href = '/';
                           }}
                           className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg text-red-500"
                         >
@@ -327,13 +381,13 @@ const Header = () => {
                   Login
                 </Link>
                 <div className="relative">
-                  <Link
-                                          to="/pricing"
+                <Link
+                  to="/pricing"
                     onMouseEnter={() => setIsSignUpHovered(true)}
                     onMouseLeave={() => setIsSignUpHovered(false)}
                     className="relative px-5 py-2 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-medium hover:opacity-95 transition-all duration-300"
-                  >
-                    <span className="relative z-10">Sign Up</span>
+                >
+                  <span className="relative z-10">Sign Up</span>
                     <AnimatePresence>
                       {isSignUpHovered && (
                         <motion.div
@@ -346,8 +400,8 @@ const Header = () => {
                         </motion.div>
                       )}
                     </AnimatePresence>
-                  </Link>
-                </div>
+                </Link>
+              </div>
               </>
             )}
           </motion.div>
@@ -374,7 +428,39 @@ const Header = () => {
             className="md:hidden bg-light-background dark:bg-dark-background border-t border-light-border dark:border-dark-border"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {!isAuthenticated && (
+              {isAuthenticated && user ? (
+                <>
+                  <div className="px-3 py-4 bg-light-border/20 dark:bg-dark-border/20 rounded-lg mb-2">
+                    <div className="flex items-center space-x-3">
+                      <div className="relative">
+                        <div className={`w-12 h-12 rounded-full ${getAccountTypeStyle(user.accountType).bg} ${getAccountTypeStyle(user.accountType).glow} flex items-center justify-center text-white font-semibold`}>
+                          {getUserInitials(user.firstName, user.lastName)}
+                        </div>
+                        <div className={`absolute -inset-1 rounded-full ${getAccountTypeStyle(user.accountType).ring} animate-pulse`}></div>
+                      </div>
+                      <div>
+                        <div className="font-medium text-light-text dark:text-dark-text">
+                          {user.firstName} {user.lastName}
+                        </div>
+                        <div className="text-sm text-light-textSoft dark:text-dark-textSoft">
+                          {user.email}
+                        </div>
+                        <div className="text-xs mt-1 px-2 py-1 rounded-full bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 text-[#71ADBA] inline-block">
+                          {getAccountTypeStyle(user.accountType).badge}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <Link
+                    to="/dashboard"
+                    className="mobile-nav-link w-full flex items-center justify-center bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Go to Dashboard
+                  </Link>
+                  <div className="border-t border-light-border dark:border-dark-border my-2"></div>
+                </>
+              ) : (
                 <>
                   <Link
                     to="/login"
@@ -412,27 +498,20 @@ const Header = () => {
                 </Link>
               ))}
               <div className="border-t border-light-border dark:border-dark-border my-2"></div>
-              {isAuthenticated ? (
-                <>
-                  <Link to="/profile" className="mobile-nav-link">
-                    <div className="flex items-center">
-                      <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                      <span className="ml-3">Profile</span>
-                    </div>
-                  </Link>
-                  <button
-                    onClick={() => {
-                      // TODO: Implement logout
-                      setIsOpen(false);
-                    }}
-                    className="mobile-nav-link w-full text-left text-red-500"
-                  >
-                    <div className="flex items-center">
-                      <LoginIcon className="w-5 h-5" />
-                      <span className="ml-3">Sign Out</span>
-                    </div>
-                  </button>
-                </>
+              {isAuthenticated && user ? (
+                <button
+                  onClick={() => {
+                    logout();
+                    setIsOpen(false);
+                    window.location.href = '/';
+                  }}
+                  className="mobile-nav-link w-full text-left text-red-500"
+                >
+                  <div className="flex items-center">
+                    <LoginIcon className="w-5 h-5" />
+                    <span className="ml-3">Sign Out</span>
+                  </div>
+                </button>
               ) : null}
               <button
                 onClick={() => {

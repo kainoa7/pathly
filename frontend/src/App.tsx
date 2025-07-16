@@ -10,6 +10,12 @@ import ComingSoonPage from './components/ComingSoonPage';
 import AnnouncementsPage from './components/AnnouncementsPage';
 import PricingPage from './components/PricingPage';
 import LoginPage from './components/LoginPage';
+import SignupExplorer from './components/SignupExplorer';
+import SignupPro from './components/SignupPro';
+import ExplorerDashboard from './components/ExplorerDashboard';
+import ProDashboard from './components/ProDashboard';
+import Dashboard from './components/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 import FloatingCTA from './components/FloatingCTA';
 import ScrollToTop from './components/ScrollToTop';
 import ResumeBuilder from './pages/services/ResumeBuilder';
@@ -53,6 +59,19 @@ function AppLayout() {
           <Route path="/campus-life" element={<CampusLifePage />} />
           <Route path="/internships" element={<InternshipPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup/explorer" element={<SignupExplorer />} />
+          <Route path="/signup/pro" element={<SignupPro />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/explorer-dashboard" element={
+            <ProtectedRoute requiredAccountType="EXPLORER">
+              <ExplorerDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/pro-dashboard" element={
+            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+              <ProDashboard />
+            </ProtectedRoute>
+          } />
           <Route path="/coming-soon" element={
             <ComingSoonPage 
               title="Feature Coming Soon"
@@ -82,12 +101,12 @@ function AppLayout() {
 function App() {
   return (
     <AuthProvider>
-      <ThemeProvider>
-        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-          <ScrollToTop />
-          <AppLayout />
-        </Router>
-      </ThemeProvider>
+    <ThemeProvider>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <ScrollToTop />
+        <AppLayout />
+      </Router>
+    </ThemeProvider>
     </AuthProvider>
   );
 }
