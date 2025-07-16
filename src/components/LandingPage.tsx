@@ -273,10 +273,10 @@ const WaitlistSection = () => {
             <motion.form
               onSubmit={handleSubmit}
               className="space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
             >
               <div className="relative group">
                 <input
@@ -321,12 +321,12 @@ const WaitlistSection = () => {
 
               <div className="flex flex-col items-center space-y-3 text-sm">
                 <div className="flex items-center justify-center space-x-2 text-gray-400">
-                  <LockIcon className="w-4 h-4" />
+                <LockIcon className="w-4 h-4" />
                   <span>Join the community that helped 1,000+ students land their dream roles</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RemainingSpots />
-                </div>
+              </div>
               </div>
             </motion.form>
           ) : (
@@ -351,31 +351,31 @@ const WaitlistSection = () => {
                 <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">
                   🎉 You're in!
                 </h3>
-                <p className="text-gray-300">
+              <p className="text-gray-300">
                   We'll let you know the moment your free pro access is ready. 
                   Get ready to unlock your potential!
-                </p>
-                <div className="flex justify-center space-x-6 mt-6">
-                  <motion.a
+              </p>
+              <div className="flex justify-center space-x-6 mt-6">
+                <motion.a
                     href="https://twitter.com/pathly"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  target="_blank"
+                  rel="noopener noreferrer"
                     className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                  >
+                  whileHover={{ scale: 1.1 }}
+                >
                     <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
-                  </motion.a>
-                  <motion.a
+                </motion.a>
+                <motion.a
                     href="https://instagram.com/pathly"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  target="_blank"
+                  rel="noopener noreferrer"
                     className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
-                    whileHover={{ scale: 1.1 }}
-                  >
+                  whileHover={{ scale: 1.1 }}
+                >
                     <InstagramIcon className="w-6 h-6" />
-                  </motion.a>
+                </motion.a>
                 </div>
               </div>
             </motion.div>
@@ -392,31 +392,31 @@ const ScrollIndicator = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
-    <motion.div
+  <motion.div
       ref={ref}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ delay: 2, duration: 1 }}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ delay: 2, duration: 1 }}
       style={{ opacity }}
       className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-50 bg-[#1a2234]/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#71ADBA]/20 hidden md:flex" // Hide on mobile, show on medium screens and up
-      onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+    onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+  >
+    <span className="text-gray-400 text-sm">Scroll to explore</span>
+    <motion.div
+      animate={{
+        y: [0, 10, 0],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      className="w-6 h-6 text-[#EDEAB1]"
     >
-      <span className="text-gray-400 text-sm">Scroll to explore</span>
-      <motion.div
-        animate={{
-          y: [0, 10, 0],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="w-6 h-6 text-[#EDEAB1]"
-      >
-        ↓
-      </motion.div>
+      ↓
     </motion.div>
-  );
+  </motion.div>
+);
 };
 
 const GrowingText = () => {
@@ -748,115 +748,31 @@ const LandingPage = () => {
       {/* Active Users Banner */}
       <ActiveUsersBanner className="hidden md:block" />
 
-      {/* Main Content */}
       <main className="relative z-10">
         {/* Hero Section - Full Screen */}
-        <div className="min-h-screen relative flex flex-col justify-center items-center pt-24"> {/* Added pt-24 for top padding */}
-          {/* Main Hero Content */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-            <div className="text-center relative max-w-4xl mx-auto">
-              {/* Floating Background Elements */}
-              <div className="absolute inset-0 overflow-visible pointer-events-none">
-                {floatingElements.map((element, index) => (
-                  <motion.div
-                    key={`${element.text}-${index}`}
-                    initial={{ opacity: 0, x: element.position.x, y: element.position.y }}
-                    animate={{ 
-                      opacity: [0, 1, 1, 0],
-                      x: [
-                        element.position.x, 
-                        element.position.x + (index % 2 ? 40 : -40), 
-                        element.position.x - (index % 2 ? -40 : 40), 
-                        element.position.x
-                      ],
-                      y: [
-                        element.position.y, 
-                        element.position.y - 80, 
-                        element.position.y - 120, 
-                        element.position.y - 160
-                      ],
-                    }}
-                    transition={{ 
-                      duration: 25,
-                      times: [0, 0.1, 0.9, 1], // Spend more time fully visible
-                      repeat: Infinity,
-                      delay: index * 10, // Increase delay between elements
-                      ease: "easeInOut"
-                    }}
-                    className="absolute backdrop-blur-sm px-6 py-3 rounded-2xl border shadow-lg bg-[#1a2234]/80 border-[#71ADBA]/20"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="text-[#EDEAB1]">
-                        {element.icon}
-                      </span>
-                      <span className="text-gray-300 text-sm whitespace-nowrap">
-                        {element.text}
-                      </span>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* AI Banner */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="mb-16 relative z-10 mt-16" // Added mt-16 for top margin
-              >
-                <span className="inline-flex items-center gap-2 bg-[#1a2234]/80 backdrop-blur-sm px-6 py-3 rounded-2xl border border-[#71ADBA]/20 shadow-lg">
-                  <AutoGraphIcon className="w-5 h-5 text-[#EDEAB1]" />
-                  <span className="text-gray-300">AI-powered career guidance that actually works</span>
-                </span>
-              </motion.div>
-
-              {/* Main Content */}
-              <div className="relative z-20">
-                <AnimatedTagline />
-
-                <motion.div 
-                  className="text-xl md:text-2xl text-gray-300 mb-12"
-                >
-                  <TypewriterText texts={painPoints} />
-                </motion.div>
-
-                <motion.div
-                  className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <button
-                    onClick={() => navigate('/onboarding')}
-                    className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-all shadow-lg flex items-center gap-2 w-full sm:w-auto justify-center"
-                  >
-                    <span>Find Your Path</span>
-                    <span className="text-2xl">→</span>
-                  </button>
-                  <button
-                    onClick={() => navigate('/platform-guide')}
-                    className="px-8 py-4 rounded-2xl bg-[#1a2234]/80 backdrop-blur-sm border border-[#71ADBA]/20 text-white font-semibold hover:bg-[#1a2234] transition-all shadow-lg w-full sm:w-auto"
-                  >
-                    See How it Works
-                  </button>
-                </motion.div>
-
-                {/* Scroll Indicator */}
-                <motion.div 
-                  className="mt-32 flex flex-col items-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                >
-                  <ScrollIndicator />
-                </motion.div>
-              </div>
+        <div className="min-h-screen relative flex flex-col justify-center items-center pt-24">
+          {/* Trending/Sidebar and background elements remain */}
+          {/* Main Hero Content - SIMPLIFIED */}
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center flex flex-col items-center justify-center" style={{ minHeight: '60vh' }}>
+            <h1 className="text-4xl md:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] flex items-center justify-center gap-3">
+              <span role='img' aria-label='money'>💸</span>
+              Save Time. Save Money. Find Your Path.
+            </h1>
+            <p className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-10">
+              Avoid wrong turns. Get hired faster—with personalized AI career guidance.
+            </p>
+            <button
+              onClick={() => navigate('/pricing')}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-2"
+            >
+              <span role='img' aria-label='rocket' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>👉</span>
+              Join 3,000+ Students — Get Started Free
+            </button>
+            <div className="mt-2 text-base text-[#EDEAB1] opacity-80 font-medium">
+              100% free — no credit card needed
             </div>
           </div>
-
-          {/* Scroll Indicator */}
-          {/* <ScrollIndicator /> */}
         </div>
-
         {/* Content Sections */}
         <div className="relative z-10">
           {/* How It Works Section */}
@@ -869,7 +785,6 @@ const LandingPage = () => {
           >
             <HowItWorks />
           </motion.div>
-
           {/* Company Logos Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -881,7 +796,6 @@ const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
             <CompanyLogos />
           </motion.div>
-
           {/* Testimonials Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -893,7 +807,6 @@ const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
             <InteractiveTestimonial />
           </motion.div>
-
           {/* Community Stories Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -905,7 +818,6 @@ const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
             <CommunityStories />
           </motion.div>
-
           {/* Community Growth Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -916,7 +828,6 @@ const LandingPage = () => {
           >
             <CommunityGrowthSection />
           </motion.div>
-
           {/* Waitlist Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
