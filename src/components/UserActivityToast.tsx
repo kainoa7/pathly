@@ -1,165 +1,115 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-
-// Realistic university names
-const universities = [
-  'UC Berkeley', 'Stanford', 'MIT', 'Georgia Tech', 'UCLA', 'NYU',
-  'University of Michigan', 'UT Austin', 'University of Washington', 'Purdue',
-  'Carnegie Mellon', 'USC', 'UIUC', 'UPenn', 'Columbia'
-];
-
-// Realistic locations
-const locations = [
-  'San Francisco', 'New York', 'Seattle', 'Austin', 'Boston', 'Los Angeles',
-  'Chicago', 'Denver', 'Portland', 'Atlanta', 'Miami', 'Toronto', 'Vancouver',
-  'London', 'Berlin', 'Singapore'
-];
-
-// Career paths and activities
-const activities = [
-  {
-    type: 'join',
-    templates: [
-      'name from location started their career journey 🎉',
-      'name from university joined Pathly 🚀',
-      'name is exploring tech careers 💫',
-      'name started building their roadmap 🗺️'
-    ]
-  },
-  {
-    type: 'quiz',
-    templates: [
-      'name discovered their perfect tech role 🎯',
-      'name completed the career quiz 🌟',
-      'name found their ideal career match ✨',
-      'name is exploring name as a career path 🔍'
-    ]
-  },
-  {
-    type: 'learning',
-    templates: [
-      'name started the beginner coding track 💻',
-      'name began interview prep journey 📚',
-      'name unlocked the resume builder 📝',
-      'name started the career transition guide 🎓',
-      'name exploring resources for university students 🎨'
-    ]
-  },
-  {
-    type: 'milestone',
-    templates: [
-      'name got their first technical interview! 🎊',
-      'name scheduled a mock interview 🤝',
-      'name completed their career roadmap 🎯',
-      'name started networking in tech 🌐',
-      'name joined the mentorship program 🌱'
-    ]
-  }
-];
-
-// Career paths to randomly insert into messages
-const careerPaths = [
-  'Software Development',
-  'Product Management',
-  'Data Analytics',
-  'UX Design',
-  'Cloud Engineering',
-  'Cybersecurity',
-  'Web Development',
-  'Mobile Development',
-  'DevOps',
-  'Technical Writing'
-];
-
-// Top tech companies
-const companies = [
-  'Google', 'Microsoft', 'Apple', 'Amazon', 'Meta',
-  'Netflix', 'Uber', 'Airbnb', 'Stripe', 'Snowflake',
-  'LinkedIn', 'Twitter', 'Salesforce', 'Adobe', 'Spotify'
-];
-
-// Common names from diverse backgrounds
-const names = [
-  'Alex', 'Maya', 'Raj', 'Sofia', 'Chen', 'Jordan', 'Aisha', 'Carlos',
-  'Emma', 'James', 'Priya', 'Lucas', 'Nina', 'Omar', 'Sarah', 'David',
-  'Zara', 'Miguel', 'Lily', 'Wei', 'Hassan', 'Isabella', 'Jamal', 'Anna',
-  'Yuki', 'Andre', 'Fatima', 'Diego', 'Ava', 'Kai'
-];
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { faUser, faGraduationCap, faBriefcase, faLightbulb } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface Toast {
-  id: string;
+  id: number;
   message: string;
+  icon: JSX.Element;
 }
 
-const generateToastMessage = () => {
-  const name = names[Math.floor(Math.random() * names.length)];
-  const location = locations[Math.floor(Math.random() * locations.length)];
-  const university = universities[Math.floor(Math.random() * universities.length)];
-  const careerPath = careerPaths[Math.floor(Math.random() * careerPaths.length)];
-  
-  // Pick a random activity type
-  const activityType = activities[Math.floor(Math.random() * activities.length)];
-  let template = activityType.templates[Math.floor(Math.random() * activityType.templates.length)];
-  
-  // Replace placeholders with actual values
-  template = template
-    .replace('name', name)
-    .replace('location', location)
-    .replace('university', university)
-    .replace(/\bname\b(?!.*\bname\b)/, careerPath); // Replace last instance of 'name' with career path
-    
-  return template;
+const messages = [
+  { text: "Alex switched majors and landed a 150k offer", icon: <FontAwesomeIcon icon={faGraduationCap} /> },
+  { text: "Sarah found her dream internship", icon: <FontAwesomeIcon icon={faBriefcase} /> },
+  { text: "Mike discovered his career path", icon: <FontAwesomeIcon icon={faLightbulb} /> },
+  { text: "Emma matched with a mentor", icon: <FontAwesomeIcon icon={faUser} /> },
+  { text: "James improved his resume score", icon: <FontAwesomeIcon icon={faBriefcase} /> },
+  { text: "Lisa got interview-ready", icon: <FontAwesomeIcon icon={faLightbulb} /> },
+  { text: "Maya got into her dream company today!", icon: <FontAwesomeIcon icon={faBriefcase} /> },
+  { text: "Anna found her perfect major", icon: <FontAwesomeIcon icon={faGraduationCap} /> },
+  { text: "Tom secured a tech interview", icon: <FontAwesomeIcon icon={faBriefcase} /> },
+  { text: "Rachel got career clarity", icon: <FontAwesomeIcon icon={faLightbulb} /> }
+];
+
+const generateToast = (id: number): Toast => {
+  const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+  return {
+    id,
+    message: randomMessage.text,
+    icon: randomMessage.icon
+  };
 };
 
 const UserActivityToast = () => {
-  const [currentToast, setCurrentToast] = useState<Toast | null>(null);
+  const [toast, setToast] = useState<Toast | null>(null);
+  const [nextId, setNextId] = useState(1);
+  const [viewportWidth, setViewportWidth] = useState(window.innerWidth);
+
+  // Add scroll fade functionality
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   useEffect(() => {
-    const showNewToast = () => {
-      const newToast = {
-        id: Math.random().toString(),
-        message: generateToastMessage()
-      };
-      setCurrentToast(newToast);
-
-      // Clear toast after 4-5 seconds
-      const clearDelay = 4000 + Math.random() * 1000;
-      setTimeout(() => {
-        setCurrentToast(null);
-      }, clearDelay);
+    const handleResize = () => {
+      setViewportWidth(window.innerWidth);
     };
 
-    // Show first toast after a short delay
-    const initialDelay = 2000;
-    const initialTimer = setTimeout(showNewToast, initialDelay);
-
-    // Set up interval for subsequent toasts (12-20 seconds)
-    const interval = setInterval(() => {
-      const delay = 12000 + Math.random() * 8000; // Random delay between 12-20 seconds
-      setTimeout(showNewToast, delay);
-    }, 20000); // Maximum delay to ensure we don't stack timeouts
-
-    return () => {
-      clearTimeout(initialTimer);
-      clearInterval(interval);
-    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  useEffect(() => {
+    const initialDelay = setTimeout(() => {
+      setToast(generateToast(nextId));
+      setNextId(prev => prev + 1);
+    }, 3000);
+
+    const interval = setInterval(() => {
+      setToast(generateToast(nextId));
+      setNextId(prev => prev + 1);
+    }, 7000);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
+  }, [nextId]);
+
+  const getPosition = () => {
+    const baseLeft = Math.max(viewportWidth * 0.05, 20);
+    const baseBottom = Math.max(window.innerHeight * 0.1, 40);
+    
+    return {
+      left: baseLeft,
+      bottom: baseBottom
+    };
+  };
+
+  const position = getPosition();
+
   return (
-    <div className="fixed bottom-4 left-4 z-50">
-      <AnimatePresence>
-        {currentToast && (
+    <motion.div 
+      className="fixed z-50"
+      style={{
+        left: position.left,
+        bottom: position.bottom,
+        opacity
+      }}
+    >
+      <AnimatePresence mode="wait">
+        {toast && (
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.3 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.2 } }}
-            className="bg-[#1a2234]/80 backdrop-blur-sm border border-[#71ADBA]/20 px-6 py-3 rounded-2xl shadow-lg"
+            key={toast.id}
+            initial={{ opacity: 0, y: 50, x: -50 }}
+            animate={{ opacity: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{
+              type: "spring",
+              stiffness: 500,
+              damping: 40,
+              mass: 1
+            }}
+            className="bg-[#1a2234]/80 backdrop-blur-sm px-4 py-3 rounded-xl border border-[#71ADBA]/20 shadow-lg flex items-center gap-3 text-sm text-gray-300 max-w-xs sm:max-w-sm"
           >
-            <p className="text-white text-sm font-medium">{currentToast.message}</p>
+            <span className="text-[#EDEAB1] text-base">
+              {toast.icon}
+            </span>
+            <span className="whitespace-normal">{toast.message}</span>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 

@@ -386,30 +386,56 @@ const WaitlistSection = () => {
   );
 };
 
-const ScrollIndicator = () => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ delay: 2, duration: 1 }}
-    className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
-    onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-  >
-    <span className="text-gray-400 text-sm">Scroll to explore</span>
+const ScrollIndicator = () => {
+  const ref = useRef(null);
+  const { scrollY } = useScroll();
+  
+  // Get viewport height and use it to determine when to fade out
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
+  
+  useEffect(() => {
+    const handleResize = () => {
+      setViewportHeight(window.innerHeight);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Fade out as we approach the viewport height with a sharper transition
+  const opacity = useTransform(
+    scrollY,
+    [viewportHeight * 0.3, viewportHeight * 0.5], // Shorter fade range for crisper transition
+    [1, 0]
+  );
+  
+  return (
     <motion.div
-      animate={{
-        y: [0, 10, 0],
-      }}
-      transition={{
-        duration: 2,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
-      className="w-6 h-6 text-[#EDEAB1]"
+      ref={ref}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ delay: 2, duration: 1 }}
+      style={{ opacity }}
+      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-50 bg-[#1a2234]/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#71ADBA]/20"
+      onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
     >
-      ↓
+      <span className="text-gray-400 text-sm">Scroll to explore</span>
+      <motion.div
+        animate={{
+          y: [0, 10, 0],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="w-6 h-6 text-[#EDEAB1]"
+      >
+        ↓
+      </motion.div>
     </motion.div>
-  </motion.div>
-);
+  );
+};
 
 const GrowingText = () => {
   const [text, setText] = useState('');
@@ -601,10 +627,12 @@ const AnimatedTagline = () => {
 };
 
 interface FloatingElement {
-  type: 'success' | 'feature';
   text: string;
   icon: string;
-  position: { x: number; y: number };
+  position: {
+    x: number;
+    y: number;
+  };
 }
 
 const LandingPage = () => {
@@ -655,9 +683,22 @@ const LandingPage = () => {
     ]
   };
 
-  // Update the positions to start lower on the page
+  // Message list matching UserActivityToast
+  const messages = [
+    { text: "Alex switched majors and landed a 150k offer", icon: "🎓" },
+    { text: "Sarah found her dream internship", icon: "💼" },
+    { text: "Mike discovered his career path", icon: "💡" },
+    { text: "Emma matched with a mentor", icon: "👥" },
+    { text: "James improved his resume score", icon: "💼" },
+    { text: "Lisa got interview-ready", icon: "💡" },
+    { text: "Maya got into her dream company today!", icon: "💼" },
+    { text: "Anna found her perfect major", icon: "🎓" },
+    { text: "Tom secured a tech interview", icon: "💼" },
+    { text: "Rachel got career clarity", icon: "💡" }
+  ];
+
   const positions = [
-    { x: -420, y: 280 },  // Increased Y values to move elements down
+    { x: -420, y: 280 },
     { x: 420, y: 320 },
     { x: -380, y: 480 },
     { x: 380, y: 520 },
@@ -666,42 +707,45 @@ const LandingPage = () => {
   ];
 
   // Function to get random messages
-  const getRandomMessages = () => {
-    const messages: FloatingElement[] = [];
-    const usedIndices = { success: new Set(), feature: new Set() };
+  const getRandomMessages = (): FloatingElement[] => {
+    const elements: FloatingElement[] = [];
+    const usedIndices = new Set<number>();
 
-    positions.forEach((pos, i) => {
-      const type = i % 2 === 0 ? 'success' : 'feature';
-      const pool = messagePool[type];
+    positions.forEach((pos) => {
       let randomIndex;
-      
       do {
-        randomIndex = Math.floor(Math.random() * pool.length);
-      } while (usedIndices[type].has(randomIndex));
+        randomIndex = Math.floor(Math.random() * messages.length);
+      } while (usedIndices.has(randomIndex));
       
-      usedIndices[type].add(randomIndex);
-      const message = pool[randomIndex];
-      
-      messages.push({
-        type,
-        text: message.text,
-        icon: message.icon,
+      usedIndices.add(randomIndex);
+      elements.push({
+        text: messages[randomIndex].text,
+        icon: messages[randomIndex].icon,
         position: pos
       });
     });
 
-    return messages;
+    return elements;
   };
 
   const [floatingElements, setFloatingElements] = useState<FloatingElement[]>(getRandomMessages());
 
-  // Refresh messages periodically
+  // Refresh messages every 7 seconds
   useEffect(() => {
+    // Initial delay before starting
+    const initialDelay = setTimeout(() => {
+      setFloatingElements(getRandomMessages());
+    }, 3000); // Show first message after 3 seconds
+
+    // Update messages every 7 seconds
     const interval = setInterval(() => {
       setFloatingElements(getRandomMessages());
-    }, 30000); // Refresh every 30 seconds
+    }, 7000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(initialDelay);
+      clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
@@ -752,9 +796,9 @@ const LandingPage = () => {
                     }}
                     transition={{ 
                       duration: 25,
-                      times: [0, 0.2, 0.8, 1],
+                      times: [0, 0.1, 0.9, 1], // Spend more time fully visible
                       repeat: Infinity,
-                      delay: index * 7,
+                      delay: index * 10, // Increase delay between elements
                       ease: "easeInOut"
                     }}
                     className="absolute backdrop-blur-sm px-6 py-3 rounded-2xl border shadow-lg bg-[#1a2234]/80 border-[#71ADBA]/20"
@@ -788,13 +832,13 @@ const LandingPage = () => {
                 <AnimatedTagline />
 
                 <motion.div 
-                  className="text-xl md:text-2xl text-gray-300 mb-16"
+                  className="text-xl md:text-2xl text-gray-300 mb-12"
                 >
                   <TypewriterText texts={painPoints} />
                 </motion.div>
 
                 <motion.div
-                  className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+                  className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
@@ -813,12 +857,22 @@ const LandingPage = () => {
                     See How it Works
                   </button>
                 </motion.div>
+
+                {/* Scroll Indicator */}
+                <motion.div 
+                  className="mt-32 flex flex-col items-center"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.5 }}
+                >
+                  <ScrollIndicator />
+                </motion.div>
               </div>
             </div>
           </div>
 
           {/* Scroll Indicator */}
-          <ScrollIndicator />
+          {/* <ScrollIndicator /> */}
         </div>
 
         {/* Content Sections */}
