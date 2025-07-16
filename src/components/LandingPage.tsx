@@ -7,6 +7,8 @@ import CommunityStories from './CommunityStories';
 import ActiveUsersBanner from './ActiveUsersBanner';
 import QuickStatsCarousel from './QuickStatsCarousel';
 import BackgroundAnimation from './BackgroundAnimation';
+import UserActivityToast from './UserActivityToast';
+import RemainingSpots from './RemainingSpots';
 import { useEffect, useState, useRef } from 'react';
 import Analytics from '../utils/analytics';
 import PeopleIcon from '@mui/icons-material/People';
@@ -199,7 +201,7 @@ const WaitlistSection = () => {
           transition={{ delay: 0.2 }}
           className="text-xl text-gray-300 max-w-2xl mx-auto mb-8"
         >
-          Join our exclusive community of ambitious students and professionals
+          Join our exclusive waitlist for free pro membership access
         </motion.p>
 
         {/* Waitlist Form */}
@@ -221,14 +223,14 @@ const WaitlistSection = () => {
                 disabled={isSubmitting}
                 className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
               >
-                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+                {isSubmitting ? 'Joining...' : 'Get Free Pro Access'}
               </button>
               <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
                 <LockIcon className="w-4 h-4" />
-                <span>Join 1,000+ students who found their dream career</span>
+                <span>Join 1,000+ students enjoying pro features for free</span>
               </div>
-              <div className="mt-4 inline-block bg-[#5865F2]/20 backdrop-blur-sm px-4 py-2 rounded-full border border-[#5865F2]/30">
-                <span className="text-[#EDEAB1]">🔥 Only 50 spots remaining today!</span>
+              <div className="mt-4">
+                <RemainingSpots />
               </div>
             </form>
           ) : (
@@ -239,7 +241,7 @@ const WaitlistSection = () => {
             >
               <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">🎉 You're on the list!</h3>
               <p className="text-gray-300">
-                We'll notify you as soon as your spot is ready. In the meantime, follow us on social media for updates!
+                We'll notify you as soon as your free pro membership is ready. In the meantime, follow us on social media for updates!
               </p>
               <div className="flex justify-center space-x-6 mt-6">
                 <motion.a
@@ -296,6 +298,202 @@ const ScrollIndicator = () => (
   </motion.div>
 );
 
+const GrowingText = () => {
+  const [text, setText] = useState('');
+  const fullText = "Start growing.";
+  
+  useEffect(() => {
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <motion.span
+      className="block text-6xl md:text-8xl font-bold relative inline-block"
+      animate={{
+        scale: [1, 1.02, 1],
+      }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+    >
+      <motion.span
+        className="bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent relative z-10 inline-block"
+        animate={{
+          textShadow: [
+            "0 0 20px rgba(113, 173, 186, 0.8)",
+            "0 0 40px rgba(156, 113, 186, 0.8)",
+            "0 0 20px rgba(113, 173, 186, 0.8)"
+          ]
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        {text}
+        <motion.span 
+          className="inline-block w-[3px] h-[1em] bg-[#EDEAB1] ml-1"
+          animate={{
+            opacity: [1, 0, 1],
+            height: ["0.8em", "1em", "0.8em"]
+          }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </motion.span>
+      {/* Glowing background effect */}
+      <motion.div
+        className="absolute inset-0 -z-10 rounded-xl opacity-50"
+        style={{
+          background: "radial-gradient(circle, rgba(113,173,186,0.3) 0%, rgba(156,113,186,0.3) 50%, rgba(237,234,177,0.3) 100%)"
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3]
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+    </motion.span>
+  );
+};
+
+interface AnimatedTextProps {
+  text: string;
+  delay?: number;
+  gradient?: boolean;
+  className?: string;
+}
+
+const AnimatedText = ({ text, delay = 0, gradient = false, className = "" }: AnimatedTextProps) => {
+  const [displayText, setDisplayText] = useState('');
+  
+  useEffect(() => {
+    let currentIndex = 0;
+    const timeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        if (currentIndex <= text.length) {
+          setDisplayText(text.slice(0, currentIndex));
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 100);
+      
+      return () => clearInterval(interval);
+    }, delay);
+    
+    return () => clearTimeout(timeout);
+  }, [text, delay]);
+
+  return (
+    <motion.div
+      className={`relative ${className}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: delay / 1000, ease: "easeOut" }}
+    >
+      <motion.span
+        className={`inline-block ${gradient ? 'bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent' : 'text-white'} pb-4`}
+        animate={gradient ? {
+          textShadow: [
+            "0 0 20px rgba(113, 173, 186, 0.4)",
+            "0 0 40px rgba(156, 113, 186, 0.4)",
+            "0 0 20px rgba(113, 173, 186, 0.4)"
+          ]
+        } : {}}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        {displayText}
+      </motion.span>
+      {displayText.length < text.length && (
+        <motion.span 
+          className={`inline-block w-[3px] h-[1em] ${gradient ? 'bg-[#EDEAB1]' : 'bg-white'} ml-1`}
+          animate={{
+            opacity: [1, 0, 1],
+            height: ["0.8em", "1em", "0.8em"]
+          }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      )}
+      {gradient && (
+        <motion.div
+          className="absolute inset-0 -z-10 rounded-xl opacity-50 pb-4"
+          style={{
+            background: "radial-gradient(circle, rgba(113,173,186,0.2) 0%, rgba(156,113,186,0.2) 50%, rgba(237,234,177,0.2) 100%)"
+          }}
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      )}
+    </motion.div>
+  );
+};
+
+const AnimatedTagline = () => {
+  return (
+    <motion.div
+      className="relative text-center space-y-8 py-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+    >
+      <AnimatedText 
+        text="Stop scrolling." 
+        className="text-5xl md:text-6xl font-bold"
+        delay={0}
+      />
+      <AnimatedText 
+        text="Start growing." 
+        className="text-6xl md:text-7xl font-bold"
+        delay={1000}
+        gradient={true}
+      />
+    </motion.div>
+  );
+};
+
+interface FloatingElement {
+  type: 'success' | 'feature';
+  text: string;
+  icon: string;
+  position: { x: number; y: number };
+}
+
 const LandingPage = () => {
   const navigate = useNavigate();
   const controls = useAnimation();
@@ -306,12 +504,11 @@ const LandingPage = () => {
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
-  const [userCount] = useState(Math.floor(Math.random() * (1500 - 1200) + 1200));
+  const [userCount, setUserCount] = useState(3224); // Current active users
 
   const painPoints = [
     "tired of random career TikToks? 🤔",
     "feeling lost about your future? 😮‍💨",
-    "need real guidance, not cap? 💯",
     "want a career that actually hits? ⚡️"
   ];
 
@@ -322,15 +519,6 @@ const LandingPage = () => {
     "UX Designer 🎨"
   ];
 
-  // Mix of success stories and platform features
-  interface FloatingElement {
-    type: 'success' | 'feature';
-    text: string;
-    icon: string;
-    position: { x: number; y: number };
-  }
-
-  // Larger pool of messages to randomly select from
   const messagePool = {
     success: [
       { text: "Alex switched majors and landed a 150k offer", icon: "🎯" },
@@ -354,14 +542,14 @@ const LandingPage = () => {
     ]
   };
 
-  // Fixed positions with good spacing
+  // Fixed positions with better spacing to prevent overlapping
   const positions = [
-    { x: -420, y: 120 },  // Far left top
-    { x: 420, y: 160 },   // Far right top
-    { x: -380, y: 320 },  // Left middle
-    { x: 380, y: 280 },   // Right middle
-    { x: -400, y: 480 },  // Left bottom
-    { x: 400, y: 440 }    // Right bottom
+    { x: -420, y: 180 },  // Far left top
+    { x: 420, y: 220 },   // Far right top
+    { x: -380, y: 380 },  // Left middle
+    { x: 380, y: 420 },   // Right middle
+    { x: -400, y: 580 },  // Left bottom
+    { x: 400, y: 620 }    // Right bottom
   ];
 
   // Function to get random messages
@@ -374,7 +562,6 @@ const LandingPage = () => {
       const pool = messagePool[type];
       let randomIndex;
       
-      // Find an unused message
       do {
         randomIndex = Math.floor(Math.random() * pool.length);
       } while (usedIndices[type].has(randomIndex));
@@ -417,27 +604,20 @@ const LandingPage = () => {
       {/* Background animations */}
       <BackgroundAnimation />
       
-      {/* Active Users Counter - Fixed positioning */}
-      <div className="fixed top-24 right-4 sm:right-6 lg:right-8 z-50">
-        <ActiveUsersBanner />
+      {/* Activity Toasts */}
+      <UserActivityToast />
+
+      {/* User Counters - Only active users counter now */}
+      <div className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+        <div className="max-w-7xl mx-auto relative">
+          <div className="absolute top-24 right-4 sm:right-6 lg:right-8">
+            <ActiveUsersBanner initialCount={userCount} />
+          </div>
+        </div>
       </div>
 
       {/* Hero Section - Full Screen */}
       <div className="min-h-screen relative flex flex-col justify-center items-center">
-        {/* Early Access Banner */}
-        <div className="absolute top-0 left-0 right-0 z-10 backdrop-blur-sm bg-[#1a2234]/50 border-b border-[#71ADBA]/10">
-          <div className="max-w-7xl mx-auto py-3 px-4">
-            <div className="text-center">
-              <p className="font-medium text-white flex items-center justify-center gap-3">
-                <span className="inline-flex items-center gap-2">
-                  <WhatshotIcon className="w-5 h-5 text-[#EDEAB1]" />
-                  <span>{userCount}+ students found their path today!</span>
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Main Hero Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center relative max-w-4xl mx-auto">
@@ -470,11 +650,15 @@ const LandingPage = () => {
                     delay: index * 7,
                     ease: "easeInOut"
                   }}
-                  className="absolute bg-[#1a2234]/80 backdrop-blur-sm px-6 py-3 rounded-2xl border border-[#71ADBA]/20 shadow-lg"
+                  className="absolute backdrop-blur-sm px-6 py-3 rounded-2xl border shadow-lg bg-[#1a2234]/80 border-[#71ADBA]/20"
                 >
                   <div className="flex items-center gap-2">
-                    <span className="text-[#EDEAB1]">{element.icon}</span>
-                    <span className="text-gray-300 text-sm whitespace-nowrap">{element.text}</span>
+                    <span className="text-[#EDEAB1]">
+                      {element.icon}
+                    </span>
+                    <span className="text-gray-300 text-sm whitespace-nowrap">
+                      {element.text}
+                    </span>
                   </div>
                 </motion.div>
               ))}
@@ -505,18 +689,7 @@ const LandingPage = () => {
 
             {/* Main Content */}
             <div className="relative z-20">
-              <motion.h1 
-                className="text-5xl md:text-7xl font-bold mb-8"
-                style={{
-                  background: "linear-gradient(to right, #71ADBA, #9C71BA, #BA71AD)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  textShadow: "0 0 40px rgba(113, 173, 186, 0.3), 0 0 20px rgba(156, 113, 186, 0.2)",
-                  filter: "drop-shadow(0 0 8px rgba(113, 173, 186, 0.2))"
-                }}
-              >
-                Stop scrolling.<br />Start growing.
-              </motion.h1>
+              <AnimatedTagline />
 
               <motion.div 
                 className="text-xl md:text-2xl text-gray-300 mb-16"
@@ -543,16 +716,6 @@ const LandingPage = () => {
                 >
                   See How it Works
                 </button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="flex items-center justify-center gap-2 text-gray-400"
-              >
-                <PeopleIcon className="w-5 h-5" />
-                <span>{userCount}+ students already found their path today</span>
               </motion.div>
             </div>
           </div>
