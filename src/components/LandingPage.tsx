@@ -800,14 +800,14 @@ const LandingPage = () => {
                   transition={{ delay: 0.4 }}
                 >
                   <button
-                    onClick={() => navigate('/quiz')}
+                    onClick={() => navigate('/onboarding')}
                     className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-all shadow-lg flex items-center gap-2 w-full sm:w-auto justify-center"
                   >
                     <span>Find Your Path</span>
                     <span className="text-2xl">→</span>
                   </button>
                   <button
-                    onClick={() => navigate('/how-it-works')}
+                    onClick={() => navigate('/platform-guide')}
                     className="px-8 py-4 rounded-2xl bg-[#1a2234]/80 backdrop-blur-sm border border-[#71ADBA]/20 text-white font-semibold hover:bg-[#1a2234] transition-all shadow-lg w-full sm:w-auto"
                   >
                     See How it Works

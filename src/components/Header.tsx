@@ -27,6 +27,28 @@ const Header = () => {
   const [isSignUpHovered, setIsSignUpHovered] = useState(false);
   const { theme, toggleTheme } = useTheme();
   
+  const { scrollY } = useScroll();
+  const backgroundColor = useTransform(
+    scrollY,
+    [0, 100],
+    ["rgba(var(--background-start-rgb), 0)", "rgba(var(--background-start-rgb), 0.85)"]
+  );
+  const backdropBlur = useTransform(
+    scrollY,
+    [0, 100],
+    ["blur(0px)", "blur(8px)"]
+  );
+  const borderOpacity = useTransform(
+    scrollY,
+    [0, 100],
+    [0, 0.8]
+  );
+  const textOpacity = useTransform(
+    scrollY,
+    [0, 100],
+    [0.85, 1]
+  );
+
   // Add refs for dropdown containers
   const servicesRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -125,12 +147,21 @@ const Header = () => {
       initial={{ y: 0 }}
       animate={{ y: shouldShowHeader ? 0 : -100 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className={`fixed top-0 left-0 right-0 z-50 bg-light-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-light-border dark:border-dark-border transform`}
+      style={{
+        backgroundColor,
+        backdropFilter: backdropBlur,
+        WebkitBackdropFilter: backdropBlur,
+      }}
+      className="fixed top-0 left-0 right-0 z-50 transition-bg"
     >
+      <motion.div 
+        className="h-[1px] w-full bg-light-border dark:bg-dark-border"
+        style={{ opacity: borderOpacity }}
+      />
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           {/* Logo and Main Navigation */}
-          <div className="flex items-center">
+          <motion.div className="flex items-center" style={{ opacity: textOpacity }}>
             <Link 
               to="/" 
               className="flex items-center group"
@@ -218,10 +249,13 @@ const Header = () => {
                 </motion.span>
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Side Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-6">
+          <motion.div 
+            className="hidden md:flex md:items-center md:space-x-6"
+            style={{ opacity: textOpacity }}
+          >
             {/* Account Section */}
             {isAuthenticated ? (
               <div className="relative" ref={profileRef}>
@@ -316,7 +350,7 @@ const Header = () => {
                 </div>
               </>
             )}
-          </div>
+          </motion.div>
 
           {/* Mobile Menu Button */}
           <div className="flex md:hidden">

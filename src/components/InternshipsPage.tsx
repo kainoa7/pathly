@@ -1,15 +1,35 @@
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import WorkIcon from '@mui/icons-material/Work';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import CloseIcon from '@mui/icons-material/Close';
+import InternshipAlerts from './InternshipAlerts';
+import { useAuth } from '../context/AuthContext';
 
 const InternshipsPage = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const handleAlertSignup = () => {
+    if (isAuthenticated) {
+      // If user is authenticated, show success message
+      setShowSuccessModal(true);
+      setTimeout(() => {
+        setShowSuccessModal(false);
+      }, 3000); // Hide success message after 3 seconds
+    } else {
+      // If user is not authenticated, show auth modal
+      setShowAuthModal(true);
+    }
+  };
 
   return (
-    <div className="page-container bg-gradient-to-br from-[#0f172a] via-[#1a2234] to-[#0f172a]">
+    <div className="min-h-screen page-container bg-gradient-to-br from-[#0f172a] via-[#1a2234] to-[#0f172a]">
       <div className="max-w-6xl mx-auto pt-8 sm:pt-12">
         {/* Hero Section */}
         <motion.div
@@ -27,6 +47,22 @@ const InternshipsPage = () => {
           <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">
             Launch your career with internships at top companies. Get matched with opportunities that align with your goals.
           </p>
+          
+          {/* Quick Stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-12">
+            <div className="bg-[#1a2234]/50 backdrop-blur-lg rounded-xl p-6 border border-[#71ADBA]/20">
+              <div className="text-3xl font-bold text-[#71ADBA] mb-2">500+</div>
+              <div className="text-gray-300">Active Internships</div>
+            </div>
+            <div className="bg-[#1a2234]/50 backdrop-blur-lg rounded-xl p-6 border border-[#71ADBA]/20">
+              <div className="text-3xl font-bold text-[#9C71BA] mb-2">50+</div>
+              <div className="text-gray-300">Partner Companies</div>
+            </div>
+            <div className="bg-[#1a2234]/50 backdrop-blur-lg rounded-xl p-6 border border-[#71ADBA]/20">
+              <div className="text-3xl font-bold text-[#EDEAB1] mb-2">1000+</div>
+              <div className="text-gray-300">Success Stories</div>
+            </div>
+          </div>
         </motion.div>
 
         {/* Features Grid */}
@@ -100,27 +136,88 @@ const InternshipsPage = () => {
           </motion.div>
         </div>
 
-        {/* Coming Soon Banner */}
+        {/* Internship Alerts Section */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl" />
+          <div className="relative">
+            <InternshipAlerts onSubmit={handleAlertSignup} />
+          </div>
+        </div>
+
+        {/* For Companies Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 backdrop-blur-sm p-6 sm:p-8 rounded-xl border border-[#71ADBA]/20 text-center max-w-2xl mx-auto mt-12 sm:mt-16"
+          className="bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 backdrop-blur-sm p-8 sm:p-12 rounded-xl border border-[#71ADBA]/20 text-center max-w-4xl mx-auto mt-16 mb-16"
         >
-          <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">
-            More Features Coming Soon!
+          <h3 className="text-2xl sm:text-3xl font-bold text-[#EDEAB1] mb-4">
+            Looking to Hire Interns?
           </h3>
-          <p className="text-gray-300 mb-6">
-            We're working on adding more features to help you land your dream internship. Stay tuned!
+          <p className="text-gray-300 text-lg mb-8">
+            Connect with talented students and recent graduates. Post your internship opportunities and find the perfect candidates.
           </p>
           <button
-            onClick={() => navigate('/waitlist')}
-            className="w-full sm:w-auto px-8 py-3 bg-[#71ADBA] text-white rounded-xl font-semibold hover:bg-[#5C919C] transition-colors"
+            onClick={() => navigate('/for-companies')}
+            className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-xl font-semibold hover:opacity-90 transition-all transform hover:scale-105"
           >
-            Join Waitlist
+            Post Internship Opportunities
           </button>
         </motion.div>
       </div>
+
+      {/* Auth Modal */}
+      {showAuthModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-[#1a2234] rounded-xl p-6 sm:p-8 max-w-md w-full relative shadow-xl">
+            <button
+              onClick={() => setShowAuthModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+            >
+              <CloseIcon />
+            </button>
+            <div className="text-center mb-6">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full flex items-center justify-center mx-auto mb-4">
+                <span className="text-2xl">🔔</span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-2">Create an Account</h3>
+              <p className="text-gray-300">
+                To receive internship alerts and access more features, you'll need to create a free account.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  navigate('/signup');
+                }}
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-xl font-semibold hover:opacity-90 transition-all transform hover:scale-105"
+              >
+                Sign Up
+              </button>
+              <button
+                onClick={() => {
+                  setShowAuthModal(false);
+                  navigate('/login');
+                }}
+                className="flex-1 px-6 py-3 bg-gray-700 text-white rounded-xl font-semibold hover:bg-gray-600 transition-all transform hover:scale-105"
+              >
+                Log In
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 animate-slide-up">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">✓</span>
+            <p>Successfully signed up for alerts!</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

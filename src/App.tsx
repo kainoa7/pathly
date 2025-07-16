@@ -29,7 +29,11 @@ import CampusLifePage from './components/CampusLifePage';
 import InternshipPage from './components/InternshipPage';
 import FeedbackSection from './components/FeedbackSection';
 import FeedbackPage from './components/FeedbackPage';
+import HowItWorks from './components/HowItWorks';
+import HowItWorksPage from './components/HowItWorksPage';
+import PlatformGuidePage from './components/PlatformGuidePage';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './context/AuthContext';
 
 function AppLayout() {
   return (
@@ -42,6 +46,8 @@ function AppLayout() {
           <Route path="/tech-stack" element={<TechStackPage />} />
           <Route path="/system-design" element={<SystemDesignPage />} />
           <Route path="/onboarding" element={<OnboardingPage />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/platform-guide" element={<HowItWorksPage />} />
           <Route path="/quiz" element={<QuizPage quizType="college" />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/campus-life" element={<CampusLifePage />} />
@@ -75,12 +81,14 @@ function AppLayout() {
 
 function App() {
   return (
-    <ThemeProvider>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <ScrollToTop />
-        <AppLayout />
-      </Router>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <ScrollToTop />
+          <AppLayout />
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

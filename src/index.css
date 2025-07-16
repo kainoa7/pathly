@@ -8,6 +8,22 @@
 
 :root {
   --header-height: 4rem; /* 64px - matches h-16 from header */
+  --background-start-rgb: 255, 255, 255;
+}
+
+.dark {
+  --background-start-rgb: 17, 24, 39;
+}
+
+/* Theme transition settings */
+* {
+  @apply transition-colors duration-300;
+}
+
+.transition-bg {
+  transition: background-color 0.3s ease-in-out,
+              backdrop-filter 0.3s ease-in-out,
+              border-color 0.3s ease-in-out;
 }
 
 .simpsons-font {
@@ -163,8 +179,18 @@
 
 /* Logo Float Animation */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px);
+  }
+  50% {
+    transform: translateY(0) translateX(10px);
+  }
+  75% {
+    transform: translateY(10px) translateX(5px);
+  }
 }
 
 /* Shine Animation */
@@ -209,4 +235,19 @@ html {
     padding-right: env(safe-area-inset-right);
     padding-top: env(safe-area-inset-top);
   }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out forwards;
 }
