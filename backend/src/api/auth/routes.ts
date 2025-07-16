@@ -130,6 +130,58 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// Login endpoint
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate required fields
+    if (!email || !password) {
+      return res.status(400).json({
+        message: 'Missing required fields',
+        errors: ['Email and password are required']
+      });
+    }
+
+    // Find user by email
+    const user = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        message: 'Invalid credentials',
+        errors: ['Email or password is incorrect']
+      });
+    }
+
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: 'Invalid credentials',
+        errors: ['Email or password is incorrect']
+      });
+    }
+
+    // Remove password from response
+    const { password: _, ...userWithoutPassword } = user;
+
+    res.json({
+      message: 'Login successful',
+      user: userWithoutPassword
+    });
+
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({
+      message: 'Internal server error',
+      errors: ['Something went wrong. Please try again later.']
+    });
+  }
+});
+
 // Get all users (for dashboard purposes - should be protected in production)
 router.get('/users', async (req, res) => {
   try {
@@ -155,4 +207,43 @@ router.get('/users', async (req, res) => {
   }
 });
 
-export default router; 
+// Delete user endpoint (admin only)
+router.delete('/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Check if user exists
+    const user = await prisma.user.findUnique({
+      where: { id }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found'
+      });
+    }
+
+    // Delete the user
+    await prisma.user.delete({
+      where: { id }
+    });
+
+    res.json({
+      message: 'User deleted successfully',
+      deletedUser: {
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName
+      }
+    });
+
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({
+      message: 'Error deleting user'
+    });
+  }
+});
+
+export default router;

@@ -40,6 +40,9 @@ import HowItWorksPage from './components/HowItWorksPage';
 import PlatformGuidePage from './components/PlatformGuidePage';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
+import AdminLogin from './components/AdminLogin';
+import AdminDashboard from './components/AdminDashboard';
+import AdminLayout from './components/AdminLayout';
 
 function AppLayout() {
   return (
@@ -104,7 +107,13 @@ function App() {
     <ThemeProvider>
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ScrollToTop />
-        <AppLayout />
+        <Routes>
+          {/* Admin routes - no header/footer */}
+          <Route path="/admin/*" element={<AdminLayout />} />
+          
+          {/* Main app routes - with header/footer */}
+          <Route path="/*" element={<AppLayout />} />
+        </Routes>
       </Router>
     </ThemeProvider>
     </AuthProvider>

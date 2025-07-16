@@ -112,7 +112,7 @@ const SignupExplorer = () => {
       
       console.log('Sending request to API:', requestData);
       
-      const response = await fetch('http://localhost:3001/api/auth/signup', {
+      const response = await fetch('https://backend-production-294e.up.railway.app/api/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
