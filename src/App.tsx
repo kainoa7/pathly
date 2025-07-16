@@ -9,6 +9,7 @@ import ResultsPage from './components/ResultsPage';
 import ComingSoonPage from './components/ComingSoonPage';
 import AnnouncementsPage from './components/AnnouncementsPage';
 import PricingPage from './components/PricingPage';
+import LoginPage from './components/LoginPage';
 import FloatingCTA from './components/FloatingCTA';
 import ScrollToTop from './components/ScrollToTop';
 import ResumeBuilder from './pages/services/ResumeBuilder';
@@ -45,6 +46,7 @@ function AppLayout() {
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/campus-life" element={<CampusLifePage />} />
           <Route path="/internships" element={<InternshipPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/coming-soon" element={
             <ComingSoonPage 
               title="Feature Coming Soon"

@@ -161,9 +161,44 @@ const WaitlistSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [emailError, setEmailError] = useState('');
+
+  const validateEmail = (email: string) => {
+    const validDomains = ['.com', '.edu', '.org', '.net', '.gov', '.io', '.dev'];
+    const hasValidDomain = validDomains.some(domain => email.toLowerCase().endsWith(domain));
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
+    if (!emailRegex.test(email)) {
+      setEmailError('Please enter a valid email address');
+      return false;
+    }
+    
+    if (!hasValidDomain) {
+      setEmailError('Please use a valid email domain (e.g. .com, .edu, .org)');
+      return false;
+    }
+
+    setEmailError('');
+    return true;
+  };
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    if (newEmail) {
+      validateEmail(newEmail);
+    } else {
+      setEmailError('');
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateEmail(email)) {
+      return;
+    }
+
     setIsSubmitting(true);
     
     try {
@@ -179,7 +214,6 @@ const WaitlistSection = () => {
 
   return (
     <section className="py-20 px-4 relative overflow-hidden bg-navy-800/30">
-      {/* Floating avatars in the background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           animate={{
@@ -247,17 +281,26 @@ const WaitlistSection = () => {
                 <input
                   type="email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleEmailChange}
                   placeholder="Enter your email"
-                  className="w-full px-6 py-4 rounded-xl bg-navy-900/50 border border-[#71ADBA]/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]/50 transition-all duration-300 group-hover:border-[#71ADBA]/30"
+                  className="w-full px-6 py-4 rounded-xl bg-[#1a2234]/90 border border-[#71ADBA]/20 text-white font-medium placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]/50 transition-all duration-300 group-hover:border-[#71ADBA]/30 caret-white"
                   required
                 />
+                {emailError && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="absolute -bottom-6 left-0 text-sm text-red-400"
+                  >
+                    {emailError}
+                  </motion.div>
+                )}
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
               </div>
 
               <motion.button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !!emailError}
                 onHoverStart={() => setIsHovered(true)}
                 onHoverEnd={() => setIsHovered(false)}
                 className="relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-[#71ADBA]/20 disabled:opacity-50 overflow-hidden"
@@ -278,7 +321,7 @@ const WaitlistSection = () => {
               <div className="flex flex-col items-center space-y-3 text-sm">
                 <div className="flex items-center justify-center space-x-2 text-gray-400">
                   <LockIcon className="w-4 h-4" />
-                                     <span>Join the community that helped 1,000+ students land their dream roles</span>
+                  <span>Join the community that helped 1,000+ students land their dream roles</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RemainingSpots />

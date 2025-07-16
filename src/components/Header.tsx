@@ -24,6 +24,7 @@ const Header = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [shouldShowHeader, setShouldShowHeader] = useState(true);
+  const [isSignUpHovered, setIsSignUpHovered] = useState(false);
   const { theme, toggleTheme } = useTheme();
   
   // Add refs for dropdown containers
@@ -283,21 +284,37 @@ const Header = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="flex items-center space-x-4">
+              <>
                 <Link
                   to="/login"
-                  className="font-cabinet font-medium hover:text-light-primary dark:hover:text-dark-primary transition-colors"
+                  className="nav-link font-cabinet font-medium text-base hover:text-light-primary dark:hover:text-dark-primary transition-colors flex items-center"
                 >
-                  Log In
+                  <LoginIcon className="w-5 h-5 mr-1" />
+                  Login
                 </Link>
-                <Link
-                  to="/pricing"
-                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-cabinet font-medium hover:opacity-90 transition-opacity relative group"
-                >
-                  <span className="relative z-10">Sign Up</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                </Link>
-              </div>
+                <div className="relative">
+                  <Link
+                                          to="/pricing"
+                    onMouseEnter={() => setIsSignUpHovered(true)}
+                    onMouseLeave={() => setIsSignUpHovered(false)}
+                    className="relative px-5 py-2 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-medium hover:opacity-95 transition-all duration-300"
+                  >
+                    <span className="relative z-10">Sign Up</span>
+                    <AnimatePresence>
+                      {isSignUpHovered && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 5 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 5 }}
+                          className="absolute top-full right-0 mt-1 whitespace-nowrap bg-[#1E2537] px-3 py-1.5 rounded-lg text-sm text-[#EDEAB1] font-medium"
+                        >
+                          🚀 Get started free — takes 10 sec
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </Link>
+                </div>
+              </>
             )}
           </div>
 
