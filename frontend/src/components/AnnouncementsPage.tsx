@@ -45,7 +45,7 @@ const AnnouncementsPage = () => {
               Join the Future of Career Guidance
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Get early access to Pathly and be part of shaping the future of career development.
+              Get early access to Nextly and be part of shaping the future of career development.
               Sign up now for exclusive benefits and updates.
             </p>
           </motion.div>

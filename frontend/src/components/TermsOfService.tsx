@@ -15,14 +15,14 @@ const TermsOfService = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">1. Agreement to Terms</h2>
             <p className="mb-4">
-              By accessing or using Pathly, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our service.
+              By accessing or using Nextly, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our service.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">2. Description of Service</h2>
             <p className="mb-4">
-              Pathly provides career guidance and educational pathway recommendations through our platform. Our services include personalized assessments, career matching, and educational resources.
+              Nextly provides career guidance and educational pathway recommendations through our platform. Our services include personalized assessments, career matching, and educational resources.
             </p>
           </section>
 
@@ -47,7 +47,7 @@ const TermsOfService = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">5. Intellectual Property</h2>
             <p className="mb-4">
-              All content, features, and functionality on Pathly are owned by us and protected by copyright, trademark, and other intellectual property laws.
+              All content, features, and functionality on Nextly are owned by us and protected by copyright, trademark, and other intellectual property laws.
             </p>
           </section>
 
@@ -61,7 +61,7 @@ const TermsOfService = () => {
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">7. Limitation of Liability</h2>
             <p className="mb-4">
-              Pathly shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
+              Nextly shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
             </p>
           </section>
 
@@ -77,8 +77,8 @@ const TermsOfService = () => {
             <p className="mb-4">
               For questions about these Terms, please contact us at:
               <br />
-              <a href="mailto:pathly.help@gmail.com" className="text-[#71ADBA] hover:underline">
-                pathly.help@gmail.com
+              <a href="mailto:nextly.help@gmail.com" className="text-[#71ADBA] hover:underline">
+                nextly.help@gmail.com
               </a>
             </p>
           </section>

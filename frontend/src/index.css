@@ -31,7 +31,7 @@
   letter-spacing: 0.05em;
 }
 
-.pathly-logo {
+.nextly-logo {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -39,7 +39,7 @@
   position: relative;
 }
 
-.pathly-logo::after {
+.nextly-logo::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -52,7 +52,7 @@
   transition: transform 0.3s ease;
 }
 
-.pathly-logo:hover::after {
+.nextly-logo:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }

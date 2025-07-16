@@ -11,7 +11,7 @@ const CommunityStories = () => {
       name: "Alex Chen",
       title: "From Biology to Software Engineering",
       company: "Google",
-      story: "Switched majors in my junior year. Pathly helped me navigate the transition and land my dream role.",
+      story: "Switched majors in my junior year. Nextly helped me navigate the transition and land my dream role.",
       achievement: "150k Starting Salary",
       icon: SchoolIcon,
       color: "from-[#71ADBA] to-[#9C71BA]"

@@ -116,7 +116,7 @@ router.post('/signup', async (req, res) => {
     console.error('Signup error:', error);
     
     // Handle Prisma errors
-    if (error.code === 'P2002') {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') {
       return res.status(400).json({
         message: 'Email already exists',
         errors: ['An account with this email already exists. Please use a different email or try logging in.']

@@ -1,9 +1,9 @@
-# 🚀 Pathly - AI-Powered Career Guidance Platform
+# 🚀 Nextly - AI-Powered Career Guidance Platform
 
 <div align="center">
 
-[![Website](https://img.shields.io/badge/Visit-Pathly.com-71ADBA?style=for-the-badge)](https://pathly.com)
-[![Contact](https://img.shields.io/badge/Contact-pathly.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:pathly.help@gmail.com)
+[![Website](https://img.shields.io/badge/Visit-Nextly.com-71ADBA?style=for-the-badge)](https://nextly.com)
+[![Contact](https://img.shields.io/badge/Contact-nextly.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:nextly.help@gmail.com)
 
 **Full-Stack SaaS Platform for Career Development & Professional Growth**
 
@@ -13,11 +13,11 @@
 
 </div>
 
-## 🎯 About Pathly
+## 🎯 About Nextly
 
-Pathly is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, and professional development tools. Built with React, Node.js, and modern web technologies, Pathly provides a seamless experience for students and professionals navigating their career journeys.
+Nextly is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, and professional development tools. Built with React, Node.js, and modern web technologies, Nextly provides a seamless experience for students and professionals navigating their career journeys.
 
-### ✨ What Makes Pathly Special
+### ✨ What Makes Nextly Special
 
 - **🎓 Smart Career Assessment** - AI-driven career matching based on interests, skills, and goals
 - **👥 Role-Based Access Control** - Explorer, Pro, and Premium tiers with tailored experiences
@@ -30,7 +30,7 @@ Pathly is a modern, full-stack SaaS platform that revolutionizes career developm
 
 ### **Full-Stack Monorepo Structure**
 ```
-pathly/
+nextly/
 ├── frontend/          # React + TypeScript frontend
 │   ├── src/
 │   │   ├── components/    # 60+ React components
@@ -83,8 +83,8 @@ pathly/
 
 ### **1. Clone & Setup**
 ```bash
-git clone https://github.com/yourusername/pathly.git
-cd pathly
+git clone https://github.com/yourusername/nextly.git
+cd nextly
 
 # Install frontend dependencies
 cd frontend
@@ -275,9 +275,9 @@ PUT  /api/users/profile   # Protected: Update user info
 
 ## 📞 Contact & Support
 
-- **Email**: [pathly.help@gmail.com](mailto:pathly.help@gmail.com)
-- **GitHub**: [github.com/yourusername/pathly](https://github.com/yourusername/pathly)
-- **Website**: [pathly.com](https://pathly.com)
+- **Email**: [nextly.help@gmail.com](mailto:nextly.help@gmail.com)
+- **GitHub**: [github.com/yourusername/nextly](https://github.com/yourusername/nextly)
+- **Website**: [nextly.com](https://nextly.com)
 
 ## 🤝 Contributing
 
@@ -297,7 +297,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Ready to transform career guidance with modern technology?**
 
-[🚀 Get Started with Pathly →](https://pathly.com)
+[🚀 Get Started with Nextly →](https://nextly.com)
 
 Built with ❤️ using React, Node.js, and modern web technologies
 

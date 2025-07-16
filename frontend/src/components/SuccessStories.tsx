@@ -29,7 +29,7 @@ const stories: Story[] = [
     companyLogo: "/logos/google.svg",
     image: "/success-stories/alex.jpg",
     tag: "Career Changer 🔥",
-    story: "No CS degree? Same! Used Pathly to break into tech. Now making 6 figures at Google! 🚀",
+    story: "No CS degree? Same! Used Nextly to break into tech. Now making 6 figures at Google! 🚀",
     achievement: "150k+ first job",
     verified: true
   },
@@ -42,7 +42,7 @@ const stories: Story[] = [
     companyLogo: "/logos/microsoft.svg",
     image: "/success-stories/sarah.jpg",
     tag: "Major Switcher ⚡",
-    story: "Switched from Biology to Tech PM. Pathly helped me find my true passion. Now leading product teams! 💪",
+    story: "Switched from Biology to Tech PM. Nextly helped me find my true passion. Now leading product teams! 💪",
     achievement: "Doubled salary",
     verified: true
   },
@@ -55,7 +55,7 @@ const stories: Story[] = [
     companyLogo: "/logos/tesla.svg",
     image: "/success-stories/james.jpg",
     tag: "Fast Tracker 🎯",
-    story: "From confused about career to data scientist at Tesla in 6 months. Pathly's roadmap made it possible! 📈",
+    story: "From confused about career to data scientist at Tesla in 6 months. Nextly's roadmap made it possible! 📈",
     achievement: "Dream company",
     verified: true
   }

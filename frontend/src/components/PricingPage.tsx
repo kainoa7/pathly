@@ -201,7 +201,7 @@ const PricingPage = () => {
       {/* Section: Save time & money */}
       <div className="text-center mb-8">
         <span className="inline-block bg-gradient-to-r from-[#71ADBA]/20 to-[#EDEAB1]/20 text-[#71ADBA] font-bold px-6 py-2 rounded-full text-lg shadow-md">
-          Don’t miss out—students using Pathly save hours and avoid costly mistakes choosing their major and career.
+          Don’t miss out—students using Nextly save hours and avoid costly mistakes choosing their major and career.
         </span>
       </div>
 

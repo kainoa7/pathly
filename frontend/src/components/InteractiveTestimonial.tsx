@@ -21,7 +21,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Alex",
     role: "Software Engineer @ Google",
-    content: "No CS degree? Same! Used Pathly to break into tech. Now making 6 figures at Google! 🚀",
+    content: "No CS degree? Same! Used Nextly to break into tech. Now making 6 figures at Google! 🚀",
     image: "/testimonials/alex.jpg",
     reactions: [
       { emoji: "🔥", label: "fire", count: 423 },
@@ -32,7 +32,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Sarah",
     role: "CS Major @ Stanford",
-    content: "Was stuck between 5 majors 😩 Pathly helped me choose CS. Now interning at Tesla! ⚡",
+    content: "Was stuck between 5 majors 😩 Nextly helped me choose CS. Now interning at Tesla! ⚡",
     image: "/testimonials/sarah.jpg",
     reactions: [
       { emoji: "⚡", label: "lightning", count: 345 },
@@ -43,7 +43,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Mike",
     role: "Startup Founder",
-    content: "From confused about college to launching my own startup! Pathly showed me the entrepreneurship path 💡",
+    content: "From confused about college to launching my own startup! Nextly showed me the entrepreneurship path 💡",
     image: "/testimonials/mike.jpg",
     reactions: [
       { emoji: "🚀", label: "rocket", count: 512 },

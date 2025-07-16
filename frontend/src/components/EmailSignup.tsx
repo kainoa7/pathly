@@ -18,7 +18,7 @@ const EmailSignup = () => {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          to_email: 'pathly.help@gmail.com',
+          to_email: 'nextly.help@gmail.com',
           from_email: email,
           subject: 'New Waitlist Signup',
           message: `New waitlist signup request\nEmail: ${email}`

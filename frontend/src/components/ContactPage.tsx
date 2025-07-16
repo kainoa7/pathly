@@ -117,10 +117,10 @@ const ContactPage = () => {
     try {
       // First, send the message to ourselves using EmailJS
       const templateParams = {
-        to_email: 'pathly.help@gmail.com',
+        to_email: 'nextly.help@gmail.com',
         reply_to: formData.email.trim(),
         from_name: formData.name.trim(),
-        from_email: 'pathly.help@gmail.com',
+        from_email: 'nextly.help@gmail.com',
         subject: formData.subject.trim(),
         category: formData.category,
         message: formData.message.trim(),
@@ -137,7 +137,7 @@ const ContactPage = () => {
       // Send an auto-response to the user
       const autoResponseParams = {
         to_email: formData.email.trim(),
-        from_email: 'pathly.help@gmail.com',
+        from_email: 'nextly.help@gmail.com',
         to_name: formData.name.trim(),
         subject: `Re: ${formData.subject.trim()}`,
         category: formData.category
@@ -318,7 +318,7 @@ const ContactPage = () => {
                   className="h-4 w-4 rounded border-gray-600 text-[#71ADBA] focus:ring-[#71ADBA] bg-[#0f172a]"
                 />
                 <label htmlFor="subscribe" className="ml-2 block text-sm text-gray-300">
-                  Keep me updated with news and updates from Pathly
+                  Keep me updated with news and updates from Nextly
                 </label>
               </div>
 

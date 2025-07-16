@@ -16,7 +16,7 @@ export const testimonials: Testimonial[] = [
   {
     name: "Alex Chen, 22",
     role: "Software Engineer @ Google",
-    content: "I was working retail, dreaming of tech but thought I needed a CS degree. Pathly showed me it's possible! Their step-by-step roadmap and supportive community helped me land my dream job. From $15/hr to $150k+ in 18 months! 🚀",
+    content: "I was working retail, dreaming of tech but thought I needed a CS degree. Nextly showed me it's possible! Their step-by-step roadmap and supportive community helped me land my dream job. From $15/hr to $150k+ in 18 months! 🚀",
     tag: "Career Changer",
     icon: "WorkIcon",
     stats: "150k+ first job",
@@ -28,7 +28,7 @@ export const testimonials: Testimonial[] = [
   {
     name: "Sarah Martinez, 19",
     role: "CS Major @ Stanford",
-    content: "Choosing a major was overwhelming! 😩 Pathly's career assessment and mentorship helped me discover my passion for CS. Now I'm thriving at Stanford and interning at Tesla. Forever grateful for this community! ⚡",
+    content: "Choosing a major was overwhelming! 😩 Nextly's career assessment and mentorship helped me discover my passion for CS. Now I'm thriving at Stanford and interning at Tesla. Forever grateful for this community! ⚡",
     tag: "College Student",
     icon: "SchoolIcon",
     stats: "Dream internship secured",
@@ -40,18 +40,18 @@ export const testimonials: Testimonial[] = [
   {
     name: "Mike Johnson, 20",
     role: "Tech Startup Founder",
-    content: "Was lost about my future until I found Pathly. Their entrepreneurship track opened my eyes to startup opportunities. Now running my own tech company with seed funding! The community here is incredible 💡",
+    content: "Was lost about my future until I found Nextly. Their entrepreneurship track opened my eyes to startup opportunities. Now running my own tech company with seed funding! The community here is incredible 💡",
     tag: "Entrepreneur",
     icon: "TrendingUpIcon",
     stats: "Raised $1M seed round",
-    journey: "Student → Pathly → Founder",
+    journey: "Student → Nextly → Founder",
     linkedInProfile: "https://linkedin.com/in/mikej",
     verifiedDate: "Verified January 2024"
   },
   {
     name: "Priya Patel, 24",
     role: "UX Designer @ Microsoft",
-    content: "As a psychology major, I thought tech was out of reach. Pathly's design track + portfolio guidance changed everything! Found my perfect intersection of psychology and tech in UX. You CAN switch careers! 🎨",
+    content: "As a psychology major, I thought tech was out of reach. Nextly's design track + portfolio guidance changed everything! Found my perfect intersection of psychology and tech in UX. You CAN switch careers! 🎨",
     tag: "Career Switcher",
     icon: "BrushIcon",
     stats: "3x salary increase",

@@ -70,7 +70,7 @@ const HowItWorksPage = () => {
             transition={{ duration: 0.6 }}
             className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] mb-6"
           >
-            How Pathly Works
+            How Nextly Works
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}

@@ -53,7 +53,7 @@ const FeedbackPage = () => {
             Community Voice
           </span>
           <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
-            Help Shape Pathly's Future
+            Help Shape Nextly's Future
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Your feedback drives our improvements. Share your ideas and see what features the community is excited about.
@@ -140,7 +140,7 @@ const FeedbackPage = () => {
             <h2 className="text-2xl font-bold text-[#EDEAB1]">Share Your Ideas</h2>
           </div>
           <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-            Have a suggestion for how we can make Pathly better? We'd love to hear it! Click the button below to share your feedback.
+            Have a suggestion for how we can make Nextly better? We'd love to hear it! Click the button below to share your feedback.
           </p>
           <motion.button
             onClick={() => document.querySelector<HTMLButtonElement>('[data-feedback-trigger]')?.click()}

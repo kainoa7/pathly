@@ -45,7 +45,7 @@ const InternshipPage: React.FC = () => {
       {/* Why Choose Us Section */}
       <div className="py-16">
         <div className="max-w-6xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-white text-center mb-12">Why Choose Pathly for Your Internship Search?</h2>
+          <h2 className="text-3xl font-bold text-white text-center mb-12">Why Choose Nextly for Your Internship Search?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-gray-800/50 rounded-lg p-6 backdrop-blur-sm">
               <div className="text-3xl mb-4">🎯</div>
@@ -96,14 +96,14 @@ const InternshipPage: React.FC = () => {
       {/* Internship Alerts Section */}
       <InternshipAlerts />
 
-      {/* Pathly Internship Opportunities Section */}
+      {/* Nextly Internship Opportunities Section */}
       <div className="py-16 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <div className="inline-block bg-[#71ADBA]/20 text-[#71ADBA] px-4 py-1 rounded-full text-sm font-medium mb-4">
               Now Accepting Applications 🎯
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Join the Pathly Team</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Join the Nextly Team</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
               Kickstart your career with us! We offer year-round internship opportunities across different roles. 
               No prior experience needed - just bring your enthusiasm and willingness to learn.
@@ -222,7 +222,7 @@ const InternshipPage: React.FC = () => {
               <div className="text-4xl mb-4">🤝</div>
               <h3 className="text-2xl font-semibold text-white mb-4">Grow Our Community</h3>
               <p className="text-gray-300 mb-6">
-                Know someone who'd love to join Pathly? Share these opportunities and help us build 
+                Know someone who'd love to join Nextly? Share these opportunities and help us build 
                 an amazing community of ambitious students supporting each other!
               </p>
               <div className="flex flex-wrap justify-center gap-4">

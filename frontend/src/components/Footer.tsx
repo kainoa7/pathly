@@ -37,12 +37,12 @@ const Footer = () => {
               <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
               <img 
                 src="/logo.png" 
-                alt="Pathly Logo" 
+                alt="Nextly Logo" 
                 className="w-full h-full relative z-10 drop-shadow-[0_0_10px_rgba(113,173,186,0.3)]"
               />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent">
-              Pathly
+              Nextly
             </span>
           </motion.div>
           <p className="text-gray-300 mb-6">
@@ -50,7 +50,7 @@ const Footer = () => {
           </p>
           <div className="flex space-x-4">
             <motion.a
-              href="https://linkedin.com/company/pathly"
+              href="https://linkedin.com/company/nextly"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
@@ -61,7 +61,7 @@ const Footer = () => {
               <LinkedInIcon className="text-[#71ADBA]" />
             </motion.a>
             <motion.a
-              href="https://twitter.com/pathly"
+              href="https://twitter.com/nextly"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
@@ -72,7 +72,7 @@ const Footer = () => {
               <TwitterIcon className="text-[#71ADBA]" />
             </motion.a>
             <motion.a
-              href="https://instagram.com/pathly"
+              href="https://instagram.com/nextly"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
@@ -170,7 +170,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="mt-16 pt-8 border-t border-[#71ADBA]/10 text-center relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} Pathly. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Nextly. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link to="/privacy" className="hover:text-[#71ADBA] transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-[#71ADBA] transition-colors">Terms of Service</Link>

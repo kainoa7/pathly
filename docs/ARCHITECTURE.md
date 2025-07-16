@@ -1,4 +1,4 @@
-# Pathly Architecture
+# Nextly Architecture
 
 ## Core Features
 - Career guidance quiz system

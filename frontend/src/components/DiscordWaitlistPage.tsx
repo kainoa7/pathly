@@ -24,7 +24,7 @@ const DiscordWaitlistPage = () => {
     setStatus('submitting');
 
     try {
-      // Send email to pathly.help@gmail.com using Formspree
+      // Send email to nextly.help@gmail.com using Formspree
       const response = await fetch('https://formspree.io/f/xgegkzrw', {
         method: 'POST',
         headers: {

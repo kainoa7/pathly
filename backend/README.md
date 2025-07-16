@@ -1,8 +1,8 @@
-# Pathly Backend
+# Nextly Backend
 
 ## Phase 1 Setup Complete ✅
 
-This is the Node.js/Express.js backend for Pathly with TypeScript.
+This is the Node.js/Express.js backend for Nextly with TypeScript.
 
 ### Tech Stack
 - **Node.js** with **Express.js**

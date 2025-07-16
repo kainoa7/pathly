@@ -68,13 +68,13 @@ const FeedbackSection = () => {
                     Thank you for your feedback! 🎉
                   </motion.div>
                   <p className="text-gray-400">
-                    Your input helps us make Pathly better for everyone.
+                    Your input helps us make Nextly better for everyone.
                   </p>
                 </div>
               ) : (
                 <>
                   <h2 className="text-2xl font-bold text-[#EDEAB1] mb-6">
-                    Help Us Improve Pathly
+                    Help Us Improve Nextly
                   </h2>
 
                   {/* Feedback Type Selection */}

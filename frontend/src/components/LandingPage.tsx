@@ -357,7 +357,7 @@ const WaitlistSection = () => {
               </p>
               <div className="flex justify-center space-x-6 mt-6">
                 <motion.a
-                    href="https://twitter.com/pathly"
+                    href="https://twitter.com/nextly"
                   target="_blank"
                   rel="noopener noreferrer"
                     className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
@@ -368,7 +368,7 @@ const WaitlistSection = () => {
                     </svg>
                 </motion.a>
                 <motion.a
-                    href="https://instagram.com/pathly"
+                    href="https://instagram.com/nextly"
                   target="_blank"
                   rel="noopener noreferrer"
                     className="text-gray-400 hover:text-[#EDEAB1] transition-colors"

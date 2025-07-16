@@ -201,7 +201,7 @@ const Header = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
                 <img 
                   src="/logo.svg" 
-                  alt="Pathly" 
+                  alt="Nextly" 
                   className="h-8 w-auto relative z-10 drop-shadow-[0_0_10px_rgba(113,173,186,0.3)]" 
                 />
               </div>
@@ -209,7 +209,7 @@ const Header = () => {
                 className="ml-2 text-xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent font-outfit tracking-tight drop-shadow-sm"
                 whileHover={{ scale: 1.02 }}
               >
-                Pathly
+                Nextly
               </motion.span>
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">

@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Pathly backend server",
+  "description": "Nextly backend server",
   "dependencies": {
     "@prisma/client": "^6.12.0",
     "@types/bcryptjs": "^2.4.6",

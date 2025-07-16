@@ -23,7 +23,7 @@ const ForUniversitiesPage = () => {
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">Growing Together</h2>
               <p className="mb-6">
-                Join us in nurturing the next generation of leaders. At Pathly, we believe in 
+                Join us in nurturing the next generation of leaders. At Nextly, we believe in 
                 creating a supportive ecosystem where universities and students thrive together. 
                 Let's build a brighter future for education, one student at a time.
               </p>
@@ -56,7 +56,7 @@ const ForUniversitiesPage = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mb-4 text-white">The Pathly Advantage</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-white">The Nextly Advantage</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-[#0f172a] p-6 rounded-lg">
                   <div className="flex items-center gap-3 mb-3">
