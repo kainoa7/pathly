@@ -90,6 +90,19 @@ const FAQSection: React.FC = () => {
 };
 
 const PricingPage = () => {
+  // Simulate analytics for FOMO
+  const [viewers, setViewers] = useState<number>(23);
+  const [spotsLeft, setSpotsLeft] = useState<number>(28);
+
+  // Optionally, randomize viewers/spots for more realism
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setViewers(20 + Math.floor(Math.random() * 10));
+  //     setSpotsLeft(25 + Math.floor(Math.random() * 10));
+  //   }, 5000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   const pricingTiers: PricingTier[] = [
     {
       name: 'Explorer',
@@ -108,9 +121,7 @@ const PricingPage = () => {
     {
       name: 'Pro',
       description: 'For serious career planning',
-      price: '$4.99',
-      originalPrice: '$9.99',
-      interval: '/month',
+      price: 'Free',
       features: [
         'Everything in Explorer',
         'Real-time Major Popularity Charts',
@@ -123,7 +134,7 @@ const PricingPage = () => {
         'Salary Trend Visualizations',
         'Weekly Industry Updates'
       ],
-      buttonText: 'Get 50% Off Now',
+      buttonText: 'Join Free Now',
       buttonVariant: 'primary',
       highlight: true
     },
@@ -151,33 +162,57 @@ const PricingPage = () => {
 
   return (
     <div className="min-h-screen bg-dark-background">
+      {/* Spacer for header */}
+      <div className="h-20 sm:h-24" />
+      {/* FOMO/analytics banner below header */}
+      <div className="flex justify-center items-center gap-3 mb-6">
+        <span className="relative flex h-4 w-4">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500"></span>
+        </span>
+        <span className="text-lg font-bold text-[#71ADBA] drop-shadow-sm">
+          {viewers} students viewing this page now
+        </span>
+      </div>
+
       {/* Hero Section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="pt-32 pb-16 text-center"
+        className="pb-10 text-center"
       >
-        <h1 className="text-6xl font-bold text-white mb-6">
-          Invest in Your Future
+        <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
+          Unlock Your Future
         </h1>
-        <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-          Join thousands of students who have already found their perfect career path.
-          Choose the plan that works best for you.
+        <p className="text-xl text-[#71ADBA] max-w-2xl mx-auto mb-2 font-semibold">
+          Save time. Save money. Get career clarity—fast.
+        </p>
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          Join now and get lifetime access to premium features for free. Limited spots available!
         </p>
       </motion.div>
 
+      {/* Section: Save time & money */}
+      <div className="text-center mb-8">
+        <span className="inline-block bg-gradient-to-r from-[#71ADBA]/20 to-[#EDEAB1]/20 text-[#71ADBA] font-bold px-6 py-2 rounded-full text-lg shadow-md">
+          Don’t miss out—students using Pathly save hours and avoid costly mistakes choosing their major and career.
+        </span>
+      </div>
+
       {/* Pricing Cards */}
-      <section className="py-20 bg-dark-background text-white">
+      <section className="py-10 bg-dark-background text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <h2 className="text-5xl font-bold mb-4">Choose Your Path to Success</h2>
-              <p className="text-xl text-gray-300">
+              <h2 className="text-4xl md:text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
+                Choose Your Path
+              </h2>
+              <p className="text-lg text-[#71ADBA]">
                 Get started for free or upgrade to Pro for advanced features. Premium tier coming soon!
               </p>
             </motion.div>
@@ -212,16 +247,18 @@ const PricingPage = () => {
             </div>
 
             {/* Pro Card */}
-            <div className="rounded-2xl bg-gradient-to-b from-[#71ADBA]/10 to-[#9C71BA]/10 p-8 border-2 border-[#71ADBA] transform hover:-translate-y-1 transition-all duration-300 relative">
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#71ADBA] text-white px-4 py-1 rounded-full text-sm">
+            <div className="rounded-2xl bg-gradient-to-b from-[#71ADBA]/10 to-[#9C71BA]/10 p-8 border-2 border-[#71ADBA] transform hover:-translate-y-1 transition-all duration-300 relative shadow-xl">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#71ADBA] text-white px-4 py-1 rounded-full text-sm font-bold tracking-wide shadow-md">
                 Most Popular
               </div>
               <h3 className="text-2xl font-bold mb-2">Pro</h3>
-              <p className="text-gray-400 mb-6">For serious career planning</p>
-              <div className="mb-8">
-                <span className="text-4xl font-bold">$4.99</span>
-                <span className="text-gray-400">/month</span>
-                <span className="ml-2 line-through text-gray-500">$9.99</span>
+              <p className="text-[#71ADBA] font-semibold mb-2">Save time & money. Lifetime access. Limited free spots!</p>
+              <div className="mb-2 flex items-center justify-center gap-2">
+                <span className="text-2xl font-bold text-gray-400 line-through">$4.99</span>
+                <span className="text-4xl font-extrabold text-[#71ADBA] ml-2 drop-shadow">Free</span>
+              </div>
+              <div className="mb-4 text-center">
+                <span className="inline-block bg-gradient-to-r from-[#71ADBA]/20 to-[#EDEAB1]/20 text-[#EDEAB1] px-4 py-1 rounded-full text-base font-bold shadow">Lifetime access</span>
               </div>
               <ul className="space-y-4 mb-8">
                 {pricingTiers[1].features.map((feature: string, index: number) => (
@@ -233,8 +270,8 @@ const PricingPage = () => {
                   </li>
                 ))}
               </ul>
-              <button className="w-full py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white hover:opacity-90 transition-all duration-300">
-                Get 50% Off Now
+              <button className="w-full py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold hover:opacity-90 transition-all duration-300 shadow-lg">
+                Join Free Now
               </button>
             </div>
 
