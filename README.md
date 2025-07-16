@@ -1,215 +1,304 @@
-# 🚀 Pathly - Navigate Your Career Path with Confidence
+# 🚀 Pathly - AI-Powered Career Guidance Platform
 
 <div align="center">
 
 [![Website](https://img.shields.io/badge/Visit-Pathly.com-71ADBA?style=for-the-badge)](https://pathly.com)
 [![Contact](https://img.shields.io/badge/Contact-pathly.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:pathly.help@gmail.com)
 
-**Your AI-Powered Career Navigation & Professional Development Platform**
+**Full-Stack SaaS Platform for Career Development & Professional Growth**
 
-[🎯 Features](#-key-features) • [💼 Services](#-professional-services) • [🌟 Benefits](#-why-choose-pathly) • [📱 Get Started](#-get-started)
+[🎯 Features](#-key-features) • [🏗️ Architecture](#️-architecture) • [🚀 Quick Start](#-quick-start) • [📊 Database](#-database-schema)
 
 ---
 
 </div>
 
-## 🎯 Our Mission
+## 🎯 About Pathly
 
-Pathly is dedicated to revolutionizing career development and professional growth. We combine AI-powered guidance with personalized professional services to help individuals make informed career decisions and establish a strong professional presence.
+Pathly is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, and professional development tools. Built with React, Node.js, and modern web technologies, Pathly provides a seamless experience for students and professionals navigating their career journeys.
 
-### 🎨 Design Philosophy
+### ✨ What Makes Pathly Special
 
-Our platform is built with modern aesthetics and user experience in mind:
-- **Dynamic Header** - Smart scroll behavior for optimal screen real estate
-- **Custom Typography** - Carefully selected fonts for readability and style:
-  - Outfit: Modern, clean logo and headings
-  - Cabinet Grotesk: Playful yet professional navigation
-  - Space Grotesk: Technical content with personality
-- **Interactive Elements** - Subtle animations and transitions for engagement
-- **Gradient Accents** - Beautiful gradient effects using our brand colors (#71ADBA to #9C71BA)
-- **Responsive Design** - Seamless experience across all devices
+- **🎓 Smart Career Assessment** - AI-driven career matching based on interests, skills, and goals
+- **👥 Role-Based Access Control** - Explorer, Pro, and Premium tiers with tailored experiences
+- **🔐 Secure Authentication** - JWT-based authentication with bcrypt password hashing
+- **📊 Comprehensive Analytics** - User behavior tracking with Mixpanel integration
+- **🎨 Modern UI/UX** - Beautiful gradients, animations, and responsive design
+- **⚡ Performance Optimized** - Fast loading with Vite, code splitting, and modern build tools
 
-### 🌟 Core Purpose
+## 🏗️ Architecture
 
-1. **Career Guidance & Development**
-   - Help students choose the right major
-   - Guide professionals in career transitions
-   - Provide data-driven career path recommendations
-   - Offer skill gap analysis and learning roadmaps
+### **Full-Stack Monorepo Structure**
+```
+pathly/
+├── frontend/          # React + TypeScript frontend
+│   ├── src/
+│   │   ├── components/    # 60+ React components
+│   │   ├── context/       # Auth & Theme contexts
+│   │   ├── pages/         # Service pages
+│   │   ├── utils/         # Helper functions
+│   │   └── data/          # Static data & types
+│   └── public/            # Static assets
+├── backend/           # Node.js + Express API
+│   ├── src/
+│   │   ├── api/           # REST API routes
+│   │   ├── config/        # Database configuration
+│   │   ├── middleware/    # Authentication middleware
+│   │   └── types/         # TypeScript definitions
+│   └── prisma/            # Database schema & migrations
+└── docs/              # Documentation
+```
 
-2. **Professional Online Presence**
-   - Create professional websites for personal branding
-   - Build business and e-commerce platforms
-   - Maintain and optimize web presence
-   - Provide ongoing technical support
+### **Tech Stack**
 
-3. **Continuous Professional Growth**
-   - Offer interview preparation resources
-   - Provide networking opportunities
-   - Deliver industry insights and trends
-   - Support continuous skill development
+#### **Frontend**
+- **React 18** - Modern UI library with hooks and concurrent features
+- **TypeScript** - Type-safe development with compile-time error checking
+- **Vite** - Lightning-fast build tool with HMR
+- **Tailwind CSS** - Utility-first CSS framework with custom design system
+- **Framer Motion** - Smooth animations and micro-interactions
+- **Material UI** - Component library for icons and theming
+- **React Router** - Client-side routing with protected routes
 
-## 📈 Impact & Success Stories
+#### **Backend**
+- **Node.js** - JavaScript runtime for server-side development
+- **Express.js** - Fast, minimalist web framework
+- **Prisma ORM** - Type-safe database client with migrations
+- **SQLite** - Lightweight database for development (PostgreSQL ready)
+- **JWT** - Secure authentication tokens
+- **bcryptjs** - Password hashing and security
 
-### The Pathly Effect
+#### **Development & Tools**
+- **TypeScript** - Full-stack type safety
+- **ESLint** - Code quality and style enforcement
+- **Prisma Studio** - Visual database management
+- **Git & GitHub** - Version control and collaboration
+- **Hot Reloading** - Instant development feedback
 
-- **70%** of our users found their dream career path within 3 months
-- **85%** reported reduced anxiety about career decisions
-- **$12,000** average salary increase for users who followed our recommendations
-- **92%** success rate in major-to-career alignment
-- **3x** faster career transitions compared to traditional methods
+## 🚀 Quick Start
 
-### 🎓 Education Impact
-- Guided **5,000+** students in choosing their college major
-- Prevented **$2.8M** in potential student debt through informed major selection
-- **89%** of users report higher confidence in their educational choices
-- Helped **750+** students successfully switch majors without extending graduation
-- Connected **2,000+** students with alumni mentors in their desired field
+### **Prerequisites**
+- Node.js 18+ and npm
+- Git for version control
 
-### 💼 Career Transformation Stories
-- Facilitated **1,200+** successful career transitions
-- Helped professionals secure **$4.2M** in cumulative salary increases
-- **95%** interview success rate for users following our preparation guides
-- Created **800+** professional portfolios leading to job offers
-- Enabled **300+** successful remote work transitions
+### **1. Clone & Setup**
+```bash
+git clone https://github.com/yourusername/pathly.git
+cd pathly
 
-### 🤝 Community Growth
-- Built a thriving community of **15,000+** active members
-- Facilitated **2,500+** meaningful professional connections
-- Hosted **200+** virtual networking events
-- **92%** of users actively engage in peer support
-- Generated **450+** success story testimonials
+# Install frontend dependencies
+cd frontend
+npm install
 
-### 💫 Real Stories, Real Impact
+# Install backend dependencies
+cd ../backend
+npm install
+```
 
-> "Pathly helped me pivot from teaching to UX design. Within 6 months, I landed my dream job with a 40% salary increase." - Sarah M.
+### **2. Environment Configuration**
+```bash
+# Backend environment
+cd backend
+cp .env.example .env
 
-> "The major selection tool saved me years of uncertainty. I'm now confidently pursuing computer science with a clear career path." - James T.
+# Configure your environment variables:
+# DATABASE_URL="file:./dev.db"
+# JWT_SECRET="your-super-secret-jwt-key"
+# PORT=3001
+```
 
-> "Thanks to Pathly's guidance, I successfully transitioned to tech sales. My income has doubled, but more importantly, I wake up excited about work." - Michael R.
+### **3. Database Setup**
+```bash
+# Generate Prisma client and run migrations
+cd backend
+npx prisma generate
+npx prisma migrate dev
+npx prisma db seed  # Optional: seed with sample data
 
-## ✨ Key Features
+# Launch Prisma Studio (database GUI)
+npx prisma studio  # Available at http://localhost:5555
+```
 
-### 🎨 Modern User Interface
-- **Dynamic Success Stories** - Interactive carousel showcasing real user achievements
-- **Active Users Banner** - Real-time community engagement tracking
-- **Problem Statement & Statistics** - Compelling data visualization about career uncertainty
-- **Enhanced Landing Page** - Optimized for Gen Z audiences with modern aesthetics
-- **Social Proof Integration** - Showcasing 1,000+ early adopters and success metrics
+### **4. Start Development Servers**
+```bash
+# Terminal 1: Backend (API server)
+cd backend
+npm run dev  # Runs on http://localhost:3001
 
-### 🤖 AI-Powered Career Guidance
-- **Smart Career Assessment** - Get personalized career recommendations based on your interests, skills, and goals
-- **Major Selection Tool** - Make informed decisions about your college major with data-driven insights
-- **Salary Insights** - Access real-time industry compensation data and trends
-- **Skills Gap Analysis** - Identify and bridge the skills needed for your dream career
+# Terminal 2: Frontend (React app)
+cd frontend
+npm run dev  # Runs on http://localhost:5173
+```
 
-### 🌐 Professional Website Services
+### **5. Access the Application**
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3001
+- **Database Studio**: http://localhost:5555
+- **Health Check**: http://localhost:3001/health
 
-#### Website Packages
+## 🎯 Key Features
 
-| Package | Features | Investment |
-|---------|----------|------------|
-| **Personal** | • Custom Design<br>• Mobile Responsive<br>• Contact Form<br>• 3 Pages<br>• Basic SEO<br>• Portfolio Showcase | $499 |
-| **Business** | • Custom Design<br>• Mobile Responsive<br>• Contact Forms<br>• 5-7 Pages<br>• Advanced SEO<br>• Analytics Integration | $999 |
-| **E-commerce** | • Custom Design<br>• Mobile Responsive<br>• Product Management<br>• Payment Integration<br>• Order System<br>• Customer Accounts | $1499 |
+### **🔐 Authentication System**
+- **Secure Signup/Login** - JWT-based authentication with password hashing
+- **Role-Based Access** - Explorer (Free), Pro, and Premium account types
+- **Protected Routes** - Dashboard access based on authentication status
+- **User Profiles** - Comprehensive user data with preferences
 
-#### 🔄 Flexible Maintenance Plans
+### **📊 User Dashboards**
+- **Explorer Dashboard** - Free tier with upgrade prompts and basic features
+- **Pro Dashboard** - Premium features for paid users
+- **Smart Routing** - Automatic redirection based on account type
+- **Profile Management** - User info display with account type indicators
 
-| Plan | Features | Monthly Investment |
-|------|----------|-------------------|
-| **Basic** | • Monthly Updates<br>• Security Patches<br>• Basic Support | $29 |
-| **Premium** | • Weekly Updates<br>• Priority Support<br>• Advanced Security<br>• Daily Backups | $79 |
-| **Lifetime** | • 24/7 Support<br>• Unlimited Updates<br>• Marketing Support<br>• Monthly Reports | $199 |
+### **🎓 Career Assessment**
+- **Personalized Quizzes** - AI-driven career matching algorithms
+- **Major Recommendations** - Data-driven college major suggestions
+- **Skills Analysis** - Gap analysis and learning recommendations
+- **Career Timelines** - Roadmaps for professional development
 
-### 💎 Premium Features
-- **1-on-1 Career Coaching** - Personalized guidance from industry experts
-- **Mock Interview Sessions** - Practice with real interview scenarios
-- **Private Discord Community** - Network with peers and professionals
-- **Priority Support** - Get help when you need it most
+### **🎨 Modern UI/UX**
+- **Gradient Design System** - Beautiful teal → purple → cream gradients
+- **Responsive Design** - Mobile-first approach with Tailwind breakpoints
+- **Interactive Elements** - Hover states, animations, and user feedback
+- **Dark/Light Themes** - Seamless theme switching
+- **Performance Optimized** - Code splitting and lazy loading
 
-## 🌟 Why Choose Pathly?
+## 📊 Database Schema
 
-### For Career Development
-- **Data-Driven Decisions** - Make choices based on real market insights
-- **Personalized Guidance** - Get recommendations tailored to your goals
-- **Comprehensive Support** - From college to career advancement
-- **Industry Insights** - Stay updated with latest trends and opportunities
-
-### For Website Development
-- **Professional Design** - Stand out with a modern, responsive website
-- **Affordable Solutions** - Premium features at competitive prices
-- **Flexible Payment** - Multiple payment options including Venmo and Cash App
-- **Preview Option** - Start with a mockup before full development
-- **Bundle Savings** - Save with website + maintenance packages
-
-## 📱 Get Started
-
-1. **Visit [Pathly.com](https://pathly.com)**
-2. **Take our Career Assessment**
-3. **Explore Personalized Recommendations**
-4. **Build Your Professional Presence**
-
-## 🛠️ Technical Stack
-
-- **Frontend Framework**
-  - React 18 with TypeScript
-  - Vite for lightning-fast builds
-  - Framer Motion for smooth animations
+### **Core Models**
+```prisma
+model User {
+  id              String        @id @default(cuid())
+  email           String        @unique
+  firstName       String
+  lastName        String
+  accountType     AccountType   @default(EXPLORER)
+  university      String?
+  major           String?
+  graduationYear  Int?
+  careerGoals     String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
   
-- **Styling & Design**
-  - Tailwind CSS for utility-first styling
-  - Custom font combinations:
-    - Outfit (modern headlines)
-    - Cabinet Grotesk (navigation)
-    - Space Grotesk (technical content)
-  - Material UI Icons
-  - CSS Gradient system
-  - Mobile-first responsive design
+  // Relationships
+  quizResults            CareerQuizResult[]
+  majorRecommendations   MajorRecommendation[]
+  careerTimelines        CareerTimeline[]
+  notificationSettings  NotificationSettings?
+  weeklyUpdates         WeeklyUpdate[]
+}
 
-- **User Experience**
-  - Dynamic header with smart scroll behavior
-  - Smooth page transitions
-  - Interactive hover effects
-  - Optimized animations
-  - Responsive dropdowns
+enum AccountType {
+  EXPLORER  // Free tier
+  PRO       // Paid tier
+  PREMIUM   // Premium tier
+}
+```
 
-- **Performance**
-  - Code splitting for optimal loading
-  - Image optimization
-  - Lazy loading components
-  - Efficient state management
-  - SEO optimized structure
+### **Extended Features**
+- **CareerQuizResult** - Store quiz responses and career matches
+- **MajorRecommendation** - College major suggestions with confidence scores
+- **SkillDemand** - Industry skill requirements and trends
+- **AIImpactAnalysis** - Future career outlook with AI impact
+- **NotificationSettings** - User communication preferences
+- **SalaryTrend** - Compensation data by career and location
 
-### 📊 Project Stats
-- **Total Lines of Code**: 12,500+
-  - TypeScript/JavaScript: 11,800+ lines
-  - CSS: 700+ lines
-- **Components**: 45+ React components
-- **Pages**: 15+ unique pages
-- **Custom Hooks & Utils**: 12+ utility functions
-- **Design Assets**: 20+ custom SVG icons and illustrations
+## 🛠️ API Endpoints
+
+### **Authentication**
+```bash
+POST /api/auth/signup     # User registration
+POST /api/auth/login      # User authentication
+POST /api/auth/logout     # Session termination
+GET  /api/auth/profile    # Get user profile
+```
+
+### **Health & Monitoring**
+```bash
+GET  /health              # API health check
+GET  /api/test-db         # Database connection test
+```
+
+### **User Management**
+```bash
+GET  /api/users/profile   # Protected: Get user data
+PUT  /api/users/profile   # Protected: Update user info
+```
+
+## 📈 Project Statistics
+
+### **Codebase Metrics**
+- **~20,000 Lines of Code** across frontend and backend
+- **68 React Components** - Comprehensive UI component library
+- **58+ TypeScript Files** - Type-safe development
+- **120-line Database Schema** - Comprehensive user data model
+- **Production-Ready** - Full authentication and user management
+
+### **Key Components**
+| Component | Lines | Purpose |
+|-----------|-------|---------|
+| `LandingPage.tsx` | 848 | Marketing landing page |
+| `WebsiteServicePage.tsx` | 838 | Website building services |
+| `Header.tsx` | 540 | Navigation with user profiles |
+| `MajorSelectionPage.tsx` | 452 | College major selection tool |
+| `SignupPro.tsx` | 358 | Pro account registration |
+| `PricingPage.tsx` | 334 | Subscription pricing |
+
+### **Database Features**
+- **User Authentication** - Secure login with role-based access
+- **Career Data** - Comprehensive career assessment storage
+- **Analytics Tracking** - User behavior and engagement metrics
+- **Scalable Schema** - Ready for production deployment
+
+## 🔒 Security Features
+
+- **Password Hashing** - bcrypt with salt rounds for secure storage
+- **JWT Authentication** - Stateless, secure token-based sessions
+- **Input Validation** - Server-side validation and sanitization
+- **Protected Routes** - Middleware-based access control
+- **Environment Security** - Secure configuration management
+
+## 🚀 Deployment
+
+### **Production Checklist**
+- [ ] Environment variables configured
+- [ ] Database migrations applied
+- [ ] Frontend build optimized
+- [ ] SSL certificates installed
+- [ ] Monitoring and logging setup
+
+### **Recommended Stack**
+- **Frontend**: Vercel, Netlify, or AWS S3 + CloudFront
+- **Backend**: Railway, Heroku, or AWS EC2
+- **Database**: PostgreSQL on AWS RDS or Railway
+- **Monitoring**: Sentry for error tracking
 
 ## 📞 Contact & Support
 
 - **Email**: [pathly.help@gmail.com](mailto:pathly.help@gmail.com)
+- **GitHub**: [github.com/yourusername/pathly](https://github.com/yourusername/pathly)
 - **Website**: [pathly.com](https://pathly.com)
-- **Discord**: Join our community for exclusive updates and networking
 
-## 🔒 Our Commitment
+## 🤝 Contributing
 
-- **Quality** - Professional, modern solutions
-- **Support** - Responsive customer service
-- **Value** - Competitive pricing with premium features
-- **Growth** - Regular updates and new features
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**Ready to take your career to the next level?**
+**Ready to transform career guidance with modern technology?**
 
-[Get Started with Pathly Today →](https://pathly.com)
+[🚀 Get Started with Pathly →](https://pathly.com)
 
-Made with ❤️ by the Pathly Team
+Built with ❤️ using React, Node.js, and modern web technologies
 
 </div>
