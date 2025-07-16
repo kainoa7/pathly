@@ -389,26 +389,8 @@ const WaitlistSection = () => {
 const ScrollIndicator = () => {
   const ref = useRef(null);
   const { scrollY } = useScroll();
-  
-  // Get viewport height and use it to determine when to fade out
-  const [viewportHeight, setViewportHeight] = useState(window.innerHeight);
-  
-  useEffect(() => {
-    const handleResize = () => {
-      setViewportHeight(window.innerHeight);
-    };
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-  // Fade out as we approach the viewport height with a sharper transition
-  const opacity = useTransform(
-    scrollY,
-    [viewportHeight * 0.3, viewportHeight * 0.5], // Shorter fade range for crisper transition
-    [1, 0]
-  );
-  
   return (
     <motion.div
       ref={ref}
@@ -416,7 +398,7 @@ const ScrollIndicator = () => {
       animate={{ opacity: 1 }}
       transition={{ delay: 2, duration: 1 }}
       style={{ opacity }}
-      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-50 bg-[#1a2234]/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#71ADBA]/20"
+      className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer z-50 bg-[#1a2234]/90 backdrop-blur-md px-4 py-3 rounded-2xl border border-[#71ADBA]/20 hidden md:flex" // Hide on mobile, show on medium screens and up
       onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
     >
       <span className="text-gray-400 text-sm">Scroll to explore</span>

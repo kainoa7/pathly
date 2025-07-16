@@ -80,7 +80,7 @@ const UserActivityToast = () => {
 
   return (
     <motion.div 
-      className="fixed z-50"
+      className="fixed z-50 hidden md:block" // Hide on mobile, show on medium screens and up
       style={{
         left: position.left,
         bottom: position.bottom,
