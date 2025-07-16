@@ -9,6 +9,7 @@ import QuickStatsCarousel from './QuickStatsCarousel';
 import BackgroundAnimation from './BackgroundAnimation';
 import UserActivityToast from './UserActivityToast';
 import RemainingSpots from './RemainingSpots';
+import CommunityGrowthSection from './CommunityGrowthSection';
 import { useEffect, useState, useRef } from 'react';
 import Analytics from '../utils/analytics';
 import PeopleIcon from '@mui/icons-material/People';
@@ -654,14 +655,14 @@ const LandingPage = () => {
     ]
   };
 
-  // Fixed positions with better spacing to prevent overlapping
+  // Update the positions to start lower on the page
   const positions = [
-    { x: -420, y: 180 },  // Far left top
-    { x: 420, y: 220 },   // Far right top
-    { x: -380, y: 380 },  // Left middle
-    { x: 380, y: 420 },   // Right middle
-    { x: -400, y: 580 },  // Left bottom
-    { x: 400, y: 620 }    // Right bottom
+    { x: -420, y: 280 },  // Increased Y values to move elements down
+    { x: 420, y: 320 },
+    { x: -380, y: 480 },
+    { x: 380, y: 520 },
+    { x: -400, y: 680 },
+    { x: 400, y: 720 }
   ];
 
   // Function to get random messages
@@ -712,192 +713,187 @@ const LandingPage = () => {
   }, [controls]);
 
   return (
-    <div className="relative bg-gradient-to-b from-navy-900 to-navy-950 overflow-x-hidden">
-      {/* Background animations */}
+    <div className="relative min-h-screen bg-dark-background">
       <BackgroundAnimation />
       
       {/* Activity Toasts */}
       <UserActivityToast />
 
-      {/* User Counters - Only active users counter now */}
-      <div className="fixed top-0 left-0 right-0 z-50 pointer-events-none">
-        <div className="max-w-7xl mx-auto relative">
-          <div className="absolute top-24 right-4 sm:right-6 lg:right-8">
-            <ActiveUsersBanner initialCount={userCount} />
-          </div>
-        </div>
-      </div>
+      {/* Active Users Banner */}
+      <ActiveUsersBanner className="hidden md:block" />
 
-      {/* Hero Section - Full Screen */}
-      <div className="min-h-screen relative flex flex-col justify-center items-center">
-        {/* Main Hero Content */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center relative max-w-4xl mx-auto">
-            {/* Floating Background Elements */}
-            <div className="absolute inset-0 overflow-visible pointer-events-none">
-              {/* Mixed Floating Elements */}
-              {floatingElements.map((element, index) => (
-                <motion.div
-                  key={`${element.text}-${index}`}
-                  initial={{ opacity: 0, x: element.position.x, y: element.position.y }}
-                  animate={{ 
-                    opacity: [0, 1, 1, 0],
-                    x: [
-                      element.position.x, 
-                      element.position.x + (index % 2 ? 40 : -40), 
-                      element.position.x - (index % 2 ? -40 : 40), 
-                      element.position.x
-                    ],
-                    y: [
-                      element.position.y, 
-                      element.position.y - 80, 
-                      element.position.y - 120, 
-                      element.position.y - 160
-                    ],
-                  }}
-                  transition={{ 
-                    duration: 25,
-                    times: [0, 0.2, 0.8, 1],
-                    repeat: Infinity,
-                    delay: index * 7,
-                    ease: "easeInOut"
-                  }}
-                  className="absolute backdrop-blur-sm px-6 py-3 rounded-2xl border shadow-lg bg-[#1a2234]/80 border-[#71ADBA]/20"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-[#EDEAB1]">
-                      {element.icon}
-                    </span>
-                    <span className="text-gray-300 text-sm whitespace-nowrap">
-                      {element.text}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+      {/* Main Content */}
+      <main className="relative z-10">
+        {/* Hero Section - Full Screen */}
+        <div className="min-h-screen relative flex flex-col justify-center items-center pt-24"> {/* Added pt-24 for top padding */}
+          {/* Main Hero Content */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="text-center relative max-w-4xl mx-auto">
+              {/* Floating Background Elements */}
+              <div className="absolute inset-0 overflow-visible pointer-events-none">
+                {floatingElements.map((element, index) => (
+                  <motion.div
+                    key={`${element.text}-${index}`}
+                    initial={{ opacity: 0, x: element.position.x, y: element.position.y }}
+                    animate={{ 
+                      opacity: [0, 1, 1, 0],
+                      x: [
+                        element.position.x, 
+                        element.position.x + (index % 2 ? 40 : -40), 
+                        element.position.x - (index % 2 ? -40 : 40), 
+                        element.position.x
+                      ],
+                      y: [
+                        element.position.y, 
+                        element.position.y - 80, 
+                        element.position.y - 120, 
+                        element.position.y - 160
+                      ],
+                    }}
+                    transition={{ 
+                      duration: 25,
+                      times: [0, 0.2, 0.8, 1],
+                      repeat: Infinity,
+                      delay: index * 7,
+                      ease: "easeInOut"
+                    }}
+                    className="absolute backdrop-blur-sm px-6 py-3 rounded-2xl border shadow-lg bg-[#1a2234]/80 border-[#71ADBA]/20"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#EDEAB1]">
+                        {element.icon}
+                      </span>
+                      <span className="text-gray-300 text-sm whitespace-nowrap">
+                        {element.text}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
 
-            {/* Rest of the content */}
-            {/* Career Cards - Positioned further in background */}
-            {trendingCareers.map((career, index) => (
-              <TrendingCareer
-                key={career}
-                career={career}
-                delay={index * 5 + 3}
-                position={positions[index]}
-              />
-            ))}
-
-            {/* AI Banner */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mb-16 relative z-10"
-            >
-              <span className="inline-flex items-center gap-2 bg-[#1a2234]/80 backdrop-blur-sm px-6 py-3 rounded-2xl border border-[#71ADBA]/20 shadow-lg">
-                <AutoGraphIcon className="w-5 h-5 text-[#EDEAB1]" />
-                <span className="text-gray-300">AI-powered career guidance that actually works</span>
-              </span>
-            </motion.div>
-
-            {/* Main Content */}
-            <div className="relative z-20">
-              <AnimatedTagline />
-
-              <motion.div 
-                className="text-xl md:text-2xl text-gray-300 mb-16"
-              >
-                <TypewriterText texts={painPoints} />
-              </motion.div>
-
+              {/* AI Banner */}
               <motion.div
-                className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                className="mb-16 relative z-10 mt-16" // Added mt-16 for top margin
               >
-                <button
-                  onClick={() => navigate('/quiz')}
-                  className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-all shadow-lg flex items-center gap-2 w-full sm:w-auto justify-center"
-                >
-                  <span>Find Your Path</span>
-                  <span className="text-2xl">→</span>
-                </button>
-                <button
-                  onClick={() => navigate('/how-it-works')}
-                  className="px-8 py-4 rounded-2xl bg-[#1a2234]/80 backdrop-blur-sm border border-[#71ADBA]/20 text-white font-semibold hover:bg-[#1a2234] transition-all shadow-lg w-full sm:w-auto"
-                >
-                  See How it Works
-                </button>
+                <span className="inline-flex items-center gap-2 bg-[#1a2234]/80 backdrop-blur-sm px-6 py-3 rounded-2xl border border-[#71ADBA]/20 shadow-lg">
+                  <AutoGraphIcon className="w-5 h-5 text-[#EDEAB1]" />
+                  <span className="text-gray-300">AI-powered career guidance that actually works</span>
+                </span>
               </motion.div>
+
+              {/* Main Content */}
+              <div className="relative z-20">
+                <AnimatedTagline />
+
+                <motion.div 
+                  className="text-xl md:text-2xl text-gray-300 mb-16"
+                >
+                  <TypewriterText texts={painPoints} />
+                </motion.div>
+
+                <motion.div
+                  className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  <button
+                    onClick={() => navigate('/quiz')}
+                    className="px-8 py-4 rounded-2xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-all shadow-lg flex items-center gap-2 w-full sm:w-auto justify-center"
+                  >
+                    <span>Find Your Path</span>
+                    <span className="text-2xl">→</span>
+                  </button>
+                  <button
+                    onClick={() => navigate('/how-it-works')}
+                    className="px-8 py-4 rounded-2xl bg-[#1a2234]/80 backdrop-blur-sm border border-[#71ADBA]/20 text-white font-semibold hover:bg-[#1a2234] transition-all shadow-lg w-full sm:w-auto"
+                  >
+                    See How it Works
+                  </button>
+                </motion.div>
+              </div>
             </div>
           </div>
+
+          {/* Scroll Indicator */}
+          <ScrollIndicator />
         </div>
 
-        {/* Scroll Indicator */}
-        <ScrollIndicator />
-      </div>
+        {/* Content Sections */}
+        <div className="relative z-10">
+          {/* How It Works Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="relative py-20"
+          >
+            <HowItWorks />
+          </motion.div>
 
-      {/* Content Sections - Now only shown after scroll */}
-      <div className="relative z-10">
-        {/* How It Works Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="relative py-20"
-        >
-          <HowItWorks />
-        </motion.div>
+          {/* Company Logos Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="py-16 relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
+            <CompanyLogos />
+          </motion.div>
 
-        {/* Company Logos Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="py-16 relative"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
-          <CompanyLogos />
-        </motion.div>
+          {/* Testimonials Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="relative py-20"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
+            <InteractiveTestimonial />
+          </motion.div>
 
-        {/* Testimonials Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="relative py-20"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
-          <InteractiveTestimonial />
-        </motion.div>
+          {/* Community Stories Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="relative py-20"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
+            <CommunityStories />
+          </motion.div>
 
-        {/* Community Stories Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="relative py-20"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
-          <CommunityStories />
-        </motion.div>
+          {/* Community Growth Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <CommunityGrowthSection />
+          </motion.div>
 
-        {/* Waitlist Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
-          <WaitlistSection />
-        </motion.div>
-      </div>
+          {/* Waitlist Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+            className="relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
+            <WaitlistSection />
+          </motion.div>
+        </div>
+      </main>
     </div>
   );
 };
