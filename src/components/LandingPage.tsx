@@ -160,14 +160,14 @@ const WaitlistSection = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     try {
-      // TODO: Implement actual waitlist API call
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
       setIsSubmitted(true);
       Analytics.trackInteraction('waitlist_form', 'signup_submitted');
     } catch (error) {
@@ -179,91 +179,160 @@ const WaitlistSection = () => {
 
   return (
     <section className="py-20 px-4 relative overflow-hidden bg-navy-800/30">
+      {/* Floating avatars in the background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <motion.div
+          animate={{
+            y: [-20, 0, -20],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -left-4 top-1/4 w-12 h-12 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] blur-sm"
+        />
+        <motion.div
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+          className="absolute -right-4 top-1/3 w-10 h-10 rounded-full bg-gradient-to-r from-[#9C71BA] to-[#EDEAB1] blur-sm"
+        />
+      </div>
+
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
-        className="max-w-6xl mx-auto text-center"
+        className="max-w-2xl mx-auto text-center relative z-10"
       >
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent"
+          className="mb-8 space-y-4"
         >
-          Ready to be part of something bigger?
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2 }}
-          className="text-xl text-gray-300 max-w-2xl mx-auto mb-8"
-        >
-          Join our exclusive waitlist for free pro membership access
-        </motion.p>
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
+            Feeling stuck on your career path?
+          </h2>
+          <p className="text-xl text-gray-300">
+            You're not alone. We've been there – trying to figure out what's next, 
+            wondering if you're making the right choices.
+          </p>
+          <p className="text-lg text-[#EDEAB1]">
+            To celebrate our 1000+ success stories, we're giving the next wave of students <span className="font-semibold">free access to all pro features</span> 🎉
+          </p>
+        </motion.div>
 
-        {/* Waitlist Form */}
-        <div className="max-w-md mx-auto">
+        <div className="max-w-md mx-auto relative">
           {!isSubmitted ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="relative">
+            <motion.form
+              onSubmit={handleSubmit}
+              className="space-y-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+            >
+              <div className="relative group">
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
-                  className="w-full px-6 py-4 rounded-xl bg-navy-900/50 border border-[#71ADBA]/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]/50"
+                  className="w-full px-6 py-4 rounded-xl bg-navy-900/50 border border-[#71ADBA]/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]/50 transition-all duration-300 group-hover:border-[#71ADBA]/30"
                   required
                 />
+                <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
               </div>
-              <button
+
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-6 py-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold hover:opacity-90 transition-opacity disabled:opacity-50"
+                onHoverStart={() => setIsHovered(true)}
+                onHoverEnd={() => setIsHovered(false)}
+                className="relative w-full px-6 py-4 rounded-xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-[#71ADBA]/20 disabled:opacity-50 overflow-hidden"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
-                {isSubmitting ? 'Joining...' : 'Get Free Pro Access'}
-              </button>
-              <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
-                <LockIcon className="w-4 h-4" />
-                <span>Join 1,000+ students enjoying pro features for free</span>
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                  initial={{ x: '-100%' }}
+                  animate={isHovered ? { x: '100%' } : { x: '-100%' }}
+                  transition={{ duration: 0.6, ease: "easeInOut" }}
+                />
+                <span className="relative">
+                  {isSubmitting ? 'Securing your spot...' : 'Get Early Access →'}
+                </span>
+              </motion.button>
+
+              <div className="flex flex-col items-center space-y-3 text-sm">
+                <div className="flex items-center justify-center space-x-2 text-gray-400">
+                  <LockIcon className="w-4 h-4" />
+                                     <span>Join the community that helped 1,000+ students land their dream roles</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RemainingSpots />
+                </div>
               </div>
-              <div className="mt-4">
-                <RemainingSpots />
-              </div>
-            </form>
+            </motion.form>
           ) : (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-navy-900/50 border border-[#71ADBA]/20 rounded-xl p-8"
+              className="bg-navy-900/50 border border-[#71ADBA]/20 rounded-xl p-8 relative overflow-hidden"
             >
-              <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">🎉 You're on the list!</h3>
-              <p className="text-gray-300">
-                We'll notify you as soon as your free pro membership is ready. In the meantime, follow us on social media for updates!
-              </p>
-              <div className="flex justify-center space-x-6 mt-6">
-                <motion.a
-                  href="https://instagram.com/pathly"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-3 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl border border-[#71ADBA]/20"
-                >
-                  <InstagramIcon className="w-6 h-6 text-[#EDEAB1]" />
-                </motion.a>
-                <motion.a
-                  href="https://linkedin.com/company/pathly"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="p-3 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl border border-[#71ADBA]/20"
-                >
-                  <LinkedInIcon className="w-6 h-6 text-[#EDEAB1]" />
-                </motion.a>
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/10 via-[#9C71BA]/10 to-[#EDEAB1]/10"
+                animate={{
+                  opacity: [0.3, 0.5, 0.3],
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <div className="relative">
+                <h3 className="text-2xl font-bold text-[#EDEAB1] mb-4">
+                  🎉 You're in!
+                </h3>
+                <p className="text-gray-300">
+                  We'll let you know the moment your free pro access is ready. 
+                  Get ready to unlock your potential!
+                </p>
+                <div className="flex justify-center space-x-6 mt-6">
+                  <motion.a
+                    href="https://twitter.com/pathly"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </motion.a>
+                  <motion.a
+                    href="https://instagram.com/pathly"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
+                    whileHover={{ scale: 1.1 }}
+                  >
+                    <InstagramIcon className="w-6 h-6" />
+                  </motion.a>
+                </div>
               </div>
             </motion.div>
           )}
