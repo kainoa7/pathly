@@ -15,82 +15,80 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 px-4 overflow-hidden mt-auto">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -inset-[100%] opacity-10">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 300 + 50}px`,
-                height: `${Math.random() * 300 + 50}px`,
-                background: `radial-gradient(circle, rgba(113,173,186,0.3) 0%, rgba(156,113,186,0.1) 100%)`,
-                transform: `rotate(${Math.random() * 360}deg)`,
-                animation: `float ${Math.random() * 10 + 10}s infinite linear`
-              }}
-            />
-          ))}
+    <footer className="relative bg-dark-background text-white py-16 px-4 overflow-hidden mt-auto border-t border-[#71ADBA]/10">
+      {/* Gradient background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute w-full h-full">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-full blur-[100px] transform -translate-y-1/2"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-r from-[#9C71BA]/10 to-[#71ADBA]/10 rounded-full blur-[100px] transform translate-y-1/2"></div>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 relative z-10">
         {/* Company Info */}
         <div>
-          <div className="flex items-center space-x-3 mb-4 group">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center space-x-3 mb-6 group"
+          >
             <div className="relative w-12 h-12">
-              <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 rounded-full blur-lg"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
               <img 
-                src="/logo.svg" 
+                src="/logo.png" 
                 alt="Pathly Logo" 
                 className="w-full h-full relative z-10 drop-shadow-[0_0_10px_rgba(113,173,186,0.3)]"
               />
             </div>
-            <span className="pathly-logo text-2xl bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent font-bold">
+            <span className="text-2xl font-bold bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent">
               Pathly
             </span>
-          </div>
-          <p className="text-gray-300 mb-4">
+          </motion.div>
+          <p className="text-gray-300 mb-6">
             Empowering students to make informed career decisions through data-driven guidance and personalized roadmaps.
           </p>
           <div className="flex space-x-4">
             <motion.a
-              href="#"
+              href="https://linkedin.com/company/pathly"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleSocialClick('linkedin')}
-              className="text-gray-400 hover:text-[#71ADBA] transition-colors"
+              className="p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 hover:from-[#71ADBA]/20 hover:to-[#9C71BA]/20 border border-[#71ADBA]/20 transition-all"
             >
-              <LinkedInIcon />
+              <LinkedInIcon className="text-[#71ADBA]" />
             </motion.a>
             <motion.a
-              href="#"
+              href="https://twitter.com/pathly"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleSocialClick('twitter')}
-              className="text-gray-400 hover:text-[#71ADBA] transition-colors"
+              className="p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 hover:from-[#71ADBA]/20 hover:to-[#9C71BA]/20 border border-[#71ADBA]/20 transition-all"
             >
-              <TwitterIcon />
+              <TwitterIcon className="text-[#71ADBA]" />
             </motion.a>
             <motion.a
-              href="#"
+              href="https://instagram.com/pathly"
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => handleSocialClick('instagram')}
-              className="text-gray-400 hover:text-[#71ADBA] transition-colors"
+              className="p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 hover:from-[#71ADBA]/20 hover:to-[#9C71BA]/20 border border-[#71ADBA]/20 transition-all"
             >
-              <InstagramIcon />
+              <InstagramIcon className="text-[#71ADBA]" />
             </motion.a>
           </div>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-          <ul className="space-y-2">
+          <h3 className="text-lg font-semibold mb-6 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent">Quick Links</h3>
+          <ul className="space-y-3">
             <li>
               <Link to="/about" className="text-gray-300 hover:text-[#71ADBA] transition-colors">About Us</Link>
             </li>
@@ -98,57 +96,69 @@ const Footer = () => {
               <Link to="/onboarding" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Career Quiz</Link>
             </li>
             <li>
-              <Link to="/services/career-roadmap" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Career Roadmap</Link>
+              <Link to="/career-roadmap" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Career Roadmap</Link>
             </li>
             <li>
               <Link to="/major-selection" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Major Selection</Link>
             </li>
             <li>
-              <Link to="/services/resume-builder" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Resume Builder</Link>
+              <Link to="/resume-builder" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Resume Builder</Link>
             </li>
             <li>
-              <Link to="/services/resume-review" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Resume Review</Link>
+              <Link to="/resume-review" className="text-gray-300 hover:text-[#71ADBA] transition-colors">Resume Review</Link>
             </li>
           </ul>
         </div>
 
         {/* Coming Soon Features */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Coming Soon</h3>
+          <h3 className="text-lg font-semibold mb-6 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent">Coming Soon</h3>
           <ul className="space-y-4">
-            <li className="flex items-center space-x-2">
+            <motion.li 
+              whileHover={{ x: 5 }}
+              className="flex items-center space-x-3 p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/5 to-[#9C71BA]/5 hover:from-[#71ADBA]/10 hover:to-[#9C71BA]/10 transition-colors"
+            >
               <TipsAndUpdatesIcon className="text-[#71ADBA]" />
               <span className="text-gray-300">Smart Career Guidance</span>
-            </li>
-            <li className="flex items-center space-x-2">
+            </motion.li>
+            <motion.li 
+              whileHover={{ x: 5 }}
+              className="flex items-center space-x-3 p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/5 to-[#9C71BA]/5 hover:from-[#71ADBA]/10 hover:to-[#9C71BA]/10 transition-colors"
+            >
               <PeopleIcon className="text-[#71ADBA]" />
               <span className="text-gray-300">Mentor Matching</span>
-            </li>
-            <li className="flex items-center space-x-2">
+            </motion.li>
+            <motion.li 
+              whileHover={{ x: 5 }}
+              className="flex items-center space-x-3 p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/5 to-[#9C71BA]/5 hover:from-[#71ADBA]/10 hover:to-[#9C71BA]/10 transition-colors"
+            >
               <SchoolIcon className="text-[#71ADBA]" />
               <span className="text-gray-300">University Reviews</span>
-            </li>
-            <li className="flex items-center space-x-2">
+            </motion.li>
+            <motion.li 
+              whileHover={{ x: 5 }}
+              className="flex items-center space-x-3 p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/5 to-[#9C71BA]/5 hover:from-[#71ADBA]/10 hover:to-[#9C71BA]/10 transition-colors"
+            >
               <WorkspacePremiumIcon className="text-[#71ADBA]" />
               <span className="text-gray-300">Pro Career Tools</span>
-            </li>
+            </motion.li>
           </ul>
         </div>
 
         {/* Newsletter */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
-          <p className="text-gray-300 mb-4">Get the latest career insights and updates.</p>
-          <div className="relative">
+          <h3 className="text-lg font-semibold mb-6 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] bg-clip-text text-transparent">Stay Updated</h3>
+          <p className="text-gray-300 mb-6">Get the latest career insights and updates.</p>
+          <div className="space-y-3">
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full px-4 py-2 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#71ADBA]"
+              className="w-full px-4 py-3 rounded-lg bg-[#71ADBA]/5 border border-[#71ADBA]/20 text-white placeholder-gray-400 focus:outline-none focus:border-[#71ADBA]/50 transition-colors"
             />
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="mt-2 w-full px-4 py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg font-medium"
+              className="w-full px-4 py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-medium hover:opacity-90 transition-opacity"
               onClick={() => Analytics.trackInteraction('footer', 'newsletter_subscribe')}
             >
               Subscribe
@@ -158,7 +168,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mt-16 pt-8 pb-20 md:pb-8 border-t border-gray-700 text-center relative z-10">
+      <div className="mt-16 pt-8 border-t border-[#71ADBA]/10 text-center relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} Pathly. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
@@ -168,16 +178,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-
-      <style>
-        {`
-          @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(20px, 20px) rotate(180deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
-          }
-        `}
-      </style>
     </footer>
   );
 };

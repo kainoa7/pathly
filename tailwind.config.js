@@ -7,6 +7,11 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        'outfit': ['Outfit', 'sans-serif'],
+        'cabinet': ['Cabinet Grotesk', 'sans-serif'],
+        'space': ['Space Grotesk', 'sans-serif']
+      },
       colors: {
         // Light theme colors (new palette)
         light: {

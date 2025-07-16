@@ -1,10 +1,8 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import DescriptionIcon from '@mui/icons-material/Description';
 import RouteIcon from '@mui/icons-material/Route';
@@ -16,13 +14,71 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LoginIcon from '@mui/icons-material/Login';
 import { useTheme } from '../context/ThemeContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [shouldShowHeader, setShouldShowHeader] = useState(true);
   const { theme, toggleTheme } = useTheme();
+  
+  // Add refs for dropdown containers
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
+  
+  // Handle scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Always show header at the top of the page
+      if (currentScrollY < 100) {
+        setShouldShowHeader(true);
+        setLastScrollY(currentScrollY);
+        return;
+      }
+
+      // Show/hide based on scroll direction
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setShouldShowHeader(false);
+      } else {
+        // Scrolling up
+        setShouldShowHeader(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  // Handle click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      // Services dropdown
+      if (servicesRef.current && !servicesRef.current.contains(event.target as Node)) {
+        setIsServicesOpen(false);
+      }
+      // Profile dropdown
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // TODO: Replace with actual auth state
+  const [isAuthenticated] = useState(false);
 
   const services = [
     {
@@ -64,20 +120,46 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-light-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-light-border dark:border-dark-border">
+    <motion.header
+      initial={{ y: 0 }}
+      animate={{ y: shouldShowHeader ? 0 : -100 }}
+      transition={{ duration: 0.3, ease: "easeInOut" }}
+      className={`fixed top-0 left-0 right-0 z-50 bg-light-background/80 dark:bg-dark-background/80 backdrop-blur-lg border-b border-light-border dark:border-dark-border transform`}
+    >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
+          {/* Logo and Main Navigation */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <img src="/logo.png" alt="Pathly" className="h-8 w-auto" />
-              <span className="ml-2 text-xl font-bold text-light-text dark:text-dark-text">Pathly</span>
+            <Link 
+              to="/" 
+              className="flex items-center group"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                <img 
+                  src="/logo.svg" 
+                  alt="Pathly" 
+                  className="h-8 w-auto relative z-10 drop-shadow-[0_0_10px_rgba(113,173,186,0.3)]" 
+                />
+              </div>
+              <motion.span 
+                className="ml-2 text-xl font-bold text-light-text dark:text-dark-text font-outfit tracking-tight"
+                whileHover={{ scale: 1.02 }}
+              >
+                Pathly
+              </motion.span>
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">
-              <Link to="/about" className="nav-link">About</Link>
-              <div className="relative">
+              <Link 
+                to="/about" 
+                className="nav-link font-cabinet font-medium text-base hover:text-light-primary dark:hover:text-dark-primary transition-colors"
+              >
+                About
+              </Link>
+              <div className="relative" ref={servicesRef}>
                 <button
                   onClick={() => setIsServicesOpen(!isServicesOpen)}
-                  className="nav-link flex items-center"
+                  className="nav-link font-cabinet font-medium text-base flex items-center hover:text-light-primary dark:hover:text-dark-primary transition-colors"
                 >
                   Services
                   <KeyboardArrowDownIcon className={`ml-1 transform transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
@@ -96,12 +178,16 @@ const Header = () => {
                             key={service.name}
                             to={service.path}
                             onClick={() => setIsServicesOpen(false)}
-                            className="flex items-start p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
+                            className="flex items-start p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg group transition-colors"
                           >
                             <service.icon className="w-5 h-5 mt-0.5 text-light-primary dark:text-dark-primary" />
                             <div className="ml-3">
-                              <div className="text-light-text dark:text-dark-text font-medium">{service.name}</div>
-                              <div className="text-sm text-light-textSoft dark:text-dark-textSoft">{service.description}</div>
+                              <div className="font-cabinet font-medium text-light-text dark:text-dark-text group-hover:text-light-primary dark:group-hover:text-dark-primary transition-colors">
+                                {service.name}
+                              </div>
+                              <div className="text-sm font-space text-light-textSoft dark:text-dark-textSoft">
+                                {service.description}
+                              </div>
                             </div>
                           </Link>
                         ))}
@@ -110,73 +196,116 @@ const Header = () => {
                   )}
                 </AnimatePresence>
               </div>
-              <Link to="/campus-life" className="nav-link">Campus Life</Link>
-              <Link to="/internships" className="nav-link">
+              <Link 
+                to="/campus-life" 
+                className="nav-link font-cabinet font-medium text-base hover:text-light-primary dark:hover:text-dark-primary transition-colors"
+              >
+                Campus Life
+              </Link>
+              <Link 
+                to="/internships" 
+                className="nav-link font-cabinet font-medium text-base hover:text-light-primary dark:hover:text-dark-primary transition-colors flex items-center"
+              >
                 Internships
-                <span className="ml-1 text-xs bg-light-primary dark:bg-dark-primary text-white px-2 py-0.5 rounded-full">New</span>
+                <motion.span 
+                  initial={{ scale: 1 }}
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="ml-1 text-xs bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-2 py-0.5 rounded-full"
+                >
+                  New
+                </motion.span>
               </Link>
             </div>
           </div>
 
+          {/* Right Side Navigation */}
           <div className="hidden md:flex md:items-center md:space-x-6">
-            <Link to="/announcements" className="nav-link">
-              <NotificationsActiveIcon className="w-6 h-6" />
-            </Link>
-            <Link to="/pricing" className="nav-link">
-              <WorkspacePremiumIcon className="w-6 h-6" />
-              <span className="ml-2">Premium</span>
-            </Link>
-            <div className="relative">
-              <button
-                onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                className="nav-link flex items-center"
-              >
-                <SettingsIcon className="w-6 h-6" />
-              </button>
-              <AnimatePresence>
-                {isSettingsOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full right-0 w-48 mt-2 bg-light-background dark:bg-dark-backgroundSecondary rounded-lg shadow-lg border border-light-border dark:border-dark-border"
-                  >
-                    <div className="p-2">
-                      <button
-                        onClick={() => {
-                          toggleTheme();
-                          setIsSettingsOpen(false);
-                        }}
-                        className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
-                      >
-                        {theme === 'dark' ? (
-                          <LightModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                        ) : (
-                          <DarkModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                        )}
-                        <span className="ml-3 text-light-text dark:text-dark-text">
-                          {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                        </span>
-                      </button>
-                      <Link
-                        to="/profile"
-                        className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
-                        onClick={() => setIsSettingsOpen(false)}
-                      >
-                        <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                        <span className="ml-3 text-light-text dark:text-dark-text">Profile</span>
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            {/* Account Section */}
+            {isAuthenticated ? (
+              <div className="relative" ref={profileRef}>
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className="flex items-center space-x-2 nav-link"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] flex items-center justify-center text-white">
+                    <PersonIcon className="w-5 h-5" />
+                  </div>
+                  <KeyboardArrowDownIcon className={`transform transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
+                </button>
+                <AnimatePresence>
+                  {isProfileOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute top-full right-0 w-64 mt-2 bg-light-background dark:bg-dark-backgroundSecondary rounded-lg shadow-lg border border-light-border dark:border-dark-border"
+                    >
+                      <div className="p-2">
+                        <Link
+                          to="/profile"
+                          className="flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                          <span className="ml-3 text-light-text dark:text-dark-text">Profile</span>
+                        </Link>
+                        <button
+                          onClick={() => {
+                            toggleTheme();
+                            setIsProfileOpen(false);
+                          }}
+                          className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg"
+                        >
+                          {theme === 'dark' ? (
+                            <LightModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                          ) : (
+                            <DarkModeIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                          )}
+                          <span className="ml-3 text-light-text dark:text-dark-text">
+                            {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                          </span>
+                        </button>
+                        <div className="border-t border-light-border dark:border-dark-border my-1"></div>
+                        <button
+                          onClick={() => {
+                            // TODO: Implement logout
+                            setIsProfileOpen(false);
+                          }}
+                          className="w-full flex items-center p-3 hover:bg-light-border/50 dark:hover:bg-dark-border/50 rounded-lg text-red-500"
+                        >
+                          <LoginIcon className="w-5 h-5" />
+                          <span className="ml-3">Sign Out</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-4">
+                <Link
+                  to="/login"
+                  className="font-cabinet font-medium hover:text-light-primary dark:hover:text-dark-primary transition-colors"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/pricing"
+                  className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-cabinet font-medium hover:opacity-90 transition-opacity relative group"
+                >
+                  <span className="relative z-10">Sign Up</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-lg blur opacity-50 group-hover:opacity-75 transition-opacity"></div>
+                </Link>
+              </div>
+            )}
           </div>
 
+          {/* Mobile Menu Button */}
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-light-text dark:text-dark-text hover:text-light-primary dark:hover:text-dark-primary"
+              className="text-light-text dark:text-dark-text hover:text-light-primary dark:hover:text-dark-primary transition-colors"
             >
               {isOpen ? <CloseIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
             </button>
@@ -184,7 +313,7 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -194,6 +323,23 @@ const Header = () => {
             className="md:hidden bg-light-background dark:bg-dark-background border-t border-light-border dark:border-dark-border"
           >
             <div className="px-2 pt-2 pb-3 space-y-1">
+              {!isAuthenticated && (
+                <>
+                  <Link
+                    to="/login"
+                    className="mobile-nav-link w-full flex items-center justify-center bg-light-border/20 dark:bg-dark-border/20"
+                  >
+                    Log In
+                  </Link>
+                  <Link
+                    to="/pricing"
+                    className="mobile-nav-link w-full flex items-center justify-center bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white"
+                  >
+                    Sign Up
+                  </Link>
+                  <div className="border-t border-light-border dark:border-dark-border my-2"></div>
+                </>
+              )}
               <Link to="/about" className="mobile-nav-link">About</Link>
               <Link to="/campus-life" className="mobile-nav-link">Campus Life</Link>
               <Link to="/internships" className="mobile-nav-link">
@@ -215,18 +361,28 @@ const Header = () => {
                 </Link>
               ))}
               <div className="border-t border-light-border dark:border-dark-border my-2"></div>
-              <Link to="/announcements" className="mobile-nav-link">
-                <div className="flex items-center">
-                  <NotificationsActiveIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                  <span className="ml-3">Announcements</span>
-                </div>
-              </Link>
-              <Link to="/pricing" className="mobile-nav-link">
-                <div className="flex items-center">
-                  <WorkspacePremiumIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                  <span className="ml-3">Premium</span>
-                </div>
-              </Link>
+              {isAuthenticated ? (
+                <>
+                  <Link to="/profile" className="mobile-nav-link">
+                    <div className="flex items-center">
+                      <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
+                      <span className="ml-3">Profile</span>
+                    </div>
+                  </Link>
+                  <button
+                    onClick={() => {
+                      // TODO: Implement logout
+                      setIsOpen(false);
+                    }}
+                    className="mobile-nav-link w-full text-left text-red-500"
+                  >
+                    <div className="flex items-center">
+                      <LoginIcon className="w-5 h-5" />
+                      <span className="ml-3">Sign Out</span>
+                    </div>
+                  </button>
+                </>
+              ) : null}
               <button
                 onClick={() => {
                   toggleTheme();
@@ -243,17 +399,11 @@ const Header = () => {
                   <span className="ml-3">{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
                 </div>
               </button>
-              <Link to="/profile" className="mobile-nav-link">
-                <div className="flex items-center">
-                  <PersonIcon className="w-5 h-5 text-light-primary dark:text-dark-primary" />
-                  <span className="ml-3">Profile</span>
-                </div>
-              </Link>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </motion.header>
   );
 };
 
