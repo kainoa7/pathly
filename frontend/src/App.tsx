@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProv
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
+import SmartLandingPage from './components/SmartLandingPage';
+import ExplorerLandingPage from './components/ExplorerLandingPage';
 import AboutPage from './components/AboutPage';
 import OnboardingPage from './components/OnboardingPage';
 import QuizPage from './components/QuizPage';
@@ -43,6 +45,7 @@ import { AuthProvider } from './context/AuthContext';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import AdminLayout from './components/AdminLayout';
+import AdaptiveQuizPage from './components/AdaptiveQuizPage';
 
 function AppLayout() {
   return (
@@ -50,7 +53,12 @@ function AppLayout() {
       <Header />
       <main className="flex-1">
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<SmartLandingPage />} />
+          <Route path="/explorer-landing" element={
+            <ProtectedRoute requiredAccountType="EXPLORER">
+              <ExplorerLandingPage />
+            </ProtectedRoute>
+          } />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/tech-stack" element={<TechStackPage />} />
           <Route path="/system-design" element={<SystemDesignPage />} />
@@ -58,6 +66,7 @@ function AppLayout() {
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/platform-guide" element={<HowItWorksPage />} />
           <Route path="/quiz" element={<QuizPage quizType="college" />} />
+          <Route path="/adaptive-quiz" element={<AdaptiveQuizPage />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/campus-life" element={<CampusLifePage />} />
           <Route path="/internships" element={<CareerDiscoveryPage />} />

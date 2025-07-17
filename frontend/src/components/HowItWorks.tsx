@@ -201,7 +201,7 @@ const HowItWorks = () => {
                   onMouseEnter={() => setActiveStep(index)}
                   onMouseLeave={() => setActiveStep(-1)}
                 >
-                  <div className={`glass-panel p-8 relative z-10 h-full rounded-xl transition-all duration-300 transform-gpu ${step.bgGlow} hover:-translate-y-2 backdrop-blur-sm bg-[rgba(26,34,52,0.4)] border border-[rgba(113,173,186,0.1)]`}>
+                  <div className={`glass-panel p-8 relative z-10 h-full min-h-[280px] rounded-xl transition-all duration-300 transform-gpu ${step.bgGlow} hover:-translate-y-2 backdrop-blur-sm bg-[rgba(26,34,52,0.4)] border border-[rgba(113,173,186,0.1)] flex flex-col`}>
                     {/* Animated gradient border */}
                     <motion.div
                       className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500"
@@ -219,24 +219,26 @@ const HowItWorks = () => {
                       }}
                     />
                     
-                    <div className="relative">
-                      <motion.div
-                        className={`w-16 h-16 rounded-full bg-gradient-to-r ${step.color} p-3 mx-auto mb-6 transform-gpu transition-all duration-300 group-hover:scale-110 group-hover:rotate-12`}
-                        whileHover={{ scale: 1.2, rotate: 12 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <Icon />
-                      </motion.div>
+                    <div className="relative flex-1 flex flex-col justify-between">
+                      <div className="flex-1 flex flex-col items-center text-center">
+                        <motion.div
+                          className={`w-16 h-16 rounded-full bg-gradient-to-r ${step.color} p-3 mx-auto mb-6 transform-gpu transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 flex-shrink-0`}
+                          whileHover={{ scale: 1.2, rotate: 12 }}
+                          whileTap={{ scale: 0.9 }}
+                        >
+                          <Icon />
+                        </motion.div>
 
-                      <motion.h3
-                        className="text-xl font-bold text-[#EDEAB1] mb-4 transform-gpu transition-transform duration-300 group-hover:scale-105"
-                      >
-                        {step.title}
-                      </motion.h3>
+                        <motion.h3
+                          className="text-xl font-bold text-[#EDEAB1] mb-4 transform-gpu transition-transform duration-300 group-hover:scale-105"
+                        >
+                          {step.title}
+                        </motion.h3>
 
-                      <p className="text-gray-300 transform-gpu transition-all duration-300 group-hover:text-gray-200">
-                        {step.description}
-                      </p>
+                        <p className="text-gray-300 transform-gpu transition-all duration-300 group-hover:text-gray-200 flex-1 flex items-center">
+                          {step.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

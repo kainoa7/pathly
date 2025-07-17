@@ -231,6 +231,20 @@ const Header = () => {
               >
                 About
               </Link>
+              <Link 
+                to="/adaptive-quiz" 
+                className="nav-link font-cabinet font-medium text-base hover:text-light-primary dark:hover:text-dark-primary transition-colors flex items-center"
+              >
+                Career Quiz
+                <motion.span 
+                  initial={{ scale: 1 }}
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="ml-2 text-xs bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-0.5 rounded-full font-semibold"
+                >
+                  Free
+                </motion.span>
+              </Link>
               <div className="relative" ref={servicesRef}>
                 <button
                   onClick={() => setIsServicesOpen(!isServicesOpen)}
@@ -490,6 +504,10 @@ const Header = () => {
                 </>
               )}
               <Link to="/about" className="mobile-nav-link">About</Link>
+              <Link to="/adaptive-quiz" className="mobile-nav-link">
+                Career Quiz
+                <span className="ml-2 text-xs bg-gradient-to-r from-green-400 to-green-600 text-white px-2 py-0.5 rounded-full font-semibold">Free</span>
+              </Link>
               <Link to="/campus-life" className="mobile-nav-link">Campus Life</Link>
               <Link to="/internships" className="mobile-nav-link">
                 Internships

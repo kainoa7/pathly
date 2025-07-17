@@ -10,6 +10,7 @@ import BackgroundAnimation from './BackgroundAnimation';
 import UserActivityToast from './UserActivityToast';
 import RemainingSpots from './RemainingSpots';
 import CommunityGrowthSection from './CommunityGrowthSection';
+import NewsFeeds from './NewsFeeds';
 import { useEffect, useState, useRef } from 'react';
 import Analytics from '../utils/analytics';
 import PeopleIcon from '@mui/icons-material/People';
@@ -755,28 +756,53 @@ const LandingPage = () => {
           {/* Main Hero Content - SIMPLIFIED */}
           <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center flex flex-col items-center justify-center" style={{ minHeight: '60vh' }}>
             <h1 className="text-4xl md:text-6xl font-extrabold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] flex items-center justify-center gap-3">
-              <span role='img' aria-label='money'>💸</span>
-              Save Time. Save Money. Find Your Path.
+              <span role='img' aria-label='compass'>🧭</span>
+              Find Your Perfect Career Path — Free
             </h1>
             <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-10 h-16 flex items-center justify-center">
               <TypewriterText texts={[
-                "Lost about your major? We'll help you find your perfect fit.",
-                "Confused about your career? Get AI-powered guidance in minutes.", 
-                "Switching majors again? Discover what you're truly meant to do.",
-                "Graduated with no direction? Find your dream job faster.",
-                "Stuck choosing between paths? Let AI show you the way.",
-                "Feeling behind your peers? Accelerate your career journey."
+                "Lost about your major? Take our free AI quiz to find your fit.",
+                "Confused about your career? Get instant guidance in 5 minutes.", 
+                "Switching majors again? Discover what you're meant to do — free.",
+                "Graduated with no direction? Start with our free career quiz.",
+                "Stuck choosing between paths? Let our AI guide you — no cost.",
+                "Feeling behind your peers? Get clarity with our free assessment."
               ]} />
             </div>
+            {/* Primary CTA - Quiz */}
+            <button
+              onClick={() => navigate('/adaptive-quiz')}
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-4"
+            >
+              <span role='img' aria-label='brain' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>🧠</span>
+              Take Career Quiz — Free
+            </button>
+            
+            {/* Secondary CTA - Pro Access */}
             <button
               onClick={() => navigate('/pricing')}
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-2"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full border-2 border-[#71ADBA] text-[#71ADBA] text-lg font-semibold hover:bg-[#71ADBA] hover:text-white transition-all duration-200 mb-2"
             >
-              <span role='img' aria-label='rocket' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>👉</span>
-              Join 3,000+ Students — Get Started Free
+              <span role='img' aria-label='rocket' style={{ fontSize: '1.2rem', marginRight: '-0.25rem' }}>🚀</span>
+              Get Full Access
             </button>
+            
             <div className="mt-2 text-base text-[#EDEAB1] opacity-80 font-medium">
-              100% free — no credit card needed
+              Start with our free AI-powered career quiz — no signup required
+            </div>
+            <div className="mt-4 flex items-center justify-center gap-6 text-sm text-gray-400">
+              <div className="flex items-center gap-2">
+                <span className="text-green-400">✓</span>
+                <span>5-minute quiz</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-green-400">✓</span>
+                <span>Instant results</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-green-400">✓</span>
+                <span>No email required</span>
+              </div>
             </div>
           </div>
         </div>
@@ -792,6 +818,7 @@ const LandingPage = () => {
           >
             <HowItWorks />
           </motion.div>
+          
           {/* Company Logos Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -803,6 +830,7 @@ const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
             <CompanyLogos />
           </motion.div>
+          
           {/* Testimonials Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -814,37 +842,40 @@ const LandingPage = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
             <InteractiveTestimonial />
           </motion.div>
-          {/* Community Stories Section */}
+
+          {/* Simple CTA Section */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="relative py-20"
+            className="relative py-20 bg-gradient-to-b from-[rgba(113,173,186,0.03)] to-transparent"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(113,173,186,0.03)] to-transparent pointer-events-none" />
-            <CommunityStories />
-          </motion.div>
-          {/* Community Growth Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <CommunityGrowthSection />
-          </motion.div>
-          {/* Waitlist Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8 }}
-            className="relative"
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[rgba(156,113,186,0.03)] to-transparent pointer-events-none" />
-            <WaitlistSection />
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                Ready to Find Your Path? 🚀
+              </h2>
+              <p className="text-xl text-gray-300 mb-8">
+                Join thousands of students who've discovered their perfect career direction
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+                <button
+                  onClick={() => navigate('/adaptive-quiz')}
+                  className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-4 rounded-full text-xl font-bold hover:scale-105 transition-transform"
+                >
+                  Take Free Career Quiz
+                </button>
+                <button
+                  onClick={() => navigate('/pricing')}
+                  className="border border-[#71ADBA] text-[#71ADBA] px-8 py-3 rounded-full font-semibold hover:bg-[#71ADBA] hover:text-white transition-colors"
+                >
+                  Explore Pro Features
+                </button>
+              </div>
+              <div className="text-sm text-gray-400">
+                ✨ Start free, no credit card required • 🎯 Get results in 5 minutes
+              </div>
+            </div>
           </motion.div>
         </div>
       </main>
