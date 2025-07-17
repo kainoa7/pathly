@@ -66,7 +66,7 @@ const PlatformGuidePage = () => {
               Your Guide to Success
             </h1>
             <p className="text-xl text-[#71ADBA] max-w-2xl mx-auto">
-              Discover how Nextly helps you navigate your career journey with personalized guidance and support 🚀
+              Discover how K<span className="text-[#71ADBA]">ai</span>yl helps you navigate your career journey with personalized guidance and support 🚀
             </p>
           </motion.div>
         </div>
@@ -120,7 +120,7 @@ const PlatformGuidePage = () => {
             className="bg-[#1a2234] p-8 rounded-2xl border border-[#71ADBA]/20"
           >
             <h2 className="text-3xl font-bold mb-4">Ready to Begin Your Journey?</h2>
-            <p className="text-[#71ADBA] mb-8">Join thousands of students who found their dream career with Nextly</p>
+            <p className="text-[#71ADBA] mb-8">Join thousands of students who found their dream career with K<span className="text-[#71ADBA]">ai</span>yl</p>
             <motion.button
               onClick={() => navigate('/onboarding')}
               className="px-8 py-4 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] rounded-xl text-dark-background font-semibold text-lg hover:opacity-90 transition-opacity"

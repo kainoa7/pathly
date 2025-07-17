@@ -13,9 +13,9 @@ const PrivacyPolicy = () => {
 
         <div className="space-y-8 text-gray-300">
           <section>
-            <h2 className="text-2xl font-semibold mb-4 text-white">Welcome to Nextly</h2>
-            <p className="mb-4">
-              Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your personal information when you use Nextly's services.
+            <h2 className="text-2xl font-semibold mb-4 text-white">Welcome to K<span className="text-[#71ADBA]">ai</span>yl</h2>
+            <p className="text-gray-300 mb-6">
+              This Privacy Policy explains how we collect, use, and protect your personal information when you use K<span className="text-[#71ADBA]">ai</span>yl's services.
             </p>
           </section>
 
@@ -71,8 +71,8 @@ const PrivacyPolicy = () => {
             <p className="mb-4">
               If you have questions about this Privacy Policy or your personal data, please contact us at:
               <br />
-              <a href="mailto:nextly.help@gmail.com" className="text-[#71ADBA] hover:underline">
-                nextly.help@gmail.com
+              <a href="mailto:kaiyl.help@gmail.com" className="text-[#71ADBA] hover:underline">
+                kaiyl.help@gmail.com
               </a>
             </p>
           </section>

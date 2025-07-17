@@ -232,7 +232,7 @@ const AdminDashboard = () => {
             </button>
           </div>
           <h1 className="text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
-            Nextly Admin Panel
+            K<span className="text-[#71ADBA]">ai</span>yl Admin Panel
           </h1>
           <p className="text-xl text-gray-300 mb-8">
             Monitor user signups and platform analytics

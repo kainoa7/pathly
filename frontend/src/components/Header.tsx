@@ -201,7 +201,7 @@ const Header = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-full blur-lg opacity-50 group-hover:opacity-75 transition-opacity"></div>
                 <img 
                   src="/logo.svg" 
-                  alt="Nextly" 
+                  alt="Kaiyl" 
                   className="h-8 w-auto relative z-10 drop-shadow-[0_0_10px_rgba(113,173,186,0.3)]" 
                 />
               </div>
@@ -209,7 +209,19 @@ const Header = () => {
                 className="ml-2 text-xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent font-outfit tracking-tight drop-shadow-sm"
                 whileHover={{ scale: 1.02 }}
               >
-                Nextly
+                K<motion.span 
+                  className="text-[#71ADBA] inline-block"
+                  animate={{ 
+                    y: [0, -3, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                >
+                  ai
+                </motion.span>yl
               </motion.span>
             </Link>
             <div className="hidden md:flex md:ml-10 space-x-8">
@@ -269,7 +281,7 @@ const Header = () => {
                 to="/internships" 
                 className="nav-link font-cabinet font-medium text-base hover:text-light-primary dark:hover:text-dark-primary transition-colors flex items-center"
               >
-                Internships
+                Career Discovery
                 <motion.span 
                   initial={{ scale: 1 }}
                   animate={{ scale: [1, 1.1, 1] }}

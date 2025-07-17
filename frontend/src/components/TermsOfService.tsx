@@ -13,16 +13,16 @@ const TermsOfService = () => {
 
         <div className="space-y-8 text-gray-300">
           <section>
-            <h2 className="text-2xl font-semibold mb-4 text-white">1. Agreement to Terms</h2>
-            <p className="mb-4">
-              By accessing or using Nextly, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our service.
+            <h2 className="text-2xl font-semibold mb-4 text-white">1. Acceptance of Terms</h2>
+            <p className="text-gray-300 mb-6">
+              By accessing or using K<span className="text-[#71ADBA]">ai</span>yl, you agree to be bound by these Terms of Service. If you disagree with any part of these terms, you may not access our service.
             </p>
           </section>
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">2. Description of Service</h2>
-            <p className="mb-4">
-              Nextly provides career guidance and educational pathway recommendations through our platform. Our services include personalized assessments, career matching, and educational resources.
+            <p className="text-gray-300 mb-6">
+              K<span className="text-[#71ADBA]">ai</span>yl provides career guidance and educational pathway recommendations through our platform. Our services include personalized assessments, career matching, and educational resources.
             </p>
           </section>
 
@@ -46,8 +46,8 @@ const TermsOfService = () => {
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">5. Intellectual Property</h2>
-            <p className="mb-4">
-              All content, features, and functionality on Nextly are owned by us and protected by copyright, trademark, and other intellectual property laws.
+            <p className="text-gray-300 mb-6">
+              All content, features, and functionality on K<span className="text-[#71ADBA]">ai</span>yl are owned by us and protected by copyright, trademark, and other intellectual property laws.
             </p>
           </section>
 
@@ -60,8 +60,8 @@ const TermsOfService = () => {
 
           <section>
             <h2 className="text-2xl font-semibold mb-4 text-white">7. Limitation of Liability</h2>
-            <p className="mb-4">
-              Nextly shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
+            <p className="text-gray-300 mb-6">
+              K<span className="text-[#71ADBA]">ai</span>yl shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use or inability to use the service.
             </p>
           </section>
 
@@ -77,8 +77,8 @@ const TermsOfService = () => {
             <p className="mb-4">
               For questions about these Terms, please contact us at:
               <br />
-              <a href="mailto:nextly.help@gmail.com" className="text-[#71ADBA] hover:underline">
-                nextly.help@gmail.com
+              <a href="mailto:kaiyl.help@gmail.com" className="text-[#71ADBA] hover:underline">
+                kaiyl.help@gmail.com
               </a>
             </p>
           </section>

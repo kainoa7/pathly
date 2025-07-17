@@ -25,7 +25,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   // Check for stored user data on app load
   useEffect(() => {
-    const storedUser = localStorage.getItem('nextly_user');
+    const storedUser = localStorage.getItem('kaiyl_user');
     if (storedUser) {
       const userData = JSON.parse(storedUser);
       setUser(userData);
@@ -36,13 +36,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = (userData: User) => {
     setUser(userData);
     setIsAuthenticated(true);
-    localStorage.setItem('nextly_user', JSON.stringify(userData));
+    localStorage.setItem('kaiyl_user', JSON.stringify(userData));
   };
 
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
-    localStorage.removeItem('nextly_user');
+    localStorage.removeItem('kaiyl_user');
   };
 
   return (

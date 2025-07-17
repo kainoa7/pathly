@@ -1,4 +1,4 @@
-# Nextly Architecture
+# Kaiyl Architecture
 
 ## Core Features
 - Career guidance quiz system

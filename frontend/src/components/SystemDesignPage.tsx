@@ -18,7 +18,7 @@ const SystemDesignPage = () => {
     architecture: {
       title: "System Architecture",
       icon: ArchitectureIcon,
-      content: `Nextly follows a clean separation between frontend and backend with a modern full-stack architecture:
+                content: `K<span className="text-[#71ADBA]">ai</span>yl follows a clean separation between frontend and backend with a modern full-stack architecture:
 
 • React frontend with TypeScript for type safety
 • Node.js + Express backend for API endpoints
@@ -123,7 +123,7 @@ const SystemDesignPage = () => {
             System Design & Architecture
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Discover how Nextly is engineered to be reliable, secure, and user-focused
+            Discover how K<span className="text-[#71ADBA]">ai</span>yl is engineered to be reliable, secure, and user-focused
           </p>
         </motion.div>
 

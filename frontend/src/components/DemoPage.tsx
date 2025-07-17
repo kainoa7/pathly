@@ -83,7 +83,7 @@ const DemoPage = () => {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
-            Experience Nextly in Action
+            Experience K<span className="text-[#71ADBA]">ai</span>yl in Action
           </h1>
           <p className="text-xl text-gray-300">
             Try our quick 3-question demo to see how we match you with dream careers

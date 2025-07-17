@@ -25,7 +25,7 @@ const ComingSoonPage = ({ title, description, icon = '🚀' }: ComingSoonPagePro
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         {
-          to_email: 'nextly.help@gmail.com',
+          to_email: 'kaiyl.help@gmail.com',
           from_email: email,
           subject: `Early Access Request - ${title}`,
           message: `Early access request for: ${title}\nEmail: ${email}`

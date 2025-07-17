@@ -31,7 +31,7 @@
   letter-spacing: 0.05em;
 }
 
-.nextly-logo {
+.kaiyl-logo {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -39,7 +39,7 @@
   position: relative;
 }
 
-.nextly-logo::after {
+.kaiyl-logo::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -52,7 +52,7 @@
   transition: transform 0.3s ease;
 }
 
-.nextly-logo:hover::after {
+.kaiyl-logo:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }

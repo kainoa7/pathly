@@ -1,8 +1,8 @@
-# Nextly Backend
+# Kaiyl Backend
 
 ## Phase 1 Setup Complete ✅
 
-This is the Node.js/Express.js backend for Nextly with TypeScript.
+This is the Node.js/Express.js backend for Kaiyl with TypeScript.
 
 ### Tech Stack
 - **Node.js** with **Express.js**

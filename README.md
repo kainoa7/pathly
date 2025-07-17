@@ -1,9 +1,9 @@
-# 🚀 Nextly - AI-Powered Career Guidance Platform
+# 🚀 Kaiyl - AI-Powered Career Guidance Platform
 
 <div align="center">
 
-[![Website](https://img.shields.io/badge/Visit-Nextly.com-71ADBA?style=for-the-badge)](https://nextly.com)
-[![Contact](https://img.shields.io/badge/Contact-nextly.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:nextly.help@gmail.com)
+[![Website](https://img.shields.io/badge/Visit-Kaiyl.com-71ADBA?style=for-the-badge)](https://kaiyl.com)
+[![Contact](https://img.shields.io/badge/Contact-kaiyl.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:kaiyl.help@gmail.com)
 
 **Full-Stack SaaS Platform for Career Development & Professional Growth**
 
@@ -13,11 +13,11 @@
 
 </div>
 
-## 🎯 About Nextly
+## 🎯 About Kaiyl
 
-Nextly is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, and professional development tools. Built with React, Node.js, and modern web technologies, Nextly provides a seamless experience for students and professionals navigating their career journeys.
+Kaiyl is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, and professional development tools. Built with React, Node.js, and modern web technologies, Kaiyl provides a seamless experience for students and professionals navigating their career journeys.
 
-### ✨ What Makes Nextly Special
+### ✨ What Makes Kaiyl Special
 
 - **🎓 Smart Career Assessment** - AI-driven career matching based on interests, skills, and goals
 - **👥 Role-Based Access Control** - Explorer, Pro, and Premium tiers with tailored experiences
@@ -30,7 +30,7 @@ Nextly is a modern, full-stack SaaS platform that revolutionizes career developm
 
 ### **Full-Stack Monorepo Structure**
 ```
-nextly/
+kaiyl/
 ├── frontend/          # React + TypeScript frontend
 │   ├── src/
 │   │   ├── components/    # 60+ React components
@@ -83,8 +83,8 @@ nextly/
 
 ### **1. Clone & Setup**
 ```bash
-git clone https://github.com/yourusername/nextly.git
-cd nextly
+git clone https://github.com/yourusername/kaiyl.git
+cd kaiyl
 
 # Install frontend dependencies
 cd frontend
@@ -275,9 +275,9 @@ PUT  /api/users/profile   # Protected: Update user info
 
 ## 📞 Contact & Support
 
-- **Email**: [nextly.help@gmail.com](mailto:nextly.help@gmail.com)
-- **GitHub**: [github.com/yourusername/nextly](https://github.com/yourusername/nextly)
-- **Website**: [nextly.com](https://nextly.com)
+- **Email**: [kaiyl.help@gmail.com](mailto:kaiyl.help@gmail.com)
+- **GitHub**: [github.com/yourusername/kaiyl](https://github.com/yourusername/kaiyl)
+- **Website**: [kaiyl.com](https://kaiyl.com)
 
 ## 🤝 Contributing
 
@@ -297,7 +297,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Ready to transform career guidance with modern technology?**
 
-[🚀 Get Started with Nextly →](https://nextly.com)
+[🚀 Get Started with Kaiyl →](https://kaiyl.com)
 
 Built with ❤️ using React, Node.js, and modern web technologies
 

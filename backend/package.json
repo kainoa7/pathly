@@ -15,7 +15,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Nextly backend server",
+  "description": "Kaiyl backend server",
   "dependencies": {
     "@prisma/client": "^6.12.0",
     "@types/bcryptjs": "^2.4.6",

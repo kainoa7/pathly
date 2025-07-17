@@ -32,7 +32,7 @@ import SystemDesignPage from './components/SystemDesignPage';
 import InterviewTemplatesPage from './components/InterviewTemplatesPage';
 import WebsiteServicePage from './components/WebsiteServicePage';
 import CampusLifePage from './components/CampusLifePage';
-import InternshipPage from './components/InternshipPage';
+import CareerDiscoveryPage from './components/InternshipPage';
 import FeedbackSection from './components/FeedbackSection';
 import FeedbackPage from './components/FeedbackPage';
 import HowItWorks from './components/HowItWorks';
@@ -60,7 +60,7 @@ function AppLayout() {
           <Route path="/quiz" element={<QuizPage quizType="college" />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/campus-life" element={<CampusLifePage />} />
-          <Route path="/internships" element={<InternshipPage />} />
+          <Route path="/internships" element={<CareerDiscoveryPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup/explorer" element={<SignupExplorer />} />
           <Route path="/signup/pro" element={<SignupPro />} />

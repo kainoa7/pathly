@@ -357,7 +357,7 @@ const WaitlistSection = () => {
               </p>
               <div className="flex justify-center space-x-6 mt-6">
                 <motion.a
-                    href="https://twitter.com/nextly"
+                    href="https://twitter.com/kaiyl"
                   target="_blank"
                   rel="noopener noreferrer"
                     className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
@@ -368,7 +368,7 @@ const WaitlistSection = () => {
                     </svg>
                 </motion.a>
                 <motion.a
-                    href="https://instagram.com/nextly"
+                    href="https://instagram.com/kaiyl"
                   target="_blank"
                   rel="noopener noreferrer"
                     className="text-gray-400 hover:text-[#EDEAB1] transition-colors"
@@ -758,9 +758,16 @@ const LandingPage = () => {
               <span role='img' aria-label='money'>💸</span>
               Save Time. Save Money. Find Your Path.
             </h1>
-            <p className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-10">
-              Avoid wrong turns. Get hired faster—with personalized AI career guidance.
-            </p>
+            <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-10 h-16 flex items-center justify-center">
+              <TypewriterText texts={[
+                "Lost about your major? We'll help you find your perfect fit.",
+                "Confused about your career? Get AI-powered guidance in minutes.", 
+                "Switching majors again? Discover what you're truly meant to do.",
+                "Graduated with no direction? Find your dream job faster.",
+                "Stuck choosing between paths? Let AI show you the way.",
+                "Feeling behind your peers? Accelerate your career journey."
+              ]} />
+            </div>
             <button
               onClick={() => navigate('/pricing')}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-2"

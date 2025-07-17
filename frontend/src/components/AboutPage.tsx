@@ -73,7 +73,7 @@ const AboutPage = () => {
           className="text-center mb-20"
         >
           <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
-            About Nextly
+            About K<span className="text-[#71ADBA]">ai</span>yl
           </h1>
           <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
             Your free companion in navigating life's biggest decisions. We're here to guide students and young adults who feel lost, helping you discover your path with confidence.
@@ -95,7 +95,7 @@ const AboutPage = () => {
           </div>
           <div className="text-center max-w-4xl mx-auto">
             <p className="text-xl text-gray-300 mb-6 leading-relaxed">
-              Nextly exists for one simple reason: to be your trusted guide when you're feeling uncertain about your future. We understand the overwhelming pressure of making life-changing decisions about your education and career.
+              K<span className="text-[#71ADBA]">ai</span>yl exists for one simple reason: to be your trusted guide when you're feeling uncertain about your future. We understand the overwhelming pressure of making life-changing decisions about your education and career.
             </p>
             <div className="bg-[#71ADBA]/10 rounded-xl p-6 mb-6">
               <p className="text-2xl font-semibold text-[#EDEAB1] mb-4">
@@ -131,7 +131,7 @@ const AboutPage = () => {
               <h2 className="text-2xl font-semibold text-[#EDEAB1] group-hover:scale-105 transition-transform duration-300">Our Tech Stack</h2>
             </div>
             <p className="text-gray-300 text-lg mb-6 leading-relaxed">
-              Explore the cutting-edge technologies powering Nextly's platform and features.
+              Explore the cutting-edge technologies powering K<span className="text-[#71ADBA]">ai</span>yl's platform and features.
             </p>
             <span className="text-[#71ADBA] group-hover:underline inline-flex items-center gap-2">
               Learn more 
@@ -249,7 +249,7 @@ const AboutPage = () => {
             Ready to Start Your Journey?
           </h2>
           <p className="text-gray-300 text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of students who have found their perfect career path with Nextly.
+            Join thousands of students who have found their perfect career path with K<span className="text-[#71ADBA]">ai</span>yl.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}

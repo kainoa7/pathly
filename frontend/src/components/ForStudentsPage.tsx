@@ -23,7 +23,7 @@ const ForStudentsPage = () => {
             <section>
               <h2 className="text-2xl font-semibold mb-4 text-white">A Place Just for You</h2>
               <p className="mb-6">
-                Welcome to your sanctuary of possibilities! Here at Nextly, we understand that 
+                Welcome to your sanctuary of possibilities! Here at K<span className="text-[#71ADBA]">ai</span>yl, we understand that 
                 choosing your path isn't just about picking a major – it's about discovering who 
                 you are and who you want to become. Let's explore this journey together, one 
                 step at a time.
