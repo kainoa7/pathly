@@ -47,7 +47,8 @@ const AdminDashboard = () => {
     const fetchUsers = async () => {
       try {
         // Try to fetch from local backend
-        const response = await fetch('https://backend-production-294e.up.railway.app/api/auth/users');
+        const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+        const response = await fetch(`${apiUrl}/api/auth/users`);
         if (response.ok) {
           const data = await response.json();
           setUsers(data);
@@ -181,7 +182,8 @@ const AdminDashboard = () => {
     }
 
     try {
-              const response = await fetch(`https://backend-production-294e.up.railway.app/api/auth/users/${userId}`, {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/auth/users/${userId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -224,12 +226,21 @@ const AdminDashboard = () => {
             <div className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-red-500 to-red-600">
               <span className="text-white font-semibold">👑 ADMIN DASHBOARD</span>
             </div>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-            >
-              Logout
-            </button>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => navigate('/admin/analytics')}
+                className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:opacity-90 transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>📊</span>
+                <span>Analytics</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           </div>
           <h1 className="text-5xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
             K<span className="text-[#71ADBA]">ai</span>yl Admin Panel

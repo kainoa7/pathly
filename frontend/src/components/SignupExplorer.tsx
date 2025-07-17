@@ -112,7 +112,8 @@ const SignupExplorer = () => {
       
       console.log('Sending request to API:', requestData);
       
-      const response = await fetch('https://backend-production-294e.up.railway.app/api/auth/signup', {
+      const apiUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/auth/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
