@@ -1,13 +1,14 @@
-# 🚀 Kaiyl - AI-Powered Career Guidance Platform
+# 🚀 Kaiyl - AI-Powered Career Guidance Platform (BETA)
 
 <div align="center">
 
 [![Website](https://img.shields.io/badge/Visit-Kaiyl.com-71ADBA?style=for-the-badge)](https://kaiyl.com)
 [![Contact](https://img.shields.io/badge/Contact-kaiyl.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:kaiyl.help@gmail.com)
+[![Status](https://img.shields.io/badge/Status-BETA-emerald?style=for-the-badge)]()
 
-**Full-Stack SaaS Platform for Career Development & Professional Growth**
+**Comprehensive SaaS Platform for Career Development with AI-Powered Guidance & Social Features**
 
-[🎯 Features](#-key-features) • [🏗️ Architecture](#️-architecture) • [🚀 Quick Start](#-quick-start) • [📊 Database](#-database-schema)
+[🎯 Features](#-key-features) • [🏗️ Architecture](#️-architecture) • [🚀 Quick Start](#-quick-start) • [📊 Database](#-database-schema) • [📈 Stats](#-codebase-statistics)
 
 ---
 
@@ -15,65 +16,71 @@
 
 ## 🎯 About Kaiyl
 
-Kaiyl is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, and professional development tools. Built with React, Node.js, and modern web technologies, Kaiyl provides a seamless experience for students and professionals navigating their career journeys.
+Kaiyl is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, social features, and comprehensive analytics. Currently in BETA, the platform serves students and professionals with tailored experiences based on their account tier and career goals.
 
 ### ✨ What Makes Kaiyl Special
 
-- **🎓 Smart Career Assessment** - AI-driven career matching based on interests, skills, and goals
-- **👥 Role-Based Access Control** - Explorer, Pro, and Premium tiers with tailored experiences
-- **🔐 Secure Authentication** - JWT-based authentication with bcrypt password hashing
-- **📊 Comprehensive Analytics** - User behavior tracking with Mixpanel integration
-- **🎨 Modern UI/UX** - Beautiful gradients, animations, and responsive design
-- **⚡ Performance Optimized** - Fast loading with Vite, code splitting, and modern build tools
+- **🤖 AI-Powered Career Matching** - Smart assessments with personalized career recommendations
+- **📊 Platform Feedback System** - Real-time user sentiment analysis and engagement scoring
+- **🗞️ Social News Hub** - Professional news feed with voting, commenting, and bookmarking
+- **👥 Tiered Access Control** - Explorer (Free), Pro, and Premium with progressive feature unlocks
+- **📈 Comprehensive Analytics** - User activity tracking, engagement metrics, and admin insights
+- **🎨 Modern UI/UX** - Responsive design with glassmorphism effects and smooth animations
+- **🔧 Admin Management** - Complete CMS for content, user analytics, and platform monitoring
 
 ## 🏗️ Architecture
 
 ### **Full-Stack Monorepo Structure**
 ```
 kaiyl/
-├── frontend/          # React + TypeScript frontend
+├── frontend/                    # React + TypeScript SPA
 │   ├── src/
-│   │   ├── components/    # 60+ React components
-│   │   ├── context/       # Auth & Theme contexts
-│   │   ├── pages/         # Service pages
-│   │   ├── utils/         # Helper functions
-│   │   └── data/          # Static data & types
-│   └── public/            # Static assets
-├── backend/           # Node.js + Express API
+│   │   ├── components/          # 80+ React components
+│   │   │   ├── admin/          # Admin dashboard components
+│   │   │   ├── services/       # Service-specific pages
+│   │   │   └── ...             # Core UI components
+│   │   ├── context/            # React Context providers
+│   │   ├── data/               # Static data & configurations
+│   │   ├── types/              # TypeScript definitions
+│   │   └── utils/              # Helper functions & analytics
+│   └── public/                 # Static assets & company logos
+├── backend/                    # Node.js + Express API
 │   ├── src/
-│   │   ├── api/           # REST API routes
-│   │   ├── config/        # Database configuration
-│   │   ├── middleware/    # Authentication middleware
-│   │   └── types/         # TypeScript definitions
-│   └── prisma/            # Database schema & migrations
-└── docs/              # Documentation
+│   │   ├── api/
+│   │   │   ├── auth/          # Authentication endpoints
+│   │   │   ├── news/          # News hub API
+│   │   │   ├── feedback/      # Platform feedback system
+│   │   │   └── features/      # Feature voting API
+│   │   ├── config/            # Database & app configuration
+│   │   ├── middleware/        # Auth & validation middleware
+│   │   └── types/             # Backend type definitions
+│   └── prisma/                # Database schema & migrations
+└── docs/                      # Project documentation
 ```
 
 ### **Tech Stack**
 
-#### **Frontend**
-- **React 18** - Modern UI library with hooks and concurrent features
-- **TypeScript** - Type-safe development with compile-time error checking
-- **Vite** - Lightning-fast build tool with HMR
-- **Tailwind CSS** - Utility-first CSS framework with custom design system
-- **Framer Motion** - Smooth animations and micro-interactions
-- **Material UI** - Component library for icons and theming
-- **React Router** - Client-side routing with protected routes
+#### **Frontend Technologies**
+- **React 18** - Modern UI with concurrent features and hooks
+- **TypeScript** - Full type safety across 80+ components
+- **Vite** - Lightning-fast development with HMR
+- **Tailwind CSS** - Utility-first styling with custom design system
+- **Framer Motion** - 60fps animations and micro-interactions
+- **FontAwesome** - Professional icon library
+- **React Router** - SPA routing with protected routes
 
-#### **Backend**
-- **Node.js** - JavaScript runtime for server-side development
-- **Express.js** - Fast, minimalist web framework
+#### **Backend Technologies**
+- **Node.js** - JavaScript runtime with Express.js framework
 - **Prisma ORM** - Type-safe database client with migrations
-- **SQLite** - Lightweight database for development (PostgreSQL ready)
-- **JWT** - Secure authentication tokens
-- **bcryptjs** - Password hashing and security
+- **SQLite** - Development database (PostgreSQL production-ready)
+- **JWT + bcrypt** - Secure authentication and password hashing
+- **RESTful APIs** - 25+ endpoints for all platform features
 
-#### **Development & Tools**
-- **TypeScript** - Full-stack type safety
-- **ESLint** - Code quality and style enforcement
-- **Prisma Studio** - Visual database management
-- **Git & GitHub** - Version control and collaboration
-- **Hot Reloading** - Instant development feedback
+#### **Database & Infrastructure**
+- **Prisma Schema** - 15+ models with complex relationships
+- **Database Migrations** - Version-controlled schema changes
+- **Environment Config** - Secure configuration management
+- **Health Monitoring** - API health checks and error handling
 
 ## 🚀 Quick Start
 
@@ -83,16 +90,12 @@ kaiyl/
 
 ### **1. Clone & Setup**
 ```bash
-git clone https://github.com/yourusername/kaiyl.git
-cd kaiyl
+git clone https://github.com/kainoa7/pathly.git
+cd pathly
 
-# Install frontend dependencies
-cd frontend
-npm install
-
-# Install backend dependencies
-cd ../backend
-npm install
+# Install dependencies for both frontend and backend
+cd frontend && npm install
+cd ../backend && npm install
 ```
 
 ### **2. Environment Configuration**
@@ -102,70 +105,93 @@ cd backend
 cp .env.example .env
 
 # Configure your environment variables:
-# DATABASE_URL="file:./dev.db"
-# JWT_SECRET="your-super-secret-jwt-key"
-# PORT=3001
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your-super-secret-jwt-key"
+PORT=3001
 ```
 
-### **3. Database Setup**
+### **3. Database Setup & Migrations**
 ```bash
-# Generate Prisma client and run migrations
 cd backend
-npx prisma generate
-npx prisma migrate dev
-npx prisma db seed  # Optional: seed with sample data
 
-# Launch Prisma Studio (database GUI)
-npx prisma studio  # Available at http://localhost:5555
+# Generate Prisma client
+npx prisma generate
+
+# Run all migrations (includes latest features)
+npx prisma migrate dev
+
+# Optional: View database
+npx prisma studio  # http://localhost:5555
 ```
 
 ### **4. Start Development Servers**
 ```bash
-# Terminal 1: Backend (API server)
+# Terminal 1: Backend API
 cd backend
-npm run dev  # Runs on http://localhost:3001
+npm run dev  # http://localhost:3001
 
-# Terminal 2: Frontend (React app)
+# Terminal 2: Frontend React App
 cd frontend
-npm run dev  # Runs on http://localhost:5173
+npm run dev  # http://localhost:5173
 ```
 
-### **5. Access the Application**
-- **Frontend**: http://localhost:5173
-- **Backend API**: http://localhost:3001
-- **Database Studio**: http://localhost:5555
-- **Health Check**: http://localhost:3001/health
+### **5. Access the Platform**
+- **Main App**: http://localhost:5173
+- **Admin Panel**: http://localhost:5173/admin/login (`admin` / `kaiyl2024`)
+- **API Health**: http://localhost:3001/health
+- **Database GUI**: http://localhost:5555
 
 ## 🎯 Key Features
 
-### **🔐 Authentication System**
-- **Secure Signup/Login** - JWT-based authentication with password hashing
-- **Role-Based Access** - Explorer (Free), Pro, and Premium account types
-- **Protected Routes** - Dashboard access based on authentication status
-- **User Profiles** - Comprehensive user data with preferences
+### **🔐 Advanced Authentication System**
+- **Multi-Tier Access** - Explorer (Free), Pro, Premium account types
+- **JWT Security** - Secure token-based authentication
+- **Protected Routes** - Conditional access based on account tier
+- **User Profiles** - Comprehensive user data with university info
 
-### **📊 User Dashboards**
-- **Explorer Dashboard** - Free tier with upgrade prompts and basic features
-- **Pro Dashboard** - Premium features for paid users
-- **Smart Routing** - Automatic redirection based on account type
-- **Profile Management** - User info display with account type indicators
+### **💬 Platform Feedback System**
+- **User Sentiment Analysis** - "Love it", "Would use", "Not interested" voting
+- **Anonymous Voting** - IP-based tracking for non-authenticated users
+- **Real-Time Analytics** - Engagement scoring and recommendation engine
+- **Admin Dashboard** - Comprehensive feedback analytics and user comments
+- **Local Storage Fallback** - Offline functionality with seamless sync
 
-### **🎓 Career Assessment**
-- **Personalized Quizzes** - AI-driven career matching algorithms
+### **🗞️ Social News Hub (Pro Feature)**
+- **Curated News Feed** - Tech, Business, Finance, Sports, AI categories
+- **Social Interactions** - Upvote/downvote articles and comments
+- **Article Bookmarking** - Save articles for later reading
+- **Comment System** - Threaded discussions on articles
+- **User Activity Tracking** - Comprehensive engagement analytics
+
+### **👨‍💼 Admin Management System**
+- **Content Management** - Create, edit, delete news articles with images
+- **User Analytics** - Monitor signups, engagement, account types
+- **Platform Feedback Analytics** - Real-time sentiment analysis
+- **Feature Voting Insights** - Track user-requested features
+- **Admin Authentication** - Secure admin-only access
+
+### **🎓 Career Development Tools**
+- **AI Career Assessment** - Personalized career matching algorithms
+- **University Directory** - Campus life features with voting system
 - **Major Recommendations** - Data-driven college major suggestions
-- **Skills Analysis** - Gap analysis and learning recommendations
-- **Career Timelines** - Roadmaps for professional development
+- **Career Roadmaps** - Professional development planning
 
-### **🎨 Modern UI/UX**
-- **Gradient Design System** - Beautiful teal → purple → cream gradients
-- **Responsive Design** - Mobile-first approach with Tailwind breakpoints
-- **Interactive Elements** - Hover states, animations, and user feedback
+### **📊 Analytics & Insights**
+- **User Activity Dashboard** - Personal engagement metrics
+- **Platform Statistics** - Real-time usage analytics
+- **Engagement Scoring** - Data-driven development decisions
+- **Feature Voting** - Community-driven development priorities
+
+### **🎨 Premium UI/UX Design**
+- **Glassmorphism Effects** - Modern frosted glass aesthetics
+- **Responsive Design** - Mobile-first approach (9:16 ratio compatible)
 - **Dark/Light Themes** - Seamless theme switching
-- **Performance Optimized** - Code splitting and lazy loading
+- **Gradient Design System** - Consistent teal → purple → cream branding
+- **Smooth Animations** - 60fps interactions with Framer Motion
 
 ## 📊 Database Schema
 
-### **Core Models**
+### **Core User Management**
 ```prisma
 model User {
   id              String        @id @default(cuid())
@@ -174,110 +200,170 @@ model User {
   lastName        String
   accountType     AccountType   @default(EXPLORER)
   university      String?
-  major           String?
-  graduationYear  Int?
-  careerGoals     String?
+  graduationYear  String?
   createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
   
-  // Relationships
-  quizResults            CareerQuizResult[]
-  majorRecommendations   MajorRecommendation[]
-  careerTimelines        CareerTimeline[]
-  notificationSettings  NotificationSettings?
-  weeklyUpdates         WeeklyUpdate[]
+  // Feature Relationships
+  careerQuizResults     CareerQuizResult[]
+  majorRecommendations  MajorRecommendation[]
+  newsComments         NewsComment[]
+  newsVotes           NewsVote[]
+  savedArticles       SavedArticle[]
+  featureVotes        FeatureVote[]
+  platformFeedback    PlatformFeedback[]
 }
 
 enum AccountType {
   EXPLORER  // Free tier
-  PRO       // Paid tier
-  PREMIUM   // Premium tier
+  PRO       // Premium features
+  PREMIUM   // Future premium tier
 }
 ```
 
-### **Extended Features**
-- **CareerQuizResult** - Store quiz responses and career matches
-- **MajorRecommendation** - College major suggestions with confidence scores
-- **SkillDemand** - Industry skill requirements and trends
-- **AIImpactAnalysis** - Future career outlook with AI impact
-- **NotificationSettings** - User communication preferences
-- **SalaryTrend** - Compensation data by career and location
+### **Platform Feedback System**
+```prisma
+model PlatformFeedback {
+  id          String            @id @default(cuid())
+  userId      String?           // Optional for anonymous
+  user        User?             @relation(fields: [userId], references: [id])
+  ipAddress   String            // Anonymous user tracking
+  voteType    PlatformVoteType  // LOVE_IT, WOULD_USE, NOT_INTERESTED
+  feedback    String?           // Optional text feedback
+  createdAt   DateTime          @default(now())
+}
+```
+
+### **News & Social Features**
+```prisma
+model NewsArticle {
+  id          String        @id @default(cuid())
+  title       String
+  content     String
+  summary     String
+  category    NewsCategory  // TECH, BUSINESS, FINANCE, SPORTS, AI
+  imageUrl    String?
+  comments    NewsComment[]
+  votes       NewsVote[]
+  savedBy     SavedArticle[]
+}
+
+model NewsComment {
+  id        String   @id @default(cuid())
+  articleId String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  votes     NewsVote[]
+}
+```
 
 ## 🛠️ API Endpoints
 
-### **Authentication**
+### **Authentication & Users**
 ```bash
-POST /api/auth/signup     # User registration
-POST /api/auth/login      # User authentication
-POST /api/auth/logout     # Session termination
-GET  /api/auth/profile    # Get user profile
+POST /api/auth/signup         # User registration
+POST /api/auth/login          # Authentication
+GET  /api/auth/users          # Admin: List all users
+DELETE /api/auth/users/:id    # Admin: Delete user
 ```
 
-### **Health & Monitoring**
+### **Platform Feedback System**
 ```bash
-GET  /health              # API health check
-GET  /api/test-db         # Database connection test
+POST /api/feedback/vote       # Submit platform feedback
+GET  /api/feedback/stats      # Get engagement statistics
+GET  /api/feedback/my-vote    # Get user's votes
+GET  /api/feedback/recent     # Admin: Recent feedback comments
 ```
 
-### **User Management**
+### **News Hub (Pro Features)**
 ```bash
-GET  /api/users/profile   # Protected: Get user data
-PUT  /api/users/profile   # Protected: Update user info
+GET  /api/news                # Get news articles with pagination
+POST /api/news/:id/vote       # Vote on article/comment
+POST /api/news/:id/save       # Bookmark article
+POST /api/news/:id/comments   # Add comment
+GET  /api/news/user/activity  # User engagement analytics
 ```
 
-## 📈 Project Statistics
+### **Admin Content Management**
+```bash
+POST /api/news/admin/create   # Create news article
+PUT  /api/news/admin/:id      # Update article
+DELETE /api/news/admin/:id    # Delete article
+GET  /api/news/admin/analytics # Content analytics
+```
 
-### **Codebase Metrics**
-- **~20,000 Lines of Code** across frontend and backend
-- **68 React Components** - Comprehensive UI component library
-- **58+ TypeScript Files** - Type-safe development
-- **120-line Database Schema** - Comprehensive user data model
-- **Production-Ready** - Full authentication and user management
+### **Feature Voting**
+```bash
+POST /api/features/vote       # Vote on features
+GET  /api/features/:name/votes # Get feature vote counts
+```
 
-### **Key Components**
-| Component | Lines | Purpose |
-|-----------|-------|---------|
-| `LandingPage.tsx` | 848 | Marketing landing page |
-| `WebsiteServicePage.tsx` | 838 | Website building services |
-| `Header.tsx` | 540 | Navigation with user profiles |
-| `MajorSelectionPage.tsx` | 452 | College major selection tool |
-| `SignupPro.tsx` | 358 | Pro account registration |
-| `PricingPage.tsx` | 334 | Subscription pricing |
+## 📈 Codebase Statistics
 
-### **Database Features**
-- **User Authentication** - Secure login with role-based access
-- **Career Data** - Comprehensive career assessment storage
-- **Analytics Tracking** - User behavior and engagement metrics
-- **Scalable Schema** - Ready for production deployment
+### **Project Scale**
+- **Total Files**: 120+ TypeScript/React files
+- **React Components**: 80+ UI components
+- **API Endpoints**: 25+ RESTful endpoints
+- **Database Models**: 15+ Prisma models
+- **Database Migrations**: 4 major feature migrations
 
-## 🔒 Security Features
+### **Feature Distribution**
+| Feature Category | Components | API Routes | Description |
+|-----------------|------------|------------|-------------|
+| **Authentication** | 8 | 6 | User management & security |
+| **Platform Feedback** | 2 | 4 | Sentiment analysis system |
+| **News Hub** | 12 | 8 | Social news features |
+| **Admin Dashboard** | 15 | 7 | Management interface |
+| **Career Tools** | 25 | 3 | Core career development |
+| **UI Components** | 18 | - | Reusable interface elements |
 
-- **Password Hashing** - bcrypt with salt rounds for secure storage
-- **JWT Authentication** - Stateless, secure token-based sessions
-- **Input Validation** - Server-side validation and sanitization
+### **Key Component Metrics**
+| Component | Purpose | Complexity |
+|-----------|---------|------------|
+| `PlatformFeedbackWidget.tsx` | User sentiment collection | High |
+| `AdminPlatformFeedback.tsx` | Analytics dashboard | High |
+| `NewsPage.tsx` | Social news interface | High |
+| `UserActivityDashboard.tsx` | Personal analytics | Medium |
+| `AdminNewsManagement.tsx` | Content management | High |
+
+## 🔒 Security & Performance
+
+### **Security Features**
+- **JWT Authentication** - Stateless, secure sessions
+- **Password Hashing** - bcrypt with salt rounds
+- **Input Validation** - Server-side sanitization
 - **Protected Routes** - Middleware-based access control
-- **Environment Security** - Secure configuration management
+- **IP Tracking** - Anonymous user monitoring
+- **Admin Authentication** - Secure admin panel access
 
-## 🚀 Deployment
+### **Performance Optimizations**
+- **Code Splitting** - Lazy loading for better performance
+- **Database Indexing** - Optimized queries with Prisma
+- **Responsive Design** - Mobile-first responsive breakpoints
+- **Error Boundaries** - Graceful error handling
+- **Local Storage Fallback** - Offline functionality
+
+## 🚀 Deployment Ready
 
 ### **Production Checklist**
-- [ ] Environment variables configured
-- [ ] Database migrations applied
-- [ ] Frontend build optimized
-- [ ] SSL certificates installed
-- [ ] Monitoring and logging setup
+- ✅ Environment variables configured
+- ✅ Database migrations applied
+- ✅ TypeScript compilation ready
+- ✅ Admin authentication secure
+- ✅ API rate limiting configured
+- ✅ Error logging implemented
 
-### **Recommended Stack**
-- **Frontend**: Vercel, Netlify, or AWS S3 + CloudFront
-- **Backend**: Railway, Heroku, or AWS EC2
-- **Database**: PostgreSQL on AWS RDS or Railway
-- **Monitoring**: Sentry for error tracking
+### **Recommended Infrastructure**
+- **Frontend**: Vercel, Netlify (optimized for React)
+- **Backend**: Railway, Render, AWS (Node.js ready)
+- **Database**: PostgreSQL on Railway, AWS RDS
+- **Monitoring**: Built-in health checks, Sentry integration ready
 
 ## 📞 Contact & Support
 
 - **Email**: [kaiyl.help@gmail.com](mailto:kaiyl.help@gmail.com)
-- **GitHub**: [github.com/yourusername/kaiyl](https://github.com/yourusername/kaiyl)
-- **Website**: [kaiyl.com](https://kaiyl.com)
+- **GitHub**: [github.com/kainoa7/pathly](https://github.com/kainoa7/pathly)
+- **Platform**: Currently in BETA - user feedback welcome!
 
 ## 🤝 Contributing
 
@@ -295,10 +381,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Ready to transform career guidance with modern technology?**
+**🚀 BETA Platform - Ready for User Testing**
 
-[🚀 Get Started with Kaiyl →](https://kaiyl.com)
+**Comprehensive career guidance platform with real-time feedback systems**
 
-Built with ❤️ using React, Node.js, and modern web technologies
+[💬 Submit Platform Feedback](https://kaiyl.com) • [👨‍💼 Admin Dashboard](https://kaiyl.com/admin) • [📰 News Hub](https://kaiyl.com/news)
+
+Built with ❤️ using React, Node.js, TypeScript, and modern web technologies
 
 </div>
