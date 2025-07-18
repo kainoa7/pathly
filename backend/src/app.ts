@@ -5,6 +5,9 @@ import morgan from 'morgan';
 import { config } from 'dotenv';
 import prisma from './config/database';
 import authRoutes from './api/auth/routes';
+import newsRoutes from './api/news/routes';
+import featureRoutes from './api/features/routes';
+import feedbackRoutes from './api/feedback/routes';
 
 // Load environment variables
 config();
@@ -18,8 +21,11 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Register auth routes
+// Register routes
 app.use('/api/auth', authRoutes);
+app.use('/api/news', newsRoutes);
+app.use('/api/features', featureRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {

@@ -3,6 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import AdminLogin from './AdminLogin';
 import AdminDashboard from './AdminDashboard';
 import AdminAnalytics from './AdminAnalytics';
+import AdminNewsManagement from './AdminNewsManagement';
+import AdminPlatformFeedback from './admin/AdminPlatformFeedback';
 
 const AdminLayout = () => {
   return (
@@ -11,6 +13,8 @@ const AdminLayout = () => {
         <Route path="login" element={<AdminLogin />} />
         <Route path="dashboard" element={<AdminDashboard />} />
         <Route path="analytics" element={<AdminAnalytics />} />
+        <Route path="news" element={<AdminNewsManagement />} />
+        <Route path="feedback" element={<AdminPlatformFeedback />} />
       </Routes>
     </div>
   );

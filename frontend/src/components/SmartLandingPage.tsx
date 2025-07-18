@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import LandingPage from './LandingPage';
 import ExplorerLandingPage from './ExplorerLandingPage';
+import ProLandingPage from './ProLandingPage';
 
 const SmartLandingPage = () => {
   const { isAuthenticated, user } = useAuth();
@@ -18,9 +19,8 @@ const SmartLandingPage = () => {
     
     case 'PRO':
     case 'PREMIUM':
-      // Pro users can see the general landing page with full features unlocked
-      // Or we could create a ProLandingPage later
-      return <LandingPage />;
+      // Pro users get their exclusive premium landing experience
+      return <ProLandingPage />;
     
     default:
       return <LandingPage />;

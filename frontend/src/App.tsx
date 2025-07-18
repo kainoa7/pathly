@@ -46,6 +46,10 @@ import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
 import AdminLayout from './components/AdminLayout';
 import AdaptiveQuizPage from './components/AdaptiveQuizPage';
+import NewsPage from './components/NewsPage';
+import SavedArticlesPage from './components/SavedArticlesPage';
+import UserActivityDashboard from './components/UserActivityDashboard';
+import PlatformFeedbackWidget from './components/PlatformFeedbackWidget';
 
 function AppLayout() {
   return (
@@ -84,6 +88,21 @@ function AppLayout() {
               <ProDashboard />
             </ProtectedRoute>
           } />
+          <Route path="/news" element={
+            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+              <NewsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/saved-articles" element={
+            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+              <SavedArticlesPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/activity-dashboard" element={
+            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+              <UserActivityDashboard />
+            </ProtectedRoute>
+          } />
           <Route path="/coming-soon" element={
             <ComingSoonPage 
               title="Feature Coming Soon"
@@ -106,6 +125,7 @@ function AppLayout() {
       <FeedbackSection />
       <Footer />
       <FloatingCTA />
+      <PlatformFeedbackWidget />
     </div>
   );
 }

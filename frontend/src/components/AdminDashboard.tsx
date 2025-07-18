@@ -228,11 +228,25 @@ const AdminDashboard = () => {
             </div>
             <div className="flex items-center space-x-4">
               <button
+                onClick={() => navigate('/admin/news')}
+                className="px-4 py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-lg hover:opacity-90 transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>📰</span>
+                <span>News Management</span>
+              </button>
+              <button
                 onClick={() => navigate('/admin/analytics')}
                 className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:opacity-90 transition-all duration-300 flex items-center space-x-2"
               >
                 <span>📊</span>
                 <span>Analytics</span>
+              </button>
+              <button
+                onClick={() => navigate('/admin/feedback')}
+                className="px-4 py-2 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:opacity-90 transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>💬</span>
+                <span>Platform Feedback</span>
               </button>
               <button
                 onClick={handleLogout}

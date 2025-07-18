@@ -119,7 +119,7 @@ const HowItWorks = () => {
     },
     {
       icon: CustomIcons.Brain,
-      title: "Get matched fr fr 🎯",
+      title: "Get matched fr fr    🎯",
       description: "We match you with careers that fit your unique personality and goals",
       color: "from-[#71ADBA] to-[#71BAB4]",
       bgGlow: "group-hover:shadow-[0_0_30px_-5px_rgba(113,173,186,0.3)]"

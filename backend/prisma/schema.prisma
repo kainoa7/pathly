@@ -19,6 +19,26 @@ enum AccountType {
   PREMIUM
 }
 
+enum NewsCategory {
+  TECH
+  BUSINESS
+  FINANCE
+  SPORTS
+  AI
+}
+
+enum VoteType {
+  UPVOTE
+  DOWNVOTE
+  LIKE
+}
+
+enum PlatformVoteType {
+  LOVE_IT
+  WOULD_USE
+  NOT_INTERESTED
+}
+
 model User {
   id            String      @id @default(cuid())
   email         String      @unique
@@ -43,6 +63,17 @@ model User {
   notificationSettings  NotificationSettings?
   salaryTrends         SalaryTrend[]
   weeklyUpdates        WeeklyUpdate[]
+  
+  // News Feature Relations (Pro Users Only)
+  newsComments         NewsComment[]
+  newsVotes           NewsVote[]
+  savedArticles       SavedArticle[]
+  
+  // Feature Voting Relations (Pro Users Only)
+  featureVotes        FeatureVote[]
+  
+  // Platform Feedback Relations (All Users)
+  platformFeedback    PlatformFeedback[]
 }
 
 model CareerQuizResult {
@@ -116,4 +147,98 @@ model WeeklyUpdate {
   content     String   // JSON string of weekly update content
   createdAt   DateTime @default(now())
   readAt      DateTime?
+}
+
+// News Feature Models (Pro Users Only)
+model NewsArticle {
+  id          String        @id @default(cuid())
+  title       String
+  content     String        // Full article content
+  summary     String        // Brief summary for cards
+  category    NewsCategory
+  imageUrl    String?       // Optional featured image
+  sourceUrl   String?       // Link to original article
+  authorName  String?       // Original author name
+  publishedAt DateTime      @default(now())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  // Relations
+  comments    NewsComment[]
+  votes       NewsVote[]
+  savedBy     SavedArticle[]
+}
+
+model NewsComment {
+  id          String   @id @default(cuid())
+  articleId   String
+  article     NewsArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  content     String
+  parentId    String?  // For reply threading
+  parent      NewsComment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies     NewsComment[] @relation("CommentReplies")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  votes       NewsVote[]
+}
+
+model NewsVote {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  voteType    VoteType
+  
+  // Either article or comment (not both)
+  articleId   String?
+  article     NewsArticle? @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  commentId   String?
+  comment     NewsComment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  
+  // Ensure user can only vote once per article/comment
+  @@unique([userId, articleId])
+  @@unique([userId, commentId])
+}
+
+model SavedArticle {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  articleId   String
+  article     NewsArticle @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  
+  // Ensure user can only save an article once
+  @@unique([userId, articleId])
+}
+
+model FeatureVote {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  featureName String   // e.g., "university-directory-marketplace"
+  voteType    VoteType // UPVOTE or DOWNVOTE
+  createdAt   DateTime @default(now())
+  
+  // Ensure user can only vote once per feature
+  @@unique([userId, featureName])
+}
+
+model PlatformFeedback {
+  id          String            @id @default(cuid())
+  userId      String?           // Optional - for logged in users
+  user        User?             @relation(fields: [userId], references: [id])
+  ipAddress   String            // For anonymous users and spam prevention
+  voteType    PlatformVoteType
+  feedback    String?           // Optional text feedback
+  createdAt   DateTime          @default(now())
+  
+  // Ensure one vote per user/IP combination
+  @@unique([userId, voteType])
+  @@unique([ipAddress, voteType])
 }

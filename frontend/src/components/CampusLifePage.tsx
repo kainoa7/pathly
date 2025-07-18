@@ -24,6 +24,12 @@ const CampusLifePage = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [showProModal, setShowProModal] = useState(false);
   const [timeLeft, setTimeLeft] = useState(2159); // 35 minutes in seconds for urgency
+  
+  // University Directory Feature Voting State
+  const [featureVotes, setFeatureVotes] = useState({ upvotes: 0, downvotes: 0 });
+  const [userVote, setUserVote] = useState<'UPVOTE' | 'DOWNVOTE' | null>(null);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [votingLoading, setVotingLoading] = useState(false);
 
   // Countdown timer for limited-time offer
   useEffect(() => {
@@ -143,6 +149,114 @@ const CampusLifePage = () => {
   }, []);
 
   const isExplorer = user?.accountType === 'EXPLORER';
+  const isPro = user?.accountType === 'PRO' || user?.accountType === 'PREMIUM';
+
+  // Fetch feature votes and user's vote on component mount
+  useEffect(() => {
+    if (isPro) {
+      fetchFeatureVotes();
+      fetchUserVote();
+    }
+  }, [isPro]);
+
+  const fetchFeatureVotes = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('http://localhost:3001/api/features/university-directory-marketplace/votes', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'x-user-id': localStorage.getItem('userId') || '',
+          'x-account-type': user?.accountType || ''
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFeatureVotes({
+          upvotes: data.upvotes,
+          downvotes: data.downvotes
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching feature votes:', error);
+    }
+  };
+
+  const fetchUserVote = async () => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('http://localhost:3001/api/features/university-directory-marketplace/my-vote', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'x-user-id': localStorage.getItem('userId') || '',
+          'x-account-type': user?.accountType || ''
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.hasVoted) {
+          setUserVote(data.userVote.voteType);
+          setHasVoted(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user vote:', error);
+    }
+  };
+
+  // Handle feature voting
+  const handleVote = async (voteType: 'UPVOTE' | 'DOWNVOTE') => {
+    if (votingLoading) return;
+    
+    setVotingLoading(true);
+    
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('http://localhost:3001/api/features/vote', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'x-user-id': localStorage.getItem('userId') || '',
+          'x-account-type': user?.accountType || '',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          featureName: 'university-directory-marketplace',
+          voteType
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        // Update local state
+        if (hasVoted) {
+          // User is changing their vote
+          setFeatureVotes(prev => ({
+            upvotes: userVote === 'UPVOTE' ? prev.upvotes - 1 : prev.upvotes,
+            downvotes: userVote === 'DOWNVOTE' ? prev.downvotes - 1 : prev.downvotes
+          }));
+        }
+        
+        // Add new vote
+        setFeatureVotes(prev => ({
+          upvotes: voteType === 'UPVOTE' ? prev.upvotes + 1 : prev.upvotes,
+          downvotes: voteType === 'DOWNVOTE' ? prev.downvotes + 1 : prev.downvotes
+        }));
+        
+        setUserVote(voteType);
+        setHasVoted(true);
+      } else {
+        const errorData = await response.json();
+        console.error('Voting failed:', errorData);
+      }
+    } catch (error) {
+      console.error('Error submitting vote:', error);
+    } finally {
+      setVotingLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-dark-background">
@@ -198,7 +312,7 @@ const CampusLifePage = () => {
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="text-5xl md:text-7xl font-bold mb-4"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4"
           >
             {isExplorer ? "Unlock Campus Secrets" : "Explore Campus Life"}
           </motion.h1>
@@ -207,7 +321,7 @@ const CampusLifePage = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl max-w-3xl mx-auto mb-8"
+            className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto mb-6 sm:mb-8 px-4"
           >
             {isExplorer 
               ? "Get the insider access that 3,000+ students use to dominate college life"
@@ -230,7 +344,7 @@ const CampusLifePage = () => {
         </div>
       </motion.div>
 
-      <div className="max-w-6xl mx-auto px-4 py-16">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         {isExplorer ? (
           <>
             {/* Success Story Carousel */}
@@ -495,15 +609,287 @@ const CampusLifePage = () => {
           </>
         ) : (
           // Non-authenticated or Pro users see original content
-          <div className="text-center text-white">
-            <h2 className="text-2xl font-bold mb-4">Sign up to explore campus life insights</h2>
-            <button
-              onClick={() => navigate('/signup/explorer')}
-              className="px-6 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-lg font-semibold"
-            >
-              Get Started Free
-            </button>
-          </div>
+          <>
+            {isPro && (
+              <>
+              {/* University Directory & Student Marketplace - Coming Soon Feature for Pro Users */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-16"
+              >
+                <div className="bg-gradient-to-br from-[#71ADBA]/20 to-[#9C71BA]/20 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-[#71ADBA]/30 relative overflow-hidden">
+                  {/* Animated background elements */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    {Array.from({ length: 15 }).map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute text-[#71ADBA]/10"
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ 
+                          y: -100, 
+                          opacity: [0, 0.3, 0],
+                          rotate: 360
+                        }}
+                        transition={{
+                          duration: 12,
+                          repeat: Infinity,
+                          delay: i * 0.8,
+                          ease: "linear"
+                        }}
+                        style={{
+                          left: Math.random() * 100 + '%',
+                          fontSize: Math.random() * 15 + 15 + 'px'
+                        }}
+                      >
+                        {['🏫', '📚', '🛏️', '🍴', '💰', '🎓', '📱'][Math.floor(Math.random() * 7)]}
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Coming Soon Badge */}
+                  <div className="absolute top-6 right-6 z-10">
+                    <motion.div
+                      animate={{ scale: [1, 1.05, 1] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-2 rounded-full text-sm font-bold shadow-lg"
+                    >
+                      🚀 COMING SOON
+                    </motion.div>
+                  </div>
+
+                  <div className="relative z-10">
+                    <div className="text-center mb-6 sm:mb-8">
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                        className="inline-flex flex-col sm:flex-row items-center gap-3 mb-4"
+                      >
+                                                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl sm:rounded-2xl flex items-center justify-center">
+                            <span className="text-2xl sm:text-3xl">🏫</span>
+                          </div>
+                          <div className="text-center sm:text-left">
+                            <h2 className="text-2xl sm:text-3xl font-bold text-white">University Directory</h2>
+                            <p className="text-[#EDEAB1] font-medium">& Student Marketplace</p>
+                          </div>
+                      </motion.div>
+
+                      <p className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4">
+                        The ultimate platform for university discovery and student-to-student marketplace - exclusively for Pro members
+                      </p>
+                    </div>
+
+                    {/* Feature Preview Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                      {/* University Directory */}
+                      <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="bg-[#1a2234]/60 rounded-2xl p-6 border border-[#71ADBA]/20"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center">
+                            <span className="text-xl">🔍</span>
+                          </div>
+                          <h3 className="text-lg sm:text-xl font-bold text-white">Smart University Search</h3>
+                        </div>
+                        <ul className="space-y-3 text-gray-300">
+                          <li className="flex items-center gap-3">
+                            <span className="text-blue-400">✨</span>
+                            Search 3,000+ universities with AI-powered matching
+                          </li>
+                          <li className="flex items-center gap-3">
+                            <span className="text-blue-400">✨</span>
+                            Real student reviews and insider campus insights
+                          </li>
+                          <li className="flex items-center gap-3">
+                            <span className="text-blue-400">✨</span>
+                            Compare costs, programs, and campus life metrics
+                          </li>
+                          <li className="flex items-center gap-3">
+                            <span className="text-blue-400">✨</span>
+                            Virtual campus tours and dormitory previews
+                          </li>
+                        </ul>
+                      </motion.div>
+
+                      {/* Student Marketplace */}
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="bg-[#1a2234]/60 rounded-2xl p-6 border border-[#71ADBA]/20"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
+                            <span className="text-xl">💰</span>
+                          </div>
+                          <h3 className="text-lg sm:text-xl font-bold text-white">Student-to-Student Marketplace</h3>
+                        </div>
+                        <ul className="space-y-3 text-gray-300">
+                          <li className="flex items-center gap-3">
+                            <span className="text-green-400">💡</span>
+                            Buy/sell dorm essentials (microwaves, fridges, furniture)
+                          </li>
+                          <li className="flex items-center gap-3">
+                            <span className="text-green-400">💡</span>
+                            Textbook exchanges at 70% below retail prices
+                          </li>
+                          <li className="flex items-center gap-3">
+                            <span className="text-green-400">💡</span>
+                            Safe, verified transactions within university networks
+                          </li>
+                          <li className="flex items-center gap-3">
+                            <span className="text-green-400">💡</span>
+                            End-of-semester item handoffs to incoming students
+                          </li>
+                        </ul>
+                      </motion.div>
+                    </div>
+
+                    {/* Example Listings Preview */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.5 }}
+                      className="bg-[#0f1419]/60 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-[#71ADBA]/10 mb-6 sm:mb-8"
+                    >
+                                              <h4 className="text-base sm:text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                        <span>📱</span>
+                        Example Marketplace Listings
+                      </h4>
+                                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {[
+                          { item: "Mini Fridge", price: "$45", original: "$120", seller: "Sarah @ NYU", savings: "62%" },
+                          { item: "Microwave", price: "$25", original: "$80", seller: "Mike @ UCLA", savings: "69%" },
+                          { item: "Desk Lamp Set", price: "$15", original: "$45", seller: "Emma @ MIT", savings: "67%" }
+                        ].map((listing, index) => (
+                          <div key={index} className="bg-[#1a2234]/40 rounded-lg p-4 border border-gray-700/50">
+                            <div className="flex justify-between items-start mb-2">
+                              <h5 className="text-white font-medium">{listing.item}</h5>
+                              <span className="text-green-400 font-bold">{listing.price}</span>
+                            </div>
+                            <div className="text-xs text-gray-400 mb-2">
+                              <span className="line-through">{listing.original}</span>
+                              <span className="text-green-400 ml-2">Save {listing.savings}</span>
+                            </div>
+                            <div className="text-xs text-[#71ADBA]">{listing.seller}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+
+                    {/* Voting Section */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.6 }}
+                      className="text-center"
+                    >
+                                              <h3 className="text-xl sm:text-2xl font-bold text-white mb-4">
+                        Would you use this feature? 🤔
+                      </h3>
+                                              <p className="text-gray-300 mb-6 px-4 sm:px-0">
+                        Help us prioritize development by voting! Your input shapes our roadmap.
+                      </p>
+
+                                              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mb-6">
+                        {/* Upvote Button */}
+                        <motion.button
+                          whileHover={{ scale: votingLoading ? 1 : 1.05 }}
+                          whileTap={{ scale: votingLoading ? 1 : 0.95 }}
+                          onClick={() => handleVote('UPVOTE')}
+                          disabled={votingLoading}
+                          className={`flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold transition-all w-full sm:w-auto ${
+                            userVote === 'UPVOTE' 
+                              ? 'bg-green-500 text-white shadow-lg shadow-green-500/25' 
+                              : votingLoading 
+                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                : 'bg-green-500/20 text-green-400 border border-green-500/30 hover:bg-green-500/30'
+                          }`}
+                        >
+                          <span className="text-2xl">{votingLoading ? '⏳' : '👍'}</span>
+                          <div className="text-left">
+                            <div className="text-base sm:text-lg">Love it!</div>
+                            <div className="text-xs sm:text-sm opacity-80">{featureVotes.upvotes} votes</div>
+                          </div>
+                        </motion.button>
+
+                        {/* Downvote Button */}
+                        <motion.button
+                          whileHover={{ scale: votingLoading ? 1 : 1.05 }}
+                          whileTap={{ scale: votingLoading ? 1 : 0.95 }}
+                          onClick={() => handleVote('DOWNVOTE')}
+                          disabled={votingLoading}
+                          className={`flex items-center gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold transition-all w-full sm:w-auto ${
+                            userVote === 'DOWNVOTE' 
+                              ? 'bg-red-500 text-white shadow-lg shadow-red-500/25' 
+                              : votingLoading 
+                                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                                : 'bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30'
+                          }`}
+                        >
+                          <span className="text-2xl">{votingLoading ? '⏳' : '👎'}</span>
+                          <div className="text-left">
+                            <div className="text-base sm:text-lg">Not for me</div>
+                            <div className="text-xs sm:text-sm opacity-80">{featureVotes.downvotes} votes</div>
+                          </div>
+                        </motion.button>
+                      </div>
+
+                      {/* Vote Results */}
+                                              <div className="max-w-md mx-auto px-4 sm:px-0">
+                        <div className="flex justify-between text-sm text-gray-400 mb-2">
+                          <span>Community Interest</span>
+                          <span>{Math.round((featureVotes.upvotes / (featureVotes.upvotes + featureVotes.downvotes)) * 100)}% positive</span>
+                        </div>
+                        <div className="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ 
+                              width: `${(featureVotes.upvotes / (featureVotes.upvotes + featureVotes.downvotes)) * 100}%` 
+                            }}
+                            transition={{ duration: 1, delay: 0.7 }}
+                            className="h-full bg-gradient-to-r from-green-500 to-green-400"
+                          />
+                        </div>
+                        <div className="text-xs text-gray-500 mt-2">
+                          {featureVotes.upvotes + featureVotes.downvotes} Pro members voted
+                        </div>
+                      </div>
+
+                      {hasVoted && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-6 bg-[#EDEAB1]/10 border border-[#EDEAB1]/20 rounded-xl p-3 sm:p-4 mx-4 sm:mx-0"
+                        >
+                          <p className="text-[#EDEAB1] font-medium">
+                            ✨ Thanks for your feedback! We'll notify you when this feature launches.
+                          </p>
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  </div>
+                </div>
+              </motion.div>
+              </>
+            )}
+
+            {!isPro && (
+              <div className="text-center text-white">
+                <h2 className="text-2xl font-bold mb-4">Sign up to explore campus life insights</h2>
+                <button
+                  onClick={() => navigate('/signup/explorer')}
+                  className="px-6 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-lg font-semibold"
+                >
+                  Get Started Free
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 

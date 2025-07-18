@@ -16,16 +16,14 @@ const Dashboard = () => {
     // Route based on account type
     switch (user.accountType) {
       case 'EXPLORER':
-        // Redirect Explorer users to their landing page first
-        navigate('/');
+        navigate('/explorer-dashboard');
         break;
       case 'PRO':
       case 'PREMIUM':
         navigate('/pro-dashboard');
         break;
       default:
-        // Default to their landing page
-        navigate('/');
+        navigate('/explorer-dashboard');
         break;
     }
   }, [isAuthenticated, user, navigate]);

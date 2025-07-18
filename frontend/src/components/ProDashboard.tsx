@@ -49,6 +49,30 @@ const ProDashboard = () => {
       action: () => navigate('/skill-tracker')
     },
     {
+      title: 'Daily News Hub',
+      description: 'Curated news on Tech, Business, Finance, Sports & AI with social features',
+      icon: '📰',
+      category: 'News',
+      action: () => navigate('/news'),
+      isPremium: true
+    },
+    {
+      title: 'My Saved Articles',
+      description: 'Your personal collection of bookmarked news articles',
+      icon: '📚',
+      category: 'News',
+      action: () => navigate('/saved-articles'),
+      isPremium: true
+    },
+    {
+      title: 'Activity Dashboard',
+      description: 'Track your engagement and participation history',
+      icon: '📊',
+      category: 'Analytics',
+      action: () => navigate('/activity-dashboard'),
+      isPremium: true
+    },
+    {
       title: 'Major Switching Compatibility Score',
       description: 'Analyze compatibility for switching majors',
       icon: '🔄',
@@ -168,23 +192,46 @@ const ProDashboard = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * index }}
-                className="bg-dark-backgroundSecondary rounded-lg p-6 border border-dark-border hover:border-[#71ADBA] transition-all duration-300 cursor-pointer group hover:shadow-lg hover:shadow-[#71ADBA]/20"
+                className={`rounded-lg p-6 border transition-all duration-300 cursor-pointer group hover:shadow-lg ${
+                  feature.isPremium 
+                    ? 'bg-gradient-to-br from-[#71ADBA]/10 to-[#9C71BA]/10 border-[#71ADBA]/40 hover:border-[#71ADBA] hover:shadow-[#71ADBA]/30' 
+                    : 'bg-dark-backgroundSecondary border-dark-border hover:border-[#71ADBA] hover:shadow-[#71ADBA]/20'
+                }`}
                 onClick={feature.action}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="text-4xl">{feature.icon}</div>
-                  <span className="text-xs bg-[#71ADBA]/20 text-[#71ADBA] px-2 py-1 rounded">
-                    {feature.category}
-                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`text-xs px-2 py-1 rounded ${
+                      feature.isPremium 
+                        ? 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white' 
+                        : 'bg-[#71ADBA]/20 text-[#71ADBA]'
+                    }`}>
+                      {feature.category}
+                    </span>
+                    {feature.isPremium && (
+                      <span className="text-xs bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-2 py-1 rounded font-semibold">
+                        ✨ NEW
+                      </span>
+                    )}
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-[#71ADBA] transition-colors">
+                <h3 className={`text-lg font-semibold mb-2 transition-colors ${
+                  feature.isPremium 
+                    ? 'text-white group-hover:text-[#71ADBA]' 
+                    : 'text-white group-hover:text-[#71ADBA]'
+                }`}>
                   {feature.title}
                 </h3>
                 <p className="text-gray-400 text-sm mb-4 line-clamp-2">
                   {feature.description}
                 </p>
-                <button className="w-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-4 py-2 rounded-lg text-sm font-medium hover:opacity-90 transition-opacity">
-                  Launch
+                <button className={`w-full px-4 py-2 rounded-lg text-sm font-medium transition-opacity ${
+                  feature.isPremium 
+                    ? 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white hover:opacity-90' 
+                    : 'bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white hover:opacity-90'
+                }`}>
+                  {feature.isPremium ? '🚀 Explore News' : 'Launch'}
                 </button>
               </motion.div>
             ))}
