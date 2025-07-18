@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
   faCheck, 
@@ -39,7 +40,7 @@ const FAQSection: React.FC = () => {
   const faqs: FAQItem[] = [
     {
       question: "What's included in the Pro plan?",
-      answer: "Pro includes everything in Explorer PLUS our exclusive Daily News Hub with social features, University Directory with student marketplace voting, Activity Dashboard, and advanced career analytics. All features are fully functional and ready to use!"
+      answer: "Pro includes everything in Explorer PLUS our exclusive Daily News Hub with social features, Major Salary Comparison Tool with 10-year projections, Career Analytics Dashboard, and Founding Member Community access. All features are fully functional and ready to use!"
     },
     {
       question: "How does the News Hub work?",
@@ -114,6 +115,7 @@ const FAQSection: React.FC = () => {
 
 const PricingPage = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   // Simulate analytics for FOMO
   const [viewers, setViewers] = useState<number>(47);
   const [proUsers, setProUsers] = useState<number>(2834);
@@ -141,18 +143,18 @@ const PricingPage = () => {
       features: [
         { name: 'Everything in Explorer' },
         { name: 'Daily News Hub with Social Features', status: 'hot' },
-        { name: 'University Directory & Marketplace', status: 'coming-soon' },
-        { name: 'Activity Dashboard & Analytics', status: 'new' },
         { name: 'Save & Bookmark Articles', status: 'hot' },
         { name: 'Voting & Comments System', status: 'hot' },
-        { name: 'Advanced Career Insights' },
+        { name: 'Major Salary Comparison Tool', status: 'new' },
+        { name: 'Career Analytics Dashboard', status: 'new' },
+        { name: 'Exclusive Founding Member Community', status: 'hot' },
         { name: 'Priority Support' },
-        { name: 'Exclusive Pro Community' }
+        { name: 'University Directory & Marketplace', status: 'coming-soon' }
       ],
-      buttonText: 'Upgrade to Pro',
+      buttonText: user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Get Pro Free',
       buttonVariant: 'primary',
       highlight: true,
-      buttonLink: '/signup/pro'
+      buttonLink: user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro'
     },
     {
       name: 'Premium',
@@ -466,11 +468,11 @@ const PricingPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
-                onClick={() => navigate('/signup/pro')}
+                onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
                 className="px-8 py-4 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl text-white text-lg font-semibold hover:shadow-lg hover:shadow-[#71ADBA]/25 transition-all"
               >
                 <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                Get Pro Access Free
+                {user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Get Pro Access Free'}
               </button>
               <button
                 onClick={() => navigate('/demo')}

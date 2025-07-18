@@ -36,12 +36,12 @@ const ProLandingPage = () => {
       stats: '50+ Industries • Real-time Data • Future Predictions'
     },
     {
-      title: 'Advanced Analytics',
-      description: 'Real-time major popularity charts and market trend analysis',
+      title: 'Career Analytics Hub',
+      description: 'Major salary comparisons and data-driven career insights',
       icon: <AutoGraphIcon className="w-8 h-8" />,
       gradient: 'from-green-500 to-blue-600',
-      path: '/major-charts',
-      stats: 'Live Charts • Trend Analysis • Market Insights'
+      path: '/analytics',
+      stats: 'Salary Projections • 10-Year Comparisons • ROI Analysis'
     },
     {
       title: 'Career Timeline',
@@ -294,7 +294,7 @@ const ProLandingPage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => navigate('/quiz')}
+                  onClick={() => navigate('/onboarding')}
                   className="bg-white/10 backdrop-blur text-white px-8 py-4 rounded-xl font-semibold text-lg border border-white/20 hover:bg-white/20 transition-all duration-300"
                 >
                   Take Advanced Quiz

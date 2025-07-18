@@ -135,7 +135,7 @@ const AboutPage = () => {
         ))}
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 relative z-10">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -372,7 +372,7 @@ const AboutPage = () => {
 
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-white mb-2">Pro</h3>
-                <div className="text-3xl font-bold text-[#EDEAB1] mb-4">$9.99/mo</div>
+                <div className="text-3xl font-bold text-[#EDEAB1] mb-4">FREE</div>
                 <p className="text-gray-300">For serious career builders</p>
               </div>
 
@@ -394,7 +394,7 @@ const AboutPage = () => {
               </ul>
 
               <button
-                onClick={() => navigate('/signup/pro')}
+                onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
                 className="w-full py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-[#71ADBA]/25 transition-all"
               >
                 <FontAwesomeIcon icon={faZap} className="mr-2" />
@@ -455,7 +455,7 @@ const AboutPage = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/quiz')}
+              onClick={() => navigate('/onboarding')}
               className="px-8 py-4 border border-[#71ADBA] rounded-xl text-[#71ADBA] text-lg font-semibold hover:bg-[#71ADBA]/10 transition-all"
             >
               Take Career Quiz

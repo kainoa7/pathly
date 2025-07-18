@@ -5,6 +5,8 @@ import AdminDashboard from './AdminDashboard';
 import AdminAnalytics from './AdminAnalytics';
 import AdminNewsManagement from './AdminNewsManagement';
 import AdminPlatformFeedback from './admin/AdminPlatformFeedback';
+import AdminFoundingMembers from './AdminFoundingMembers';
+import AdminNotifications from './AdminNotifications';
 
 const AdminLayout = () => {
   return (
@@ -15,6 +17,8 @@ const AdminLayout = () => {
         <Route path="analytics" element={<AdminAnalytics />} />
         <Route path="news" element={<AdminNewsManagement />} />
         <Route path="feedback" element={<AdminPlatformFeedback />} />
+        <Route path="founding-members" element={<AdminFoundingMembers />} />
+        <Route path="notifications" element={<AdminNotifications />} />
       </Routes>
     </div>
   );

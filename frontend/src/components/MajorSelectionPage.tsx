@@ -265,7 +265,7 @@ const MajorSelectionPage = () => {
 
   const handleTakeQuiz = () => {
     Analytics.trackInteraction('major_selection', 'start_quiz');
-    navigate('/quiz');
+    navigate('/onboarding');
   };
 
   const filteredMajors = majors.filter(major => {

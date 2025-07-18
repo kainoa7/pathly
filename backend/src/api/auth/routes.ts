@@ -189,6 +189,88 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Upgrade Explorer account to Pro
+router.post('/upgrade-to-pro', async (req, res) => {
+  try {
+    const { email, university, graduationYear } = req.body;
+    
+    if (!email) {
+      return res.status(401).json({
+        success: false,
+        message: 'User email is required for authentication'
+      });
+    }
+
+    // Validation
+    if (!university || !graduationYear) {
+      return res.status(400).json({
+        success: false,
+        message: 'University and graduation year are required for Pro accounts',
+        errors: [
+          ...(!university ? ['University is required'] : []),
+          ...(!graduationYear ? ['Graduation year is required'] : [])
+        ]
+      });
+    }
+
+    // Check if user exists and is currently Explorer
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    if (existingUser.accountType !== 'EXPLORER') {
+      return res.status(400).json({
+        success: false,
+        message: 'Only Explorer accounts can be upgraded to Pro'
+      });
+    }
+
+    // Update user to Pro account
+    const updatedUser = await prisma.user.update({
+      where: { email },
+      data: {
+        accountType: 'PRO',
+        university: university.trim(),
+        graduationYear: graduationYear.trim(),
+        updatedAt: new Date()
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        accountType: true,
+        university: true,
+        graduationYear: true,
+        createdAt: true,
+        updatedAt: true
+      }
+    });
+
+    console.log('User upgraded to Pro:', updatedUser.email);
+
+    res.json({
+      success: true,
+      message: 'Account successfully upgraded to Pro!',
+      user: updatedUser
+    });
+
+  } catch (error) {
+    console.error('Upgrade to Pro error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error during account upgrade'
+    });
+  }
+});
+
 // Get all users (for dashboard purposes - should be protected in production)
 router.get('/users', async (req, res) => {
   try {

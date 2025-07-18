@@ -8,6 +8,11 @@ import authRoutes from './api/auth/routes';
 import newsRoutes from './api/news/routes';
 import featureRoutes from './api/features/routes';
 import feedbackRoutes from './api/feedback/routes';
+import mobileAppVotesRoutes from './api/mobile-app-votes/routes';
+import majorsRoutes from './api/majors/routes';
+import salaryProjectionsRoutes from './api/salary-projections/routes';
+import foundingMembersRoutes from './api/founding-members/routes';
+import notificationsRoutes from './api/notifications/routes';
 
 // Load environment variables
 config();
@@ -26,6 +31,11 @@ app.use('/api/auth', authRoutes);
 app.use('/api/news', newsRoutes);
 app.use('/api/features', featureRoutes);
 app.use('/api/feedback', feedbackRoutes);
+app.use('/api/mobile-app-votes', mobileAppVotesRoutes);
+app.use('/api/majors', majorsRoutes);
+app.use('/api/salary-projections', salaryProjectionsRoutes);
+app.use('/api/founding-members', foundingMembersRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {

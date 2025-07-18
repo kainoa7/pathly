@@ -159,10 +159,10 @@ const ExplorerDashboard = () => {
                   <p className="text-gray-300 text-sm">Pro users get daily job alerts & market news. You've missed 47 opportunities this week. Don't fall behind!</p>
                 </div>
                 <button
-                  onClick={() => navigate('/signup/pro')}
+                  onClick={() => navigate('/upgrade-to-pro')}
                   className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-600 transition-colors whitespace-nowrap"
                 >
-                  Get Daily Alerts
+                  Upgrade to Pro
                 </button>
               </div>
             </motion.div>
@@ -205,6 +205,52 @@ const ExplorerDashboard = () => {
           </div>
         </motion.div>
 
+        {/* Pro Upgrade Banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8"
+        >
+          <div className="bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 rounded-xl p-6 border-2 border-[#EDEAB1]/40 relative overflow-hidden">
+            <div className="absolute top-4 right-4">
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-3 py-1 rounded-full text-xs font-bold">
+                ⚡ LIMITED TIME
+              </span>
+            </div>
+            
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-white mb-2 flex items-center gap-2">
+                  <span className="text-[#EDEAB1]">🚀</span>
+                  Ready to Unlock Pro Features?
+                </h3>
+                <p className="text-gray-300 mb-4">
+                  Complete your profile and access daily news, advanced analytics, university directory, and exclusive Pro content.
+                </p>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  <span className="bg-[#71ADBA]/20 text-[#71ADBA] px-3 py-1 rounded-full text-sm">📰 Daily News Hub</span>
+                  <span className="bg-[#9C71BA]/20 text-[#9C71BA] px-3 py-1 rounded-full text-sm">📊 Analytics Hub</span>
+                  <span className="bg-[#EDEAB1]/20 text-[#EDEAB1] px-3 py-1 rounded-full text-sm">🎓 University Directory</span>
+                  <span className="bg-[#71ADBA]/20 text-[#71ADBA] px-3 py-1 rounded-full text-sm">💾 Save Articles</span>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <button
+                  onClick={() => navigate('/upgrade-to-pro')}
+                  className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform shadow-lg"
+                >
+                  Upgrade to Pro →
+                </button>
+                <p className="text-xs text-gray-400 mt-2">
+                  Just complete your profile • No payment required yet
+                </p>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
         {/* Daily Career Intel Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -235,10 +281,10 @@ const ExplorerDashboard = () => {
                 </p>
                 <div className="flex justify-between items-center">
                   <button
-                    onClick={() => navigate('/signup/pro')}
+                    onClick={() => navigate('/upgrade-to-pro')}
                     className="bg-[#71ADBA] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#9C71BA] transition-colors"
                   >
-                    {dailyIntel[currentIntel].action}
+                    Upgrade to Pro
                   </button>
                   <div className="text-xs text-[#EDEAB1] font-medium">
                     💎 {dailyIntel[currentIntel].proTeaser}
@@ -274,10 +320,10 @@ const ExplorerDashboard = () => {
               Hot Job Markets This Week 🔥
             </h2>
             <button
-              onClick={() => navigate('/signup/pro')}
+              onClick={() => navigate('/upgrade-to-pro')}
               className="text-[#71ADBA] hover:text-[#9C71BA] transition-colors text-sm"
             >
-              Get Daily Market Alerts (Pro) →
+              Upgrade to Pro →
             </button>
           </div>
           
@@ -289,7 +335,7 @@ const ExplorerDashboard = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.1 * index }}
                 className="bg-[#1a2234]/50 rounded-lg p-4 border border-[#71ADBA]/20 hover:border-[#71ADBA]/40 transition-colors cursor-pointer"
-                onClick={() => navigate('/signup/pro')}
+                onClick={() => navigate('/upgrade-to-pro')}
               >
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="font-semibold text-white">{career.name}</h3>
@@ -333,7 +379,7 @@ const ExplorerDashboard = () => {
                     ? 'border-red-500/30 hover:border-red-500/50' 
                     : 'border-[#71ADBA]/20 hover:border-[#71ADBA]/40'
                 }`}
-                onClick={() => navigate('/signup/pro')}
+                onClick={() => navigate('/upgrade-to-pro')}
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
@@ -361,10 +407,10 @@ const ExplorerDashboard = () => {
           
           <div className="text-center mt-4">
             <button
-              onClick={() => navigate('/signup/pro')}
+              onClick={() => navigate('/upgrade-to-pro')}
               className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-transform"
             >
-              Get Daily Job Alerts - Free Upgrade
+              Upgrade to Pro - Free
             </button>
           </div>
         </motion.div>
@@ -413,10 +459,10 @@ const ExplorerDashboard = () => {
             </div>
             <div className="text-center">
               <button
-                onClick={() => navigate('/signup/pro')}
+                onClick={() => navigate('/upgrade-to-pro')}
                 className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-transform"
               >
-                Join Daily Career Discussions
+                Upgrade to Pro
               </button>
             </div>
           </div>
@@ -494,10 +540,10 @@ const ExplorerDashboard = () => {
             </div>
           </div>
           <button
-            onClick={() => navigate('/signup/pro')}
+            onClick={() => navigate('/upgrade-to-pro')}
             className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-3 rounded-lg text-lg font-bold hover:scale-105 transition-transform"
           >
-            Join Pro Students - Free Upgrade
+            Upgrade to Pro - Free
           </button>
         </motion.div>
       </div>

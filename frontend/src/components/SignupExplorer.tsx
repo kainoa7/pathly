@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const SignupExplorer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
@@ -15,6 +16,17 @@ const SignupExplorer = () => {
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFromQuiz, setIsFromQuiz] = useState(false);
+
+  useEffect(() => {
+    // Check if user came from quiz results
+    const pendingResults = localStorage.getItem('pendingResults');
+    const fromQuiz = location.state?.from === '/results';
+    
+    if (pendingResults || fromQuiz) {
+      setIsFromQuiz(true);
+    }
+  }, [location]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -126,10 +138,16 @@ const SignupExplorer = () => {
       console.log('Response data:', data);
 
       if (response.ok) {
-        // Success - login user and redirect to explorer dashboard
+        // Success - login user and redirect appropriately
         console.log('Success! Logging in user and redirecting...');
         login(data.user);
-        navigate('/explorer-dashboard');
+        
+        // If user came from quiz, redirect back to results
+        if (isFromQuiz) {
+          navigate('/results');
+        } else {
+          navigate('/explorer-dashboard');
+        }
       } else {
         // Handle error - show server errors
         console.error('API Error:', data);
@@ -162,10 +180,31 @@ const SignupExplorer = () => {
         className="max-w-md mx-auto px-4 sm:px-6"
       >
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
-            Create Explorer Account
-          </h1>
-          <p className="text-[#71ADBA]">Get started with your free account</p>
+          {isFromQuiz ? (
+            <>
+              <div className="mb-4">
+                <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-full text-sm font-medium">
+                  🎯 Almost there!
+                </span>
+              </div>
+              <h1 className="text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
+                Unlock Your Career Results
+              </h1>
+              <p className="text-[#71ADBA] mb-4">Create your free account to see your complete career analysis</p>
+              <div className="glass-panel p-4 mb-4">
+                <p className="text-sm text-gray-300">
+                  ✨ Your personalized results are ready • 📊 Complete career roadmap waiting • 🚀 Join 10,000+ students
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <h1 className="text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
+                Create Explorer Account
+              </h1>
+              <p className="text-[#71ADBA]">Get started with your free account</p>
+            </>
+          )}
         </div>
 
         <div className="bg-dark-backgroundSecondary rounded-2xl p-8 shadow-xl border border-dark-border">

@@ -20,12 +20,15 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import NotificationBell from './NotificationBell';
+import NotificationsCenter from './NotificationsCenter';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [shouldShowHeader, setShouldShowHeader] = useState(true);
+  const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
@@ -129,7 +132,7 @@ const Header = () => {
         />
         
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+          <div className="flex justify-between items-center h-20">
             
             {/* Logo */}
             <Link to="/" className="flex items-center group">
@@ -140,7 +143,7 @@ const Header = () => {
                 />
                 <img 
                   src="/logo.svg" 
-                  alt="Kaiyl" 
+                  alt="KAIYL" 
                   className="h-8 w-auto relative z-10" 
                 />
               </div>
@@ -149,7 +152,7 @@ const Header = () => {
                   className="ml-2 sm:ml-3 text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent"
                   whileHover={{ scale: 1.02 }}
                 >
-                  Kaiyl
+                  KAIYL
                 </motion.span>
                 <motion.span 
                   initial={{ scale: 0 }}
@@ -171,7 +174,7 @@ const Header = () => {
               </Link>
               
               <Link 
-                to="/quiz" 
+                to="/onboarding" 
                 className="text-gray-300 hover:text-white transition-colors font-medium flex items-center gap-2"
               >
                 Career Quiz
@@ -195,25 +198,50 @@ const Header = () => {
                   </Link>
                   
                   <Link 
-                    to="/activity-dashboard" 
+                    to="/analytics" 
                     className="text-gray-300 hover:text-[#9C71BA] transition-colors font-medium flex items-center gap-2"
                   >
                     <FontAwesomeIcon icon={faChartLine} className="text-sm" />
                     <span className="hidden lg:inline">Analytics</span>
+                    <span className="lg:hidden">Analytics</span>
+                    <span className="px-2 py-0.5 bg-[#9C71BA]/20 text-[#9C71BA] text-xs rounded-full font-semibold">
+                      Pro
+                    </span>
                   </Link>
                 </>
               )}
 
-              <Link 
-                to="/pricing" 
-                className="text-gray-300 hover:text-white transition-colors font-medium"
-              >
-                Pricing
-              </Link>
+              {isPro ? (
+                <Link 
+                  to="/campus-life" 
+                  className="text-gray-300 hover:text-[#EDEAB1] transition-colors font-medium flex items-center gap-2"
+                >
+                  <FontAwesomeIcon icon={faUniversity} className="text-sm" />
+                  <span className="hidden lg:inline">Campus Marketplace</span>
+                  <span className="lg:hidden">Campus</span>
+                  <span className="px-2 py-0.5 bg-[#EDEAB1]/20 text-[#EDEAB1] text-xs rounded-full font-semibold">
+                    Pro
+                  </span>
+                </Link>
+              ) : (
+                <Link 
+                  to="/pricing" 
+                  className="text-gray-300 hover:text-white transition-colors font-medium"
+                >
+                  Pricing
+                </Link>
+              )}
             </div>
 
             {/* Right Side */}
             <div className="flex items-center space-x-2 sm:space-x-3 lg:space-x-4">
+              
+              {/* Notification Bell for Pro Users */}
+              {isAuthenticated && (user?.accountType === 'PRO' || user?.accountType === 'PREMIUM') && (
+                <NotificationBell 
+                  onClick={() => setIsNotificationsOpen(true)}
+                />
+              )}
               
               {/* User Account */}
               {isAuthenticated && user ? (
@@ -345,7 +373,7 @@ const Header = () => {
 
                           {user.accountType === 'EXPLORER' && (
                             <Link
-                              to="/signup/pro"
+                              to="/upgrade-to-pro"
                               onClick={() => setIsProfileOpen(false)}
                               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white hover:opacity-90 transition-opacity"
                             >
@@ -474,7 +502,7 @@ const Header = () => {
                   About
                 </Link>
                 <Link
-                  to="/quiz"
+                  to="/onboarding"
                   onClick={() => setIsOpen(false)}
                   className="block text-gray-300 hover:text-white transition-colors"
                 >
@@ -492,7 +520,7 @@ const Header = () => {
                       News Hub
                     </Link>
                     <Link
-                      to="/activity-dashboard"
+                      to="/analytics"
                       onClick={() => setIsOpen(false)}
                       className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
                     >
@@ -502,13 +530,24 @@ const Header = () => {
                   </>
                 )}
                 
-                <Link
-                  to="/pricing"
-                  onClick={() => setIsOpen(false)}
-                  className="block text-gray-300 hover:text-white transition-colors"
-                >
-                  Pricing
-                </Link>
+                {isPro ? (
+                  <Link
+                    to="/campus-life"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+                  >
+                    <FontAwesomeIcon icon={faUniversity} />
+                    Campus Marketplace
+                  </Link>
+                ) : (
+                  <Link
+                    to="/pricing"
+                    onClick={() => setIsOpen(false)}
+                    className="block text-gray-300 hover:text-white transition-colors"
+                  >
+                    Pricing
+                  </Link>
+                )}
               </div>
 
               {isAuthenticated && user && (
@@ -529,6 +568,15 @@ const Header = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Notifications Center */}
+      <NotificationsCenter
+        isOpen={isNotificationsOpen}
+        onClose={() => setIsNotificationsOpen(false)}
+        onNotificationRead={() => {
+          // Optionally refresh notification count or handle updates
+        }}
+      />
     </motion.header>
   );
 };

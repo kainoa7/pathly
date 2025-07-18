@@ -7,7 +7,7 @@
 @tailwind utilities;
 
 :root {
-  --header-height: 4rem; /* 64px - matches h-16 from header */
+  --header-height: 5rem; /* 80px - matches h-20 from header */
   --background-start-rgb: 255, 255, 255;
 }
 

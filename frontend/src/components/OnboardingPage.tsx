@@ -127,7 +127,7 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0A1020] pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0A1020] pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -160,7 +160,7 @@ const OnboardingPage = () => {
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="max-w-3xl mx-auto mb-8"
+        className="mb-12 ml-4 sm:ml-8 lg:ml-16"
       >
         <button
           onClick={() => navigate('/')}

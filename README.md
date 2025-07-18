@@ -21,12 +21,13 @@ Kaiyl is a modern, full-stack SaaS platform that revolutionizes career developme
 ### ✨ What Makes Kaiyl Special
 
 - **🤖 AI-Powered Career Matching** - Smart assessments with personalized career recommendations
-- **📊 Platform Feedback System** - Real-time user sentiment analysis and engagement scoring
-- **🗞️ Social News Hub** - Professional news feed with voting, commenting, and bookmarking
-- **👥 Tiered Access Control** - Explorer (Free), Pro, and Premium with progressive feature unlocks
+- **📰 Social News Hub** - Professional news feed with voting, commenting, and bookmarking (Pro)
+- **📊 Career Analytics Dashboard** - Major salary comparisons with 10-year projections (Pro)
+- **👑 Founding Member Community** - Exclusive co-creator community with special access (Pro)
+- **👥 Tiered Access Control** - Explorer (Free), Pro (Currently Free), and Premium (Coming Soon)
 - **📈 Comprehensive Analytics** - User activity tracking, engagement metrics, and admin insights
-- **🎨 Modern UI/UX** - Responsive design with glassmorphism effects and smooth animations
-- **🔧 Admin Management** - Complete CMS for content, user analytics, and platform monitoring
+- **🎨 Modern UI/UX** - Fully responsive design with glassmorphism effects and smooth animations
+- **🔧 Admin Management** - Complete CMS for content, user analytics, and founding member management
 
 ## 🏗️ Architecture
 
@@ -35,7 +36,7 @@ Kaiyl is a modern, full-stack SaaS platform that revolutionizes career developme
 kaiyl/
 ├── frontend/                    # React + TypeScript SPA
 │   ├── src/
-│   │   ├── components/          # 80+ React components
+│   │   ├── components/          # 80+ React components (fully mobile responsive)
 │   │   │   ├── admin/          # Admin dashboard components
 │   │   │   ├── services/       # Service-specific pages
 │   │   │   └── ...             # Core UI components
@@ -48,7 +49,10 @@ kaiyl/
 │   ├── src/
 │   │   ├── api/
 │   │   │   ├── auth/          # Authentication endpoints
-│   │   │   ├── news/          # News hub API
+│   │   │   ├── news/          # News hub API with social features
+│   │   │   ├── majors/        # Major information API
+│   │   │   ├── salary-projections/ # Career analytics API
+│   │   │   ├── founding-members/ # Community management API
 │   │   │   ├── feedback/      # Platform feedback system
 │   │   │   └── features/      # Feature voting API
 │   │   ├── config/            # Database & app configuration
@@ -68,13 +72,14 @@ kaiyl/
 - **Framer Motion** - 60fps animations and micro-interactions
 - **FontAwesome** - Professional icon library
 - **React Router** - SPA routing with protected routes
+- **Recharts** - Interactive data visualization for analytics
 
 #### **Backend Technologies**
 - **Node.js** - JavaScript runtime with Express.js framework
 - **Prisma ORM** - Type-safe database client with migrations
 - **SQLite** - Development database (PostgreSQL production-ready)
 - **JWT + bcrypt** - Secure authentication and password hashing
-- **RESTful APIs** - 25+ endpoints for all platform features
+- **RESTful APIs** - 30+ endpoints for all platform features
 
 #### **Database & Infrastructure**
 - **Prisma Schema** - 15+ models with complex relationships
@@ -98,295 +103,342 @@ cd frontend && npm install
 cd ../backend && npm install
 ```
 
-### **2. Environment Configuration**
-```bash
-# Backend environment
-cd backend
-cp .env.example .env
-
-# Configure your environment variables:
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="your-super-secret-jwt-key"
-PORT=3001
-```
-
-### **3. Database Setup & Migrations**
+### **2. Database Setup**
 ```bash
 cd backend
-
-# Generate Prisma client
 npx prisma generate
-
-# Run all migrations (includes latest features)
-npx prisma migrate dev
-
-# Optional: View database
-npx prisma studio  # http://localhost:5555
+npx prisma db push
 ```
 
-### **4. Start Development Servers**
+### **3. Environment Configuration**
 ```bash
-# Terminal 1: Backend API
-cd backend
-npm run dev  # http://localhost:3001
+# Backend (.env)
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your-secret-key"
+PORT=5000
 
-# Terminal 2: Frontend React App
-cd frontend
-npm run dev  # http://localhost:5173
+# Frontend (.env)
+VITE_API_BASE_URL=http://localhost:5000
 ```
 
-### **5. Access the Platform**
-- **Main App**: http://localhost:5173
-- **Admin Panel**: http://localhost:5173/admin/login (`admin` / `kaiyl2024`)
-- **API Health**: http://localhost:3001/health
-- **Database GUI**: http://localhost:5555
+### **4. Development Servers**
+```bash
+# Terminal 1: Backend
+cd backend && npm run dev
+
+# Terminal 2: Frontend  
+cd frontend && npm run dev
+```
+
+🎉 **Access at:** http://localhost:5173
 
 ## 🎯 Key Features
 
-### **🔐 Advanced Authentication System**
-- **Multi-Tier Access** - Explorer (Free), Pro, Premium account types
-- **JWT Security** - Secure token-based authentication
-- **Protected Routes** - Conditional access based on account tier
-- **User Profiles** - Comprehensive user data with university info
+### **🏠 Core Platform Features**
 
-### **💬 Platform Feedback System**
-- **User Sentiment Analysis** - "Love it", "Would use", "Not interested" voting
-- **Anonymous Voting** - IP-based tracking for non-authenticated users
-- **Real-Time Analytics** - Engagement scoring and recommendation engine
-- **Admin Dashboard** - Comprehensive feedback analytics and user comments
-- **Local Storage Fallback** - Offline functionality with seamless sync
+#### **Explorer (Free Tier)**
+- **Career Assessment Quiz** - Comprehensive personality and skill-based career matching
+- **Major Selection Tool** - Interactive major exploration with career paths
+- **Basic Career Insights** - General career information and guidance
+- **Account Management** - Profile creation and basic dashboard
 
-### **🗞️ Social News Hub (Pro Feature)**
-- **Curated News Feed** - Tech, Business, Finance, Sports, AI categories
-- **Social Interactions** - Upvote/downvote articles and comments
-- **Article Bookmarking** - Save articles for later reading
-- **Comment System** - Threaded discussions on articles
-- **User Activity Tracking** - Comprehensive engagement analytics
+#### **Pro Tier (Currently Free)**
+- **📰 Daily News Hub** - Curated professional news across Tech, Business, Finance, Sports & AI
+  - Upvote/downvote articles and comments
+  - Save and bookmark favorite articles
+  - Comment and engage with community
+  - Personalized saved articles page
+- **📊 Career Analytics Dashboard** - Advanced career insights and data analysis
+  - Major salary comparison tool with 10-year projections
+  - Interactive data visualizations using Recharts
+  - Career path analysis and insights
+  - Data transparency modal for methodology
+- **👑 Founding Member Community** - Exclusive access to co-creator features
+  - Special community status and recognition
+  - Early access to new features
+  - Direct input on platform development
+- **🎯 Advanced Career Features** - Enhanced assessment and guidance tools
 
-### **👨‍💼 Admin Management System**
-- **Content Management** - Create, edit, delete news articles with images
-- **User Analytics** - Monitor signups, engagement, account types
+#### **Premium Tier (Coming Soon)**
+- **🤖 AI-Powered Study Schedules** - Personalized learning paths
+- **🎮 Custom Career Path Simulator** - Interactive career scenario planning
+- **📈 Advanced Analytics Dashboard** - Comprehensive performance metrics
+- **🔔 Real-time Industry Alerts** - Personalized opportunity notifications
+- **👨‍💼 1-on-1 Career Coaching** - Professional mentorship sessions
+
+### **🛠️ Admin Features**
+
+#### **Comprehensive Admin Dashboard**
+- **👥 User Management** - Complete user lifecycle management
+  - View all user signups and account types
+  - Filter and search users by criteria
+  - Account type management (Explorer → Pro → Premium)
+  - User activity tracking and analytics
+
+#### **📰 News Hub Management**
+- **Content Management System** - Full control over news articles
+  - Create, edit, and delete articles
+  - Category management (Tech, Business, Finance, Sports, AI)
+  - Real-time content publishing
+- **Social Features Analytics** - Engagement tracking and insights
+  - Article voting statistics
+  - Comment moderation and management
+  - User engagement metrics
+
+#### **👑 Founding Member Management**
+- **Dedicated Founding Members Page** - Professional community management
+  - View all founding members with join dates
+  - Search and sort functionality
+  - Export member lists to CSV
+  - Real-time member count tracking
+  - IP address tracking for security
+
+#### **📊 Platform Analytics**
+- **User Activity Tracking** - Comprehensive engagement metrics
 - **Platform Feedback Analytics** - Real-time sentiment analysis
-- **Feature Voting Insights** - Track user-requested features
-- **Admin Authentication** - Secure admin-only access
+- **Feature Usage Statistics** - Popular features and user behavior
+- **Growth Metrics** - User acquisition and retention analytics
 
-### **🎓 Career Development Tools**
-- **AI Career Assessment** - Personalized career matching algorithms
-- **University Directory** - Campus life features with voting system
-- **Major Recommendations** - Data-driven college major suggestions
-- **Career Roadmaps** - Professional development planning
+### **🔒 Security & Authentication**
 
-### **📊 Analytics & Insights**
-- **User Activity Dashboard** - Personal engagement metrics
-- **Platform Statistics** - Real-time usage analytics
-- **Engagement Scoring** - Data-driven development decisions
-- **Feature Voting** - Community-driven development priorities
+#### **Multi-Tier Authentication System**
+- **JWT-based Authentication** - Secure token-based auth
+- **Role-based Access Control** - Explorer, Pro, Premium, Admin tiers
+- **Protected Routes** - Frontend and backend route protection
+- **Admin Security** - Separate admin authentication with time-based sessions
+- **Password Security** - bcrypt hashing with salt rounds
 
-### **🎨 Premium UI/UX Design**
-- **Glassmorphism Effects** - Modern frosted glass aesthetics
-- **Responsive Design** - Mobile-first approach (9:16 ratio compatible)
-- **Dark/Light Themes** - Seamless theme switching
-- **Gradient Design System** - Consistent teal → purple → cream branding
-- **Smooth Animations** - 60fps interactions with Framer Motion
+#### **Data Protection**
+- **Input Validation** - Comprehensive data sanitization
+- **SQL Injection Protection** - Prisma ORM parameterized queries
+- **XSS Prevention** - Content sanitization and validation
+- **CORS Configuration** - Secure cross-origin resource sharing
 
 ## 📊 Database Schema
 
-### **Core User Management**
+### **Core Models**
 ```prisma
 model User {
-  id              String        @id @default(cuid())
-  email           String        @unique
+  id              String    @id @default(cuid())
+  email           String    @unique
+  password        String
   firstName       String
   lastName        String
-  accountType     AccountType   @default(EXPLORER)
+  accountType     AccountType @default(EXPLORER)
   university      String?
   graduationYear  String?
-  createdAt       DateTime      @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
   
-  // Feature Relationships
-  careerQuizResults     CareerQuizResult[]
-  majorRecommendations  MajorRecommendation[]
-  newsComments         NewsComment[]
-  newsVotes           NewsVote[]
-  savedArticles       SavedArticle[]
-  featureVotes        FeatureVote[]
-  platformFeedback    PlatformFeedback[]
+  // Relations
+  newsVotes       NewsVote[]
+  newsComments    NewsComment[]
+  savedArticles   SavedArticle[]
+  platformFeedback PlatformFeedback[]
+  mobileAppVotes  MobileAppVote[]
+}
+
+model NewsArticle {
+  id              String    @id @default(cuid())
+  title           String
+  content         String
+  excerpt         String?
+  category        String
+  author          String?
+  publishedAt     DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  // Relations
+  votes           NewsVote[]
+  comments        NewsComment[]
+  savedBy         SavedArticle[]
+}
+
+model FoundingMember {
+  id              String    @id @default(cuid())
+  email           String    @unique
+  ipAddress       String
+  joinedAt        DateTime  @default(now())
 }
 
 enum AccountType {
-  EXPLORER  // Free tier
-  PRO       // Premium features
-  PREMIUM   // Future premium tier
+  EXPLORER
+  PRO
+  PREMIUM
+  ADMIN
 }
 ```
 
-### **Platform Feedback System**
+### **Social Features Models**
 ```prisma
-model PlatformFeedback {
-  id          String            @id @default(cuid())
-  userId      String?           // Optional for anonymous
-  user        User?             @relation(fields: [userId], references: [id])
-  ipAddress   String            // Anonymous user tracking
-  voteType    PlatformVoteType  // LOVE_IT, WOULD_USE, NOT_INTERESTED
-  feedback    String?           // Optional text feedback
-  createdAt   DateTime          @default(now())
-}
-```
-
-### **News & Social Features**
-```prisma
-model NewsArticle {
-  id          String        @id @default(cuid())
-  title       String
-  content     String
-  summary     String
-  category    NewsCategory  // TECH, BUSINESS, FINANCE, SPORTS, AI
-  imageUrl    String?
-  comments    NewsComment[]
-  votes       NewsVote[]
-  savedBy     SavedArticle[]
+model NewsVote {
+  id        String    @id @default(cuid())
+  userId    String?
+  articleId String
+  voteType  VoteType
+  ipAddress String?
+  createdAt DateTime  @default(now())
+  
+  user      User?     @relation(fields: [userId], references: [id])
+  article   NewsArticle @relation(fields: [articleId], references: [id])
 }
 
 model NewsComment {
-  id        String   @id @default(cuid())
-  articleId String
-  userId    String
+  id        String    @id @default(cuid())
   content   String
-  createdAt DateTime @default(now())
-  votes     NewsVote[]
+  userId    String?
+  articleId String
+  parentId  String?
+  ipAddress String?
+  createdAt DateTime  @default(now())
+  
+  user      User?     @relation(fields: [userId], references: [id])
+  article   NewsArticle @relation(fields: [articleId], references: [id])
+  parent    NewsComment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies   NewsComment[] @relation("CommentReplies")
 }
 ```
 
-## 🛠️ API Endpoints
+## 🌐 API Documentation
 
-### **Authentication & Users**
-```bash
-POST /api/auth/signup         # User registration
-POST /api/auth/login          # Authentication
-GET  /api/auth/users          # Admin: List all users
-DELETE /api/auth/users/:id    # Admin: Delete user
+### **Authentication Endpoints**
+```
+POST /api/auth/login          # User login
+POST /api/auth/register       # User registration  
+POST /api/auth/logout         # User logout
+GET  /api/auth/me            # Get current user
+PUT  /api/auth/profile       # Update user profile
 ```
 
-### **Platform Feedback System**
-```bash
-POST /api/feedback/vote       # Submit platform feedback
-GET  /api/feedback/stats      # Get engagement statistics
-GET  /api/feedback/my-vote    # Get user's votes
-GET  /api/feedback/recent     # Admin: Recent feedback comments
+### **News Hub API**
+```
+GET  /api/news               # Get paginated news articles
+GET  /api/news/:id           # Get specific article with comments
+POST /api/news/:id/vote      # Vote on article (Pro)
+POST /api/news/:id/comments  # Add comment (Pro)
+POST /api/news/:id/save      # Save article (Pro)
+GET  /api/news/user/saved    # Get user's saved articles (Pro)
+GET  /api/news/user/activity # User engagement analytics (Pro)
 ```
 
-### **News Hub (Pro Features)**
-```bash
-GET  /api/news                # Get news articles with pagination
-POST /api/news/:id/vote       # Vote on article/comment
-POST /api/news/:id/save       # Bookmark article
-POST /api/news/:id/comments   # Add comment
-GET  /api/news/user/activity  # User engagement analytics
+### **Career Analytics API**
+```
+GET  /api/majors             # Get available majors list
+GET  /api/salary-projections # Get salary comparison data
 ```
 
-### **Admin Content Management**
-```bash
-POST /api/news/admin/create   # Create news article
-PUT  /api/news/admin/:id      # Update article
-DELETE /api/news/admin/:id    # Delete article
-GET  /api/news/admin/analytics # Content analytics
+### **Founding Members API**
+```
+POST /api/founding-members/signup    # Join founding members
+GET  /api/founding-members/count     # Get member count
+GET  /api/founding-members/admin/list # Admin: Get all members
 ```
 
-### **Feature Voting**
+### **Admin APIs**
+```
+GET  /api/users/admin        # Admin: Get all users
+GET  /api/news/admin/analytics # Admin: Content analytics
+GET  /api/feedback/admin     # Admin: Platform feedback
+POST /api/news/admin         # Admin: Create article
+PUT  /api/news/admin/:id     # Admin: Update article
+DELETE /api/news/admin/:id   # Admin: Delete article
+```
+
+## 📱 Mobile Responsiveness
+
+### **Fully Responsive Design**
+- **Mobile-First Approach** - Optimized for phones and tablets
+- **Responsive Grid Layouts** - Adaptive grid systems using Tailwind CSS
+- **Touch-Friendly Interface** - Optimized button sizes and touch targets
+- **Progressive Text Scaling** - `text-sm sm:text-base md:text-lg` patterns throughout
+- **Adaptive Navigation** - Mobile hamburger menus and collapsible sections
+- **Optimized Images** - Responsive image sizing and loading
+
+### **Component Responsiveness Examples**
+```typescript
+// Responsive grid patterns used throughout
+className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+
+// Progressive text sizing
+className="text-3xl sm:text-4xl md:text-5xl font-bold"
+
+// Mobile-optimized spacing
+className="px-4 sm:px-6 lg:px-8 py-8"
+```
+
+## 🚀 Deployment & Production
+
+### **Environment Setup**
+- **Development** - SQLite database with hot reloading
+- **Production** - PostgreSQL database with optimized builds
+- **Environment Variables** - Secure configuration management
+- **CORS Configuration** - Production-ready security settings
+
+### **Build Commands**
 ```bash
-POST /api/features/vote       # Vote on features
-GET  /api/features/:name/votes # Get feature vote counts
+# Frontend production build
+cd frontend && npm run build
+
+# Backend production start
+cd backend && npm start
+
+# Database deployment
+npx prisma migrate deploy
 ```
 
 ## 📈 Codebase Statistics
 
-### **Project Scale**
-- **Total Files**: 120+ TypeScript/React files
-- **React Components**: 80+ UI components
-- **API Endpoints**: 25+ RESTful endpoints
-- **Database Models**: 15+ Prisma models
-- **Database Migrations**: 4 major feature migrations
+- **📁 Total Files:** 150+ source files
+- **⚛️ React Components:** 80+ components (all mobile responsive)
+- **🔌 API Endpoints:** 30+ RESTful endpoints
+- **📊 Database Models:** 15+ Prisma models
+- **🎨 UI Components:** Custom design system with Tailwind CSS
+- **🔒 Authentication:** Multi-tier role-based access control
+- **📱 Mobile Support:** 100% responsive design
+- **🧪 TypeScript Coverage:** Full type safety across frontend and backend
 
-### **Feature Distribution**
-| Feature Category | Components | API Routes | Description |
-|-----------------|------------|------------|-------------|
-| **Authentication** | 8 | 6 | User management & security |
-| **Platform Feedback** | 2 | 4 | Sentiment analysis system |
-| **News Hub** | 12 | 8 | Social news features |
-| **Admin Dashboard** | 15 | 7 | Management interface |
-| **Career Tools** | 25 | 3 | Core career development |
-| **UI Components** | 18 | - | Reusable interface elements |
+## 🎯 Current Status & Roadmap
 
-### **Key Component Metrics**
-| Component | Purpose | Complexity |
-|-----------|---------|------------|
-| `PlatformFeedbackWidget.tsx` | User sentiment collection | High |
-| `AdminPlatformFeedback.tsx` | Analytics dashboard | High |
-| `NewsPage.tsx` | Social news interface | High |
-| `UserActivityDashboard.tsx` | Personal analytics | Medium |
-| `AdminNewsManagement.tsx` | Content management | High |
+### **✅ Completed Features (BETA)**
+- ✅ Complete user authentication system with role-based access
+- ✅ AI-powered career assessment and matching
+- ✅ Professional news hub with social features (voting, comments, bookmarking)
+- ✅ Career analytics dashboard with salary comparison tool
+- ✅ Founding member community system
+- ✅ Comprehensive admin dashboard with user and content management
+- ✅ Fully responsive mobile design
+- ✅ Real-time analytics and engagement tracking
 
-## 🔒 Security & Performance
+### **🚧 In Development**
+- 🚧 University directory with student marketplace
+- 🚧 Advanced AI recommendations
+- 🚧 Enhanced analytics visualizations
+- 🚧 Mobile app companion
 
-### **Security Features**
-- **JWT Authentication** - Stateless, secure sessions
-- **Password Hashing** - bcrypt with salt rounds
-- **Input Validation** - Server-side sanitization
-- **Protected Routes** - Middleware-based access control
-- **IP Tracking** - Anonymous user monitoring
-- **Admin Authentication** - Secure admin panel access
-
-### **Performance Optimizations**
-- **Code Splitting** - Lazy loading for better performance
-- **Database Indexing** - Optimized queries with Prisma
-- **Responsive Design** - Mobile-first responsive breakpoints
-- **Error Boundaries** - Graceful error handling
-- **Local Storage Fallback** - Offline functionality
-
-## 🚀 Deployment Ready
-
-### **Production Checklist**
-- ✅ Environment variables configured
-- ✅ Database migrations applied
-- ✅ TypeScript compilation ready
-- ✅ Admin authentication secure
-- ✅ API rate limiting configured
-- ✅ Error logging implemented
-
-### **Recommended Infrastructure**
-- **Frontend**: Vercel, Netlify (optimized for React)
-- **Backend**: Railway, Render, AWS (Node.js ready)
-- **Database**: PostgreSQL on Railway, AWS RDS
-- **Monitoring**: Built-in health checks, Sentry integration ready
-
-## 📞 Contact & Support
-
-- **Email**: [kaiyl.help@gmail.com](mailto:kaiyl.help@gmail.com)
-- **GitHub**: [github.com/kainoa7/pathly](https://github.com/kainoa7/pathly)
-- **Platform**: Currently in BETA - user feedback welcome!
+### **🔮 Planned Features (Premium)**
+- 🔮 AI-powered study schedules
+- 🔮 Custom career path simulator
+- 🔮 1-on-1 career coaching
+- 🔮 Advanced industry alerts
+- 🔮 Community features expansion
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+We welcome contributions! Please check our [DEVELOPMENT.md](docs/DEVELOPMENT.md) for detailed development guidelines.
 
-## 📄 License
+## 📞 Contact & Support
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **Website:** [kaiyl.com](https://kaiyl.com)
+- **Email:** kaiyl.help@gmail.com
+- **Status:** BETA - Actively seeking feedback and early adopters
 
 ---
 
 <div align="center">
 
-**🚀 BETA Platform - Ready for User Testing**
+**Built with ❤️ for the next generation of career developers**
 
-**Comprehensive career guidance platform with real-time feedback systems**
-
-[💬 Submit Platform Feedback](https://kaiyl.com) • [👨‍💼 Admin Dashboard](https://kaiyl.com/admin) • [📰 News Hub](https://kaiyl.com/news)
-
-Built with ❤️ using React, Node.js, TypeScript, and modern web technologies
+[⭐ Star this repo](https://github.com/kainoa7/pathly) • [🐛 Report Bug](https://github.com/kainoa7/pathly/issues) • [💡 Request Feature](https://github.com/kainoa7/pathly/issues)
 
 </div>

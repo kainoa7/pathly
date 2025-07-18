@@ -13,6 +13,8 @@ interface User {
   createdAt: string;
 }
 
+
+
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState<User[]>([]);
@@ -131,6 +133,8 @@ const AdminDashboard = () => {
     fetchUsers();
   }, [navigate]);
 
+
+
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -247,6 +251,20 @@ const AdminDashboard = () => {
               >
                 <span>💬</span>
                 <span>Platform Feedback</span>
+              </button>
+              <button
+                onClick={() => navigate('/admin/founding-members')}
+                className="px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-lg hover:opacity-90 transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>🌟</span>
+                <span>Founding Members</span>
+              </button>
+              <button
+                onClick={() => navigate('/admin/notifications')}
+                className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-lg hover:opacity-90 transition-all duration-300 flex items-center space-x-2"
+              >
+                <span>🔔</span>
+                <span>Notifications</span>
               </button>
               <button
                 onClick={handleLogout}
@@ -393,6 +411,8 @@ const AdminDashboard = () => {
             </table>
           </div>
         </motion.div>
+
+
       </div>
     </div>
   );

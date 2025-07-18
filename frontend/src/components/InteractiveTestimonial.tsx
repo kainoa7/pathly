@@ -13,7 +13,6 @@ interface Testimonial {
   name: string;
   role: string;
   content: string;
-  image: string;
   reactions: Reaction[];
 }
 
@@ -22,7 +21,6 @@ const testimonials: Testimonial[] = [
     name: "Alex",
     role: "Software Engineer @ Google",
           content: "No CS degree? Same! Used Kaiyl to break into tech. Now making 6 figures at Google! 🚀",
-    image: "/testimonials/alex.jpg",
     reactions: [
       { emoji: "🔥", label: "fire", count: 423 },
       { emoji: "💯", label: "100", count: 289 },
@@ -33,7 +31,6 @@ const testimonials: Testimonial[] = [
     name: "Sarah",
     role: "CS Major @ Stanford",
           content: "Was stuck between 5 majors 😩 Kaiyl helped me choose CS. Now interning at Tesla! ⚡",
-    image: "/testimonials/sarah.jpg",
     reactions: [
       { emoji: "⚡", label: "lightning", count: 345 },
       { emoji: "🎯", label: "bullseye", count: 234 },
@@ -44,7 +41,6 @@ const testimonials: Testimonial[] = [
     name: "Mike",
     role: "Startup Founder",
           content: "From confused about college to launching my own startup! Kaiyl showed me the entrepreneurship path 💡",
-    image: "/testimonials/mike.jpg",
     reactions: [
       { emoji: "🚀", label: "rocket", count: 512 },
       { emoji: "💪", label: "muscle", count: 367 },
@@ -152,13 +148,6 @@ const InteractiveTestimonial = () => {
             className="bg-[#1a1f36]/40 backdrop-blur-sm rounded-2xl border border-[#71ADBA]/20 p-8"
           >
             <div className="flex items-start gap-6">
-              <motion.img
-                src={testimonials[activeIndex].image}
-                alt={testimonials[activeIndex].name}
-                className="w-16 h-16 rounded-full object-cover"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-              />
               <div className="flex-1">
                 <motion.h3
                   className="text-xl font-semibold text-[#EDEAB1] mb-1"

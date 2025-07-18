@@ -334,7 +334,7 @@ const CampusLifePage = () => {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4 }}
-              onClick={() => navigate('/signup/pro')}
+              onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
               className="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 rounded-full text-xl font-bold hover:scale-105 transition-transform shadow-2xl"
             >
               <WorkspacePremiumIcon className="w-6 h-6" />
@@ -468,10 +468,10 @@ const CampusLifePage = () => {
                   </div>
 
                   <button
-                    onClick={() => navigate('/signup/pro')}
+                    onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
                     className="w-full mt-6 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white py-3 rounded-xl font-semibold hover:scale-[1.02] transition-transform"
                   >
-                    Upgrade Now - Limited Time Free
+                    {user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Upgrade Now - Limited Time Free'}
                   </button>
                 </div>
               </div>
@@ -564,7 +564,7 @@ const CampusLifePage = () => {
               
               <div className="text-center mt-8">
                 <button
-                  onClick={() => navigate('/signup/pro')}
+                  onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
                   className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-full text-xl font-bold hover:scale-105 transition-transform"
                 >
                   <FlashOnIcon className="w-6 h-6" />
@@ -593,11 +593,11 @@ const CampusLifePage = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button
-                  onClick={() => navigate('/signup/pro')}
+                  onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
                   className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-full text-xl font-bold hover:scale-105 transition-transform"
                 >
                   <WorkspacePremiumIcon className="w-6 h-6" />
-                  Upgrade to Pro - Free Limited Time
+                  {user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Upgrade to Pro - Free Limited Time'}
                 </button>
                 
                 <div className="text-center">
@@ -938,11 +938,11 @@ const CampusLifePage = () => {
                 <button
                   onClick={() => {
                     setShowProModal(false);
-                    navigate('/signup/pro');
+                    navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro');
                   }}
                   className="flex-1 py-3 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white rounded-xl font-semibold hover:scale-[1.02] transition-transform"
                 >
-                  Claim Free Access
+                  {user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Claim Free Access'}
                 </button>
               </div>
             </motion.div>

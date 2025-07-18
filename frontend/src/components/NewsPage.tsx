@@ -215,7 +215,7 @@ const NewsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-dark-background">
+    <div className="min-h-screen bg-dark-background pt-24">
       {/* Header */}
       <div className="bg-gradient-to-r from-[#1a2234] to-[#2a3441] border-b border-[#71ADBA]/20">
         <div className="max-w-7xl mx-auto px-4 py-8">

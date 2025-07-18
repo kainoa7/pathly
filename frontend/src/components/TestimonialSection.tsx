@@ -1,8 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import WorkIcon from '@mui/icons-material/Work';
-import SchoolIcon from '@mui/icons-material/School';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import VerifiedIcon from '@mui/icons-material/Verified';
 
 const TestimonialSection = () => {
@@ -12,32 +9,23 @@ const TestimonialSection = () => {
     {
       name: "Alex, 22",
       role: "Software Engineer @ Google",
-      image: "/company-logos/google.svg",
       content: "No CS degree? Same! Used Kaiyl to break into tech. Now making 6 figures at Google! 🚀",
       tag: "Career Changer",
-      icon: WorkIcon,
-      stats: "150k+ first job",
-      companyLogo: "/company-logos/google.svg"
+      stats: "150k+ first job"
     },
     {
       name: "Sarah, 19",
       role: "CS Major @ Stanford",
-      image: "/company-logos/tesla.svg",
       content: "Was stuck between 5 majors 😩 Kaiyl helped me choose CS. Now interning at Tesla! ⚡",
       tag: "College Student",
-      icon: SchoolIcon,
-      stats: "Dream internship",
-      companyLogo: "/company-logos/tesla.svg"
+      stats: "Dream internship"
     },
     {
       name: "Mike, 20",
       role: "Startup Founder",
-      image: "/company-logos/meta.svg",
       content: "From confused about college to launching my own startup! Kaiyl showed me the entrepreneurship path 💡",
       tag: "Entrepreneur",
-      icon: TrendingUpIcon,
-      stats: "Raised $1M",
-      companyLogo: "/company-logos/meta.svg"
+      stats: "Raised $1M"
     }
   ];
 
@@ -87,10 +75,9 @@ const TestimonialSection = () => {
         </motion.button>
 
         {/* Testimonial Cards */}
-        <div className="relative h-[500px]">
+        <div className="relative h-[400px]">
           <AnimatePresence mode="sync">
             {testimonials.map((testimonial, idx) => {
-              const Icon = testimonial.icon;
               const isActive = idx === activeIndex;
               
               return (
@@ -125,30 +112,17 @@ const TestimonialSection = () => {
                     </motion.div>
 
                     {/* Content */}
-                    <div className="flex flex-col items-center">
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] p-1 mb-6">
-                        <div className="w-full h-full rounded-full bg-[#0f172a] flex items-center justify-center">
-                          <Icon className="w-10 h-10 text-[#EDEAB1]" />
-                        </div>
-                      </div>
-
+                    <div className="flex flex-col items-center text-center pt-6">
                       <div className="flex items-center gap-2 mb-2">
                         <h3 className="text-2xl font-bold text-[#EDEAB1]">
                           {testimonial.name}
                         </h3>
                       </div>
                       
-                      <div className="flex items-center gap-2 mb-6">
+                      <div className="flex items-center gap-2 mb-8">
                         <p className="text-lg text-[#71ADBA]">
                           {testimonial.role}
                         </p>
-                        {testimonial.companyLogo && (
-                          <img 
-                            src={testimonial.companyLogo} 
-                            alt="Company Logo" 
-                            className="h-6 w-6 object-contain"
-                          />
-                        )}
                       </div>
 
                       <div className="text-2xl mb-8 leading-relaxed">

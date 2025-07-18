@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProvider, useParams } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
@@ -14,6 +15,8 @@ import PricingPage from './components/PricingPage';
 import LoginPage from './components/LoginPage';
 import SignupExplorer from './components/SignupExplorer';
 import SignupPro from './components/SignupPro';
+import UpgradeToProPage from './components/UpgradeToProPage';
+import AnalyticsPage from './components/AnalyticsPage';
 import ExplorerDashboard from './components/ExplorerDashboard';
 import ProDashboard from './components/ProDashboard';
 import Dashboard from './components/Dashboard';
@@ -51,6 +54,25 @@ import SavedArticlesPage from './components/SavedArticlesPage';
 import UserActivityDashboard from './components/UserActivityDashboard';
 import PlatformFeedbackWidget from './components/PlatformFeedbackWidget';
 
+// Add QuizPageWrapper component
+const QuizPageWrapper = () => {
+  const { type } = useParams();
+  
+  // Map route params to quiz types
+  const getQuizType = (paramType: string | undefined): 'highschool' | 'college' => {
+    switch (paramType) {
+      case 'highschool':
+        return 'highschool';
+      case 'graduated':
+      case 'college':
+      default:
+        return 'college';
+    }
+  };
+  
+  return <QuizPage quizType={getQuizType(type)} />;
+};
+
 function AppLayout() {
   return (
     <div className="flex flex-col min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
@@ -70,6 +92,7 @@ function AppLayout() {
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/platform-guide" element={<HowItWorksPage />} />
           <Route path="/quiz" element={<QuizPage quizType="college" />} />
+          <Route path="/quiz/:type" element={<QuizPageWrapper />} />
           <Route path="/adaptive-quiz" element={<AdaptiveQuizPage />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/campus-life" element={<CampusLifePage />} />
@@ -77,6 +100,11 @@ function AppLayout() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup/explorer" element={<SignupExplorer />} />
           <Route path="/signup/pro" element={<SignupPro />} />
+          <Route path="/upgrade-to-pro" element={
+            <ProtectedRoute requiredAccountType="EXPLORER">
+              <UpgradeToProPage />
+            </ProtectedRoute>
+          } />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/explorer-dashboard" element={
             <ProtectedRoute requiredAccountType="EXPLORER">
@@ -96,6 +124,11 @@ function AppLayout() {
           <Route path="/saved-articles" element={
             <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
               <SavedArticlesPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/analytics" element={
+            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+              <AnalyticsPage />
             </ProtectedRoute>
           } />
           <Route path="/activity-dashboard" element={
