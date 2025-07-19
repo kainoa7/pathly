@@ -71,8 +71,8 @@ const PrivacyPolicy = () => {
             <p className="mb-4">
               If you have questions about this Privacy Policy or your personal data, please contact us at:
               <br />
-              <a href="mailto:kaiyl.help@gmail.com" className="text-[#71ADBA] hover:underline">
-                kaiyl.help@gmail.com
+              <a href="mailto:jarvus.help@gmail.com" className="text-[#71ADBA] hover:underline">
+                jarvus.help@gmail.com
               </a>
             </p>
           </section>

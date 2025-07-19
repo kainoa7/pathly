@@ -22,7 +22,7 @@ const TempPremiumUpgrade = () => {
       
       // Update localStorage and context
       login(updatedUser);
-      localStorage.setItem('kaiyl_user', JSON.stringify(updatedUser));
+      localStorage.setItem('jarvus_user', JSON.stringify(updatedUser));
       
       setMessage('✅ Account upgraded to Premium! You can now access the AI Assistant.');
     } catch (error) {

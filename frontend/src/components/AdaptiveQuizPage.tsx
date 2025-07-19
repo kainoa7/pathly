@@ -548,7 +548,7 @@ const QuizResults: React.FC<{
               </button>
               <button
                 onClick={() => {
-                  navigator.clipboard.writeText(`I discovered my career personality on Kaiyl! My top trait is ${quizState.personalityProfile[0]?.trait}. Take the quiz: ${window.location.origin}/adaptive-quiz`);
+                  navigator.clipboard.writeText(`I discovered my career personality on Jarvus! My top trait is ${quizState.personalityProfile[0]?.trait}. Take the quiz: ${window.location.origin}/adaptive-quiz`);
                   alert('Results copied to clipboard!');
                 }}
                 className="bg-gray-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-500 transition-colors"

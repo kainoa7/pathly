@@ -9,21 +9,21 @@ const TestimonialSection = () => {
     {
       name: "Alex, 22",
       role: "Software Engineer @ Google",
-      content: "No CS degree? Same! Used Kaiyl to break into tech. Now making 6 figures at Google! 🚀",
+      content: "No CS degree? Same! Used Jarvus to break into tech. Now making 6 figures at Google! 🚀",
       tag: "Career Changer",
       stats: "150k+ first job"
     },
     {
       name: "Sarah, 19",
       role: "CS Major @ Stanford",
-      content: "Was stuck between 5 majors 😩 Kaiyl helped me choose CS. Now interning at Tesla! ⚡",
+      content: "Was stuck between 5 majors 😩 Jarvus helped me choose CS. Now interning at Tesla! ⚡",
       tag: "College Student",
       stats: "Dream internship"
     },
     {
       name: "Mike, 20",
       role: "Startup Founder",
-      content: "From confused about college to launching my own startup! Kaiyl showed me the entrepreneurship path 💡",
+      content: "From confused about college to launching my own startup! Jarvus showed me the entrepreneurship path 💡",
       tag: "Entrepreneur",
       stats: "Raised $1M"
     }

@@ -117,13 +117,13 @@ const ContactPage = () => {
     try {
       // First, send the message to ourselves using EmailJS
       const templateParams = {
-        to_email: 'kaiyl.help@gmail.com',
+        to_email: 'jarvus.help@gmail.com',
         reply_to: formData.email.trim(),
         from_name: formData.name.trim(),
-        from_email: 'kaiyl.help@gmail.com',
-        subject: formData.subject.trim(),
+        from_email: 'jarvus.help@gmail.com',
+        subject: `Contact Form: ${formData.subject}`,
         category: formData.category,
-        message: formData.message.trim(),
+        message: `From: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`,
         subscribe: formData.subscribe ? 'Yes' : 'No'
       };
 
@@ -137,7 +137,7 @@ const ContactPage = () => {
       // Send an auto-response to the user
       const autoResponseParams = {
         to_email: formData.email.trim(),
-        from_email: 'kaiyl.help@gmail.com',
+        from_email: 'jarvus.help@gmail.com',
         to_name: formData.name.trim(),
         subject: `Re: ${formData.subject.trim()}`,
         category: formData.category

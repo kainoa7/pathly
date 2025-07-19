@@ -107,7 +107,7 @@ const AdminPlatformFeedback = () => {
             user: vote.userId === 'current-user' ? {
               firstName: 'Demo',
               lastName: 'User',
-              email: 'demo@kaiyl.com',
+              email: 'demo@jarvus.com',
               accountType: 'PRO'
             } : null
           });

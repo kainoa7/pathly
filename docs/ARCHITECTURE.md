@@ -1,4 +1,4 @@
-# Kaiyl Architecture
+# Jarvus Architecture
 
 ## Core Features
 - Career guidance quiz system

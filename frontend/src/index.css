@@ -31,28 +31,26 @@
   letter-spacing: 0.05em;
 }
 
-.kaiyl-logo {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  @apply bg-gradient-to-r from-light-primary to-light-accent dark:from-[#71ADBA] dark:to-[#9C71BA] bg-clip-text text-transparent;
-  position: relative;
+.jarvus-logo {
+  @apply font-black text-2xl tracking-tight;
+  font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  letter-spacing: 0.05em;
 }
 
-.kaiyl-logo::after {
+.jarvus-logo::after {
   content: '';
   position: absolute;
   bottom: -2px;
   left: 0;
   width: 100%;
   height: 2px;
-  @apply bg-gradient-to-r from-light-primary to-light-accent dark:from-[#71ADBA] dark:to-[#9C71BA];
+  background: linear-gradient(90deg, #71ADBA, #9C71BA, #EDEAB1);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 0.3s ease;
 }
 
-.kaiyl-logo:hover::after {
+.jarvus-logo:hover::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -123,7 +121,6 @@
   @media (prefers-reduced-motion: reduce) {
     .simple-border {
       animation: none !important;
-      background: linear-gradient(90deg, #71ADBA, #9C71BA);
     }
   }
 

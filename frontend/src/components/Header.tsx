@@ -130,17 +130,14 @@ const Header = () => {
                 />
                 <img 
                   src="/logo.svg" 
-                  alt="KAIYL" 
-                  className="h-10 w-auto relative z-10 filter drop-shadow-lg" 
+                  alt="JARVUS"
+                  className="h-10 w-10"
                 />
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <motion.span 
-                  className="ml-2 sm:ml-3 text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent"
-                  whileHover={{ scale: 1.02 }}
-                >
-                  KAIYL
-                </motion.span>
+              <div>
+                <span className="ml-2 sm:ml-3 text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
+                  JARVUS
+                </span>
                 <motion.span 
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}

@@ -288,7 +288,7 @@ const PlatformFeedbackWidget = () => {
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="fixed bottom-16 right-16 z-40"
+        className="fixed bottom-24 right-6 z-30"
       >
         <button
           onClick={() => setShowStats(!showStats)}
@@ -348,7 +348,7 @@ const PlatformFeedbackWidget = () => {
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="fixed bottom-16 right-16 z-40"
+        className="fixed bottom-24 right-6 z-30"
         onMouseEnter={() => setIsMenuOpen(true)}
         onMouseLeave={() => setIsMenuOpen(false)}
       >
@@ -445,7 +445,7 @@ const PlatformFeedbackWidget = () => {
                     Thank you!
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    Your feedback helps us improve Kaiyl
+                    Your feedback helps us improve Jarvus
                   </p>
                 </motion.div>
               ) : (
@@ -453,7 +453,7 @@ const PlatformFeedbackWidget = () => {
                   <div className="flex justify-between items-center mb-6">
                     <div>
                       <h3 className="text-xl font-bold text-gray-800 dark:text-white">
-                        How do you feel about Kaiyl?
+                        How do you feel about Jarvus?
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
                         Help us understand if we should continue building this platform
@@ -510,7 +510,7 @@ const PlatformFeedbackWidget = () => {
                         <textarea
                           value={feedbackText}
                           onChange={(e) => setFeedbackText(e.target.value)}
-                          placeholder="What would make Kaiyl better for you?"
+                          placeholder="What would make Jarvus better for you?"
                           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white resize-none"
                           rows={3}
                           maxLength={500}

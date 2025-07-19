@@ -11,7 +11,7 @@ const features = [
     title: "Start From Zero",
     description: "No experience? Perfect! Everyone starts somewhere. We'll guide you from day one.",
     icon: EmojiPeopleIcon,
-    color: "rgba(113, 173, 186, 0.3)" // Kaiyl blue glow
+    color: "rgba(113, 173, 186, 0.3)" // Jarvus blue glow
   },
   {
     title: "Learn By Doing",
@@ -29,7 +29,7 @@ const features = [
     title: "Get Recognized",
     description: "Build a portfolio that showcases your growth and makes employers take notice.",
     icon: WorkspacePremiumIcon,
-    color: "rgba(113, 173, 186, 0.3)" // Kaiyl blue glow
+    color: "rgba(113, 173, 186, 0.3)" // Jarvus blue glow
   }
 ];
 

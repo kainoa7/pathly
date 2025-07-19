@@ -1,9 +1,9 @@
-# 🚀 Kaiyl - AI-Powered Career Guidance Platform (BETA)
+# 🚀 Jarvus - AI-Powered Career Guidance Platform (BETA)
 
 <div align="center">
 
-[![Website](https://img.shields.io/badge/Visit-Kaiyl.com-71ADBA?style=for-the-badge)](https://kaiyl.com)
-[![Contact](https://img.shields.io/badge/Contact-kaiyl.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:kaiyl.help@gmail.com)
+[![Website](https://img.shields.io/badge/Visit-Jarvus.com-71ADBA?style=for-the-badge)](https://jarvus.com)
+[![Contact](https://img.shields.io/badge/Contact-jarvus.help%40gmail.com-9C71BA?style=for-the-badge)](mailto:jarvus.help@gmail.com)
 [![Status](https://img.shields.io/badge/Status-BETA-emerald?style=for-the-badge)]()
 
 **Comprehensive SaaS Platform for Career Development with AI-Powered Guidance & Social Features**
@@ -14,11 +14,11 @@
 
 </div>
 
-## 🎯 About Kaiyl
+## 🎯 About Jarvus
 
-Kaiyl is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, social features, and comprehensive analytics. Currently in BETA, the platform serves students and professionals with tailored experiences based on their account tier and career goals.
+Jarvus is a modern, full-stack SaaS platform that revolutionizes career development through AI-powered guidance, personalized assessments, social features, and comprehensive analytics. Currently in BETA, the platform serves students and professionals with tailored experiences based on their account tier and career goals.
 
-### ✨ What Makes Kaiyl Special
+### ✨ What Makes Jarvus Special
 
 - **🤖 AI-Powered Career Matching** - Smart assessments with personalized career recommendations
 - **🎮 Premium AI Assistant** - Exclusive chat interface with voice input and quick actions (Premium)
@@ -35,7 +35,7 @@ Kaiyl is a modern, full-stack SaaS platform that revolutionizes career developme
 
 ### **Full-Stack Monorepo Structure**
 ```
-kaiyl/
+jarvus/
 ├── frontend/                    # React + TypeScript SPA
 │   ├── src/
 │   │   ├── components/          # 80+ React components (fully mobile responsive)
@@ -93,6 +93,16 @@ kaiyl/
 
 ## 🚀 Quick Start
 
+### **🤖 Automated Setup (Recommended)**
+```bash
+# One-command setup for new machines
+git clone https://github.com/[your-username]/pathly.git
+cd pathly
+chmod +x setup.sh && ./setup.sh
+```
+
+### **📋 Manual Setup**
+
 ### **Prerequisites**
 - Node.js 18+ and npm
 - Git for version control
@@ -115,15 +125,33 @@ npx prisma db push
 ```
 
 ### **3. Environment Configuration**
-```bash
-# Backend (.env)
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="your-secret-key"
-PORT=5000
 
-# Frontend (.env)
-VITE_API_BASE_URL=http://localhost:5000
+#### **Backend (.env)**
+```bash
+# Create backend/.env file with:
+PORT=3001
+NODE_ENV=development
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your-super-secret-key-change-this-in-production"
+
+# AI API Keys (for JARVUS AI Assistant - Premium Feature)
+OPENAI_API_KEY="your-openai-api-key-here"
+ELEVENLABS_API_KEY="your-elevenlabs-api-key-here"
+ELEVENLABS_VOICE_ID="ErXwobaYiN019PkySvjV"
 ```
+
+#### **Frontend (.env)**
+```bash
+# Create frontend/.env file with:
+VITE_API_BASE_URL=http://localhost:3001
+```
+
+#### **🔑 Getting API Keys (Optional - for AI features)**
+1. **OpenAI API Key**: Get from [platform.openai.com](https://platform.openai.com/api-keys)
+2. **ElevenLabs API Key**: Get from [elevenlabs.io](https://elevenlabs.io/app/settings/api-keys)
+3. **Note**: AI features will work in fallback mode without keys
+
+⚠️ **Important**: The backend runs on port **3001** by default, not 5000!
 
 ### **4. Development Servers**
 ```bash
@@ -135,6 +163,49 @@ cd frontend && npm run dev
 ```
 
 🎉 **Access at:** http://localhost:5173
+
+---
+
+## ⚡ Quick Setup for New Machine
+
+**Copy-paste these commands for instant setup:**
+
+```bash
+# 1. Clone and navigate
+git clone https://github.com/[your-username]/pathly.git
+cd pathly
+
+# 2. Install all dependencies
+cd frontend && npm install && cd ../backend && npm install && cd ..
+
+# 3. Setup backend environment
+echo 'PORT=3001
+NODE_ENV=development
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your-super-secret-key-change-this-in-production"
+
+# AI API Keys (optional - for JARVUS AI features)
+OPENAI_API_KEY="your-openai-api-key-here"
+ELEVENLABS_API_KEY="your-elevenlabs-api-key-here"
+ELEVENLABS_VOICE_ID="ErXwobaYiN019PkySvjV"' > backend/.env
+
+# 4. Setup frontend environment  
+echo 'VITE_API_BASE_URL=http://localhost:3001' > frontend/.env
+
+# 5. Setup database
+cd backend && npx prisma generate && npx prisma db push && cd ..
+
+# 6. Start development (run in separate terminals)
+# Terminal 1: Backend
+cd backend && npm run dev
+
+# Terminal 2: Frontend (in new terminal)
+cd frontend && npm run dev
+```
+
+**That's it!** 🚀 Visit http://localhost:5173
+
+---
 
 ## 🎯 Key Features
 
@@ -467,8 +538,8 @@ We welcome contributions! Please check our [DEVELOPMENT.md](docs/DEVELOPMENT.md)
 
 ## 📞 Contact & Support
 
-- **Website:** [kaiyl.com](https://kaiyl.com)
-- **Email:** kaiyl.help@gmail.com
+- **Website:** [jarvus.com](https://jarvus.com)
+- **Email:** jarvus.help@gmail.com
 - **Status:** BETA - Actively seeking feedback and early adopters
 
 ---
@@ -480,3 +551,62 @@ We welcome contributions! Please check our [DEVELOPMENT.md](docs/DEVELOPMENT.md)
 [⭐ Star this repo](https://github.com/kainoa7/pathly) • [🐛 Report Bug](https://github.com/kainoa7/pathly/issues) • [💡 Request Feature](https://github.com/kainoa7/pathly/issues)
 
 </div>
+
+## 🔧 Troubleshooting
+
+### **Common Setup Issues**
+
+#### **Port Already in Use**
+```bash
+# Check what's using port 3001
+lsof -ti:3001
+
+# Kill process on port 3001
+kill -9 $(lsof -ti:3001)
+```
+
+#### **Node Version Issues**
+```bash
+# Check Node version (needs 18+)
+node --version
+
+# If wrong version, install correct Node.js from nodejs.org
+```
+
+#### **Database Issues**
+```bash
+# Reset database completely
+cd backend
+rm prisma/dev.db
+npx prisma db push
+```
+
+#### **AI Features Not Working**
+- **Without API Keys**: Features work in fallback simulation mode
+- **With API Keys**: Check your OpenAI/ElevenLabs account credits
+- **Network Errors**: Check if backend is running on port 3001
+
+#### **Frontend Build Errors**
+```bash
+# Clear cache and reinstall
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+```
+
+#### **CORS Errors**
+- Make sure backend is running on port 3001
+- Check frontend .env has correct VITE_API_BASE_URL
+- Try hard refresh (Cmd+Shift+R)
+
+### **Quick Health Checks**
+```bash
+# Backend health
+curl http://localhost:3001/health
+
+# Database connection
+curl http://localhost:3001/api/test-db
+
+# AI services (if keys configured)
+curl http://localhost:3001/api/ai/health
+```

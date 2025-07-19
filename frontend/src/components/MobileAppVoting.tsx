@@ -143,7 +143,7 @@ const MobileAppVoting = () => {
     <div className="space-y-4">
       {/* Question */}
       <div className="text-center">
-        <p className="text-white font-medium mb-1">Would you use a Kaiyl mobile app?</p>
+        <p className="text-white font-medium mb-1">Would you use a Jarvus mobile app?</p>
         <p className="text-xs text-gray-400">Help us decide if we should build it!</p>
       </div>
 

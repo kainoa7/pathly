@@ -149,7 +149,7 @@ router.get('/admin/analytics', async (req, res) => {
   try {
     // Check admin auth (you can implement proper admin middleware)
     const isAdmin = req.headers['x-admin-auth'] === 'true' || 
-                   req.user?.email === 'admin@kaiyl.com';
+                   req.user?.email === 'admin@jarvus.com';
 
     if (!isAdmin) {
       return res.status(403).json({ 

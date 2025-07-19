@@ -168,7 +168,7 @@ const WebsiteServicePage = () => {
 
     try {
       const templateParams = {
-        to_email: 'kaiyl.help@gmail.com',
+        to_email: 'jarvus.help@gmail.com',
         from_email: email,
         subject: `Website Service Inquiry - ${wantsMockup ? 'Preview Request' : 'Full Service'} - ${package_?.name}`,
         message: `
@@ -215,7 +215,7 @@ ${wantsMockup ? '- Preview cost will be deducted from final website development 
       setShowContactForm(false);
     } catch (error) {
       console.error('Error sending email:', error);
-      alert('There was an error sending your inquiry. Please try again or contact us directly at kaiyl.help@gmail.com');
+      alert('There was an error sending your inquiry. Please try again or contact us directly at jarvus.help@gmail.com');
     }
   };
 

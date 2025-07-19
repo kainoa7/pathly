@@ -14,7 +14,7 @@ const AdminLogin = () => {
   // Simple admin credentials (in production, use environment variables)
   const ADMIN_CREDENTIALS = {
     username: 'admin',
-    password: 'kaiyl2024' // Change this to a secure password
+    password: 'jarvus2024' // Change this to a secure password
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

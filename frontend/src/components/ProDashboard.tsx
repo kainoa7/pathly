@@ -11,7 +11,7 @@ const ProDashboard = () => {
   const proFeatures = [
     {
       title: '🤖 AI Assistant (Beta)',
-      description: 'Chat with Kaiyl AI for instant career guidance and support',
+      description: 'Chat with Jarvus AI for instant career guidance and support',
       icon: '🤖',
       category: 'AI Assistant',
       action: () => navigate('/ai-assistant'),

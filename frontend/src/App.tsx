@@ -167,8 +167,8 @@ function AppLayout() {
               <Route path="/feedback" element={<FeedbackPage />} />
             </Routes>
           </main>
-          <FeedbackSection />
-          <Footer />
+          {!hideHeader && <FeedbackSection />}
+          {!hideHeader && <Footer />}
           <PlatformFeedbackWidget />
         </div>
       </div>

@@ -106,7 +106,7 @@ const ResultsPreview = ({ results, onSignup }: { results: any; onSignup: () => v
           </div>
           
           <p className="text-sm text-gray-500">
-            Free forever • No spam • Join the Kaiyl community
+            Free forever • No spam • Join the Jarvus community
           </p>
         </motion.div>
       </div>

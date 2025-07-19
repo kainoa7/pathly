@@ -47,7 +47,7 @@ const CampusLifePage = () => {
 
   const testimonials = [
     {
-      text: "Thanks to Kaiyl Pro, I found the perfect dorm and study spots before even visiting campus! Saved me weeks of research.",
+      text: "Thanks to Jarvus Pro, I found the perfect dorm and study spots before even visiting campus! Saved me weeks of research.",
       author: "Sarah M.",
       school: "Stanford University",
       savings: "$1,200"

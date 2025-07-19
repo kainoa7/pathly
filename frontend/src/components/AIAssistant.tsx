@@ -9,7 +9,7 @@ const AIAssistant = () => {
   const [messages, setMessages] = useState([
     {
       type: 'ai',
-      content: "Hi! I'm Kaiyl AI. I can help you with your career, schedule, emails, and research. What would you like to do today?"
+      content: "Hi! I'm Jarvus AI. I can help you with your career, schedule, emails, and research. What would you like to do today?"
     }
   ]);
   const [input, setInput] = useState('');
@@ -90,7 +90,7 @@ const AIAssistant = () => {
                 <span className="text-white text-lg">🤖</span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">Kaiyl AI</h1>
+                <h1 className="text-2xl font-bold text-white">Jarvus AI</h1>
                 <p className="text-gray-400">Your AI Career Assistant</p>
               </div>
               <div className="ml-auto">

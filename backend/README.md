@@ -1,8 +1,8 @@
-# Kaiyl Backend
+# Jarvus Backend
 
-## Phase 1 Setup Complete ✅
+## Overview
 
-This is the Node.js/Express.js backend for Kaiyl with TypeScript.
+This is the Node.js/Express.js backend for Jarvus with TypeScript.
 
 ### Tech Stack
 - **Node.js** with **Express.js**
@@ -25,7 +25,14 @@ This is the Node.js/Express.js backend for Kaiyl with TypeScript.
    NODE_ENV=development
    DATABASE_URL="file:./dev.db"
    JWT_SECRET="your-super-secret-key-change-this-in-production"
+   
+   # AI API Keys (for JARVUS AI Assistant - Premium Feature)
+   OPENAI_API_KEY="your-openai-api-key-here"
+   ELEVENLABS_API_KEY="your-elevenlabs-api-key-here" 
+   ELEVENLABS_VOICE_ID="ErXwobaYiN019PkySvjV"
    ```
+   
+   **Note**: AI keys are optional - features work in fallback mode without them.
 
 3. **Database Setup**
    ```bash
@@ -40,9 +47,29 @@ This is the Node.js/Express.js backend for Kaiyl with TypeScript.
 
 ### Available Endpoints
 
+#### **Core Endpoints**
 - **GET** `/health` - Health check
 - **GET** `/api/test-db` - Database connection test
 - **POST** `/api/test-user` - Create test user
+
+#### **Authentication**
+- **POST** `/api/auth/signup` - User registration
+- **POST** `/api/auth/signin` - User login
+- **GET** `/api/auth/me` - Get current user
+
+#### **AI Assistant (Premium Feature)**
+- **POST** `/api/ai/chat` - Chat with JARVUS AI
+- **POST** `/api/ai/tts` - Text-to-speech conversion
+- **GET** `/api/ai/health` - AI services health check
+
+#### **User Management**
+- **GET** `/api/users` - Get all users (Admin)
+- **PUT** `/api/users/:id` - Update user
+- **DELETE** `/api/users/:id` - Delete user
+
+#### **Quiz & Careers**
+- **POST** `/api/quiz/submit` - Submit quiz responses
+- **GET** `/api/careers` - Get career recommendations
 
 ### Project Structure
 

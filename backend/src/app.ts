@@ -13,6 +13,7 @@ import majorsRoutes from './api/majors/routes';
 import salaryProjectionsRoutes from './api/salary-projections/routes';
 import foundingMembersRoutes from './api/founding-members/routes';
 import notificationsRoutes from './api/notifications/routes';
+import aiRoutes from './api/ai/routes';
 
 // Load environment variables
 config();
@@ -36,6 +37,7 @@ app.use('/api/majors', majorsRoutes);
 app.use('/api/salary-projections', salaryProjectionsRoutes);
 app.use('/api/founding-members', foundingMembersRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {

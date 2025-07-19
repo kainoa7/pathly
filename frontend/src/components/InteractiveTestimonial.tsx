@@ -20,7 +20,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Alex",
     role: "Software Engineer @ Google",
-          content: "No CS degree? Same! Used Kaiyl to break into tech. Now making 6 figures at Google! 🚀",
+          content: "No CS degree? Same! Used Jarvus to break into tech. Now making 6 figures at Google! 🚀",
     reactions: [
       { emoji: "🔥", label: "fire", count: 423 },
       { emoji: "💯", label: "100", count: 289 },
@@ -30,7 +30,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Sarah",
     role: "CS Major @ Stanford",
-          content: "Was stuck between 5 majors 😩 Kaiyl helped me choose CS. Now interning at Tesla! ⚡",
+          content: "Was stuck between 5 majors 😩 Jarvus helped me choose CS. Now interning at Tesla! ⚡",
     reactions: [
       { emoji: "⚡", label: "lightning", count: 345 },
       { emoji: "🎯", label: "bullseye", count: 234 },
@@ -40,7 +40,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Mike",
     role: "Startup Founder",
-          content: "From confused about college to launching my own startup! Kaiyl showed me the entrepreneurship path 💡",
+          content: "From confused about college to launching my own startup! Jarvus showed me the entrepreneurship path 💡",
     reactions: [
       { emoji: "🚀", label: "rocket", count: 512 },
       { emoji: "💪", label: "muscle", count: 367 },

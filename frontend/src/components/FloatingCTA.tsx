@@ -50,7 +50,7 @@ const FloatingCTA = () => {
       icon: FeedbackIcon,
       label: 'Give Feedback',
       onClick: () => document.querySelector<HTMLButtonElement>('[data-feedback-trigger]')?.click(),
-      description: 'Help shape Kaiyl\'s future'
+      description: 'Help shape Jarvus\'s future'
     }
   ];
 
