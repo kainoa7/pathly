@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
+import '../../types/express'; // Import type extensions
 
 const router = Router();
 const prisma = new PrismaClient();
