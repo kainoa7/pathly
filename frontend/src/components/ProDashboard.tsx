@@ -6,8 +6,18 @@ import { useAuth } from '../context/AuthContext';
 const ProDashboard = () => {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { user } = useAuth();
 
   const proFeatures = [
+    {
+      title: '🤖 AI Assistant (Beta)',
+      description: 'Chat with Kaiyl AI for instant career guidance and support',
+      icon: '🤖',
+      category: 'AI Assistant',
+      action: () => navigate('/ai-assistant'),
+      isPremium: true,
+      isBeta: true
+    },
     {
       title: 'Daily News Hub',
       description: 'Professional news with voting, comments, and bookmarking',
@@ -146,6 +156,10 @@ const ProDashboard = () => {
         >
           <h2 className="text-xl sm:text-2xl font-bold text-white mb-6 px-2 sm:px-0">Your Pro Features</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {proFeatures.filter(feature => 
+              // Show AI Assistant only to PREMIUM users
+              feature.title.includes('AI Assistant') ? user?.accountType === 'PREMIUM' : true
+            ).map((feature, index) => (
             {proFeatures.map((feature, index) => (
               <motion.div
                 key={index}
@@ -170,6 +184,11 @@ const ProDashboard = () => {
                       {feature.category}
                     </span>
                     {feature.isPremium && (
+                    {feature.isBeta && (
+                      <span className="text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-1 rounded font-semibold">
+                        🧪 BETA
+                      </span>
+                    )}
                       <span className="text-xs bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-2 py-1 rounded font-semibold">
                         ✨ PRO
                       </span>
