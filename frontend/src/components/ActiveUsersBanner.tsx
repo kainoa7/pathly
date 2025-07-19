@@ -35,7 +35,7 @@ const ActiveUsersBanner = ({ className = "" }: ActiveUsersBannerProps) => {
 
   return (
     <motion.div
-      className={`fixed top-24 right-4 z-50 ${className}`}
+      className={`fixed top-48 right-16 z-50 ${className}`}
       initial={{ opacity: 0, x: 100 }}
       animate={{ 
         opacity: isVisible ? 1 : 0,

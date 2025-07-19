@@ -34,9 +34,6 @@ const Header = () => {
   const navigate = useNavigate();
   
   const { scrollY } = useScroll();
-  const headerOpacity = useTransform(scrollY, [0, 100], [0.95, 0.98]);
-  const headerBlur = useTransform(scrollY, [0, 100], ["blur(8px)", "blur(16px)"]);
-  const borderOpacity = useTransform(scrollY, [0, 100], [0.1, 0.3]);
   
   const profileRef = useRef<HTMLDivElement>(null);
   
@@ -119,20 +116,10 @@ const Header = () => {
       className="fixed top-0 left-0 right-0 z-50"
     >
       <motion.div 
-        style={{
-          backgroundColor: `rgba(15, 20, 25, ${headerOpacity.get()})`,
-          backdropFilter: headerBlur,
-          WebkitBackdropFilter: headerBlur,
-        }}
-        className="border-b border-white/10"
+        className=""
       >
-        <motion.div 
-          className="h-[1px] w-full bg-gradient-to-r from-transparent via-[#71ADBA]/20 to-transparent"
-          style={{ opacity: borderOpacity }}
-        />
-        
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+          <div className="flex justify-between items-center h-28">
             
             {/* Logo */}
             <Link to="/" className="flex items-center group">
@@ -168,14 +155,14 @@ const Header = () => {
             <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
               <Link 
                 to="/about" 
-                className="text-gray-300 hover:text-white transition-colors font-medium"
+                className="text-gray-300 hover:text-white transition-all duration-300 font-medium px-4 py-2 rounded-lg border-2 border-transparent hover:border-cyan-400 hover:shadow-[0_0_50px_cyan,0_0_100px_cyan,0_0_150px_cyan] hover:bg-cyan-400/30 animate-pulse"
               >
                 About
               </Link>
               
               <Link 
                 to="/onboarding" 
-                className="text-gray-300 hover:text-white transition-colors font-medium flex items-center gap-2"
+                className="text-gray-300 hover:text-white transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-green-400 hover:shadow-[0_0_25px_rgba(34,197,94,0.8)] hover:bg-green-400/10 backdrop-blur-sm"
               >
                 Career Quiz
                 <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full font-semibold">
@@ -187,7 +174,7 @@ const Header = () => {
                 <>
                   <Link 
                     to="/news" 
-                    className="text-gray-300 hover:text-[#71ADBA] transition-colors font-medium flex items-center gap-2"
+                    className="text-gray-300 hover:text-[#71ADBA] transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-[#71ADBA] hover:shadow-[0_0_25px_rgba(113,173,186,0.8)] hover:bg-[#71ADBA]/10 backdrop-blur-sm"
                   >
                     <FontAwesomeIcon icon={faNewspaper} className="text-sm" />
                     <span className="hidden lg:inline">News Hub</span>
@@ -199,7 +186,7 @@ const Header = () => {
                   
                   <Link 
                     to="/analytics" 
-                    className="text-gray-300 hover:text-[#9C71BA] transition-colors font-medium flex items-center gap-2"
+                    className="text-gray-300 hover:text-[#9C71BA] transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-[#9C71BA] hover:shadow-[0_0_25px_rgba(156,113,186,0.8)] hover:bg-[#9C71BA]/10 backdrop-blur-sm"
                   >
                     <FontAwesomeIcon icon={faChartLine} className="text-sm" />
                     <span className="hidden lg:inline">Analytics</span>
@@ -214,7 +201,7 @@ const Header = () => {
               {isPro ? (
                 <Link 
                   to="/campus-life" 
-                  className="text-gray-300 hover:text-[#EDEAB1] transition-colors font-medium flex items-center gap-2"
+                  className="text-gray-300 hover:text-[#EDEAB1] transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-[#EDEAB1] hover:shadow-[0_0_25px_rgba(237,234,177,0.8)] hover:bg-[#EDEAB1]/10 backdrop-blur-sm"
                 >
                   <FontAwesomeIcon icon={faUniversity} className="text-sm" />
                   <span className="hidden lg:inline">Campus Marketplace</span>
@@ -226,7 +213,7 @@ const Header = () => {
               ) : (
                 <Link 
                   to="/pricing" 
-                  className="text-gray-300 hover:text-white transition-colors font-medium"
+                  className="text-gray-300 hover:text-white transition-all duration-500 font-medium px-3 py-2 rounded-lg border border-transparent hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.8)] hover:bg-purple-400/10 backdrop-blur-sm"
                 >
                   Pricing
                 </Link>
@@ -248,7 +235,7 @@ const Header = () => {
                 <div className="relative" ref={profileRef}>
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className="flex items-center space-x-2 lg:space-x-3 group"
+                    className="flex items-center space-x-2 lg:space-x-3 group px-2 py-2 rounded-lg border border-transparent hover:border-orange-400/50 hover:shadow-[0_0_15px_rgba(251,146,60,0.3)] transition-all duration-300 backdrop-blur-sm"
                   >
                     <div className="relative">
                       <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${getAccountTypeConfig(user.accountType).gradient} ${getAccountTypeConfig(user.accountType).glow} flex items-center justify-center text-white font-bold transition-all duration-300 group-hover:scale-105`}>
@@ -402,13 +389,13 @@ const Header = () => {
                 <div className="hidden md:flex items-center space-x-2 lg:space-x-3">
                   <Link
                     to="/login"
-                    className="text-gray-300 hover:text-white transition-colors font-medium text-sm lg:text-base"
+                    className="text-gray-300 hover:text-white transition-all duration-500 font-medium text-sm lg:text-base px-3 py-2 rounded-lg border border-transparent hover:border-blue-400 hover:shadow-[0_0_25px_rgba(59,130,246,0.8)] hover:bg-blue-400/10 backdrop-blur-sm"
                   >
                     Login
                   </Link>
                   <Link
                     to="/pricing"
-                    className="px-3 py-1.5 lg:px-4 lg:py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity text-sm lg:text-base"
+                    className="px-3 py-1.5 lg:px-4 lg:py-2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white font-semibold rounded-lg transition-all duration-300 text-sm lg:text-base border-2 border-transparent hover:border-white hover:shadow-[0_0_30px_rgba(113,173,186,1)] hover:shadow-[inset_0_0_20px_rgba(255,255,255,0.2)] hover:scale-110 transform"
                   >
                     Get Started
                   </Link>
@@ -434,7 +421,7 @@ const Header = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#1a2234]/95 backdrop-blur-xl border-t border-[#71ADBA]/20"
+            className="md:hidden bg-[#1a2234]/95 backdrop-blur-xl"
           >
             <div className="px-4 py-6 space-y-4">
               

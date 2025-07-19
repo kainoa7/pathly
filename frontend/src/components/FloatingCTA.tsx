@@ -60,6 +60,17 @@ const FloatingCTA = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      {/* Main Button */}
+      <motion.button
+        className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-6 py-3 rounded-xl 
+                   shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <RocketLaunchIcon className="w-5 h-5" />
+        <span>Get Started</span>
+      </motion.button>
+
       {/* Drop-up Menu */}
       <AnimatePresence>
         {isHovered && (
@@ -113,16 +124,8 @@ const FloatingCTA = () => {
         )}
       </AnimatePresence>
 
-      {/* Main Button */}
-      <motion.button
-        className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-6 py-3 rounded-xl 
-                   shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <RocketLaunchIcon className="w-5 h-5" />
-        <span>Get Started</span>
-      </motion.button>
+      {/* Invisible hover target - keeps the menu functionality but no button */}
+      <div className="w-12 h-12 opacity-0"></div>
     </div>
   );
 };

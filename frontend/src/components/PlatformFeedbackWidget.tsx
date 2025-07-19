@@ -1,14 +1,20 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faHeart, 
+  faComment, 
+  faChartLine, 
+  faTimes, 
   faThumbsUp, 
   faThumbsDown, 
-  faTimes,
-  faComment,
-  faChartLine
+  faHeart
 } from '@fortawesome/free-solid-svg-icons';
+import RouteIcon from '@mui/icons-material/Route';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import GroupsIcon from '@mui/icons-material/Groups';
+import FeedbackIcon from '@mui/icons-material/Feedback';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import { useAuth } from '../context/AuthContext';
 
 interface FeedbackStats {
@@ -37,9 +43,12 @@ interface UserVotes {
 }
 
 const PlatformFeedbackWidget = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentStep, setCurrentStep] = useState<'vote' | 'feedback'>('vote');
   const [selectedVote, setSelectedVote] = useState<string | null>(null);
-  const [feedback, setFeedback] = useState('');
+  const [feedbackText, setFeedbackText] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [stats, setStats] = useState<FeedbackStats | null>(null);
@@ -161,7 +170,7 @@ const PlatformFeedbackWidget = () => {
           },
           body: JSON.stringify({
             voteType: selectedVote,
-            feedback: feedback.trim() || null
+            feedback: feedbackText.trim() || null
           })
         });
 
@@ -173,7 +182,7 @@ const PlatformFeedbackWidget = () => {
             setIsOpen(false);
             setShowThankYou(false);
             setSelectedVote(null);
-            setFeedback('');
+            setFeedbackText('');
           }, 2000);
           return;
         } else {
@@ -189,7 +198,7 @@ const PlatformFeedbackWidget = () => {
         const newVote = {
           id: Date.now().toString(),
           voteType: selectedVote,
-          feedback: feedback.trim() || null,
+          feedback: feedbackText.trim() || null,
           createdAt: new Date().toISOString(),
           userId: token ? 'current-user' : null,
           ipAddress: 'local-demo'
@@ -235,7 +244,7 @@ const PlatformFeedbackWidget = () => {
           setIsOpen(false);
           setShowThankYou(false);
           setSelectedVote(null);
-          setFeedback('');
+          setFeedbackText('');
         }, 2000);
       }
     } catch (error) {
@@ -279,7 +288,7 @@ const PlatformFeedbackWidget = () => {
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="fixed bottom-24 right-6 z-40"
+        className="fixed bottom-16 right-16 z-40"
       >
         <button
           onClick={() => setShowStats(!showStats)}
@@ -335,20 +344,76 @@ const PlatformFeedbackWidget = () => {
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Main Button with Menu */}
       <motion.div
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="fixed bottom-24 right-6 z-40"
+        className="fixed bottom-16 right-16 z-40"
+        onMouseEnter={() => setIsMenuOpen(true)}
+        onMouseLeave={() => setIsMenuOpen(false)}
       >
+        {/* Drop-up Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute bottom-full right-0 mb-4 min-w-[300px]"
+            >
+              <div className="bg-[#1a1f36]/95 backdrop-blur-sm rounded-xl border border-[#71ADBA]/20 overflow-hidden">
+                {menuItems.map((item, index) => {
+                  const Icon = item.icon;
+                  return (
+                    <motion.button
+                      key={item.label}
+                      className="w-full px-4 py-3 flex items-center gap-3 hover:bg-[#71ADBA]/10 transition-colors relative group"
+                      onClick={item.onClick}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <div className="p-2 rounded-lg bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20">
+                        <Icon className="w-5 h-5 text-[#EDEAB1]" />
+                      </div>
+                      <div className="text-left flex-1">
+                        <div className="text-[#EDEAB1] font-medium flex items-center gap-2">
+                          {item.label}
+                          {item.badge && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white">
+                              {item.badge}
+                            </span>
+                          )}
+                        </div>
+                        <div className="text-sm text-gray-400">{item.description}</div>
+                      </div>
+                      
+                      <motion.div
+                        className="absolute right-4 opacity-0 group-hover:opacity-100 transition-opacity"
+                        initial={false}
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        →
+                      </motion.div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Main Button */}
         <motion.button
+          className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-6 py-3 rounded-xl 
+                     shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(true)}
-          className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl transition-all flex items-center gap-2 font-medium"
         >
-          <FontAwesomeIcon icon={faComment} />
-          <span className="hidden sm:inline">Quick Feedback</span>
+          <RocketLaunchIcon className="w-5 h-5" />
+          <span>Get Started</span>
         </motion.button>
       </motion.div>
 
@@ -443,15 +508,15 @@ const PlatformFeedbackWidget = () => {
                           Additional thoughts? (optional)
                         </label>
                         <textarea
-                          value={feedback}
-                          onChange={(e) => setFeedback(e.target.value)}
+                          value={feedbackText}
+                          onChange={(e) => setFeedbackText(e.target.value)}
                           placeholder="What would make Kaiyl better for you?"
                           className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white resize-none"
                           rows={3}
                           maxLength={500}
                         />
                         <div className="text-xs text-gray-500 mt-1">
-                          {feedback.length}/500 characters
+                          {feedbackText.length}/500 characters
                         </div>
                       </div>
 

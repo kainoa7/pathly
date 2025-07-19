@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProvider, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProvider, useParams, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
@@ -21,7 +21,6 @@ import ExplorerDashboard from './components/ExplorerDashboard';
 import ProDashboard from './components/ProDashboard';
 import Dashboard from './components/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
-import FloatingCTA from './components/FloatingCTA';
 import ScrollToTop from './components/ScrollToTop';
 import ResumeBuilder from './pages/services/ResumeBuilder';
 import ResumeReview from './pages/services/ResumeReview';
@@ -75,11 +74,14 @@ const QuizPageWrapper = () => {
 };
 
 function AppLayout() {
+  const location = useLocation();
+  const hideHeader = location.pathname === '/ai-assistant';
+
   return (
-    <div className="p-2 sm:p-4 lg:p-6 min-h-screen bg-black/5 dark:bg-black/20">
-      <div className="simple-border min-h-screen">
-        <div className="simple-border-content flex flex-col min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
-          <Header />
+    <div className={`${hideHeader ? '' : 'p-2 sm:p-4 lg:p-6'} min-h-screen ${hideHeader ? 'bg-slate-900' : 'bg-black/5 dark:bg-black/20'}`}>
+      <div className={`${hideHeader ? '' : 'simple-border'} min-h-screen`}>
+        <div className={`${hideHeader ? '' : 'simple-border-content'} flex flex-col min-h-screen ${hideHeader ? 'bg-slate-900' : 'bg-light-background dark:bg-dark-background'} text-light-text dark:text-dark-text`}>
+          {!hideHeader && <Header />}
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<SmartLandingPage />} />
@@ -134,6 +136,11 @@ function AppLayout() {
                   <AnalyticsPage />
                 </ProtectedRoute>
               } />
+              <Route path="/ai-assistant" element={
+                <ProtectedRoute allowedAccountTypes={['PREMIUM']}>
+                  <AIAssistantInterface />
+                </ProtectedRoute>
+              } />
               <Route path="/activity-dashboard" element={
                 <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
                   <UserActivityDashboard />
@@ -162,7 +169,6 @@ function AppLayout() {
           </main>
           <FeedbackSection />
           <Footer />
-          <FloatingCTA />
           <PlatformFeedbackWidget />
         </div>
       </div>

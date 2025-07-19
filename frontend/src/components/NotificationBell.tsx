@@ -71,7 +71,7 @@ const NotificationBell: React.FC<NotificationBellProps> = ({ onClick, className 
   return (
     <motion.button
       onClick={onClick}
-      className={`relative p-2 text-gray-300 hover:text-white transition-colors ${className}`}
+      className={`relative p-2 text-gray-300 hover:text-white transition-all duration-300 rounded-lg border border-transparent hover:border-yellow-400/50 hover:shadow-[0_0_15px_rgba(251,191,36,0.3)] backdrop-blur-sm ${className}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >

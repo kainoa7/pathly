@@ -160,7 +160,6 @@ const ProDashboard = () => {
               // Show AI Assistant only to PREMIUM users
               feature.title.includes('AI Assistant') ? user?.accountType === 'PREMIUM' : true
             ).map((feature, index) => (
-            {proFeatures.map((feature, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
@@ -184,13 +183,13 @@ const ProDashboard = () => {
                       {feature.category}
                     </span>
                     {feature.isPremium && (
+                      <span className="text-xs bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-2 py-1 rounded font-semibold">
+                        ✨ PRO
+                      </span>
+                    )}
                     {feature.isBeta && (
                       <span className="text-xs bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2 py-1 rounded font-semibold">
                         🧪 BETA
-                      </span>
-                    )}
-                      <span className="text-xs bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-2 py-1 rounded font-semibold">
-                        ✨ PRO
                       </span>
                     )}
                   </div>

@@ -31,8 +31,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           navigate('/explorer-dashboard');
           break;
         case 'PRO':
-        case 'PREMIUM':
           navigate('/pro-dashboard');
+          break;
+        case 'PREMIUM':
+          navigate('/ai-assistant');
           break;
         default:
           navigate('/explorer-dashboard');
@@ -49,8 +51,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           navigate('/explorer-dashboard');
           break;
         case 'PRO':
-        case 'PREMIUM':
           navigate('/pro-dashboard');
+          break;
+        case 'PREMIUM':
+          navigate('/ai-assistant');
           break;
         default:
           navigate('/explorer-dashboard');
