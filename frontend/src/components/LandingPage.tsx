@@ -757,26 +757,26 @@ const LandingPage = () => {
           {/* Main Hero Content - SIMPLIFIED */}
           <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 relative text-center flex flex-col items-center justify-center" style={{ minHeight: '60vh' }}>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] flex items-center justify-center gap-4">
-              <span role='img' aria-label='compass'>🧭</span>
-              Find Your Perfect Career Path — Free
+              <span role='img' aria-label='rocket'>🚀</span>
+              KAIYL
             </h1>
-            <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-12 h-20 flex items-center justify-center">
+            <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-6 text-center tracking-wide">
+              STOP SCROLLING. START GROWING.
+            </div>
+            <div className="text-lg md:text-xl text-gray-300 font-medium mb-12 h-24 flex items-center justify-center">
               <TypewriterText texts={[
-                "Lost about your major? Take our free AI quiz to find your fit.",
-                "Confused about your career? Get instant guidance in 5 minutes.", 
-                "Switching majors again? Discover what you're meant to do — free.",
-                "Graduated with no direction? Start with our free career quiz.",
-                "Stuck choosing between paths? Let our AI guide you — no cost.",
-                "Feeling behind your peers? Get clarity with our free assessment."
+                "We're building the smartest way to explore your career path — powered by AI, built for Gen Z.",
+                "Be one of the first to try it.",
+                "Your future career starts here."
               ]} />
             </div>
-            {/* Primary CTA - Quiz */}
+            {/* Primary CTA - Try it */}
             <button
               onClick={() => navigate('/onboarding')}
               className="inline-flex items-center gap-2 px-10 py-5 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-6"
             >
-              <span role='img' aria-label='brain' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>🧠</span>
-              Take Career Quiz — Free
+              <span role='img' aria-label='sparkles' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>✨</span>
+              Try KAIYL Beta — Free
             </button>
             
             {/* Secondary CTA - Pro Access */}
@@ -784,12 +784,12 @@ const LandingPage = () => {
               onClick={() => navigate('/pricing')}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-[#71ADBA] text-[#71ADBA] text-lg font-semibold hover:bg-[#71ADBA] hover:text-white transition-all duration-200 mb-6"
             >
-              <span role='img' aria-label='rocket' style={{ fontSize: '1.2rem', marginRight: '-0.25rem' }}>🚀</span>
-              Get Full Access
+              <span role='img' aria-label='crown' style={{ fontSize: '1.2rem', marginRight: '-0.25rem' }}>👑</span>
+              Get Pro Access
             </button>
             
             <div className="mt-4 text-base text-[#EDEAB1] opacity-80 font-medium">
-              Choose your situation and get a personalized career quiz — no signup required
+              Join the beta and help shape the future of career discovery
             </div>
             <div className="mt-4 flex items-center justify-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">

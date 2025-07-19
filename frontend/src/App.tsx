@@ -75,90 +75,96 @@ const QuizPageWrapper = () => {
 
 function AppLayout() {
   return (
-    <div className="flex flex-col min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
-      <Header />
-      <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<SmartLandingPage />} />
-          <Route path="/explorer-landing" element={
-            <ProtectedRoute requiredAccountType="EXPLORER">
-              <ExplorerLandingPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/tech-stack" element={<TechStackPage />} />
-          <Route path="/system-design" element={<SystemDesignPage />} />
-          <Route path="/onboarding" element={<OnboardingPage />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
-          <Route path="/platform-guide" element={<HowItWorksPage />} />
-          <Route path="/quiz" element={<QuizPage quizType="college" />} />
-          <Route path="/quiz/:type" element={<QuizPageWrapper />} />
-          <Route path="/adaptive-quiz" element={<AdaptiveQuizPage />} />
-          <Route path="/results" element={<ResultsPage />} />
-          <Route path="/campus-life" element={<CampusLifePage />} />
-          <Route path="/internships" element={<CareerDiscoveryPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup/explorer" element={<SignupExplorer />} />
-          <Route path="/signup/pro" element={<SignupPro />} />
-          <Route path="/upgrade-to-pro" element={
-            <ProtectedRoute requiredAccountType="EXPLORER">
-              <UpgradeToProPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/explorer-dashboard" element={
-            <ProtectedRoute requiredAccountType="EXPLORER">
-              <ExplorerDashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/pro-dashboard" element={
-            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
-              <ProDashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/news" element={
-            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
-              <NewsPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/saved-articles" element={
-            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
-              <SavedArticlesPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/analytics" element={
-            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
-              <AnalyticsPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/activity-dashboard" element={
-            <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
-              <UserActivityDashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/coming-soon" element={
-            <ComingSoonPage 
-              title="Feature Coming Soon"
-              description="We're working hard to bring you this feature. Stay tuned for updates!"
-              icon="🚀"
-            />
-          } />
-          <Route path="/announcements" element={<AnnouncementsPage />} />
-          <Route path="/pricing" element={<PricingPage />} />
-          <Route path="/resume-builder" element={<ResumeBuilder />} />
-          <Route path="/resume-review" element={<ResumeReview />} />
-          <Route path="/career-roadmap" element={<CareerRoadmap />} />
-          <Route path="/interview-templates" element={<InterviewTemplatesPage />} />
-          <Route path="/website-service" element={<WebsiteServicePage />} />
-          <Route path="/waitlist" element={<DiscordWaitlistPage />} />
-          <Route path="/coming-soon-feature" element={<ComingSoonFeaturePage />} />
-          <Route path="/feedback" element={<FeedbackPage />} />
-        </Routes>
-      </main>
-      <FeedbackSection />
-      <Footer />
-      <FloatingCTA />
-      <PlatformFeedbackWidget />
+    <div className="p-2 sm:p-4 lg:p-6 min-h-screen bg-black/5 dark:bg-black/20">
+      <div className="simple-border min-h-screen">
+        <div className="simple-border-content flex flex-col min-h-screen bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text">
+          <Header />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<SmartLandingPage />} />
+              <Route path="/explorer-landing" element={
+                <ProtectedRoute requiredAccountType="EXPLORER">
+                  <ExplorerLandingPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/tech-stack" element={<TechStackPage />} />
+              <Route path="/system-design" element={<SystemDesignPage />} />
+              <Route path="/onboarding" element={<OnboardingPage />} />
+              <Route path="/how-it-works" element={<HowItWorks />} />
+              <Route path="/platform-guide" element={<HowItWorksPage />} />
+              <Route path="/quiz" element={<QuizPage quizType="college" />} />
+              <Route path="/quiz/:type" element={<QuizPageWrapper />} />
+              <Route path="/adaptive-quiz" element={<AdaptiveQuizPage />} />
+              <Route path="/results" element={<ResultsPage />} />
+              <Route path="/campus-life" element={<CampusLifePage />} />
+              <Route path="/internships" element={<CareerDiscoveryPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup/explorer" element={<SignupExplorer />} />
+              <Route path="/signup/pro" element={<SignupPro />} />
+              <Route path="/upgrade-to-pro" element={
+                <ProtectedRoute requiredAccountType="EXPLORER">
+                  <UpgradeToProPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/explorer-dashboard" element={
+                <ProtectedRoute requiredAccountType="EXPLORER">
+                  <ExplorerDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/pro-dashboard" element={
+                <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+                  <ProDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/news" element={
+                <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+                  <NewsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/saved-articles" element={
+                <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+                  <SavedArticlesPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/analytics" element={
+                <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+                  <AnalyticsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/activity-dashboard" element={
+                <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
+                  <UserActivityDashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/announcements" element={<AnnouncementsPage />} />
+              <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/breaking-into-tech" element={<BreakingIntoTechPage />} />
+              <Route path="/demo" element={<DemoPage />} />
+              <Route path="/coming-soon" element={
+                <ComingSoonPage 
+                  title="Feature Coming Soon"
+                  description="We're working hard to bring you this feature. Stay tuned for updates!"
+                  icon="🚀"
+                />
+              } />
+              <Route path="/resume-builder" element={<ResumeBuilder />} />
+              <Route path="/resume-review" element={<ResumeReview />} />
+              <Route path="/career-roadmap" element={<CareerRoadmap />} />
+              <Route path="/interview-templates" element={<InterviewTemplatesPage />} />
+              <Route path="/website-service" element={<WebsiteServicePage />} />
+              <Route path="/waitlist" element={<DiscordWaitlistPage />} />
+              <Route path="/coming-soon-feature" element={<ComingSoonFeaturePage />} />
+              <Route path="/feedback" element={<FeedbackPage />} />
+            </Routes>
+          </main>
+          <FeedbackSection />
+          <Footer />
+          <FloatingCTA />
+          <PlatformFeedbackWidget />
+        </div>
+      </div>
     </div>
   );
 }

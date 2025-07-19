@@ -144,7 +144,7 @@ const Header = () => {
                 <img 
                   src="/logo.svg" 
                   alt="KAIYL" 
-                  className="h-8 w-auto relative z-10" 
+                  className="h-10 w-auto relative z-10 filter drop-shadow-lg" 
                 />
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2">

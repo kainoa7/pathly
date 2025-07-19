@@ -1,27 +1,157 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="800" height="800" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <g>
-    <path d="M785.7 736.3L590.8 541.4C638.5 483.9 668 410.3 668 330C668 149.5 521.5 3 341 3C160.5 3 14 149.5 14 330C14 510.5 160.5 657 341 657C421.3 657 494.9 627.5 552.4 579.8L747.3 774.7C754.6 782 764.2 785.7 773.8 785.7C783.4 785.7 793 782 800.3 774.7C815 760 815 745.3 785.7 736.3ZM341 591C196.8 591 80 474.2 80 330C80 185.8 196.8 69 341 69C485.2 69 602 185.8 602 330C602 474.2 485.2 591 341 591Z" fill="url(#paint0_linear)"/>
-    <path d="M341 69C196.8 69 80 185.8 80 330C80 474.2 196.8 591 341 591C485.2 591 602 474.2 602 330C602 185.8 485.2 69 341 69ZM341 525C233.1 525 146 437.9 146 330C146 222.1 233.1 135 341 135C448.9 135 536 222.1 536 330C536 437.9 448.9 525 341 525Z" fill="url(#paint1_linear)" fill-opacity="0.3"/>
-    <path d="M341 135C233.1 135 146 222.1 146 330C146 437.9 233.1 525 341 525C448.9 525 536 437.9 536 330C536 222.1 448.9 135 341 135ZM341 459C269.4 459 212 401.6 212 330C212 258.4 269.4 201 341 201C412.6 201 470 258.4 470 330C470 401.6 412.6 459 341 459Z" fill="url(#paint2_linear)" fill-opacity="0.2"/>
-    <path d="M341 201C269.4 201 212 258.4 212 330C212 401.6 269.4 459 341 459C412.6 459 470 401.6 470 330C470 258.4 412.6 201 341 201Z" fill="url(#paint3_linear)" fill-opacity="0.1"/>
+  <!-- Hand -->
+  <path d="M250 650C250 650 280 580 320 550C360 520 400 480 420 440C440 400 450 360 450 320C450 280 440 240 420 200C400 160 360 120 320 90C280 60 250 50 250 50" stroke="url(#paint0_linear)" stroke-width="35" stroke-linecap="round" fill="none"/>
+  
+  <!-- Thumb -->
+  <path d="M320 200C320 200 280 180 260 160C240 140 230 110 240 80C250 50 280 40 310 50C340 60 350 90 340 120C330 150 320 200 320 200" fill="url(#paint1_linear)"/>
+  
+  <!-- Palm base -->
+  <ellipse cx="380" cy="500" rx="80" ry="120" fill="url(#paint2_linear)" transform="rotate(-15 380 500)"/>
+  
+  <!-- Fingers -->
+  <ellipse cx="320" cy="400" rx="25" ry="80" fill="url(#paint3_linear)" transform="rotate(-25 320 400)"/>
+  <ellipse cx="350" cy="380" rx="25" ry="90" fill="url(#paint4_linear)" transform="rotate(-15 350 380)"/>
+  <ellipse cx="380" cy="375" rx="25" ry="95" fill="url(#paint5_linear)" transform="rotate(-5 380 375)"/>
+  <ellipse cx="410" cy="385" rx="25" ry="85" fill="url(#paint6_linear)" transform="rotate(5 410 385)"/>
+  
+  <!-- Lightbulb -->
+  <g transform="translate(380, 200)">
+    <!-- Bulb main -->
+    <ellipse cx="0" cy="20" rx="45" ry="55" fill="url(#paint7_linear)"/>
+    
+    <!-- Bulb top curve -->
+    <path d="M-35 -10C-35 -35 -20 -50 0 -50C20 -50 35 -35 35 -10" fill="url(#paint8_linear)"/>
+    
+    <!-- Screw threads -->
+    <rect x="-40" y="65" width="80" height="8" rx="4" fill="url(#paint9_linear)"/>
+    <rect x="-40" y="78" width="80" height="8" rx="4" fill="url(#paint10_linear)"/>
+    <rect x="-40" y="91" width="80" height="8" rx="4" fill="url(#paint11_linear)"/>
+    
+    <!-- Filament -->
+    <path d="M-15 -20C-15 -10 -5 0 0 10C5 0 15 -10 15 -20" stroke="url(#paint12_linear)" stroke-width="3" fill="none"/>
+    <path d="M-10 -5C-10 5 0 15 0 25C0 15 10 5 10 -5" stroke="url(#paint13_linear)" stroke-width="3" fill="none"/>
   </g>
+  
+  <!-- AI Particles/Dots -->
+  <circle cx="300" cy="150" r="8" fill="url(#paint14_linear)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="330" cy="120" r="6" fill="url(#paint15_linear)">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="450" cy="140" r="10" fill="url(#paint16_linear)">
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="480" cy="110" r="7" fill="url(#paint17_linear)">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="510" cy="130" r="5" fill="url(#paint18_linear)">
+    <animate attributeName="opacity" values="0.3;1;0.3" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Energy waves -->
+  <circle cx="380" cy="150" r="60" stroke="url(#paint19_linear)" stroke-width="2" fill="none" opacity="0.4">
+    <animate attributeName="r" values="60;80;60" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="380" cy="150" r="80" stroke="url(#paint20_linear)" stroke-width="1" fill="none" opacity="0.3">
+    <animate attributeName="r" values="80;100;80" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.05;0.3" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
   <defs>
-    <linearGradient id="paint0_linear" x1="14" y1="394.35" x2="800.3" y2="394.35" gradientUnits="userSpaceOnUse">
+    <!-- Hand gradients -->
+    <linearGradient id="paint0_linear" x1="250" y1="50" x2="450" y2="650" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint1_linear" x1="230" y1="40" x2="350" y2="200" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint2_linear" x1="300" y1="380" x2="460" y2="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint3_linear" x1="295" y1="320" x2="345" y2="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint4_linear" x1="325" y1="290" x2="375" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint5_linear" x1="355" y1="280" x2="405" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint6_linear" x1="385" y1="300" x2="435" y2="470" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    
+    <!-- Lightbulb gradients -->
+    <linearGradient id="paint7_linear" x1="-45" y1="-35" x2="45" y2="75" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EDEAB1"/>
+      <stop offset="0.3" stop-color="#F5F3C4"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint8_linear" x1="-35" y1="-50" x2="35" y2="-10" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EDEAB1"/>
+      <stop offset="1" stop-color="#F5F3C4"/>
+    </linearGradient>
+    <linearGradient id="paint9_linear" x1="-40" y1="69" x2="40" y2="69" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#71ADBA"/>
       <stop offset="1" stop-color="#9C71BA"/>
     </linearGradient>
-    <linearGradient id="paint1_linear" x1="80" y1="330" x2="602" y2="330" gradientUnits="userSpaceOnUse">
+    <linearGradient id="paint10_linear" x1="-40" y1="82" x2="40" y2="82" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#71ADBA"/>
       <stop offset="1" stop-color="#9C71BA"/>
     </linearGradient>
-    <linearGradient id="paint2_linear" x1="146" y1="330" x2="536" y2="330" gradientUnits="userSpaceOnUse">
+    <linearGradient id="paint11_linear" x1="-40" y1="95" x2="40" y2="95" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#71ADBA"/>
       <stop offset="1" stop-color="#9C71BA"/>
     </linearGradient>
-    <linearGradient id="paint3_linear" x1="212" y1="330" x2="470" y2="330" gradientUnits="userSpaceOnUse">
+    <linearGradient id="paint12_linear" x1="-15" y1="-20" x2="15" y2="10" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint13_linear" x1="-10" y1="-5" x2="10" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    
+    <!-- AI particle gradients -->
+    <linearGradient id="paint14_linear" x1="292" y1="142" x2="308" y2="158" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EDEAB1"/>
+      <stop offset="1" stop-color="#9C71BA"/>
+    </linearGradient>
+    <linearGradient id="paint15_linear" x1="324" y1="114" x2="336" y2="126" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#71ADBA"/>
+      <stop offset="1" stop-color="#EDEAB1"/>
+    </linearGradient>
+    <linearGradient id="paint16_linear" x1="440" y1="130" x2="460" y2="150" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#EDEAB1"/>
+    </linearGradient>
+    <linearGradient id="paint17_linear" x1="473" y1="103" x2="487" y2="117" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EDEAB1"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint18_linear" x1="505" y1="125" x2="515" y2="135" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#71ADBA"/>
       <stop offset="1" stop-color="#9C71BA"/>
+    </linearGradient>
+    
+    <!-- Energy wave gradients -->
+    <linearGradient id="paint19_linear" x1="320" y1="90" x2="440" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#EDEAB1"/>
+      <stop offset="1" stop-color="#71ADBA"/>
+    </linearGradient>
+    <linearGradient id="paint20_linear" x1="300" y1="70" x2="460" y2="230" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#9C71BA"/>
+      <stop offset="1" stop-color="#EDEAB1"/>
     </linearGradient>
   </defs>
 </svg> 
