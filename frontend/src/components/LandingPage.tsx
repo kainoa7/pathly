@@ -266,7 +266,7 @@ const WaitlistSection = () => {
             wondering if you're making the right choices.
           </p>
           <p className="text-lg text-[#EDEAB1]">
-            To celebrate our 1000+ success stories, we're giving the next wave of students <span className="font-semibold">free access to all pro features</span> 🎉
+            JARVUS AI is in beta — help us build the career discovery platform you actually want to use 🚀
           </p>
         </motion.div>
 
@@ -754,53 +754,52 @@ const LandingPage = () => {
           {/* Trending/Sidebar and background elements remain */}
           {/* Main Hero Content - SIMPLIFIED */}
           <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 relative text-center flex flex-col items-center justify-center" style={{ minHeight: '60vh' }}>
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] flex items-center justify-center gap-4">
-              <span role='img' aria-label='rocket'>🚀</span>
-              JARVUS
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] text-center">
+              Stuck picking a career?
             </h1>
             <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-6 text-center tracking-wide">
-              STOP SCROLLING. START GROWING.
+              We're building an AI career assistant that actually gets you.
             </div>
             <div className="text-lg md:text-xl text-gray-300 font-medium mb-12 h-24 flex items-center justify-center">
               <TypewriterText texts={[
-                "We're building the smartest way to explore your career path — powered by AI, built for Gen Z.",
-                "Be one of the first to try it.",
-                "Your future career starts here."
+                "No more endless Googling 'what career is right for me'",
+                "Get matched with careers that fit your personality and goals",
+                "Help us test if students actually want this AI career assistant"
               ]} />
             </div>
-            {/* Primary CTA - Try it */}
+            {/* Primary CTA - Try the Demo */}
             <button
-              onClick={() => navigate('/onboarding')}
+              onClick={() => navigate('/jarvus-ai-demo')}
               className="inline-flex items-center gap-2 px-10 py-5 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-6"
             >
-              <span role='img' aria-label='sparkles' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>✨</span>
-              Try JARVUS Beta — Free
+              <span role='img' aria-label='test' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>🧪</span>
+              Try Our Demo — 2 Minutes
             </button>
             
-            {/* Secondary CTA - Pro Access */}
+            {/* Secondary CTA - Learn More */}
             <button
-              onClick={() => navigate('/pricing')}
+              onClick={() => navigate('/vision')}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-[#71ADBA] text-[#71ADBA] text-lg font-semibold hover:bg-[#71ADBA] hover:text-white transition-all duration-200 mb-6"
             >
-              <span role='img' aria-label='crown' style={{ fontSize: '1.2rem', marginRight: '-0.25rem' }}>👑</span>
-              Get Pro Access
+              <span role='img' aria-label='eyes' style={{ fontSize: '1.2rem', marginRight: '-0.25rem' }}>👀</span>
+              See What We're Building
             </button>
             
             <div className="mt-4 text-base text-[#EDEAB1] opacity-80 font-medium">
-              Join the beta and help shape the future of career discovery
+              We're testing the market — should we build this AI career assistant?
             </div>
             <div className="mt-4 flex items-center justify-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">
                 <span className="text-green-400">✓</span>
-                <span>5-minute quiz</span>
+                <span>2-minute demo</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-green-400">✓</span>
-                <span>Instant results</span>
+                <span>See career matches</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-green-400">✓</span>
-                <span>No email required</span>
+                <span>Help shape the product</span>
               </div>
             </div>
           </div>
@@ -852,27 +851,27 @@ const LandingPage = () => {
           >
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Ready to Find Your Path? 🚀
+                Think this could help you? 🤔
               </h2>
               <p className="text-xl text-gray-300 mb-8">
-                Join thousands of students who've discovered their perfect career direction
+                Try our demo and help us decide if we should build this AI career assistant
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                 <button
-                  onClick={() => navigate('/onboarding')}
+                  onClick={() => navigate('/jarvus-ai-demo')}
                   className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-4 rounded-full text-xl font-bold hover:scale-105 transition-transform"
                 >
-                  Take Free Career Quiz
+                  🧪 Try Demo — 2 Minutes
                 </button>
                 <button
-                  onClick={() => navigate('/pricing')}
+                  onClick={() => navigate('/vision')}
                   className="border border-[#71ADBA] text-[#71ADBA] px-8 py-3 rounded-full font-semibold hover:bg-[#71ADBA] hover:text-white transition-colors"
                 >
-                  Explore Pro Features
+                  👀 See What We're Building
                 </button>
               </div>
               <div className="text-sm text-gray-400 mb-8">
-                ✨ Start free, no credit card required • 🎯 Get results in 5 minutes
+                🧪 Testing market interest • 🎯 Your feedback shapes the product • ⚡ Takes 2 minutes
               </div>
               
               {/* Mobile App Interest Tracker - Enhanced Bottom Version */}

@@ -1985,8 +1985,8 @@ Want me to help you craft responses to any of these emails?`;
                         <h3 className="text-gray-400 font-semibold mb-3">📱 Live Preview</h3>
                         <div className="bg-white/10 rounded-lg p-3 text-xs">
                           <div className="text-center mb-2">
-                            <div className="font-bold text-white">KAINOA AQUI</div>
-                            <div className="text-gray-300">Full Stack Developer</div>
+                            <div className="font-bold text-white">JARVUS AI</div>
+                            <div className="text-gray-300">AI Career Assistant</div>
                           </div>
                           <div className="space-y-1">
                             <div className="text-green-400">• Built responsive React components serving 50k+ users</div>

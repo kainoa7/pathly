@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useTransform, useAnimation } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import React from 'react';
 
 // Custom SVG icons that match our design aesthetic
 const CustomIcons = {
@@ -33,7 +34,7 @@ const CustomIcons = {
   )
 };
 
-const Card3D = ({ children, className = "" }) => {
+const Card3D = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -112,29 +113,29 @@ const HowItWorks = () => {
   const steps = [
     {
       icon: CustomIcons.Rocket,
-      title: "Take the vibe check ✨",
-      description: "Quick quiz to understand your interests, skills, and goals - no pressure!",
+      title: "Tell JARVUS about you ✨",
+      description: "Quick vibe check — share your interests, goals, and what gets you excited about work",
       color: "from-[#9C71BA] to-[#BA71AD]",
       bgGlow: "group-hover:shadow-[0_0_30px_-5px_rgba(156,113,186,0.3)]"
     },
     {
       icon: CustomIcons.Brain,
-      title: "Get matched fr fr    🎯",
-      description: "We match you with careers that fit your unique personality and goals",
+      title: "AI analyzes your fit 🧠",
+      description: "Our AI matches you with careers based on your personality, skills, and modern job market data",
       color: "from-[#71ADBA] to-[#71BAB4]",
       bgGlow: "group-hover:shadow-[0_0_30px_-5px_rgba(113,173,186,0.3)]"
     },
     {
       icon: CustomIcons.Map,
-      title: "See your roadmap 🗺️",
-      description: "Get a personalized path to your dream career - we'll show you the way!",
+      title: "Get your career roadmap 🗺️",
+      description: "See exactly what skills to build, what to study, and how to land your dream job",
       color: "from-[#71BA8E] to-[#8EBA71]",
       bgGlow: "group-hover:shadow-[0_0_30px_-5px_rgba(113,186,142,0.3)]"
     },
     {
       icon: CustomIcons.Trophy,
-      title: "Level up your future 🚀",
-      description: "Access resources, tips, and strategies to make it happen",
+      title: "Start building today 🚀",
+      description: "Get actionable next steps, resources, and tools to make your career goals reality",
       color: "from-[#BAA971] to-[#BA9171]",
       bgGlow: "group-hover:shadow-[0_0_30px_-5px_rgba(186,169,113,0.3)]"
     }
@@ -179,7 +180,7 @@ const HowItWorks = () => {
             transition={{ delay: 0.3 }}
             className="text-xl text-[#71ADBA] mt-4"
           >
-            Four simple steps to your dream career - no cap! <span className="text-[#EDEAB1]">💯</span>
+            Four steps to discover your perfect career path with AI <span className="text-[#EDEAB1]">🤖</span>
           </motion.p>
         </div>
 

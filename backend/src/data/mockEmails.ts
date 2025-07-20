@@ -18,7 +18,7 @@ export const mockEmails: MockEmail[] = [
     from: "recruiter@netflix.com",
     date: "2025-07-19T14:30:00Z",
     snippet: "Thank you for your interest in the Software Engineer position at Netflix...",
-    body: `Hi Kainoa,
+    body: `Hi Jarvus Team,
 
 Thank you for your interest in the Software Engineer position at Netflix. We were impressed by your background in full-stack development and your experience with React and Node.js.
 
@@ -47,7 +47,7 @@ Netflix`,
     from: "john.doe@openai.com",
     date: "2025-07-18T10:15:00Z",
     snippet: "Thanks for reaching out! I'd love to chat about opportunities in AI...",
-    body: `Hey Kainoa,
+    body: `Hey Jarvus Team,
 
 Thanks for reaching out! I'd love to chat about opportunities in AI and machine learning. Your work on JARVUS sounds fascinating.
 
@@ -74,7 +74,7 @@ OpenAI`,
     from: "noreply@google.com",
     date: "2025-07-17T16:45:00Z",
     snippet: "Thank you for your application to Google. After careful consideration...",
-    body: `Dear Kainoa,
+    body: `Dear Jarvus Team,
 
 Thank you for your application to Google for the Software Engineer, Full Stack position. After careful consideration of your background and qualifications, we have decided to move forward with other candidates at this time.
 
@@ -95,7 +95,7 @@ Google Recruiting Team`,
     from: "careers@meta.com", 
     date: "2025-07-16T11:20:00Z",
     snippet: "Congratulations! We're excited to extend an offer for the Software Engineer position...",
-    body: `Dear Kainoa,
+    body: `Dear Jarvus Team,
 
 Congratulations! We're excited to extend an offer for the Software Engineer position at Meta.
 
@@ -161,7 +161,7 @@ TechCrunch Events Team`,
     from: "recruiting@tesla.com",
     date: "2025-07-14T15:00:00Z",
     snippet: "Thank you for taking the time to interview with our team yesterday...",
-    body: `Hi Kainoa,
+    body: `Hi Jarvus Team,
 
 Thank you for taking the time to interview with our team yesterday. We were impressed by your technical skills and passion for sustainable technology.
 
