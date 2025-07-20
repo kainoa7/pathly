@@ -13,7 +13,9 @@ import {
   faStar,
   faRocket,
   faEnvelope,
-  faGlobe
+  faGlobe,
+  faFileText,
+  faCalendarDays
 } from '@fortawesome/free-solid-svg-icons';
 import Analytics from '../utils/analytics';
 
@@ -320,10 +322,10 @@ const Footer = () => {
             
             <div className="space-y-4">
               {[
-                { icon: faBrain, title: "Smart Career Guidance", subtitle: "AI-powered recommendations" },
-                { icon: faMicrophone, title: "Voice Interaction", subtitle: "Speak naturally to AI" },
-                { icon: faVolumeHigh, title: "AI Voice Responses", subtitle: "Natural speech synthesis" },
-                { icon: faCog, title: "Personality Modes", subtitle: "4 unique AI personalities" }
+                { icon: faEnvelope, title: "Gmail AI Analysis", subtitle: "Priority scoring & insights" },
+                { icon: faFileText, title: "Live Resume Enhancement", subtitle: "73%→94% ATS improvement" },
+                { icon: faCalendarDays, title: "Calendar AI Optimization", subtitle: "Conflict detection & scheduling" },
+                { icon: faBrain, title: "Career Intelligence", subtitle: "Salary insights & negotiation" }
               ].map((feature, index) => (
                 <motion.div
                   key={feature.title}
@@ -369,7 +371,7 @@ const Footer = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 <Link 
-                  to="/ai-assistant"
+                  to="/jarvus-ai-demo"
                   className="block w-full text-center py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-lg font-semibold transition-all hover:shadow-lg hover:shadow-cyan-500/25"
                 >
                   <FontAwesomeIcon icon={faRocket} className="mr-2" />
@@ -415,18 +417,18 @@ const Footer = () => {
               </motion.div>
               
               <h4 className="text-xl font-bold text-white mb-3 leading-tight">
-                Help Shape the Future of
+                Join the Pro Community &
                 <motion.span 
                   className="block text-cyan-400"
                   animate={{ y: [0, -1, 0] }}
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 >
-                  Career Intelligence
+                  Shape JARVUS AI's Future
                 </motion.span>
               </h4>
               
               <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                Join our exclusive founding member community and co-create the next generation of AI-powered career tools.
+                Get free Pro access now and be first in line for JARVUS AI Premium when it launches.
               </p>
               
               <ul className="text-gray-400 text-xs space-y-2 mb-6">
@@ -436,7 +438,7 @@ const Footer = () => {
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
                 >
                   <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Early access to JARVUS AI features
+                  Free Pro features: News Hub, Analytics, Salary Tools
                 </motion.li>
                 <motion.li 
                   className="flex items-center"
@@ -444,7 +446,7 @@ const Footer = () => {
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 >
                   <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Behind-the-scenes AI development updates
+                  Early access to JARVUS AI Premium preview
                 </motion.li>
                 <motion.li 
                   className="flex items-center"
@@ -452,7 +454,7 @@ const Footer = () => {
                   transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
                 >
                   <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Direct input on AI assistant roadmap
+                  Special pricing when JARVUS AI Premium launches
                 </motion.li>
               </ul>
               
@@ -484,7 +486,7 @@ const Footer = () => {
                   transition={{ duration: 0.5 }}
                 >
                   <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                  {isSubmitted ? 'Welcome Aboard!' : 'Become a Founding Member'}
+                  {isSubmitted ? 'Welcome Aboard!' : 'Get Pro Free Now'}
                 </motion.button>
               </form>
               
@@ -493,7 +495,7 @@ const Footer = () => {
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                Join 500+ founding members shaping the future
+                Join 3,200+ Pro members already using advanced features
               </motion.p>
             </motion.div>
           </motion.div>

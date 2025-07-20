@@ -141,6 +141,7 @@ function AppLayout() {
                   <AIAssistantInterface />
                 </ProtectedRoute>
               } />
+              <Route path="/jarvus-ai-demo" element={<AIAssistantInterface />} />
               <Route path="/activity-dashboard" element={
                 <ProtectedRoute allowedAccountTypes={['PRO', 'PREMIUM']}>
                   <UserActivityDashboard />

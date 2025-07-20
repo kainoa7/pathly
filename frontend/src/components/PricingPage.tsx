@@ -13,7 +13,16 @@ import {
   faBrain,
   faUsers,
   faRocket,
-  faGem
+  faGem,
+  faEnvelope,
+  faCalendarDays,
+  faFileText,
+  faCog,
+  faMicrophone,
+  faRobot,
+  faCrown,
+  faTimes,
+  faEye
 } from '@fortawesome/free-solid-svg-icons';
 
 interface PricingTier {
@@ -22,11 +31,12 @@ interface PricingTier {
   price: string;
   originalPrice?: string;
   interval?: string;
-  features: { name: string; status?: 'new' | 'hot' | 'coming-soon' }[];
+  features: { name: string; status?: 'new' | 'hot' | 'coming-soon' | 'ai' }[];
   buttonText: string;
-  buttonVariant: 'outline' | 'primary';
+  buttonVariant: 'outline' | 'primary' | 'premium';
   highlight?: boolean;
   buttonLink?: string;
+  tier: 'basic' | 'pro' | 'premium';
 }
 
 interface FAQItem {
@@ -34,33 +44,168 @@ interface FAQItem {
   answer: string;
 }
 
+// Feedback Modal Component
+const FeedbackModal: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen, onClose }) => {
+  const [feedback, setFeedback] = useState('');
+  const [interest, setInterest] = useState<'very-interested' | 'somewhat-interested' | 'not-interested' | ''>('');
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send feedback to your backend
+    console.log('Feedback submitted:', { feedback, interest, email });
+    setSubmitted(true);
+    
+    // Close modal after 2 seconds and navigate to demo
+    setTimeout(() => {
+      onClose();
+      navigate('/jarvus-ai-demo');
+    }, 2000);
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        className="bg-[#1a2234] rounded-2xl p-6 max-w-md w-full border border-[#FFD700]/30"
+      >
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-[#FFD700]">JARVUS AI Preview Interest</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-white transition-colors"
+          >
+            <FontAwesomeIcon icon={faTimes} />
+          </button>
+        </div>
+
+        {!submitted ? (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                How interested are you in JARVUS AI for your career?
+              </label>
+              <div className="space-y-2">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="very-interested"
+                    checked={interest === 'very-interested'}
+                    onChange={(e) => setInterest(e.target.value as any)}
+                    className="mr-2"
+                    required
+                  />
+                  <span className="text-green-400">Very interested - I'd pay for this!</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="somewhat-interested"
+                    checked={interest === 'somewhat-interested'}
+                    onChange={(e) => setInterest(e.target.value as any)}
+                    className="mr-2"
+                  />
+                  <span className="text-yellow-400">Somewhat interested - need to see more</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    value="not-interested"
+                    checked={interest === 'not-interested'}
+                    onChange={(e) => setInterest(e.target.value as any)}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-400">Not interested - just curious</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Email (optional - for early access updates)
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400"
+                placeholder="your@email.com"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Any specific feedback or questions?
+              </label>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 h-20"
+                placeholder="What would make JARVUS AI perfect for your career?"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black font-bold py-3 rounded-lg hover:scale-105 transition-transform"
+            >
+              Submit & View Preview
+            </button>
+          </form>
+        ) : (
+          <div className="text-center py-4">
+            <div className="text-green-400 text-4xl mb-3">✅</div>
+            <h4 className="text-xl font-bold text-white mb-2">Thank you!</h4>
+            <p className="text-gray-300 mb-4">Your feedback helps us build better AI for careers.</p>
+            <p className="text-[#FFD700]">Redirecting to JARVUS AI preview...</p>
+          </div>
+        )}
+      </motion.div>
+    </div>
+  );
+};
+
 const FAQSection: React.FC = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const faqs: FAQItem[] = [
     {
-      question: "What's included in the Pro plan?",
-      answer: "Pro includes everything in Explorer PLUS our exclusive Daily News Hub with social features, Major Salary Comparison Tool with 10-year projections, Career Analytics Dashboard, and Founding Member Community access. All features are fully functional and ready to use!"
+      question: "What makes JARVUS AI Premium special?",
+      answer: "JARVUS AI is the world's first career-focused AI assistant. It reads your Gmail, analyzes career opportunities, builds perfect resumes with live AI enhancement, optimizes your calendar for interview success, and provides real-time salary negotiation advice. Think AI intelligence specifically designed for your career advancement."
     },
     {
-      question: "How does the News Hub work?",
-      answer: "Our Pro News Hub curates daily articles across Tech, Business, Finance, Sports, and AI. You can vote on articles, leave comments, save favorites, and see what other Pro users are engaging with. It's like Reddit meets career development!"
+      question: "How does the AI Gmail integration work?",
+      answer: "JARVUS AI connects to your Gmail (with your permission) and automatically analyzes career-related emails. It scores job offers (Meta: 10/10, Netflix: 9/10), suggests negotiation tactics with real market data, and provides action items like 'Ask for signing bonus given your React expertise.'"
     },
     {
-      question: "What's the University Directory feature?",
-      answer: "Coming soon for Pro users! Search 3,000+ universities with insider insights, plus a student-to-student marketplace for buying/selling dorm essentials at 60-70% off retail. Pro users can vote on which features we prioritize!"
+      question: "What's the Resume AI Enhancement?",
+      answer: "Watch your resume transform in real-time! JARVUS AI takes basic bullets like 'Worked on frontend development' and enhances them to 'Built responsive React components serving 50k+ users, improving page load speeds by 40% and user engagement by 25%.' Your ATS score can jump from 73% to 94%."
     },
     {
-      question: "Is the Pro plan really free?",
-      answer: "Yes! We're currently offering Pro for free to build our community. This won't last forever, so join now to lock in lifetime access to these premium features."
+      question: "How does Calendar AI work?",
+      answer: "JARVUS AI detects scheduling conflicts (like Tuesday 2 PM double-booking: Coffee with Sam vs Netflix Interview) and provides smart suggestions: 'Move coffee with Sam to 4 PM to keep Netflix interview at optimal time slot.' It also blocks interview prep time automatically."
     },
     {
-      question: "Can I switch between plans?",
-      answer: "Absolutely! You can start with Explorer and upgrade to Pro anytime. Once you're Pro, you'll have access to all premium features immediately."
+      question: "What's included in Career Intelligence?",
+      answer: "JARVUS analyzes your interview compatibility (94% match with Meta), provides salary insights (L4 Engineer $155k-$175k base), offers negotiation tips, and gives company-specific interview prep. It's like having a career coach with access to real-time market data."
     },
     {
-      question: "When will Premium launch?",
-      answer: "Premium is coming soon with even more advanced features like AI-powered study schedules, custom career simulations, and priority feature access. Pro users will get early access and special pricing!"
+      question: "Is the voice interface really advanced?",
+      answer: "Yes! JARVUS AI responds to natural language: 'JARVUS, what's my schedule Tuesday?' or 'JARVUS, optimize my work experience section.' The interface is designed to feel like having an AI assistant focused on accelerating your career."
+    },
+    {
+      question: "Why is JARVUS AI Premium coming soon?",
+      answer: "We're perfecting the technology and gathering feedback from early preview users. This represents months of AI development that could transform how professionals advance their careers. Early feedback helps us build the best possible experience."
+    },
+    {
+      question: "Can I upgrade from Pro to JARVUS AI Premium?",
+      answer: "Absolutely! Pro users get priority access and special upgrade pricing. You can start with Pro to experience our platform, then upgrade to JARVUS AI when it launches."
     }
   ];
 
@@ -117,20 +262,25 @@ const PricingPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   // Simulate analytics for FOMO
-  const [viewers, setViewers] = useState<number>(47);
-  const [proUsers, setProUsers] = useState<number>(2834);
+  const [viewers, setViewers] = useState<number>(89);
+  const [proUsers, setProUsers] = useState<number>(3247);
+  const [jarvusUsers, setJarvusUsers] = useState<number>(156);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 
   const pricingTiers: PricingTier[] = [
     {
       name: 'Explorer',
       description: 'Perfect for getting started',
       price: 'Free',
+      tier: 'basic',
       features: [
         { name: 'AI Career Matching Quiz' },
         { name: 'Basic University Search' },
         { name: 'General Career Insights' },
         { name: 'Community Access' },
-        { name: 'Mobile Responsive Design' }
+        { name: 'Mobile Responsive Design' },
+        { name: 'Static Resume Templates' },
+        { name: 'Basic Interview Prep' }
       ],
       buttonText: 'Start Free',
       buttonVariant: 'outline',
@@ -140,6 +290,8 @@ const PricingPage = () => {
       name: 'Pro',
       description: 'For serious career builders',
       price: 'Free',
+      originalPrice: '$29/month',
+      tier: 'pro',
       features: [
         { name: 'Everything in Explorer' },
         { name: 'Daily News Hub with Social Features', status: 'hot' },
@@ -147,6 +299,8 @@ const PricingPage = () => {
         { name: 'Voting & Comments System', status: 'hot' },
         { name: 'Major Salary Comparison Tool', status: 'new' },
         { name: 'Career Analytics Dashboard', status: 'new' },
+        { name: 'Basic AI Resume Review', status: 'ai' },
+        { name: 'Interview Question Bank', status: 'new' },
         { name: 'Exclusive Founding Member Community', status: 'hot' },
         { name: 'Priority Support' },
         { name: 'University Directory & Marketplace', status: 'coming-soon' }
@@ -157,40 +311,84 @@ const PricingPage = () => {
       buttonLink: user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro'
     },
     {
-      name: 'Premium',
-      description: 'Ultimate career development suite',
+      name: 'JARVUS AI Premium',
+      description: 'Advanced AI for your career',
       price: 'Coming Soon',
+      interval: '',
+      tier: 'premium',
       features: [
         { name: 'Everything in Pro' },
-        { name: 'AI-Powered Study Schedules', status: 'coming-soon' },
-        { name: 'Custom Career Path Simulator', status: 'coming-soon' },
-        { name: 'Personalized Success Metrics', status: 'coming-soon' },
-        { name: 'Real-time Industry Alerts', status: 'coming-soon' },
-        { name: 'Advanced Analytics Dashboard', status: 'coming-soon' },
-        { name: 'Custom Report Generation', status: 'coming-soon' },
-        { name: 'Early Feature Access', status: 'coming-soon' },
-        { name: '1-on-1 Career Coaching', status: 'coming-soon' }
+        { name: 'JARVUS AI Assistant', status: 'ai' },
+        { name: 'Gmail AI Analysis & Priority Scoring', status: 'ai' },
+        { name: 'Live Resume AI Enhancement (73%→94% ATS)', status: 'ai' },
+        { name: 'Calendar AI Optimization & Conflict Detection', status: 'ai' },
+        { name: 'Career Intelligence with Salary Insights', status: 'ai' },
+        { name: 'Voice Commands: "JARVUS, what\'s my schedule?"', status: 'ai' },
+        { name: 'Company-Specific Interview Prep (Meta, Google)', status: 'ai' },
+        { name: 'Real-time Salary Negotiation Advice', status: 'ai' },
+        { name: 'AI Career Path Predictions', status: 'ai' },
+        { name: 'Priority AI Processing' },
+        { name: 'Early Access to New AI Features' },
+        { name: 'Exclusive JARVUS Community' },
+        { name: 'Lifetime Access (Early Adopter)' }
       ],
       buttonText: 'Coming Soon',
-      buttonVariant: 'primary'
+      buttonVariant: 'premium',
+      highlight: true,
+      buttonLink: '#'
     }
   ];
 
   const getFeatureBadge = (status?: string) => {
     switch (status) {
       case 'new':
-        return <span className="ml-2 px-2 py-0.5 bg-blue-500/20 text-blue-300 text-xs rounded-full">NEW</span>;
+        return <span className="ml-1 px-1 py-0.5 bg-blue-500/20 text-blue-400 text-[8px] rounded font-bold uppercase tracking-wider">NEW</span>;
       case 'hot':
-        return <span className="ml-2 px-2 py-0.5 bg-red-500/20 text-red-300 text-xs rounded-full">🔥 HOT</span>;
+        return <span className="ml-1 px-1 py-0.5 bg-red-500/20 text-red-400 text-[8px] rounded font-bold">🔥</span>;
+      case 'ai':
+        return <span className="ml-1 px-1 py-0.5 bg-purple-500/20 text-purple-400 text-[8px] rounded font-bold uppercase tracking-wider">AI</span>;
       case 'coming-soon':
-        return <span className="ml-2 px-2 py-0.5 bg-yellow-500/20 text-yellow-300 text-xs rounded-full">Soon</span>;
+        return <span className="ml-1 px-1 py-0.5 bg-yellow-500/20 text-yellow-400 text-[8px] rounded font-bold uppercase tracking-wider">SOON</span>;
       default:
         return null;
     }
   };
 
+  const handlePremiumClick = () => {
+    setShowFeedbackModal(true);
+  };
+
+  const getButtonClass = (variant: string, tier: string) => {
+    switch (variant) {
+      case 'outline':
+        return "w-full py-3 rounded-lg border-2 border-[#71ADBA] text-[#71ADBA] hover:bg-[#71ADBA] hover:text-white transition-all duration-300 font-semibold";
+      case 'primary':
+        return "w-full py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white hover:from-[#5d9ca8] hover:to-[#8660a8] transition-all duration-300 font-semibold";
+      case 'premium':
+        return "w-full py-3 rounded-lg bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FF6347] text-black hover:scale-105 transition-all duration-300 font-bold text-lg shadow-lg";
+      default:
+        return "w-full py-3 rounded-lg bg-gray-600 text-white hover:bg-gray-500 transition-all duration-300 font-semibold";
+    }
+  };
+
+  const getCardClass = (tier: string, highlight?: boolean) => {
+    if (tier === 'premium') {
+      return "rounded-2xl bg-gradient-to-br from-[#FFD700]/10 via-[#FFA500]/10 to-[#FF6347]/10 p-8 border-2 border-[#FFD700]/50 hover:border-[#FFD700]/80 transition-all duration-300 shadow-2xl shadow-[#FFD700]/20 transform hover:scale-105 relative";
+    }
+    if (highlight) {
+      return "rounded-2xl bg-[#1a2234]/60 p-8 border-2 border-[#71ADBA]/50 hover:border-[#71ADBA]/80 transition-all duration-300 transform hover:scale-102";
+    }
+    return "rounded-2xl bg-[#1a2234]/60 p-8 border border-[#71ADBA]/20 hover:border-[#71ADBA]/40 transition-all duration-300";
+  };
+
   return (
     <div className="min-h-screen bg-dark-background">
+      {/* Feedback Modal */}
+      <FeedbackModal 
+        isOpen={showFeedbackModal} 
+        onClose={() => setShowFeedbackModal(false)} 
+      />
+
       {/* Spacer for header */}
       <div className="h-20 sm:h-24" />
       
@@ -208,7 +406,13 @@ const PricingPage = () => {
         <div className="flex items-center gap-3">
           <FontAwesomeIcon icon={faUsers} className="text-[#EDEAB1]" />
           <span className="text-lg font-bold text-[#EDEAB1]">
-            {proUsers}+ Pro members and growing
+            {proUsers}+ Pro members
+          </span>
+        </div>
+        <div className="flex items-center gap-3">
+          <FontAwesomeIcon icon={faRobot} className="text-[#FFD700]" />
+          <span className="text-lg font-bold text-[#FFD700]">
+            {jarvusUsers}+ testing JARVUS AI preview
           </span>
         </div>
       </div>
@@ -221,42 +425,55 @@ const PricingPage = () => {
         className="pb-10 text-center px-4"
       >
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4">
-          <span className="bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
-            Choose Your Career Journey
+          <span className="bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#FFD700] bg-clip-text text-transparent">
+            Unleash Your Career Potential
           </span>
         </h1>
         <p className="text-xl text-[#71ADBA] max-w-3xl mx-auto mb-4 font-semibold">
-          From confused student to confident professional
+          From basic tools to advanced AI career assistant
         </p>
-        <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-          Start free with Explorer or unlock exclusive Pro features. Limited-time free Pro access available!
+        <p className="text-lg text-gray-300 max-w-4xl mx-auto mb-6">
+          Start free with Explorer, upgrade to Pro for advanced features, or preview the future with JARVUS AI - artificial intelligence designed specifically for career advancement.
         </p>
       </motion.div>
 
-      {/* Pro Highlights Banner */}
+      {/* JARVUS AI Highlight Banner */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="max-w-4xl mx-auto mb-12 px-4"
+        className="max-w-6xl mx-auto mb-12 px-4"
       >
-        <div className="bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-2xl p-6 border border-[#71ADBA]/30">
-          <h3 className="text-center text-xl font-bold text-white mb-4">
-            <FontAwesomeIcon icon={faFire} className="text-orange-400 mr-2" />
-            What's Live in Pro Right Now
+        <div className="bg-gradient-to-r from-[#FFD700]/10 via-[#FFA500]/10 to-[#FF6347]/10 rounded-2xl p-6 border-2 border-[#FFD700]/30 shadow-xl shadow-[#FFD700]/20">
+          <h3 className="text-center text-2xl font-bold text-[#FFD700] mb-4">
+            <FontAwesomeIcon icon={faRobot} className="mr-3" />
+            JARVUS AI - Artificial Intelligence For Your Career
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-            <div className="flex items-center justify-center gap-2">
-              <FontAwesomeIcon icon={faNewspaper} className="text-[#71ADBA]" />
-              <span className="text-gray-300">Daily News Hub</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
+            <div className="flex flex-col items-center gap-2 p-3 bg-[#FFD700]/5 rounded-lg">
+              <FontAwesomeIcon icon={faEnvelope} className="text-[#FFD700] text-2xl" />
+              <span className="text-sm text-gray-300">Gmail AI Analysis</span>
+              <span className="text-xs text-[#FFD700]">Reads & scores emails</span>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <FontAwesomeIcon icon={faChartLine} className="text-[#71ADBA]" />
-              <span className="text-gray-300">Activity Dashboard</span>
+            <div className="flex flex-col items-center gap-2 p-3 bg-[#FFA500]/5 rounded-lg">
+              <FontAwesomeIcon icon={faFileText} className="text-[#FFA500] text-2xl" />
+              <span className="text-sm text-gray-300">Live Resume AI</span>
+              <span className="text-xs text-[#FFA500]">73% → 94% ATS Score</span>
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <FontAwesomeIcon icon={faUniversity} className="text-[#71ADBA]" />
-              <span className="text-gray-300">University Voting</span>
+            <div className="flex flex-col items-center gap-2 p-3 bg-[#FF6347]/5 rounded-lg">
+              <FontAwesomeIcon icon={faCalendarDays} className="text-[#FF6347] text-2xl" />
+              <span className="text-sm text-gray-300">Calendar AI</span>
+              <span className="text-xs text-[#FF6347]">Smart scheduling</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 p-3 bg-[#9C71BA]/5 rounded-lg">
+              <FontAwesomeIcon icon={faBrain} className="text-[#9C71BA] text-2xl" />
+              <span className="text-sm text-gray-300">Career Intelligence</span>
+              <span className="text-xs text-[#9C71BA]">Salary & negotiation</span>
+            </div>
+            <div className="flex flex-col items-center gap-2 p-3 bg-[#71ADBA]/5 rounded-lg">
+              <FontAwesomeIcon icon={faMicrophone} className="text-[#71ADBA] text-2xl" />
+              <span className="text-sm text-gray-300">Voice Commands</span>
+              <span className="text-xs text-[#71ADBA]">"JARVUS, help me"</span>
             </div>
           </div>
         </div>
@@ -271,216 +488,150 @@ const PricingPage = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
             className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           >
-            {/* Explorer Card */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="rounded-2xl bg-[#1a2234]/60 p-8 border border-[#71ADBA]/20 hover:border-[#71ADBA]/40 transition-all duration-300"
-            >
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2">{pricingTiers[0].name}</h3>
-                <p className="text-gray-400 mb-4">{pricingTiers[0].description}</p>
-                <div className="text-4xl font-bold text-[#71ADBA]">{pricingTiers[0].price}</div>
-              </div>
-              
-              <ul className="space-y-3 mb-8">
-                {pricingTiers[0].features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <FontAwesomeIcon icon={faCheck} className="text-green-400 mr-3" />
-                    <span className="text-gray-300">{feature.name}</span>
-                    {getFeatureBadge(feature.status)}
-                  </li>
-                ))}
-              </ul>
-              
-              <button
-                onClick={() => navigate(pricingTiers[0].buttonLink || '#')}
-                className="w-full py-3 rounded-lg border-2 border-[#71ADBA] text-[#71ADBA] hover:bg-[#71ADBA] hover:text-white transition-all duration-300 font-semibold"
+            {pricingTiers.map((tier, index) => (
+              <motion.div 
+                key={tier.name}
+                whileHover={{ scale: tier.tier === 'premium' ? 1.05 : 1.02 }}
+                className={getCardClass(tier.tier, tier.highlight)}
               >
-                {pricingTiers[0].buttonText}
-              </button>
-            </motion.div>
-
-            {/* Pro Card */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="rounded-2xl bg-gradient-to-b from-[#71ADBA]/20 to-[#9C71BA]/20 p-8 border-2 border-[#71ADBA] transform hover:-translate-y-1 transition-all duration-300 relative shadow-2xl"
-            >
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-6 py-2 rounded-full text-sm font-bold tracking-wide shadow-lg">
-                <FontAwesomeIcon icon={faStar} className="mr-1" />
-                MOST POPULAR
-              </div>
-              
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2">{pricingTiers[1].name}</h3>
-                <p className="text-[#EDEAB1] font-semibold mb-4">{pricingTiers[1].description}</p>
-                <div className="flex items-center justify-center gap-3 mb-2">
-                  <span className="text-2xl font-bold text-gray-400 line-through">$9.99/mo</span>
-                  <span className="text-4xl font-extrabold text-[#EDEAB1]">{pricingTiers[1].price}</span>
+                {tier.tier === 'premium' && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black px-4 py-2 rounded-full text-sm font-bold flex items-center">
+                      <FontAwesomeIcon icon={faCrown} className="mr-2" />
+                      MOST ADVANCED
+                    </div>
+                  </div>
+                )}
+                
+                <div className="text-center mb-6">
+                  <h3 className={`text-2xl font-bold mb-2 ${tier.tier === 'premium' ? 'text-[#FFD700]' : 'text-white'}`}>
+                    {tier.name}
+                  </h3>
+                  <p className="text-gray-400 mb-4">{tier.description}</p>
+                  <div className="flex items-center justify-center gap-2">
+                    <div className={`text-4xl font-bold ${tier.tier === 'premium' ? 'text-[#FFD700]' : 'text-[#71ADBA]'}`}>
+                      {tier.price}
+                    </div>
+                    {tier.interval && (
+                      <span className="text-gray-400 text-lg">{tier.interval}</span>
+                    )}
+                  </div>
+                  {tier.originalPrice && (
+                    <div className="text-gray-500 line-through text-sm mt-1">
+                      Originally {tier.originalPrice}
+                    </div>
+                  )}
                 </div>
-                <div className="inline-block bg-gradient-to-r from-yellow-400 to-orange-500 text-black px-4 py-1 rounded-full text-sm font-bold">
-                  🔥 Limited Time Free Access
-                </div>
-              </div>
-              
-              <ul className="space-y-3 mb-8">
-                {pricingTiers[1].features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <FontAwesomeIcon icon={faCheck} className="text-[#EDEAB1] mr-3" />
-                    <span className="text-gray-300">{feature.name}</span>
-                    {getFeatureBadge(feature.status)}
-                  </li>
-                ))}
-              </ul>
-              
-              <button
-                onClick={() => navigate(pricingTiers[1].buttonLink || '#')}
-                className="w-full py-3 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-lg font-bold hover:opacity-90 transition-all duration-300 shadow-lg"
-              >
-                <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                {pricingTiers[1].buttonText}
-              </button>
-            </motion.div>
-
-            {/* Premium Card */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              className="rounded-2xl bg-gradient-to-b from-[#9C71BA]/10 to-[#71ADBA]/10 p-8 border border-[#9C71BA]/40 transition-all duration-300 relative"
-            >
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-[#9C71BA] text-white px-4 py-2 rounded-full text-sm font-bold">
-                COMING SOON
-              </div>
-              
-              <div className="text-center mb-6">
-                <h3 className="text-2xl font-bold mb-2">{pricingTiers[2].name}</h3>
-                <p className="text-gray-400 mb-4">{pricingTiers[2].description}</p>
-                <div className="text-3xl font-bold text-[#9C71BA]">{pricingTiers[2].price}</div>
-              </div>
-              
-              <ul className="space-y-3 mb-8">
-                {pricingTiers[2].features.map((feature, index) => (
-                  <li key={index} className="flex items-center opacity-70">
-                    <FontAwesomeIcon icon={faCheck} className="text-[#9C71BA] mr-3" />
-                    <span className="text-gray-300">{feature.name}</span>
-                    {getFeatureBadge(feature.status)}
-                  </li>
-                ))}
-              </ul>
-              
-              <button 
-                disabled 
-                className="w-full py-3 rounded-lg bg-gradient-to-r from-[#9C71BA] to-[#71ADBA] text-white opacity-50 cursor-not-allowed font-semibold"
-              >
-                {pricingTiers[2].buttonText}
-              </button>
-            </motion.div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Feature Showcase */}
-      <section className="py-16 bg-[#0f1419]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Why Pro Users Love Jarvus
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Real features, real impact, real results
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: faNewspaper,
-                title: "Daily News Hub",
-                description: "Curated Tech, Business, Finance, Sports & AI news with voting, comments, and saves",
-                status: "🔥 Live Now"
-              },
-              {
-                icon: faChartLine,
-                title: "Activity Dashboard", 
-                description: "Track your engagement, comments, votes, and saved articles with beautiful analytics",
-                status: "✨ New Feature"
-              },
-              {
-                icon: faUniversity,
-                title: "University Directory",
-                description: "Vote on upcoming features like 3,000+ university search and student marketplace",
-                status: "🗳️ Vote Now"
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 + index * 0.2 }}
-                className="bg-[#1a2234]/60 rounded-xl p-6 border border-[#71ADBA]/20 text-center"
-              >
-                <div className="w-16 h-16 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <FontAwesomeIcon icon={feature.icon} className="text-white text-2xl" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-300 mb-4">{feature.description}</p>
-                <div className="inline-block bg-[#71ADBA]/20 text-[#71ADBA] px-3 py-1 rounded-full text-sm font-medium">
-                  {feature.status}
-                </div>
+                
+                <ul className="space-y-3 mb-8">
+                  {tier.features.map((feature, featureIndex) => (
+                    <li key={featureIndex} className="flex items-start">
+                      <FontAwesomeIcon 
+                        icon={faCheck} 
+                        className={`mr-3 mt-0.5 flex-shrink-0 ${tier.tier === 'premium' ? 'text-[#FFD700]' : 'text-green-400'}`} 
+                      />
+                      <div className="flex-1 flex flex-wrap items-center">
+                        <span className="text-gray-300 text-sm leading-relaxed">{feature.name}</span>
+                        {getFeatureBadge(feature.status)}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+                
+                {tier.tier === 'premium' ? (
+                  <div className="space-y-3">
+                    <button
+                      onClick={handlePremiumClick}
+                      className={getButtonClass(tier.buttonVariant, tier.tier)}
+                    >
+                      <FontAwesomeIcon icon={faRocket} className="mr-2" />
+                      {tier.buttonText}
+                    </button>
+                    <button
+                      onClick={() => navigate('/jarvus-ai-demo')}
+                      className="w-full py-3 rounded-lg border-2 border-[#FFD700] text-[#FFD700] hover:bg-[#FFD700] hover:text-black transition-all duration-300 font-semibold"
+                    >
+                      <FontAwesomeIcon icon={faEye} className="mr-2" />
+                      Check Out Preview
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => navigate(tier.buttonLink || '#')}
+                    className={getButtonClass(tier.buttonVariant, tier.tier)}
+                  >
+                    {tier.tier === 'premium' && <FontAwesomeIcon icon={faRocket} className="mr-2" />}
+                    {tier.buttonText}
+                  </button>
+                )}
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
+      {/* JARVUS AI Demo Preview */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="py-16 bg-gradient-to-r from-[#FFD700]/5 via-[#FFA500]/5 to-[#FF6347]/5"
+      >
+        <div className="max-w-6xl mx-auto px-4 text-center">
+          <h2 className="text-4xl font-bold text-[#FFD700] mb-6">
+            See JARVUS AI In Action
+          </h2>
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Watch how JARVUS AI analyzes a Meta job offer, optimizes your resume, and provides salary negotiation advice - all in real-time.
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-[#FFD700]/10 rounded-lg p-4 border border-[#FFD700]/30">
+              <FontAwesomeIcon icon={faEnvelope} className="text-[#FFD700] text-3xl mb-3" />
+              <h4 className="text-white font-semibold mb-2">Email Analysis</h4>
+              <p className="text-gray-400 text-sm">Meta offer scored 10/10 priority with negotiation insights</p>
+            </div>
+            <div className="bg-[#FFA500]/10 rounded-lg p-4 border border-[#FFA500]/30">
+              <FontAwesomeIcon icon={faFileText} className="text-[#FFA500] text-3xl mb-3" />
+              <h4 className="text-white font-semibold mb-2">Resume Enhancement</h4>
+              <p className="text-gray-400 text-sm">ATS score improved from 73% to 94% instantly</p>
+            </div>
+            <div className="bg-[#FF6347]/10 rounded-lg p-4 border border-[#FF6347]/30">
+              <FontAwesomeIcon icon={faBrain} className="text-[#FF6347] text-3xl mb-3" />
+              <h4 className="text-white font-semibold mb-2">Salary Intelligence</h4>
+              <p className="text-gray-400 text-sm">L4 Engineer market rates and negotiation tactics</p>
+            </div>
+            <div className="bg-[#9C71BA]/10 rounded-lg p-4 border border-[#9C71BA]/30">
+              <FontAwesomeIcon icon={faMicrophone} className="text-[#9C71BA] text-3xl mb-3" />
+              <h4 className="text-white font-semibold mb-2">Voice Commands</h4>
+              <p className="text-gray-400 text-sm">"JARVUS, what's my schedule Tuesday?"</p>
+            </div>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/jarvus-ai-demo')}
+            className="bg-gradient-to-r from-[#FFD700] via-[#FFA500] to-[#FF6347] text-black font-bold py-4 px-8 rounded-lg text-xl shadow-lg"
+          >
+            <FontAwesomeIcon icon={faRocket} className="mr-3" />
+            Experience JARVUS AI Demo
+          </motion.button>
+        </div>
+      </motion.section>
+
       {/* FAQ Section */}
-      <section className="py-20 bg-dark-background text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-dark-background">
+        <div className="max-w-4xl mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold text-center text-white mb-8">
               Frequently Asked Questions
             </h2>
             <FAQSection />
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="py-16 bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10">
-        <div className="max-w-4xl mx-auto text-center px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.0 }}
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-              Ready to Level Up Your Career Game?
-            </h2>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-              Join {proUsers}+ students who've unlocked their potential with Pro features
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
-                className="px-8 py-4 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl text-white text-lg font-semibold hover:shadow-lg hover:shadow-[#71ADBA]/25 transition-all"
-              >
-                <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                {user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Get Pro Access Free'}
-              </button>
-              <button
-                onClick={() => navigate('/demo')}
-                className="px-8 py-4 border border-[#71ADBA] rounded-xl text-[#71ADBA] text-lg font-semibold hover:bg-[#71ADBA]/10 transition-all"
-              >
-                See Features Demo
-              </button>
-            </div>
           </motion.div>
         </div>
       </section>
