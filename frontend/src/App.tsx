@@ -75,7 +75,7 @@ const QuizPageWrapper = () => {
 
 function AppLayout() {
   const location = useLocation();
-  const hideHeader = location.pathname === '/ai-assistant';
+  const hideHeader = location.pathname === '/ai-assistant' || location.pathname === '/jarvus-ai-demo';
 
   return (
     <div className={`${hideHeader ? '' : 'p-2 sm:p-4 lg:p-6'} min-h-screen ${hideHeader ? 'bg-slate-900' : 'bg-black/5 dark:bg-black/20'}`}>

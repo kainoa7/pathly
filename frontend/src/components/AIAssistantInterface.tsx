@@ -645,7 +645,7 @@ Want me to help you craft responses to any of these emails?`;
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 text-white overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 text-white relative">
       {/* Animated Background Grid */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
@@ -663,6 +663,30 @@ Want me to help you craft responses to any of these emails?`;
         @keyframes grid-move {
           0% { transform: translate(0, 0); }
           100% { transform: translate(50px, 50px); }
+        }
+        
+        /* Custom scrollbar for demo page only */
+        body {
+          overflow-x: hidden !important;
+        }
+        
+        ::-webkit-scrollbar {
+          width: 12px;
+        }
+        
+        ::-webkit-scrollbar-track {
+          background: rgba(75, 85, 99, 0.3);
+          border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+          background: linear-gradient(180deg, #8b5cf6, #6366f1);
+          border-radius: 10px;
+          border: 2px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+          background: linear-gradient(180deg, #7c3aed, #4f46e5);
         }
         
         .glow-text {
@@ -704,7 +728,7 @@ Want me to help you craft responses to any of these emails?`;
         }
       `}</style>
 
-      <div className="flex h-screen">
+      <div className="flex min-h-screen">
         {/* Sidebar */}
         <motion.div 
           className="w-20 bg-gray-900/50 backdrop-blur-sm border-r border-cyan-500/20 flex flex-col items-center py-8 space-y-8"
@@ -827,7 +851,7 @@ Want me to help you craft responses to any of these emails?`;
           >
             {/* JARVUS Brain (AI Chat) - Default */}
             {activeView === 'brain' && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-full">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Today's Schedule Card */}
                 <motion.div
                   className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 card-pulse cursor-pointer"
