@@ -51,7 +51,7 @@ import AdaptiveQuizPage from './components/AdaptiveQuizPage';
 import NewsPage from './components/NewsPage';
 import SavedArticlesPage from './components/SavedArticlesPage';
 import UserActivityDashboard from './components/UserActivityDashboard';
-import PlatformFeedbackWidget from './components/PlatformFeedbackWidget';
+
 import AIAssistantInterface from './components/AIAssistantInterface';
 
 // Add QuizPageWrapper component
@@ -170,7 +170,6 @@ function AppLayout() {
           </main>
           {!hideHeader && <FeedbackSection />}
           {!hideHeader && <Footer />}
-          <PlatformFeedbackWidget />
         </div>
       </div>
     </div>

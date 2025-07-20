@@ -813,11 +813,11 @@ Want me to help you craft responses to any of these emails?`;
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="w-full pl-12 pr-20 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none"
+                  className="w-full pl-12 pr-12 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none"
                   disabled={isLoading}
                 />
                 <motion.button
-                  className="absolute right-12 top-1/2 transform -translate-y-1/2"
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
                   whileHover={{ scale: 1.15 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={sendMessage}
@@ -827,16 +827,6 @@ Want me to help you craft responses to any of these emails?`;
                     icon={isLoading ? faRobot : faPaperPlane} 
                     className={`${isLoading ? 'text-cyan-400 animate-pulse' : 'text-cyan-400'}`}
                   />
-                </motion.button>
-                <motion.button
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2"
-                  variants={micVariants}
-                  animate={isListening ? "listening" : "idle"}
-                  whileHover={{ scale: 1.15 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setIsListening(!isListening)}
-                >
-                  <FontAwesomeIcon icon={faMicrophone} />
                 </motion.button>
               </div>
             </motion.div>
@@ -1070,147 +1060,228 @@ Want me to help you craft responses to any of these emails?`;
                     </div>
                   )}
 
-                  {/* Futuristic Email Scanning Interface */}
+                  {/* Optimized Ultra-Futuristic Email Scanner */}
                   {gmailConnected && (
                     <motion.div
-                      className="bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-2xl p-6 border border-cyan-500/30 mb-6"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
+                      className="relative bg-gradient-to-br from-black/60 via-slate-900/40 to-black/60 backdrop-blur-xl rounded-[2rem] p-5 border border-cyan-300/30 mb-6 shadow-[0_0_40px_rgba(6,182,212,0.2)] overflow-hidden"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      whileHover={{ 
+                        scale: 1.01,
+                        boxShadow: "0 0 60px rgba(6, 182, 212, 0.3)",
+                        borderColor: "rgba(6, 182, 212, 0.5)"
+                      }}
+                      transition={{ delay: 0.3, type: "spring", damping: 20 }}
                     >
-                      <div className="flex items-center space-x-3 mb-4">
-                        <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                      {/* Simplified Neural Grid */}
+                      <div className="absolute inset-0 opacity-10">
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1)_0%,transparent_50%)]"></div>
+                      </div>
+
+                      {/* Optimized Header */}
+                      <div className="relative z-10 flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
                           <motion.div
+                            className="relative w-8 h-8 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center"
                             animate={{ rotate: 360 }}
-                            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                            className="text-cyan-400"
+                            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                           >
-                            🔍
+                            <span className="text-white text-sm">🧠</span>
                           </motion.div>
+                          <div>
+                            <h3 className="text-cyan-300 font-bold text-sm tracking-wide">NEURAL EMAIL ANALYSIS</h3>
+                            <div className="text-xs text-gray-400 font-mono">AI Memory: Active • Learning: 94.7%</div>
+                          </div>
                         </div>
-                        <h3 className="text-xl font-semibold text-cyan-400">JARVUS Email Scanner</h3>
-                        <div className="text-sm text-gray-400">(Demo Mode)</div>
+                        
+                        {/* Simplified Voice Indicator */}
+                        <div className="flex items-center space-x-2 bg-cyan-500/10 rounded-full px-3 py-1 border border-cyan-400/30">
+                          <motion.div
+                            className="w-2 h-2 bg-cyan-400 rounded-full"
+                            animate={{ opacity: [0.3, 1, 0.3] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          <span className="text-cyan-300 text-xs font-mono">LISTENING</span>
+                        </div>
                       </div>
                       
-                      <div className="space-y-3">
-                        {/* Scanning Animation */}
+                      {/* Optimized Email Cards */}
+                      <div className="relative space-y-3">
+                        {/* Critical Priority */}
                         <motion.div
-                          className="text-sm text-cyan-300 font-mono"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: [0, 1, 0] }}
-                          transition={{ duration: 2, repeat: Infinity }}
+                          className="group relative bg-gradient-to-r from-red-900/20 to-transparent rounded-2xl p-4 border border-red-400/30 hover:border-red-300/50 transition-colors cursor-pointer"
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          whileHover={{ x: 4, scale: 1.01 }}
+                          transition={{ delay: 0.5 }}
                         >
-                          {">"} Scanning inbox for career opportunities...
-                        </motion.div>
-                        
-                        {/* Mock Email Results */}
-                        <div className="space-y-2">
-                          <motion.div
-                            className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 flex items-center justify-between"
-                            initial={{ x: -100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                          >
-                            <div>
-                              <div className="text-red-400 font-semibold">🔥 HIGH PRIORITY</div>
-                              <div className="text-sm text-gray-300">Meta Job Offer - Decision Due July 25</div>
-                              <div className="text-xs text-gray-400">$165k base + $50k signing bonus</div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <motion.div 
+                                className="w-4 h-4 rounded-full bg-red-400"
+                                animate={{ scale: [1, 1.1, 1] }}
+                                transition={{ duration: 3, repeat: Infinity }}
+                              />
+                              <div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-red-300 font-bold text-lg">🔥</span>
+                                  <span className="text-red-200 font-bold tracking-wide">META OFFER</span>
+                                </div>
+                                <div className="text-xs text-gray-400 font-mono">Neural Priority: CRITICAL</div>
+                                <div className="text-xs text-red-300">$215k + equity • 4 days remaining</div>
+                              </div>
                             </div>
-                            <div className="text-right">
-                              <div className="text-red-400 font-bold">10/10</div>
-                              <div className="text-xs text-gray-400">Priority</div>
+                            <div className="text-center">
+                              <div className="text-red-300 font-mono text-lg font-bold">10.0</div>
+                              <div className="text-xs text-gray-500">URGENCY</div>
                             </div>
-                          </motion.div>
-
-                          <motion.div
-                            className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3 flex items-center justify-between"
-                            initial={{ x: -100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.7 }}
-                          >
-                            <div>
-                              <div className="text-orange-400 font-semibold">📅 INTERVIEW</div>
-                              <div className="text-sm text-gray-300">Netflix Technical Interview</div>
-                              <div className="text-xs text-gray-400">90-min session - React & System Design</div>
-                            </div>
-                            <div className="text-right">
-                              <div className="text-orange-400 font-bold">9/10</div>
-                              <div className="text-xs text-gray-400">Priority</div>
-                            </div>
-                          </motion.div>
-
-                          <motion.div
-                            className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 flex items-center justify-between"
-                            initial={{ x: -100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.9 }}
-                          >
-                            <div>
-                              <div className="text-blue-400 font-semibold">🤝 NETWORKING</div>
-                              <div className="text-sm text-gray-300">OpenAI Coffee Chat - AI Career</div>
-                              <div className="text-xs text-gray-400">Friday 2PM @ Blue Bottle SOMA</div>
-                            </div>
-                            <div className="text-right">
-                              <div className="text-blue-400 font-bold">8/10</div>
-                              <div className="text-xs text-gray-400">Priority</div>
-                            </div>
-                          </motion.div>
-
-                          <motion.div
-                            className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 flex items-center justify-between"
-                            initial={{ x: -100, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 1.1 }}
-                          >
-                            <div>
-                              <div className="text-green-400 font-semibold">⚡ FOLLOW-UP</div>
-                              <div className="text-sm text-gray-300">Tesla Interview Update</div>
-                              <div className="text-xs text-gray-400">Decision expected by end of week</div>
-                            </div>
-                            <div className="text-right">
-                              <div className="text-green-400 font-bold">7/10</div>
-                              <div className="text-xs text-gray-400">Priority</div>
-                            </div>
-                          </motion.div>
-                        </div>
-
-                        {/* AI Analysis */}
-                        <motion.div
-                          className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-lg p-4 mt-4 border border-purple-500/30"
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: 1.3 }}
-                        >
-                          <div className="flex items-center space-x-2 mb-2">
-                            <div className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center">
-                              <div className="text-purple-400 text-sm">🧠</div>
-                            </div>
-                            <div className="text-purple-400 font-semibold">JARVUS AI Analysis</div>
-                          </div>
-                          <div className="text-sm text-gray-300 leading-relaxed">
-                            <p><strong className="text-purple-300">Immediate Action Required:</strong> Meta offer deadline approaching - review terms and negotiate if needed.</p>
-                            <p className="mt-1"><strong className="text-blue-300">Schedule:</strong> Confirm Netflix interview availability this week.</p>
-                            <p className="mt-1"><strong className="text-green-300">Network:</strong> Leverage OpenAI connection for future AI opportunities.</p>
                           </div>
                         </motion.div>
 
-                        {/* Voice Command Simulation */}
+                        {/* High Priority */}
                         <motion.div
-                          className="bg-gray-800/50 rounded-lg p-3 mt-4 border border-gray-600/30"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: 1.5 }}
+                          className="group relative bg-gradient-to-r from-orange-900/20 to-transparent rounded-2xl p-4 border border-orange-400/30 hover:border-orange-300/50 transition-colors cursor-pointer"
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          whileHover={{ x: 4, scale: 1.01 }}
+                          transition={{ delay: 0.7 }}
                         >
-                          <div className="flex items-center space-x-3">
-                            <div className="text-gray-400 text-sm font-mono">You:</div>
-                            <div className="text-gray-300 text-sm">"Hey JARVUS, what emails do I have?"</div>
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <div className="w-4 h-4 rounded-full bg-orange-400"></div>
+                              <div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-orange-300 font-bold text-lg">🎯</span>
+                                  <span className="text-orange-200 font-bold tracking-wide">NETFLIX TECHNICAL</span>
+                                </div>
+                                <div className="text-xs text-gray-400 font-mono">AI Schedule Sync • Prep Ready</div>
+                                <div className="text-xs text-orange-300">React + System Design • 90min</div>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-orange-300 font-mono text-lg font-bold">9.2</div>
+                              <div className="text-xs text-gray-500">PRIORITY</div>
+                            </div>
                           </div>
-                          <div className="flex items-center space-x-3 mt-2">
-                            <div className="text-cyan-400 text-sm font-mono">JARVUS:</div>
-                            <div className="text-cyan-300 text-sm">"I found 4 high-priority career emails requiring your attention. The Meta offer expires in 5 days."</div>
+                        </motion.div>
+
+                        {/* Medium Priority */}
+                        <motion.div
+                          className="group relative bg-gradient-to-r from-blue-900/20 to-transparent rounded-2xl p-4 border border-blue-400/30 hover:border-blue-300/50 transition-colors cursor-pointer"
+                          initial={{ x: -20, opacity: 0 }}
+                          animate={{ x: 0, opacity: 1 }}
+                          whileHover={{ x: 4, scale: 1.01 }}
+                          transition={{ delay: 0.9 }}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-4">
+                              <motion.div 
+                                className="w-4 h-4 rounded-full bg-blue-400"
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                              />
+                              <div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-blue-300 font-bold text-lg">🤝</span>
+                                  <span className="text-blue-200 font-bold tracking-wide">OPENAI NETWORK</span>
+                                </div>
+                                <div className="text-xs text-gray-400 font-mono">Neural Learning • Relationship Building</div>
+                                <div className="text-xs text-blue-300">Coffee @ SOMA • AI Career</div>
+                              </div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-blue-300 font-mono text-lg font-bold">8.5</div>
+                              <div className="text-xs text-gray-500">VALUE</div>
+                            </div>
                           </div>
                         </motion.div>
                       </div>
+
+                      {/* Simplified Neural Analysis */}
+                      <motion.div
+                        className="relative mt-6 bg-gradient-to-r from-purple-900/20 to-purple-900/20 rounded-2xl p-4 border border-purple-400/30"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.01 }}
+                        transition={{ delay: 1.3 }}
+                      >
+                        <div className="flex items-center space-x-3 mb-3">
+                          <motion.div
+                            className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center"
+                            animate={{ rotate: [0, 360] }}
+                            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                          >
+                            <span className="text-white text-xs">🧠</span>
+                          </motion.div>
+                          <div>
+                            <h4 className="text-purple-300 font-bold text-sm tracking-wide">NEURAL ANALYSIS</h4>
+                            <div className="text-xs text-gray-400 font-mono">Pattern Recognition • Memory Integration</div>
+                          </div>
+                        </div>
+                        
+                        <div className="text-xs text-gray-300 leading-relaxed font-mono">
+                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                            <div className="space-y-1">
+                              <div className="text-purple-300 font-bold">IMMEDIATE:</div>
+                              <div>• Meta negotiation closing</div>
+                              <div>• Netflix prep queued</div>
+                            </div>
+                            <div className="space-y-1">
+                              <div className="text-blue-300 font-bold">LEARNING:</div>
+                              <div>• Prefers FAANG companies</div>
+                              <div>• Response time: 24-48h</div>
+                            </div>
+                            <div className="space-y-1">
+                              <div className="text-green-300 font-bold">MEMORY:</div>
+                              <div>• Salary expectations: $200k+</div>
+                              <div>• Interview style: Technical</div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+
+                      {/* Simplified Voice Interface */}
+                      <motion.div
+                        className="relative mt-4 bg-gradient-to-r from-cyan-900/20 to-cyan-900/20 rounded-2xl p-3 border border-cyan-400/30"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1.5 }}
+                      >
+                        <div className="flex items-center space-x-3 mb-2">
+                          <motion.div
+                            className="flex space-x-1"
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 3, repeat: Infinity }}
+                          >
+                            {[1, 2, 3, 4].map((i) => (
+                              <motion.div
+                                key={i}
+                                className="w-1 bg-cyan-400 rounded-full"
+                                animate={{ height: ["4px", "12px", "4px"] }}
+                                transition={{ 
+                                  duration: 2, 
+                                  repeat: Infinity,
+                                  delay: i * 0.2
+                                }}
+                              />
+                            ))}
+                          </motion.div>
+                          <span className="text-cyan-300 text-xs font-mono tracking-wide">VOICE INTERFACE</span>
+                        </div>
+                        
+                        <div className="space-y-2 text-xs">
+                          <div className="flex items-center space-x-3">
+                            <span className="text-gray-400 font-mono">USER:</span>
+                            <span className="text-white">"Hey JARVUS, any updates on my emails?"</span>
+                          </div>
+                          <div className="flex items-center space-x-3">
+                            <span className="text-cyan-400 font-mono">JARVUS:</span>
+                            <span className="text-cyan-200">
+                              "3 critical items detected. Meta offer expires in 4 days. Netflix prep loaded."
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
                     </motion.div>
                   )}
 
@@ -1333,203 +1404,421 @@ Want me to help you craft responses to any of these emails?`;
               </div>
             )}
 
-            {/* AI-Powered Calendar Module */}
+            {/* Neural Calendar Interface */}
             {activeView === 'calendar' && (
-              <div className="space-y-6">
-                {/* Calendar Assistant Header */}
+              <div className="space-y-4">
+                {/* Calendar Neural Hub */}
                 <motion.div
-                  className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-2xl p-6 border border-purple-500/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  className="relative bg-gradient-to-br from-black/60 via-purple-900/30 to-black/60 backdrop-blur-2xl rounded-[2rem] p-5 border border-purple-300/30 shadow-[0_0_50px_rgba(168,85,247,0.3)] overflow-hidden"
+                  initial={{ opacity: 0, scale: 0.9, rotateX: 15 }}
+                  animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    boxShadow: "0 0 80px rgba(168, 85, 247, 0.5), inset 0 0 30px rgba(168, 85, 247, 0.1)",
+                    borderColor: "rgba(168, 85, 247, 0.6)"
+                  }}
+                  transition={{ type: "spring" }}
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h2 className="text-3xl font-bold text-purple-400 mb-2">
-                        📅 AI Calendar Assistant
-                      </h2>
-                      <p className="text-gray-300">Smart scheduling and time management with AI insights</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-purple-400">5</div>
-                      <div className="text-sm text-gray-400">Conflicts Detected</div>
-                    </div>
+                  {/* Neural Calendar Grid Background */}
+                  <div className="absolute inset-0 opacity-20">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,rgba(168,85,247,0.15)_0%,transparent_50%)]"></div>
+                    <div className="absolute inset-0 bg-[conic-gradient(from_45deg,transparent,rgba(168,85,247,0.1),transparent)] bg-[length:30px_30px]"></div>
                   </div>
 
-                  {/* Calendar Conflict Alert */}
-                  <motion.div
-                    className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-4"
-                    initial={{ x: -100, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
-                  >
+                  {/* Holographic Calendar Header */}
+                  <div className="relative z-10 flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-3">
-                      <div className="text-red-400 text-xl">⚠️</div>
+                      <motion.div
+                        className="relative w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-400 flex items-center justify-center"
+                        animate={{ 
+                          rotate: [0, 360],
+                          boxShadow: [
+                            "0 0 20px rgba(168, 85, 247, 0.5)",
+                            "0 0 30px rgba(236, 72, 153, 0.5)",
+                            "0 0 20px rgba(168, 85, 247, 0.5)"
+                          ]
+                        }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                      >
+                        <span className="text-white text-sm">📅</span>
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400/30 to-red-400/30 blur-sm"></div>
+                      </motion.div>
                       <div>
-                        <div className="text-red-400 font-semibold">SCHEDULING CONFLICT</div>
-                        <div className="text-sm text-gray-300">Tuesday 2:00 PM - Double-booked: Coffee with Sam & Netflix Interview</div>
+                        <h3 className="text-purple-300 font-bold text-sm tracking-wide">NEURAL CALENDAR MATRIX</h3>
+                        <div className="text-xs text-gray-400 font-mono">Temporal Analysis • Pattern Learning • Auto-Optimization</div>
                       </div>
                     </div>
-                  </motion.div>
-
-                  {/* Weekly Calendar View */}
-                  <div className="grid grid-cols-7 gap-2 mb-4">
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
-                      <div key={day} className="text-center">
-                        <div className="text-sm text-gray-400 mb-2">{day}</div>
-                        <div className={`h-20 rounded-lg ${
-                          index === 1 ? 'bg-red-500/20 border border-red-500/40' : 
-                          index === 2 ? 'bg-orange-500/20 border border-orange-500/40' :
-                          'bg-gray-800/50 border border-gray-600/30'
-                        } p-2`}>
-                          {index === 1 && (
-                            <div className="text-xs">
-                              <div className="text-red-400">2PM Coffee</div>
-                              <div className="text-red-400">2PM Interview</div>
-                            </div>
-                          )}
-                          {index === 2 && (
-                            <div className="text-xs">
-                              <div className="text-orange-400">10AM OpenAI</div>
-                              <div className="text-orange-400">3PM Tesla</div>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                    
+                    {/* Conflict Alert System */}
+                    <motion.div 
+                      className="flex items-center space-x-2 bg-red-500/10 rounded-full px-3 py-1 border border-red-400/30"
+                      animate={{ 
+                        boxShadow: [
+                          "0 0 10px rgba(239, 68, 68, 0.3)",
+                          "0 0 25px rgba(239, 68, 68, 0.6)",
+                          "0 0 10px rgba(239, 68, 68, 0.3)"
+                        ]
+                      }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    >
+                      <motion.div
+                        className="w-2 h-2 bg-red-400 rounded-full"
+                        animate={{ 
+                          scale: [1, 1.3, 1],
+                          opacity: [0.7, 1, 0.7] 
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      />
+                      <span className="text-red-300 text-xs font-mono">5 CONFLICTS</span>
+                    </motion.div>
                   </div>
 
-                  {/* AI Suggestions */}
+                  {/* Critical Schedule Alert */}
                   <motion.div
-                    className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-xl p-4 border border-cyan-500/30"
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.5 }}
+                    className="relative bg-gradient-to-r from-red-900/30 via-red-800/20 to-transparent rounded-2xl p-4 border border-red-400/30 mb-4 overflow-hidden"
+                    initial={{ x: -30, opacity: 0, rotateY: -10 }}
+                    animate={{ x: 0, opacity: 1, rotateY: 0 }}
+                    whileHover={{ 
+                      scale: 1.02, 
+                      x: 5,
+                      boxShadow: "0 0 30px rgba(239, 68, 68, 0.4), inset 0 0 20px rgba(239, 68, 68, 0.1)"
+                    }}
+                    transition={{ delay: 0.3, type: "spring" }}
                   >
-                    <div className="flex items-center space-x-2 mb-3">
-                      <div className="text-cyan-400">🤖</div>
-                      <div className="text-cyan-400 font-semibold">JARVUS Scheduling Recommendations</div>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
-                        <div>
-                          <div className="text-sm text-gray-300">Move coffee with Sam to 4:00 PM Tuesday</div>
-                          <div className="text-xs text-gray-400">Keeps Netflix interview at optimal 2:00 PM slot</div>
-                        </div>
-                        <button className="px-3 py-1 bg-cyan-500 text-white rounded text-xs hover:bg-cyan-600">
-                          Apply
-                        </button>
+                    {/* Neural Alert Pattern */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_50%,rgba(239,68,68,0.2)_0%,transparent_70%)]"></div>
+                    
+                    <div className="relative flex items-center space-x-4">
+                      <motion.div
+                        className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.6)]"
+                        animate={{ 
+                          rotate: [0, 360],
+                          scale: [1, 1.1, 1]
+                        }}
+                        transition={{ duration: 4, repeat: Infinity }}
+                      >
+                        <span className="text-white text-lg">⚠️</span>
+                      </motion.div>
+                      <div className="flex-1">
+                        <div className="text-red-200 font-bold text-sm tracking-wide">NEURAL CONFLICT DETECTED</div>
+                        <div className="text-xs text-gray-300 font-mono">Tue 2:00 PM • Double-booked: Sam Coffee + Netflix Interview</div>
+                        <div className="text-xs text-red-300 mt-1">AI Suggestion: Reschedule Sam to 4:00 PM • Optimal interview timing maintained</div>
                       </div>
-                      <div className="flex items-center justify-between bg-gray-800/50 rounded-lg p-3">
-                        <div>
-                          <div className="text-sm text-gray-300">Block 1-hour prep before each interview</div>
-                          <div className="text-xs text-gray-400">AI-generated prep material included</div>
-                        </div>
-                        <button className="px-3 py-1 bg-cyan-500 text-white rounded text-xs hover:bg-cyan-600">
-                          Apply
-                        </button>
-                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="px-4 py-2 bg-red-500/20 text-red-300 rounded-xl border border-red-400/30 hover:bg-red-500/30 font-mono text-xs"
+                      >
+                        AUTO-FIX
+                      </motion.button>
                     </div>
                   </motion.div>
 
-                  {/* Voice Command Demo */}
+                  {/* Holographic Calendar Grid */}
+                  <div className="relative mb-4">
+                    <div className="text-xs text-purple-300 font-mono mb-2 tracking-wide">TEMPORAL MATRIX VIEW</div>
+                    <div className="grid grid-cols-7 gap-2">
+                      {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
+                        <motion.div 
+                          key={day} 
+                          className="text-center"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                        >
+                          <div className="text-xs text-gray-400 mb-2 font-mono">{day}</div>
+                          <motion.div 
+                            className={`relative h-16 rounded-xl ${
+                              index === 1 ? 'bg-gradient-to-br from-red-900/30 to-red-700/20 border border-red-400/40' : 
+                              index === 2 ? 'bg-gradient-to-br from-orange-900/30 to-orange-700/20 border border-orange-400/40' :
+                              index === 4 ? 'bg-gradient-to-br from-blue-900/30 to-blue-700/20 border border-blue-400/40' :
+                              'bg-gray-800/30 border border-gray-600/30'
+                            } flex flex-col items-center justify-center cursor-pointer overflow-hidden`}
+                            whileHover={{ 
+                              scale: 1.05,
+                              boxShadow: index === 1 ? "0 0 20px rgba(239, 68, 68, 0.4)" :
+                                       index === 2 ? "0 0 20px rgba(251, 146, 60, 0.4)" :
+                                       index === 4 ? "0 0 20px rgba(59, 130, 246, 0.4)" : "0 0 15px rgba(75, 85, 99, 0.4)"
+                            }}
+                            transition={{ type: "spring" }}
+                          >
+                            {/* Neural Activity Indicators */}
+                            {index === 1 && (
+                              <div className="space-y-1">
+                                <motion.div 
+                                  className="w-2 h-2 bg-red-400 rounded-full"
+                                  animate={{ opacity: [0.5, 1, 0.5] }}
+                                  transition={{ duration: 1.5, repeat: Infinity }}
+                                />
+                                <motion.div 
+                                  className="w-2 h-2 bg-red-400 rounded-full"
+                                  animate={{ opacity: [0.5, 1, 0.5] }}
+                                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
+                                />
+                              </div>
+                            )}
+                            {index === 2 && (
+                              <div className="space-y-1">
+                                <motion.div 
+                                  className="w-2 h-2 bg-orange-400 rounded-full"
+                                  animate={{ 
+                                    scale: [1, 1.2, 1],
+                                    opacity: [0.6, 1, 0.6]
+                                  }}
+                                  transition={{ duration: 2, repeat: Infinity }}
+                                />
+                                <motion.div 
+                                  className="w-2 h-2 bg-orange-400 rounded-full"
+                                  animate={{ 
+                                    scale: [1, 1.2, 1],
+                                    opacity: [0.6, 1, 0.6]
+                                  }}
+                                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                                />
+                              </div>
+                            )}
+                            {index === 4 && (
+                              <motion.div 
+                                className="w-2 h-2 bg-blue-400 rounded-full"
+                                animate={{ rotate: [0, 360] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                              />
+                            )}
+                            
+                            {/* Neural Background Pattern */}
+                            <div className="absolute inset-0 opacity-20">
+                              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_0%,transparent_70%)]"></div>
+                            </div>
+                          </motion.div>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Neural Scheduling Intelligence */}
                   <motion.div
-                    className="bg-gray-800/50 rounded-lg p-3 mt-4 border border-gray-600/30"
+                    className="relative bg-gradient-to-r from-cyan-900/30 via-blue-900/20 to-cyan-900/30 rounded-2xl p-4 border border-cyan-400/30 overflow-hidden"
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    whileHover={{ 
+                      scale: 1.02,
+                      boxShadow: "0 0 40px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(6, 182, 212, 0.1)"
+                    }}
+                    transition={{ delay: 0.5, type: "spring" }}
+                  >
+                    {/* Neural Analysis Background */}
+                    <div className="absolute inset-0 opacity-20">
+                      <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(6,182,212,0.1)_25%,transparent_25%,transparent_75%,rgba(6,182,212,0.1)_75%)] bg-[length:20px_20px]"></div>
+                    </div>
+                    
+                    <div className="relative flex items-center space-x-3 mb-3">
+                      <motion.div
+                        className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-blue-400 flex items-center justify-center"
+                        animate={{ 
+                          boxShadow: [
+                            "0 0 10px rgba(6, 182, 212, 0.5)",
+                            "0 0 20px rgba(6, 182, 212, 0.8)",
+                            "0 0 10px rgba(6, 182, 212, 0.5)"
+                          ]
+                        }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                      >
+                        <span className="text-white text-xs">🤖</span>
+                      </motion.div>
+                      <div>
+                        <h4 className="text-cyan-300 font-bold text-sm tracking-wide">NEURAL SCHEDULING AI</h4>
+                        <div className="text-xs text-gray-400 font-mono">Real-time Optimization • Pattern Learning • Conflict Resolution</div>
+                      </div>
+                    </div>
+                    
+                    <div className="relative space-y-3 text-xs font-mono">
+                      <motion.div 
+                        className="flex items-center justify-between p-3 bg-cyan-500/10 rounded-xl border border-cyan-400/20"
+                        whileHover={{ backgroundColor: "rgba(6, 182, 212, 0.15)" }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <motion.div
+                            className="w-3 h-3 rounded-full bg-cyan-400"
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          <span className="text-cyan-200">Neural suggestion: Move Sam → 4PM • Keep Netflix → 2PM optimal</span>
+                        </div>
+                        <motion.button 
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30 hover:bg-cyan-500/30"
+                        >
+                          APPLY
+                        </motion.button>
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="flex items-center justify-between p-3 bg-purple-500/10 rounded-xl border border-purple-400/20"
+                        whileHover={{ backgroundColor: "rgba(168, 85, 247, 0.15)" }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <motion.div
+                            className="w-3 h-3 rounded-full bg-purple-400"
+                            animate={{ rotate: [0, 360] }}
+                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                          />
+                          <span className="text-purple-200">Auto-block 60min prep before interviews • AI materials ready</span>
+                        </div>
+                        <motion.button 
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg border border-purple-500/30 hover:bg-purple-500/30"
+                        >
+                          SET
+                        </motion.button>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+
+                  {/* Calendar Voice Interface */}
+                  <motion.div
+                    className="relative mt-4 bg-gradient-to-r from-purple-900/30 via-slate-900/20 to-purple-900/30 rounded-2xl p-3 border border-purple-400/30 overflow-hidden"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
+                    whileHover={{ 
+                      boxShadow: "0 0 30px rgba(168, 85, 247, 0.3), inset 0 0 15px rgba(168, 85, 247, 0.1)"
+                    }}
                     transition={{ delay: 0.7 }}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className="text-gray-400 text-sm font-mono">You:</div>
-                      <div className="text-gray-300 text-sm">"Jarvus, what's my schedule Tuesday?"</div>
+                    {/* Voice Waveform */}
+                    <div className="absolute inset-0 opacity-30">
+                      <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(168,85,247,0.1)_50%,transparent_100%)] bg-[length:80px_100%] animate-pulse"></div>
                     </div>
-                    <div className="flex items-center space-x-3 mt-2">
-                      <div className="text-purple-400 text-sm font-mono">JARVUS:</div>
-                      <div className="text-purple-300 text-sm">"You're double-booked at 2 PM. I recommend moving your coffee with Sam to 4 PM to keep the Netflix interview slot."</div>
+                    
+                    <div className="relative">
+                      <div className="flex items-center space-x-3 mb-2">
+                        <motion.div
+                          className="flex space-x-1"
+                          animate={{ opacity: [0.3, 1, 0.3] }}
+                          transition={{ duration: 2, repeat: Infinity }}
+                        >
+                          {[1, 2, 3, 4, 5].map((i) => (
+                            <motion.div
+                              key={i}
+                              className="w-1 bg-purple-400 rounded-full"
+                              animate={{ 
+                                height: ["3px", "10px", "6px", "14px", "8px", "3px"]
+                              }}
+                              transition={{ 
+                                duration: 1.8, 
+                                repeat: Infinity,
+                                delay: i * 0.15
+                              }}
+                            />
+                          ))}
+                        </motion.div>
+                        <span className="text-purple-300 text-xs font-mono tracking-wide">CALENDAR NEURAL INTERFACE</span>
+                      </div>
+                      
+                      <div className="space-y-2 text-xs">
+                        <div className="flex items-center space-x-3">
+                          <span className="text-gray-400 font-mono">USER:</span>
+                          <span className="text-white">"JARVUS, optimize my calendar for this week"</span>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <span className="text-purple-400 font-mono">JARVUS:</span>
+                          <span className="text-purple-200">
+                            "5 conflicts resolved. Interview prep auto-scheduled. 
+                            Networking slots optimized for maximum career impact. Calendar intelligence: 94.7% efficient."
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </motion.div>
                 </motion.div>
               </div>
             )}
 
-            {/* AI Resume Builder Module */}
+            {/* Resume AI */}
             {activeView === 'resume' && (
-              <div className="space-y-6">
-                {/* Resume Builder Header */}
+              <div className="space-y-4">
+                {/* Resume Header - Minimal */}
                 <motion.div
-                  className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-2xl p-6 border border-green-500/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-black/30 backdrop-blur-xl rounded-3xl p-4 border border-green-400/20 shadow-2xl shadow-green-500/10"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ 
+                    boxShadow: "0 0 30px rgba(34, 197, 94, 0.3)",
+                    borderColor: "rgba(34, 197, 94, 0.4)"
+                  }}
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h2 className="text-3xl font-bold text-green-400 mb-2">
-                        📄 AI Resume Builder
-                      </h2>
-                      <p className="text-gray-300">Real-time resume optimization with AI impact analysis</p>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-green-400 text-lg">📄</span>
+                      <span className="text-green-300 font-medium text-sm">Resume AI</span>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-green-400">94%</div>
-                      <div className="text-sm text-gray-400">ATS Score</div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-green-300 font-mono text-xs">94%</span>
                     </div>
                   </div>
 
-                  {/* Live Resume Preview */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Resume Content */}
-                    <div className="space-y-4">
+                  {/* Enhancement Preview */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                    {/* Before/After - Compact */}
+                    <div className="space-y-2">
                       <motion.div
-                        className="bg-gray-800/50 rounded-xl p-4 border border-green-500/20"
-                        initial={{ opacity: 0, x: -50 }}
+                        className="bg-gray-800/30 rounded-2xl p-3 border border-gray-600/20"
+                        initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
                       >
-                        <div className="flex items-center space-x-2 mb-3">
-                          <div className="text-green-400">✨</div>
-                          <div className="text-green-400 font-semibold">AI Enhancement in Progress...</div>
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-green-400 text-sm">✨</span>
+                          <span className="text-green-300 font-medium text-xs">Live Enhancement</span>
                         </div>
                         
-                        <div className="space-y-3">
-                          <div className="bg-gray-700/50 rounded-lg p-3">
-                            <div className="text-sm text-gray-400 mb-1">Before:</div>
-                            <div className="text-gray-300 line-through">• Worked on frontend development</div>
+                        <div className="space-y-2">
+                          <div className="bg-gray-700/30 rounded-xl p-2">
+                            <div className="text-xs text-gray-500 mb-1">Before:</div>
+                            <div className="text-xs text-gray-400 line-through">Worked on frontend</div>
                           </div>
                           
                           <motion.div
-                            className="bg-green-500/10 rounded-lg p-3 border border-green-500/30"
-                            initial={{ opacity: 0, y: 20 }}
+                            className="bg-green-500/10 rounded-xl p-2 border border-green-500/20"
+                            initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.8 }}
                           >
-                            <div className="text-sm text-green-400 mb-1">AI Enhanced:</div>
-                            <div className="text-gray-300">• Built responsive React components serving 50k+ users, improving page load speeds by 40% and user engagement by 25%</div>
+                            <div className="text-xs text-green-400 mb-1">AI Enhanced:</div>
+                            <div className="text-xs text-gray-300">Built React components for 50k+ users, boosted performance 40%</div>
                           </motion.div>
                         </div>
                       </motion.div>
 
-                      {/* Impact Metrics */}
+                      {/* Metrics - Compact */}
                       <motion.div
-                        className="bg-gray-800/50 rounded-xl p-4"
-                        initial={{ opacity: 0, x: -50 }}
+                        className="bg-gray-800/30 rounded-2xl p-3"
+                        initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.5 }}
                       >
-                        <h3 className="text-green-400 font-semibold mb-3">🎯 Impact Analysis</h3>
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="text-green-400 text-sm">🎯</span>
+                          <span className="text-green-300 font-medium text-xs">Impact Score</span>
+                        </div>
+                        <div className="grid grid-cols-4 gap-2">
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-green-400">12</div>
-                            <div className="text-xs text-gray-400">Action Verbs</div>
+                            <div className="text-sm font-bold text-green-400">12</div>
+                            <div className="text-xs text-gray-500">Verbs</div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-yellow-400">8</div>
-                            <div className="text-xs text-gray-400">Quantified Results</div>
+                            <div className="text-sm font-bold text-yellow-400">8</div>
+                            <div className="text-xs text-gray-500">Metrics</div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-blue-400">6</div>
-                            <div className="text-xs text-gray-400">Tech Keywords</div>
+                            <div className="text-sm font-bold text-blue-400">6</div>
+                            <div className="text-xs text-gray-500">Tech</div>
                           </div>
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-purple-400">4</div>
-                            <div className="text-xs text-gray-400">Industry Buzzwords</div>
+                            <div className="text-sm font-bold text-purple-400">4</div>
+                            <div className="text-xs text-gray-500">Buzz</div>
                           </div>
                         </div>
                       </motion.div>
@@ -1603,59 +1892,64 @@ Want me to help you craft responses to any of these emails?`;
               </div>
             )}
 
-            {/* Enhanced AI Brain Module */}
+            {/* Career AI */}
             {activeView === 'brain' && (
-              <div className="space-y-6">
-                {/* Enhanced Brain Header */}
+              <div className="space-y-4">
+                {/* Career Header - Minimal */}
                 <motion.div
-                  className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 rounded-2xl p-6 border border-cyan-500/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-black/30 backdrop-blur-xl rounded-3xl p-4 border border-cyan-400/20 shadow-2xl shadow-cyan-500/10"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  whileHover={{ 
+                    boxShadow: "0 0 30px rgba(6, 182, 212, 0.3)",
+                    borderColor: "rgba(6, 182, 212, 0.4)"
+                  }}
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <h2 className="text-3xl font-bold text-cyan-400 mb-2">
-                        🧠 JARVUS Brain - Career Intelligence
-                      </h2>
-                      <p className="text-gray-300">Advanced AI career coaching and personalized insights</p>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-cyan-400 text-lg">🧠</span>
+                      <span className="text-cyan-300 font-medium text-sm">Career AI</span>
                     </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-cyan-400">AI</div>
-                      <div className="text-sm text-gray-400">Online</div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                      <span className="text-cyan-300 font-mono text-xs">ONLINE</span>
                     </div>
                   </div>
 
-                  {/* Career Insights Dashboard */}
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+                  {/* Career Insights - Compact Grid */}
+                  <div className="grid grid-cols-3 gap-2 mb-3">
                     <motion.div
-                      className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 text-center"
-                      initial={{ opacity: 0, y: 20 }}
+                      className="bg-green-500/10 border border-green-500/20 rounded-2xl p-3 text-center hover:bg-green-500/20 transition-all cursor-pointer"
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.02 }}
                       transition={{ delay: 0.3 }}
                     >
-                      <div className="text-2xl font-bold text-green-400">Meta</div>
-                      <div className="text-sm text-gray-400">Top Interview Match</div>
-                      <div className="text-xs text-green-300 mt-1">94% Compatibility</div>
+                      <div className="text-lg font-bold text-green-400">Meta</div>
+                      <div className="text-xs text-gray-500">Top Match</div>
+                      <div className="text-xs text-green-300">94%</div>
                     </motion.div>
                     <motion.div
-                      className="bg-orange-500/10 border border-orange-500/30 rounded-xl p-4 text-center"
-                      initial={{ opacity: 0, y: 20 }}
+                      className="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-3 text-center hover:bg-orange-500/20 transition-all cursor-pointer"
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.02 }}
                       transition={{ delay: 0.4 }}
                     >
-                      <div className="text-2xl font-bold text-orange-400">5</div>
-                      <div className="text-sm text-gray-400">Days Until Deadline</div>
-                      <div className="text-xs text-orange-300 mt-1">Meta Offer Decision</div>
+                      <div className="text-lg font-bold text-orange-400">5</div>
+                      <div className="text-xs text-gray-500">Days Left</div>
+                      <div className="text-xs text-orange-300">Deadline</div>
                     </motion.div>
                     <motion.div
-                      className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 text-center"
-                      initial={{ opacity: 0, y: 20 }}
+                      className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-3 text-center hover:bg-blue-500/20 transition-all cursor-pointer"
+                      initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
+                      whileHover={{ scale: 1.02 }}
                       transition={{ delay: 0.5 }}
                     >
-                      <div className="text-2xl font-bold text-blue-400">87%</div>
-                      <div className="text-sm text-gray-400">Career Progress</div>
-                      <div className="text-xs text-blue-300 mt-1">This Quarter</div>
+                      <div className="text-lg font-bold text-blue-400">87%</div>
+                      <div className="text-xs text-gray-500">Progress</div>
+                      <div className="text-xs text-blue-300">Q4</div>
                     </motion.div>
                   </div>
 

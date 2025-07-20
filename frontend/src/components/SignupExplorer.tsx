@@ -146,7 +146,7 @@ const SignupExplorer = () => {
         if (isFromQuiz) {
           navigate('/results');
         } else {
-          navigate('/explorer-dashboard');
+        navigate('/explorer-dashboard');
         }
       } else {
         // Handle error - show server errors
@@ -199,10 +199,10 @@ const SignupExplorer = () => {
             </>
           ) : (
             <>
-              <h1 className="text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
-                Create Explorer Account
-              </h1>
-              <p className="text-[#71ADBA]">Get started with your free account</p>
+          <h1 className="text-4xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1]">
+            Create Explorer Account
+          </h1>
+          <p className="text-[#71ADBA]">Get started with your free account</p>
             </>
           )}
         </div>
