@@ -3,10 +3,22 @@ import OpenAI from 'openai';
 
 const router = Router();
 
-// Initialize OpenAI with API key from environment
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+// Lazy initialize OpenAI client only when API key is available
+let openai: OpenAI | null = null;
+
+const getOpenAIClient = (): OpenAI | null => {
+  if (!process.env.OPENAI_API_KEY) {
+    return null;
+  }
+  
+  if (!openai) {
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY
+    });
+  }
+  
+  return openai;
+};
 
 // ElevenLabs configuration
 const ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
@@ -24,113 +36,120 @@ interface ChatRequest {
 
 interface TTSRequest {
   text: string;
-  voiceId?: string;
+  voice_id?: string;
 }
 
-// Chat endpoint using ChatGPT
+// Personality-based prompts
+const personalityPrompts = {
+  professional: "You are a professional AI career advisor. Provide formal, business-focused guidance with industry insights and strategic recommendations.",
+  friendly: "You are a warm and conversational career coach. Be supportive, encouraging, and personable while providing helpful career advice.",
+  balanced: "You are a knowledgeable career assistant. Balance professionalism with approachability, providing practical and actionable career guidance.",
+  creative: "You are an innovative career strategist. Think outside the box and provide creative, forward-thinking career advice and unique perspectives."
+};
+
+// Chat endpoint
 router.post('/chat', async (req: Request, res: Response) => {
   try {
     const { message, personality = 'balanced', conversationHistory = [] }: ChatRequest = req.body;
 
-    if (!message || !message.trim()) {
+    if (!message?.trim()) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    // Define personality prompts
-    const personalityPrompts = {
-      professional: `You are Jarvus, a professional AI assistant. Respond in a formal, business-focused manner. Be comprehensive and detailed in your responses.`,
-      balanced: `You are Jarvus, a friendly but focused AI assistant. Maintain a balance between being approachable and professional.`,
-      casual: `You are Jarvus, a casual and friendly AI assistant. Use light humor and energy in your responses. Include appropriate emojis.`,
-      energetic: `You are Jarvus, an enthusiastic and high-energy AI assistant. Be excited and motivational in your responses. Use emojis and exclamation marks.`
-    };
+    const client = getOpenAIClient();
+    
+    if (!client) {
+      // Fallback response when OpenAI is not available
+      const fallbackResponses = {
+        professional: "I'm currently in professional preview mode. In the full version, I would provide strategic career guidance, industry insights, and formal recommendations tailored to your professional goals.",
+        friendly: "Hey there! I'm in preview mode right now, but I'm excited to help with your career journey! In the full version, I'd be your supportive career buddy, offering encouragement and personalized advice.",
+        balanced: "I'm currently in preview mode, but I can show you what's coming! In the full version, I'd provide balanced career guidance combining industry knowledge with practical, actionable steps for your professional growth.",
+        creative: "I'm in creative preview mode! In the full version, I'd help you think outside the box about your career, exploring innovative paths and unique opportunities you might not have considered."
+      };
 
-    // System prompt with personality and capabilities
-    const systemPrompt = `${personalityPrompts[personality as keyof typeof personalityPrompts]}
+      const baseResponse = fallbackResponses[personality as keyof typeof fallbackResponses] || fallbackResponses.balanced;
+      
+      return res.json({
+        response: `${baseResponse}
 
-You are an advanced AI assistant with the following capabilities:
-- Calendar management (checking schedules, booking meetings)
-- Email drafting and management
-- Research and web search
-- Document summarization
-- Task reminders and management
-- Daily briefings and summaries
+🚀 **Career-Focused AI Features Coming:**
+• Smart resume optimization for target companies
+• Company-specific interview preparation  
+• Salary negotiation coaching with market data
+• Professional networking strategies
+• Career path planning with industry trends
 
-When users ask about these features, provide realistic and helpful responses. Format your responses with appropriate emojis and structure. For calendar requests, show realistic meeting schedules. For email requests, draft professional emails. For research, provide comprehensive insights.
+Your feedback helps us build the ultimate career advancement AI! What career challenges matter most to you?`,
+        type: 'preview',
+        personality
+      });
+    }
 
-Keep responses concise but informative. Use formatting like bullet points and headers when appropriate.`;
+    // Real OpenAI API call when available
+    const systemPrompt = `${personalityPrompts[personality as keyof typeof personalityPrompts] || personalityPrompts.balanced}
 
-    // Prepare conversation messages
+You are JARVUS, a career-focused AI assistant. Focus specifically on:
+- Career development and advancement strategies
+- Resume and interview guidance
+- Professional networking and LinkedIn optimization
+- Salary negotiation and career transitions
+- Industry insights and market trends
+
+Keep responses helpful, actionable, and career-focused. If asked about non-career topics, gently redirect to career-related aspects.`;
+
     const messages = [
       { role: 'system' as const, content: systemPrompt },
-      ...conversationHistory,
+      ...conversationHistory.slice(-10), // Keep last 10 messages for context
       { role: 'user' as const, content: message }
     ];
 
-    // Call OpenAI API
-    const completion = await openai.chat.completions.create({
+    const completion = await client.chat.completions.create({
       model: 'gpt-3.5-turbo',
-      messages: messages,
+      messages,
       max_tokens: 500,
-      temperature: personality === 'energetic' ? 0.9 : personality === 'professional' ? 0.3 : 0.7,
+      temperature: personality === 'creative' ? 0.8 : 0.7,
       presence_penalty: 0.1,
       frequency_penalty: 0.1
     });
 
     const aiResponse = completion.choices[0]?.message?.content || 'I apologize, but I encountered an issue generating a response.';
 
-    // Determine response type based on content
-    let responseType = 'text';
-    const lowerResponse = aiResponse.toLowerCase();
-    if (lowerResponse.includes('calendar') || lowerResponse.includes('schedule') || lowerResponse.includes('meeting')) {
-      responseType = 'calendar';
-    } else if (lowerResponse.includes('email') || lowerResponse.includes('draft') || lowerResponse.includes('message')) {
-      responseType = 'email';
-    } else if (lowerResponse.includes('research') || lowerResponse.includes('found') || lowerResponse.includes('search')) {
-      responseType = 'research';
-    } else if (lowerResponse.includes('brief') || lowerResponse.includes('digest') || lowerResponse.includes('summary')) {
-      responseType = 'digest';
-    }
-
     res.json({
       response: aiResponse,
-      type: responseType,
-      personality: personality,
-      tokensUsed: completion.usage?.total_tokens || 0
+      type: 'chat',
+      personality,
+      usage: completion.usage
     });
 
   } catch (error) {
-    console.error('OpenAI API error:', error);
-    res.status(500).json({ 
-      error: 'Failed to generate AI response',
-      details: error instanceof Error ? error.message : 'Unknown error'
+    console.error('Chat API error:', error);
+    
+    // Fallback on any error
+    res.json({
+      response: "I'm currently in preview mode! While I work on connecting to my full capabilities, I can show you what's coming: career-focused AI guidance, resume optimization, interview prep, and salary negotiation coaching. What career goals are you working toward?",
+      type: 'fallback',
+      error: 'API temporarily unavailable'
     });
   }
 });
 
-// Text-to-Speech endpoint using ElevenLabs
+// Text-to-speech endpoint
 router.post('/tts', async (req: Request, res: Response) => {
   try {
-    const { text, voiceId = ELEVENLABS_VOICE_ID }: TTSRequest = req.body;
+    const { text, voice_id = ELEVENLABS_VOICE_ID }: TTSRequest = req.body;
 
-    if (!text || !text.trim()) {
+    if (!text?.trim()) {
       return res.status(400).json({ error: 'Text is required' });
     }
 
     if (!ELEVENLABS_API_KEY) {
-      return res.status(500).json({ error: 'ElevenLabs API key not configured' });
+      return res.status(503).json({ 
+        error: 'Text-to-speech service not available in preview mode',
+        fallback: true
+      });
     }
 
-    // Clean text for TTS (remove markdown and excessive formatting)
-    const cleanText = text
-      .replace(/\*\*(.*?)\*\*/g, '$1')  // Remove bold markdown
-      .replace(/\*(.*?)\*/g, '$1')     // Remove italic markdown
-      .replace(/#{1,6}\s/g, '')        // Remove headers
-      .replace(/•/g, '')               // Remove bullet points
-      .replace(/📅|✉️|🔍|📰|⏰|📄/g, '') // Remove emojis that might confuse TTS
-      .replace(/\n+/g, '. ')           // Replace line breaks with periods
-      .substring(0, 500);              // Limit length for TTS
-
-    const response = await fetch(`${ELEVENLABS_API_URL}/text-to-speech/${voiceId}`, {
+    const response = await fetch(`${ELEVENLABS_API_URL}/text-to-speech/${voice_id}`, {
       method: 'POST',
       headers: {
         'Accept': 'audio/mpeg',
@@ -138,50 +157,49 @@ router.post('/tts', async (req: Request, res: Response) => {
         'xi-api-key': ELEVENLABS_API_KEY
       },
       body: JSON.stringify({
-        text: cleanText,
+        text: text.substring(0, 500), // Limit text length
         model_id: 'eleven_monolingual_v1',
         voice_settings: {
           stability: 0.5,
-          similarity_boost: 0.8,
-          style: 0.2,
-          use_speaker_boost: true
+          similarity_boost: 0.5
         }
       })
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('ElevenLabs API error:', errorText);
-      return res.status(500).json({ error: 'Failed to generate speech' });
+      throw new Error(`ElevenLabs API error: ${response.status}`);
     }
 
-    // Convert audio response to base64
     const audioBuffer = await response.arrayBuffer();
     const audioBase64 = Buffer.from(audioBuffer).toString('base64');
 
     res.json({
-      audio: audioBase64,
-      format: 'mp3',
-      text: cleanText
+      audio: `data:audio/mpeg;base64,${audioBase64}`,
+      success: true
     });
 
   } catch (error) {
-    console.error('TTS error:', error);
+    console.error('TTS API error:', error);
     res.status(500).json({ 
-      error: 'Failed to generate speech',
-      details: error instanceof Error ? error.message : 'Unknown error'
+      error: 'Text-to-speech temporarily unavailable',
+      fallback: true
     });
   }
 });
 
 // Health check endpoint
 router.get('/health', (req: Request, res: Response) => {
-  res.json({
-    status: 'healthy',
-    openai: !!process.env.OPENAI_API_KEY,
-    elevenlabs: !!process.env.ELEVENLABS_API_KEY,
-    timestamp: new Date().toISOString()
-  });
+  const health = {
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    services: {
+      openai: !!process.env.OPENAI_API_KEY,
+      elevenlabs: !!process.env.ELEVENLABS_API_KEY,
+    },
+    mode: (!process.env.OPENAI_API_KEY && !process.env.ELEVENLABS_API_KEY) ? 'preview' : 'production'
+  };
+
+  res.json(health);
 });
 
-export default router; 
+export default router;
