@@ -1,126 +1,87 @@
-import mixpanel from 'mixpanel-browser';
+// Analytics - Disabled Implementation
+// Mixpanel removed by user request
 
 const initAnalytics = () => {
-  try {
-    const MIXPANEL_TOKEN = import.meta.env.VITE_MIXPANEL_TOKEN;
-
-    if (!MIXPANEL_TOKEN) {
-      console.warn('Mixpanel token not found. Analytics will not be tracked.');
-      return false;
-    }
-
-    mixpanel.init(MIXPANEL_TOKEN, {
-      debug: import.meta.env.DEV,
-      track_pageview: true,
-      persistence: 'localStorage'
-    });
-    
-    console.log('Mixpanel initialized successfully');
-    return true;
-  } catch (error) {
-    console.warn('Failed to initialize analytics:', error);
-    return false;
-  }
+  console.log('Analytics disabled - no tracking');
+  return false;
 };
 
-const isInitialized = initAnalytics();
+const isInitialized = false;
 
 export const Analytics = {
   trackPageView: (pageName: string) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('Page View', {
-        page: pageName,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track page view:', error);
-    }
+    // No-op - analytics disabled
+    console.debug(`Page view: ${pageName}`);
   },
 
-  trackQuizStart: () => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('Quiz Started', {
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track quiz start:', error);
-    }
+  trackEvent: (eventName: string, properties?: any) => {
+    // No-op - analytics disabled
+    console.debug(`Event: ${eventName}`, properties);
   },
 
-  trackQuizComplete: (results: any) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('Quiz Completed', {
-        results,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track quiz completion:', error);
-    }
+  trackUserSignup: (accountType: 'EXPLORER' | 'PRO' | 'PREMIUM') => {
+    // No-op - analytics disabled
+    console.debug(`User signup: ${accountType}`);
   },
 
-  trackFeatureUsage: (featureName: string) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('Feature Used', {
-        feature: featureName,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track feature usage:', error);
-    }
+  trackQuizCompletion: (quizType: string, results: any) => {
+    // No-op - analytics disabled
+    console.debug(`Quiz completion: ${quizType}`, results);
   },
 
-  trackUserSignup: (method: string) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('User Signup', {
-        method,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track user signup:', error);
-    }
+  trackFeatureUsage: (feature: string, context?: any) => {
+    // No-op - analytics disabled
+    console.debug(`Feature usage: ${feature}`, context);
   },
 
-  trackCareerPathView: (careerPath: string) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('Career Path Viewed', {
-        path: careerPath,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track career path view:', error);
-    }
+  trackCareerPathSelection: (major: string, interests: string[]) => {
+    // No-op - analytics disabled
+    console.debug(`Career path selection: ${major}`, interests);
   },
 
-  trackInteraction: (componentId: string, action: string) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('User Interaction', {
-        component: componentId,
-        action,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track interaction:', error);
-    }
+  trackResourceAccess: (resourceType: string, resourceId: string) => {
+    // No-op - analytics disabled
+    console.debug(`Resource access: ${resourceType}/${resourceId}`);
   },
 
-  trackTimeSpent: (sectionName: string, timeInSeconds: number) => {
-    if (!isInitialized) return;
-    try {
-      mixpanel.track('Time Spent', {
-        section: sectionName,
-        duration: timeInSeconds,
-        timestamp: new Date().toISOString()
-      });
-    } catch (error) {
-      console.warn('Failed to track time spent:', error);
-    }
+  trackUserEngagement: (action: string, duration?: number) => {
+    // No-op - analytics disabled
+    console.debug(`User engagement: ${action}`, duration);
+  },
+
+  trackError: (error: string, context?: any) => {
+    // No-op - analytics disabled
+    console.debug(`Error tracked: ${error}`, context);
+  },
+
+  trackConversion: (conversionType: string, value?: number) => {
+    // No-op - analytics disabled
+    console.debug(`Conversion: ${conversionType}`, value);
+  },
+
+  identifyUser: (userId: string, traits?: any) => {
+    // No-op - analytics disabled
+    console.debug(`User identified: ${userId}`, traits);
+  },
+
+  setUserProperty: (property: string, value: any) => {
+    // No-op - analytics disabled
+    console.debug(`User property: ${property} = ${value}`);
+  },
+
+  trackPlatformGrowth: (metric: string, value: number) => {
+    // No-op - analytics disabled
+    console.debug(`Platform growth: ${metric} = ${value}`);
+  },
+
+  trackNewsEngagement: (articleId: string, action: string) => {
+    // No-op - analytics disabled
+    console.debug(`News engagement: ${articleId}/${action}`);
+  },
+
+  trackFeedback: (feedbackType: string, rating?: number, comment?: string) => {
+    // No-op - analytics disabled
+    console.debug(`Feedback: ${feedbackType}`, { rating, comment });
   }
 };
 
