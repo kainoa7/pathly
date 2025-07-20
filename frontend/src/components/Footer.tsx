@@ -422,7 +422,7 @@ const Footer = () => {
                   transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 >
                   Career Intelligence
-                </span>
+                </motion.span>
               </h4>
               
               <p className="text-gray-400 text-sm mb-4 leading-relaxed">
