@@ -342,6 +342,20 @@ const Header = () => {
                             </>
                           )}
 
+                          {user?.accountType === 'PREMIUM' && (
+                            <Link
+                              to="/ai-assistant"
+                              onClick={() => setIsProfileOpen(false)}
+                              className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-yellow-500/10 transition-colors text-gray-300 hover:text-white"
+                            >
+                              <FontAwesomeIcon icon={faRocket} className="text-sm text-yellow-400" />
+                              AI Assistant
+                              <span className="ml-auto px-2 py-0.5 bg-yellow-500/20 text-yellow-300 text-xs rounded-full font-semibold">
+                                Premium
+                              </span>
+                            </Link>
+                          )}
+
                           <button
                             onClick={() => {
                               toggleTheme();
