@@ -395,7 +395,7 @@ const AboutPage = () => {
               </motion.div>
               <div className="text-3xl font-bold text-white mb-1 relative z-10">
                 {stat.number}{stat.suffix}
-              </div>
+            </div>
               <div className="text-gray-400 text-sm relative z-10">{stat.label}</div>
             </motion.div>
           ))}
@@ -462,7 +462,7 @@ const AboutPage = () => {
                   }}
                 />
 
-                <motion.div 
+          <motion.div
                   className={`w-12 h-12 rounded-xl bg-gradient-to-r ${feature.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10`}
                   animate={{
                     rotate: [0, 5, -5, 0],
@@ -480,10 +480,10 @@ const AboutPage = () => {
                 <div className="inline-flex items-center gap-2 px-3 py-1 bg-cyan-400/10 rounded-full relative z-10">
                   <FontAwesomeIcon icon={faStar} className="text-cyan-400 text-xs" />
                   <span className="text-cyan-400 text-xs font-medium">{feature.highlight}</span>
-                </div>
+              </div>
               </motion.div>
             ))}
-          </div>
+            </div>
         </motion.div>
 
         {/* Success Stories */}
@@ -561,7 +561,7 @@ const AboutPage = () => {
                   >
                     <FontAwesomeIcon icon={faQuoteLeft} className="text-cyan-400/40 text-3xl" />
                   </motion.div>
-                </div>
+                      </div>
                 
                 <div className="mb-4 relative z-10">
                   <h3 className="text-xl font-semibold text-white">{story.name}</h3>
@@ -569,16 +569,16 @@ const AboutPage = () => {
                     <span>{story.before}</span>
                     <FontAwesomeIcon icon={faArrowRight} className="text-cyan-400" />
                     <span className="text-cyan-400 font-medium">{story.after}</span>
-                  </div>
-                </div>
-
+                      </div>
+                    </div>
+                    
                 <p className="text-gray-300 mb-4 italic relative z-10">"{story.quote}"</p>
 
                 <div className="flex items-center justify-between relative z-10">
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <motion.div
-                        key={i}
+                        <motion.div
+                                key={i}
                         animate={{
                           scale: [1, 1.2, 1],
                           rotate: [0, 20, 0],
@@ -772,7 +772,7 @@ const AboutPage = () => {
                 ))}
               </ul>
 
-              <motion.button
+          <motion.button
                 onClick={() => navigate(user?.accountType === 'EXPLORER' ? '/upgrade-to-pro' : '/signup/pro')}
                 className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl font-semibold transition-all relative z-10"
                 whileHover={{ 
@@ -858,7 +858,7 @@ const AboutPage = () => {
                     scale: { delay: 1.4 + i * 0.1 },
                     y: { duration: 2 + i * 0.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.3 }
                   }}
-                  whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05 }}
                 >
                   <FontAwesomeIcon icon={faDiamond} className="mr-2" />
                   {value}
@@ -912,8 +912,8 @@ const AboutPage = () => {
                 borderColor: 'rgba(0, 255, 255, 0.8)',
                 backgroundColor: 'rgba(0, 255, 255, 0.1)'
               }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => navigate('/onboarding')}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/onboarding')}
               className="px-8 py-4 border border-cyan-500/50 rounded-xl text-cyan-400 text-lg font-semibold transition-all backdrop-blur-sm"
               animate={{ y: [0, -2, 0] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
@@ -1068,7 +1068,7 @@ const AboutPage = () => {
               >
                 <FontAwesomeIcon icon={faRobot} className="mr-2" />
                 {user?.accountType === 'PRO' ? 'Talk to JARVUS Now' : 'Upgrade for AI Access'}
-              </motion.button>
+          </motion.button>
             </div>
           </motion.div>
         </motion.div>
