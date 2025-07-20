@@ -6,6 +6,11 @@ import LandingPage from './components/LandingPage';
 import SmartLandingPage from './components/SmartLandingPage';
 import ExplorerLandingPage from './components/ExplorerLandingPage';
 import AboutPage from './components/AboutPage';
+import VisionPage from './components/VisionPage';
+import TermsOfService from './components/TermsOfService';
+import PrivacyPolicy from './components/PrivacyPolicy';
+import ContactPage from './components/ContactPage';
+import MajorSelectionPage from './components/MajorSelectionPage';
 import OnboardingPage from './components/OnboardingPage';
 import QuizPage from './components/QuizPage';
 import ResultsPage from './components/ResultsPage';
@@ -91,6 +96,12 @@ function AppLayout() {
                 </ProtectedRoute>
               } />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/vision" element={<VisionPage />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/major-selection" element={<MajorSelectionPage />} />
+              <Route path="/major-selection/:majorId" element={<MajorSelectionPage />} />
               <Route path="/tech-stack" element={<TechStackPage />} />
               <Route path="/system-design" element={<SystemDesignPage />} />
               <Route path="/onboarding" element={<OnboardingPage />} />

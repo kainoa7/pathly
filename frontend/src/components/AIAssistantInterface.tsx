@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
@@ -34,7 +35,9 @@ interface ConversationHistory {
 }
 
 const AIAssistantInterface = () => {
-  const { logout } = useAuth();
+  const { logout, user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -78,6 +81,64 @@ const AIAssistantInterface = () => {
       console.error('Failed to check API status:', error);
       setApiStatus('preview');
     }
+  };
+
+  const handleLogout = () => {
+    if (!isAuthenticated || !user) {
+      // If not authenticated (preview mode), just go to main landing page
+      navigate('/', { replace: true });
+      return;
+    }
+    
+    // If authenticated, logout and redirect based on account type
+    logout();
+    
+    // Navigate to appropriate landing page based on account type
+    switch (user.accountType) {
+      case 'PREMIUM':
+        navigate('/', { replace: true }); // Main landing page for premium
+        break;
+      case 'PRO':
+        navigate('/pro', { replace: true }); // Pro landing page
+        break;
+      case 'EXPLORER':
+        navigate('/explorer', { replace: true }); // Explorer landing page
+        break;
+      default:
+        navigate('/', { replace: true }); // Fallback to main landing
+    }
+  };
+
+  const handleAutoFix = (buttonType = 'autofix') => {
+    // Check if user is authenticated
+    if (!isAuthenticated || !user) {
+      // If not authenticated (preview mode), show signup prompt
+      const signupPrompt = window.confirm(
+        '🚀 This feature requires an account!\n\n' +
+        'To use JARVUS\'s advanced AI features like auto-scheduling, interview prep, and calendar intelligence, you need to create an account.\n\n' +
+        'Would you like to sign up now?\n\n' +
+        '• Explorer: Free forever\n' +
+        '• Pro: $9.99/month\n' +
+        '• Premium: $19.99/month'
+      );
+      
+      if (signupPrompt) {
+        // Navigate to pricing page to show all signup options
+        navigate('/pricing', { replace: true });
+      }
+      return;
+    }
+    
+    // If authenticated, show success message for demo based on button type
+    const messages = {
+      autofix: '🤖 Auto-fix applied! Schedule conflict resolved.\n\n• Lunch moved to 12:00 PM\n• Interview prep block added 1:00-1:30 PM\n• Netflix interview optimized at 2:00 PM',
+      apply: '✅ Neural suggestion applied!\n\n• Sam meeting rescheduled to 4:00 PM\n• Netflix interview maintained at 2:00 PM\n• Optimal timing preserved',
+      set: '🎯 Auto-block activated!\n\n• 60-minute prep blocks created before all interviews\n• AI study materials will be ready\n• Calendar intelligence enabled',
+      reschedule: '📅 Mock interview rescheduled!\n\n• New time: Thursday 2:00 PM\n• AI interviewer: Sarah (Meta specialist)\n• Prep materials updated\n• Calendar notification sent',
+      practice: '⚡ Practice session started!\n\n• Question: "Tell me about a time you solved a difficult problem"\n• Recording enabled for feedback\n• AI will analyze your response\n• Expected duration: 5-7 minutes'
+    };
+    
+    alert(messages[buttonType] || messages.autofix);
   };
 
   const sendMessage = async () => {
@@ -577,67 +638,53 @@ Want me to help you craft responses to any of these emails?`;
     }
   };
 
-  // Enhanced animation variants
+  // Optimized animation variants - reduced GPU load
   const sidebarIconVariants = {
     idle: { 
       scale: 1,
-      boxShadow: "0 0 0px rgba(6, 182, 212, 0)",
       transition: { duration: 0.2 }
     },
     hover: { 
-      scale: 1.15,
-      boxShadow: "0 0 25px rgba(6, 182, 212, 0.6)",
-      transition: { duration: 0.3, ease: "easeOut" }
+      scale: 1.1,
+      transition: { duration: 0.2 }
     },
     active: {
-      scale: 1.1,
+      scale: 1.05,
       boxShadow: [
-        "0 0 20px rgba(6, 182, 212, 0.4)",
-        "0 0 35px rgba(6, 182, 212, 0.8)",
-        "0 0 20px rgba(6, 182, 212, 0.4)",
+        "0 0 15px rgba(6, 182, 212, 0.4)",
+        "0 0 25px rgba(6, 182, 212, 0.6)",
+        "0 0 15px rgba(6, 182, 212, 0.4)",
       ],
-      transition: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
-    }
-  };
-
-  const cardHoverVariants = {
-    idle: { 
-      scale: 1,
-      boxShadow: "0 0 20px rgba(6, 182, 212, 0.3)",
-      y: 0
-    },
-    hover: { 
-      scale: 1.02,
-      y: -8,
-      boxShadow: [
-        "0 0 30px rgba(6, 182, 212, 0.5)",
-        "0 0 40px rgba(6, 182, 212, 0.7)",
-        "0 0 30px rgba(6, 182, 212, 0.5)",
-      ],
-      transition: {
-        duration: 0.6,
+      transition: { 
+        duration: 2,
         repeat: Infinity,
         ease: "easeInOut"
       }
     }
   };
 
+  const cardHoverVariants = {
+    idle: { 
+      scale: 1,
+      y: 0
+    },
+    hover: { 
+      scale: 1.01,
+      y: -4,
+      transition: { duration: 0.2 }
+    }
+  };
+
   const micVariants = {
     idle: { 
       scale: 1,
-      color: "#06b6d4",
-      filter: "drop-shadow(0 0 0px rgba(6, 182, 212, 0))"
+      color: "#06b6d4"
     },
     listening: {
-      scale: [1, 1.2, 1],
-      color: ["#ef4444", "#f97316", "#ef4444"],
-      filter: [
-        "drop-shadow(0 0 5px rgba(239, 68, 68, 0.8))",
-        "drop-shadow(0 0 15px rgba(239, 68, 68, 1))",
-        "drop-shadow(0 0 5px rgba(239, 68, 68, 0.8))"
-      ],
+      scale: [1, 1.1, 1],
+      color: "#ef4444",
       transition: {
-        duration: 1.2,
+        duration: 1,
         repeat: Infinity,
         ease: "easeInOut"
       }
@@ -645,9 +692,9 @@ Want me to help you craft responses to any of these emails?`;
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 text-white relative">
-      {/* Animated Background Grid */}
-      <div className="absolute inset-0 opacity-10">
+    <div className="min-h-screen bg-slate-900 text-white relative">
+      {/* Simplified Background */}
+      <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
           backgroundImage: `
             linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px),
@@ -693,34 +740,52 @@ Want me to help you craft responses to any of these emails?`;
           text-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
         }
         
-        .glow-border {
-          box-shadow: 
-            0 0 20px rgba(6, 182, 212, 0.3),
-            inset 0 0 20px rgba(6, 182, 212, 0.1);
-          border-width: 1px;
-          border-style: solid;
-          border-color: rgba(6, 182, 212, 0.3);
+        .simple-border {
+          border: 1px solid rgba(6, 182, 212, 0.3);
+          transition: border-color 0.2s ease;
         }
         
-        .glow-border:hover {
-          box-shadow: 
-            0 0 30px rgba(6, 182, 212, 0.5),
-            inset 0 0 30px rgba(6, 182, 212, 0.2);
-          border-width: 1px;
+        .simple-border:hover {
           border-color: rgba(6, 182, 212, 0.5);
         }
 
         .sidebar-icon-glow {
           transition: all 0.3s ease;
+          position: relative;
         }
 
         .sidebar-icon-glow:hover {
           filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.8));
+          box-shadow: 
+            0 0 20px rgba(6, 182, 212, 0.4),
+            inset 0 0 20px rgba(6, 182, 212, 0.1);
+          border: 1px solid rgba(6, 182, 212, 0.6);
         }
 
-        .card-pulse:hover {
-          animation: subtle-pulse 1.5s ease-in-out infinite;
+        .sidebar-icon-glow.active {
+          box-shadow: 
+            0 0 25px rgba(6, 182, 212, 0.6),
+            inset 0 0 25px rgba(6, 182, 212, 0.2);
+          border: 1px solid rgba(6, 182, 212, 0.8);
+          background: rgba(6, 182, 212, 0.1);
         }
+
+        .sidebar-icon-glow:hover::before {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: inherit;
+          background: linear-gradient(45deg, transparent, rgba(6, 182, 212, 0.3), transparent);
+          z-index: -1;
+          animation: rotate-border 2s linear infinite;
+        }
+
+        @keyframes rotate-border {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+
+
 
         @keyframes subtle-pulse {
           0%, 100% { transform: scale(1) translateY(0); }
@@ -731,7 +796,7 @@ Want me to help you craft responses to any of these emails?`;
       <div className="flex min-h-screen">
         {/* Sidebar */}
         <motion.div 
-          className="w-20 bg-gray-900/50 backdrop-blur-sm border-r border-cyan-500/20 flex flex-col items-center py-8 space-y-8"
+          className="w-20 bg-gray-900/80 border-r border-cyan-500/20 flex flex-col items-center py-8 space-y-8"
           initial={{ x: -100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6 }}
@@ -741,16 +806,27 @@ Want me to help you craft responses to any of these emails?`;
               key={item.label}
               className={`w-12 h-12 rounded-xl flex items-center justify-center cursor-pointer sidebar-icon-glow ${
                 item.active 
-                  ? 'bg-cyan-500/20 text-cyan-400' 
+                  ? 'bg-cyan-500/20 text-cyan-400 active' 
                   : 'text-gray-400 hover:text-cyan-400 hover:bg-cyan-500/10'
               }`}
               variants={sidebarIconVariants}
               initial="idle"
               animate={item.active ? "active" : "idle"}
-              whileHover="hover"
+              whileHover={{ 
+                scale: 1.1,
+                boxShadow: [
+                  "0 0 20px rgba(6, 182, 212, 0.4)",
+                  "0 0 30px rgba(6, 182, 212, 0.6)",
+                  "0 0 20px rgba(6, 182, 212, 0.4)",
+                ],
+                transition: { duration: 0.3 }
+              }}
               whileTap={{ scale: 0.9 }}
               transition={{ delay: index * 0.1 }}
-              onClick={() => setActiveView(item.view)}
+              onClick={() => {
+                console.log('Clicked sidebar item:', item.label, item.view);
+                setActiveView(item.view);
+              }}
               title={item.label}
             >
               <FontAwesomeIcon icon={item.icon} className="text-lg" />
@@ -763,11 +839,19 @@ Want me to help you craft responses to any of these emails?`;
             whileHover={{ 
               scale: 1.15, 
               y: -2,
-              boxShadow: "0 0 25px rgba(239, 68, 68, 0.6)",
-              color: "#ef4444"
+              boxShadow: [
+                "0 0 20px rgba(239, 68, 68, 0.4)",
+                "0 0 30px rgba(239, 68, 68, 0.6)",
+                "0 0 20px rgba(239, 68, 68, 0.4)",
+              ],
+              color: "#ef4444",
+              transition: { duration: 0.3 }
             }}
             whileTap={{ scale: 0.9 }}
-            onClick={logout}
+            onClick={() => {
+              console.log('Logout clicked');
+              handleLogout();
+            }}
           >
             <FontAwesomeIcon icon={faSignOutAlt} className="text-lg" />
           </motion.div>
@@ -784,14 +868,6 @@ Want me to help you craft responses to any of these emails?`;
           >
             <motion.h1 
               className="text-4xl font-bold glow-text bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"
-              animate={{
-                textShadow: [
-                  "0 0 10px rgba(6, 182, 212, 0.5)",
-                  "0 0 20px rgba(6, 182, 212, 0.8)",
-                  "0 0 10px rgba(6, 182, 212, 0.5)",
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
             >
               JARVUS
             </motion.h1>
@@ -802,7 +878,7 @@ Want me to help you craft responses to any of these emails?`;
               variants={glowVariants}
               animate="animate"
             >
-              <div className="relative glow-border rounded-full bg-gray-800/50 backdrop-blur-sm">
+              <div className="relative rounded-full bg-gray-800/40 border border-cyan-400/30">
                 <FontAwesomeIcon 
                   icon={faSearch} 
                   className="absolute left-4 top-1/2 transform -translate-y-1/2 text-cyan-400" 
@@ -813,7 +889,7 @@ Want me to help you craft responses to any of these emails?`;
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  className="w-full pl-12 pr-12 py-3 bg-transparent text-white placeholder-gray-400 focus:outline-none"
+                  className="w-full pl-12 pr-12 py-3 bg-transparent text-white placeholder-cyan-300/80 focus:outline-none rounded-full"
                   disabled={isLoading}
                 />
                 <motion.button
@@ -825,7 +901,7 @@ Want me to help you craft responses to any of these emails?`;
                 >
                   <FontAwesomeIcon 
                     icon={isLoading ? faRobot : faPaperPlane} 
-                    className={`${isLoading ? 'text-cyan-400 animate-pulse' : 'text-cyan-400'}`}
+                    className="text-cyan-400"
                   />
                 </motion.button>
               </div>
@@ -844,7 +920,7 @@ Want me to help you craft responses to any of these emails?`;
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Today's Schedule Card */}
                 <motion.div
-                  className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 card-pulse cursor-pointer"
+                  className="bg-gray-800/60 rounded-2xl p-6 hover:bg-gray-700/60 transition-colors cursor-pointer"
                   variants={cardHoverVariants}
                   initial="idle"
                   whileHover="hover"
@@ -875,7 +951,7 @@ Want me to help you craft responses to any of these emails?`;
 
                 {/* Unread Emails Card */}
                 <motion.div
-                  className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 card-pulse cursor-pointer"
+                  className="bg-gray-800/60 rounded-2xl p-6 hover:bg-gray-700/60 transition-colors cursor-pointer"
                   variants={cardHoverVariants}
                   initial="idle"
                   whileHover="hover"
@@ -914,7 +990,7 @@ Want me to help you craft responses to any of these emails?`;
 
                 {/* Jarvus Thought of the Day Card */}
                 <motion.div
-                  className="bg-gray-800/40 backdrop-blur-sm rounded-2xl p-6 card-pulse cursor-pointer"
+                  className="bg-gray-800/60 rounded-2xl p-6 hover:bg-gray-700/60 transition-colors cursor-pointer"
                   variants={cardHoverVariants}
                   initial="idle"
                   whileHover="hover"
@@ -1063,7 +1139,7 @@ Want me to help you craft responses to any of these emails?`;
                   {/* Optimized Ultra-Futuristic Email Scanner */}
                   {gmailConnected && (
                     <motion.div
-                      className="relative bg-gradient-to-br from-black/60 via-slate-900/40 to-black/60 backdrop-blur-xl rounded-[2rem] p-5 border border-cyan-300/30 mb-6 shadow-[0_0_40px_rgba(6,182,212,0.2)] overflow-hidden"
+                      className="relative bg-slate-800/70 rounded-2xl p-5 border border-cyan-300/30 mb-6 overflow-hidden"
                       initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
                       whileHover={{ 
@@ -1075,7 +1151,7 @@ Want me to help you craft responses to any of these emails?`;
                     >
                       {/* Simplified Neural Grid */}
                       <div className="absolute inset-0 opacity-10">
-                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.1)_0%,transparent_50%)]"></div>
+            
                       </div>
 
                       {/* Optimized Header */}
@@ -1409,20 +1485,18 @@ Want me to help you craft responses to any of these emails?`;
               <div className="space-y-4">
                 {/* Calendar Neural Hub */}
                 <motion.div
-                  className="relative bg-gradient-to-br from-black/60 via-purple-900/30 to-black/60 backdrop-blur-2xl rounded-[2rem] p-5 border border-purple-300/30 shadow-[0_0_50px_rgba(168,85,247,0.3)] overflow-hidden"
-                  initial={{ opacity: 0, scale: 0.9, rotateX: 15 }}
-                  animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+                  className="relative bg-slate-800/70 rounded-2xl p-5 border border-purple-300/30 overflow-hidden"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
                   whileHover={{ 
-                    scale: 1.02,
-                    boxShadow: "0 0 80px rgba(168, 85, 247, 0.5), inset 0 0 30px rgba(168, 85, 247, 0.1)",
+                    scale: 1.01,
                     borderColor: "rgba(168, 85, 247, 0.6)"
                   }}
-                  transition={{ type: "spring" }}
+                  transition={{ duration: 0.3 }}
                 >
                   {/* Neural Calendar Grid Background */}
                   <div className="absolute inset-0 opacity-20">
-                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_80%,rgba(168,85,247,0.15)_0%,transparent_50%)]"></div>
-                    <div className="absolute inset-0 bg-[conic-gradient(from_45deg,transparent,rgba(168,85,247,0.1),transparent)] bg-[length:30px_30px]"></div>
+                    
                   </div>
 
                   {/* Holographic Calendar Header */}
@@ -1431,35 +1505,22 @@ Want me to help you craft responses to any of these emails?`;
                       <motion.div
                         className="relative w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 via-pink-500 to-red-400 flex items-center justify-center"
                         animate={{ 
-                          rotate: [0, 360],
-                          boxShadow: [
-                            "0 0 20px rgba(168, 85, 247, 0.5)",
-                            "0 0 30px rgba(236, 72, 153, 0.5)",
-                            "0 0 20px rgba(168, 85, 247, 0.5)"
-                          ]
+                          rotate: [0, 360]
                         }}
-                        transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
                       >
                         <span className="text-white text-sm">📅</span>
                         <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-400/30 to-red-400/30 blur-sm"></div>
                       </motion.div>
                       <div>
-                        <h3 className="text-purple-300 font-bold text-sm tracking-wide">NEURAL CALENDAR MATRIX</h3>
-                        <div className="text-xs text-gray-400 font-mono">Temporal Analysis • Pattern Learning • Auto-Optimization</div>
+                        <h3 className="text-purple-300 font-bold text-sm tracking-wide">FUTURE-FOCUSED CALENDAR</h3>
+                        <div className="text-xs text-gray-400 font-mono">Upcoming Events • Career Planning • Smart Scheduling</div>
                       </div>
                     </div>
                     
                     {/* Conflict Alert System */}
                     <motion.div 
                       className="flex items-center space-x-2 bg-red-500/10 rounded-full px-3 py-1 border border-red-400/30"
-                      animate={{ 
-                        boxShadow: [
-                          "0 0 10px rgba(239, 68, 68, 0.3)",
-                          "0 0 25px rgba(239, 68, 68, 0.6)",
-                          "0 0 10px rgba(239, 68, 68, 0.3)"
-                        ]
-                      }}
-                      transition={{ duration: 3, repeat: Infinity }}
                     >
                       <motion.div
                         className="w-2 h-2 bg-red-400 rounded-full"
@@ -1469,125 +1530,125 @@ Want me to help you craft responses to any of these emails?`;
                         }}
                         transition={{ duration: 1.5, repeat: Infinity }}
                       />
-                      <span className="text-red-300 text-xs font-mono">5 CONFLICTS</span>
+                      <span className="text-red-300 text-xs font-mono">3 UPCOMING</span>
                     </motion.div>
                   </div>
 
                   {/* Critical Schedule Alert */}
                   <motion.div
                     className="relative bg-gradient-to-r from-red-900/30 via-red-800/20 to-transparent rounded-2xl p-4 border border-red-400/30 mb-4 overflow-hidden"
-                    initial={{ x: -30, opacity: 0, rotateY: -10 }}
-                    animate={{ x: 0, opacity: 1, rotateY: 0 }}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
                     whileHover={{ 
-                      scale: 1.02, 
-                      x: 5,
-                      boxShadow: "0 0 30px rgba(239, 68, 68, 0.4), inset 0 0 20px rgba(239, 68, 68, 0.1)"
+                      scale: 1.01
                     }}
-                    transition={{ delay: 0.3, type: "spring" }}
+                    transition={{ duration: 0.3 }}
                   >
                     {/* Neural Alert Pattern */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_50%,rgba(239,68,68,0.2)_0%,transparent_70%)]"></div>
+    
                     
                     <div className="relative flex items-center space-x-4">
-                      <motion.div
-                        className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.6)]"
-                        animate={{ 
-                          rotate: [0, 360],
-                          scale: [1, 1.1, 1]
-                        }}
-                        transition={{ duration: 4, repeat: Infinity }}
+                                              <motion.div
+                          className="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center"
+                          animate={{ 
+                            rotate: [0, 360]
+                          }}
+                          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
                       >
                         <span className="text-white text-lg">⚠️</span>
                       </motion.div>
                       <div className="flex-1">
-                        <div className="text-red-200 font-bold text-sm tracking-wide">NEURAL CONFLICT DETECTED</div>
-                        <div className="text-xs text-gray-300 font-mono">Tue 2:00 PM • Double-booked: Sam Coffee + Netflix Interview</div>
-                        <div className="text-xs text-red-300 mt-1">AI Suggestion: Reschedule Sam to 4:00 PM • Optimal interview timing maintained</div>
+                        <div className="text-red-200 font-bold text-sm tracking-wide">UPCOMING SCHEDULE CONFLICT</div>
+                        <div className="text-xs text-gray-300 font-mono">Today 2:00 PM • Netflix Interview overlaps with lunch break</div>
+                        <div className="text-xs text-red-300 mt-1">AI Suggestion: Block 1:00-1:30 PM for interview prep • Move lunch to 12:00 PM</div>
                       </div>
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
-                        className="px-4 py-2 bg-red-500/20 text-red-300 rounded-xl border border-red-400/30 hover:bg-red-500/30 font-mono text-xs"
+                        onClick={handleAutoFix}
+                        className="px-4 py-2 bg-red-500/20 text-red-300 rounded-xl border border-red-400/30 hover:bg-red-500/30 font-mono text-xs cursor-pointer"
                       >
                         AUTO-FIX
                       </motion.button>
                     </div>
                   </motion.div>
 
-                  {/* Holographic Calendar Grid */}
+                  {/* Future-Focused Calendar Grid */}
                   <div className="relative mb-4">
-                    <div className="text-xs text-purple-300 font-mono mb-2 tracking-wide">TEMPORAL MATRIX VIEW</div>
-                    <div className="grid grid-cols-7 gap-2">
-                      {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, index) => (
+                    <div className="text-xs text-purple-300 font-mono mb-2 tracking-wide">UPCOMING EVENTS • NEXT 7 DAYS</div>
+                    <div className="grid grid-cols-1 gap-3">
+                      {/* Next 7 Days with Events */}
+                      {[
+                        { day: 'Today', date: 'Dec 18', events: [{ time: '2:00 PM', title: 'Netflix Technical Interview', type: 'critical', color: 'red' }] },
+                        { day: 'Tomorrow', date: 'Dec 19', events: [{ time: '10:00 AM', title: 'Coffee Chat with Meta Engineer', type: 'networking', color: 'orange' }] },
+                        { day: 'Thu', date: 'Dec 20', events: [{ time: '3:00 PM', title: 'Resume Review Session', type: 'improvement', color: 'blue' }] },
+                        { day: 'Fri', date: 'Dec 21', events: [{ time: '1:00 PM', title: 'Google Phone Screen Follow-up', type: 'critical', color: 'red' }] },
+                        { day: 'Mon', date: 'Dec 24', events: [{ time: '9:00 AM', title: 'LinkedIn Learning: System Design', type: 'skill', color: 'green' }] },
+                        { day: 'Tue', date: 'Dec 25', events: [{ time: 'All Day', title: 'Holiday Break - No Interviews', type: 'break', color: 'gray' }] },
+                        { day: 'Wed', date: 'Dec 26', events: [{ time: '11:00 AM', title: 'Apple On-site Interview Prep', type: 'critical', color: 'red' }] },
+                      ].map((dayData, index) => (
                         <motion.div 
-                          key={day} 
-                          className="text-center"
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.1 }}
+                          key={dayData.day} 
+                          className="relative"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: index * 0.05 }}
                         >
-                          <div className="text-xs text-gray-400 mb-2 font-mono">{day}</div>
                           <motion.div 
-                            className={`relative h-16 rounded-xl ${
-                              index === 1 ? 'bg-gradient-to-br from-red-900/30 to-red-700/20 border border-red-400/40' : 
-                              index === 2 ? 'bg-gradient-to-br from-orange-900/30 to-orange-700/20 border border-orange-400/40' :
-                              index === 4 ? 'bg-gradient-to-br from-blue-900/30 to-blue-700/20 border border-blue-400/40' :
-                              'bg-gray-800/30 border border-gray-600/30'
-                            } flex flex-col items-center justify-center cursor-pointer overflow-hidden`}
+                            className={`relative rounded-xl p-4 border cursor-pointer overflow-hidden ${
+                              dayData.events[0]?.type === 'critical' ? 'bg-gradient-to-r from-red-900/30 to-red-700/20 border-red-400/40' : 
+                              dayData.events[0]?.type === 'networking' ? 'bg-gradient-to-r from-orange-900/30 to-orange-700/20 border-orange-400/40' :
+                              dayData.events[0]?.type === 'improvement' ? 'bg-gradient-to-r from-blue-900/30 to-blue-700/20 border-blue-400/40' :
+                              dayData.events[0]?.type === 'skill' ? 'bg-gradient-to-r from-green-900/30 to-green-700/20 border-green-400/40' :
+                              'bg-gray-800/30 border-gray-600/30'
+                            }`}
                             whileHover={{ 
-                              scale: 1.05,
-                              boxShadow: index === 1 ? "0 0 20px rgba(239, 68, 68, 0.4)" :
-                                       index === 2 ? "0 0 20px rgba(251, 146, 60, 0.4)" :
-                                       index === 4 ? "0 0 20px rgba(59, 130, 246, 0.4)" : "0 0 15px rgba(75, 85, 99, 0.4)"
+                              scale: 1.01
                             }}
-                            transition={{ type: "spring" }}
+                            transition={{ duration: 0.2 }}
                           >
-                            {/* Neural Activity Indicators */}
-                            {index === 1 && (
-                              <div className="space-y-1">
-                                <motion.div 
-                                  className="w-2 h-2 bg-red-400 rounded-full"
-                                  animate={{ opacity: [0.5, 1, 0.5] }}
-                                  transition={{ duration: 1.5, repeat: Infinity }}
-                                />
-                                <motion.div 
-                                  className="w-2 h-2 bg-red-400 rounded-full"
-                                  animate={{ opacity: [0.5, 1, 0.5] }}
-                                  transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
-                                />
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-4">
+                                <div className="text-center">
+                                  <div className="text-sm font-mono text-gray-300">{dayData.day}</div>
+                                  <div className="text-xs text-gray-400">{dayData.date}</div>
+                                </div>
+                                <div className="flex-1">
+                                  {dayData.events.map((event, eventIndex) => (
+                                    <div key={eventIndex} className="flex items-center space-x-3">
+                                      <motion.div
+                                        className={`w-3 h-3 rounded-full ${
+                                          event.color === 'red' ? 'bg-red-400' :
+                                          event.color === 'orange' ? 'bg-orange-400' :
+                                          event.color === 'blue' ? 'bg-blue-400' :
+                                          event.color === 'green' ? 'bg-green-400' :
+                                          'bg-gray-400'
+                                        }`}
+                                        animate={{ 
+                                          scale: event.type === 'critical' ? [1, 1.2, 1] : [1, 1.05, 1],
+                                          opacity: [0.8, 1, 0.8] 
+                                        }}
+                                        transition={{ duration: 3, repeat: Infinity }}
+                                      />
+                                      <div>
+                                        <div className="text-sm font-medium text-white">{event.title}</div>
+                                        <div className="text-xs text-gray-400 font-mono">{event.time}</div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
-                            )}
-                            {index === 2 && (
-                              <div className="space-y-1">
-                                <motion.div 
-                                  className="w-2 h-2 bg-orange-400 rounded-full"
+                              {dayData.events[0]?.type === 'critical' && (
+                                <motion.div
+                                  className="px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-xs font-mono border border-red-400/30"
                                   animate={{ 
-                                    scale: [1, 1.2, 1],
-                                    opacity: [0.6, 1, 0.6]
+                                    opacity: [0.8, 1, 0.8]
                                   }}
                                   transition={{ duration: 2, repeat: Infinity }}
-                                />
-                                <motion.div 
-                                  className="w-2 h-2 bg-orange-400 rounded-full"
-                                  animate={{ 
-                                    scale: [1, 1.2, 1],
-                                    opacity: [0.6, 1, 0.6]
-                                  }}
-                                  transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-                                />
-                              </div>
-                            )}
-                            {index === 4 && (
-                              <motion.div 
-                                className="w-2 h-2 bg-blue-400 rounded-full"
-                                animate={{ rotate: [0, 360] }}
-                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                              />
-                            )}
-                            
-                            {/* Neural Background Pattern */}
-                            <div className="absolute inset-0 opacity-20">
-                              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_0%,transparent_70%)]"></div>
+                                >
+                                  HIGH PRIORITY
+                                </motion.div>
+                              )}
                             </div>
                           </motion.div>
                         </motion.div>
@@ -1595,16 +1656,87 @@ Want me to help you craft responses to any of these emails?`;
                     </div>
                   </div>
 
+                  {/* Upcoming Deadlines & Opportunities */}
+                  <motion.div
+                    className="relative bg-gradient-to-r from-green-900/20 via-emerald-900/10 to-green-900/20 rounded-2xl p-4 border border-green-400/30 mb-4 overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    whileHover={{ 
+                      scale: 1.01
+                    }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="relative flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <motion.div
+                          className="w-6 h-6 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center"
+                        >
+                          <span className="text-white text-xs">🎯</span>
+                        </motion.div>
+                        <div>
+                          <h4 className="text-green-300 font-bold text-sm tracking-wide">FUTURE OPPORTUNITIES</h4>
+                          <div className="text-xs text-gray-400 font-mono">Deadlines • Applications • Career Milestones</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2 text-xs">
+                      <motion.div 
+                        className="flex items-center justify-between p-3 bg-green-500/10 rounded-xl border border-green-400/20"
+                        whileHover={{ backgroundColor: "rgba(34, 197, 94, 0.15)" }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <motion.div
+                            className="w-2 h-2 rounded-full bg-yellow-400"
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                          />
+                          <span className="text-green-200">Apple Summer Internship - Application due Jan 15</span>
+                        </div>
+                        <span className="text-xs text-gray-400 font-mono">28 days left</span>
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="flex items-center justify-between p-3 bg-blue-500/10 rounded-xl border border-blue-400/20"
+                        whileHover={{ backgroundColor: "rgba(59, 130, 246, 0.15)" }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <motion.div
+                            className="w-2 h-2 rounded-full bg-blue-400"
+                            animate={{ opacity: [0.5, 1, 0.5] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          />
+                          <span className="text-blue-200">Google STEP Program - Early deadline Dec 31</span>
+                        </div>
+                        <span className="text-xs text-gray-400 font-mono">13 days left</span>
+                      </motion.div>
+                      
+                      <motion.div 
+                        className="flex items-center justify-between p-3 bg-purple-500/10 rounded-xl border border-purple-400/20"
+                        whileHover={{ backgroundColor: "rgba(168, 85, 247, 0.15)" }}
+                      >
+                        <div className="flex items-center space-x-3">
+                          <motion.div
+                            className="w-2 h-2 rounded-full bg-purple-400"
+                            animate={{ rotate: [0, 360] }}
+                            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                          />
+                          <span className="text-purple-200">Career Fair Registration opens - Jan 5</span>
+                        </div>
+                        <span className="text-xs text-gray-400 font-mono">18 days left</span>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+
                   {/* Neural Scheduling Intelligence */}
                   <motion.div
                     className="relative bg-gradient-to-r from-cyan-900/30 via-blue-900/20 to-cyan-900/30 rounded-2xl p-4 border border-cyan-400/30 overflow-hidden"
-                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
                     whileHover={{ 
-                      scale: 1.02,
-                      boxShadow: "0 0 40px rgba(6, 182, 212, 0.3), inset 0 0 20px rgba(6, 182, 212, 0.1)"
+                      scale: 1.01
                     }}
-                    transition={{ delay: 0.5, type: "spring" }}
+                    transition={{ duration: 0.3 }}
                   >
                     {/* Neural Analysis Background */}
                     <div className="absolute inset-0 opacity-20">
@@ -1614,14 +1746,6 @@ Want me to help you craft responses to any of these emails?`;
                     <div className="relative flex items-center space-x-3 mb-3">
                       <motion.div
                         className="w-6 h-6 rounded-full bg-gradient-to-br from-cyan-400 to-blue-400 flex items-center justify-center"
-                        animate={{ 
-                          boxShadow: [
-                            "0 0 10px rgba(6, 182, 212, 0.5)",
-                            "0 0 20px rgba(6, 182, 212, 0.8)",
-                            "0 0 10px rgba(6, 182, 212, 0.5)"
-                          ]
-                        }}
-                        transition={{ duration: 3, repeat: Infinity }}
                       >
                         <span className="text-white text-xs">🤖</span>
                       </motion.div>
@@ -1647,7 +1771,8 @@ Want me to help you craft responses to any of these emails?`;
                         <motion.button 
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30 hover:bg-cyan-500/30"
+                          onClick={() => handleAutoFix('apply')}
+                          className="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg border border-cyan-500/30 hover:bg-cyan-500/30 cursor-pointer"
                         >
                           APPLY
                         </motion.button>
@@ -1668,7 +1793,8 @@ Want me to help you craft responses to any of these emails?`;
                         <motion.button 
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg border border-purple-500/30 hover:bg-purple-500/30"
+                          onClick={() => handleAutoFix('set')}
+                          className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-lg border border-purple-500/30 hover:bg-purple-500/30 cursor-pointer"
                         >
                           SET
                         </motion.button>
@@ -1740,7 +1866,7 @@ Want me to help you craft responses to any of these emails?`;
               <div className="space-y-4">
                 {/* Resume Header - Minimal */}
                 <motion.div
-                  className="bg-black/30 backdrop-blur-xl rounded-3xl p-4 border border-green-400/20 shadow-2xl shadow-green-500/10"
+                  className="bg-slate-800/70 rounded-3xl p-4 border border-green-400/20"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   whileHover={{ 
@@ -1897,7 +2023,7 @@ Want me to help you craft responses to any of these emails?`;
               <div className="space-y-4">
                 {/* Career Header - Minimal */}
                 <motion.div
-                  className="bg-black/30 backdrop-blur-xl rounded-3xl p-4 border border-cyan-400/20 shadow-2xl shadow-cyan-500/10"
+                  className="bg-slate-800/70 rounded-3xl p-4 border border-cyan-400/20"
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   whileHover={{ 
@@ -2232,17 +2358,27 @@ Want me to help you craft responses to any of these emails?`;
                         <div className="bg-gray-800/50 rounded-lg p-3">
                           <div className="text-sm text-red-400 mb-1">🎯 Mock Interview</div>
                           <div className="text-xs text-gray-300">Next: Tuesday 3:00 PM with AI interviewer</div>
-                          <button className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded mt-1">
+                          <motion.button 
+                            className="text-xs bg-red-500/20 text-red-400 px-2 py-1 rounded mt-1 cursor-pointer hover:bg-red-500/30 transition-colors"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handleAutoFix('reschedule')}
+                          >
                             Reschedule
-                          </button>
+                          </motion.button>
                         </div>
 
                         <div className="bg-gray-800/50 rounded-lg p-3">
                           <div className="text-sm text-yellow-400 mb-1">⚡ Quick Practice</div>
                           <div className="text-xs text-gray-300">"Tell me about a time you solved a difficult problem"</div>
-                          <button className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded mt-1">
+                          <motion.button 
+                            className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded mt-1 cursor-pointer hover:bg-yellow-500/30 transition-colors"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => handleAutoFix('practice')}
+                          >
                             Practice Now
-                          </button>
+                          </motion.button>
                         </div>
                       </div>
                     </motion.div>
@@ -2326,7 +2462,7 @@ Want me to help you craft responses to any of these emails?`;
       <AnimatePresence>
         {showConversation && (
           <motion.div
-            className="fixed top-0 right-0 h-full w-96 bg-gray-900/95 backdrop-blur-lg border-l border-cyan-500/20 z-50"
+            className="fixed top-0 right-0 h-full w-96 bg-gray-900/95 border-l border-cyan-500/20 z-50"
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
@@ -2448,7 +2584,7 @@ Want me to help you craft responses to any of these emails?`;
 
       {/* Floating Navigation Button */}
       <motion.div
-        className="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center cursor-pointer glow-border"
+        className="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center cursor-pointer simple-border"
         whileHover={{ scale: 1.1, rotate: 180 }}
         whileTap={{ scale: 0.9 }}
         animate={{

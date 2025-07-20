@@ -129,12 +129,12 @@ const Header = () => {
                   whileHover={{ scale: 1.1 }}
                 />
                 <img 
-                  src="/logo.svg" 
+                  src="/rocket-logo.svg" 
                   alt="JARVUS"
                   className="h-10 w-10"
                 />
               </div>
-              <div>
+              <div className="flex items-center gap-2">
                 <span className="ml-2 sm:ml-3 text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
                   JARVUS
                 </span>

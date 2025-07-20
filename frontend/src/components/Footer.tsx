@@ -272,9 +272,9 @@ const Footer = () => {
             <ul className="space-y-3">
               {[
                 { label: "About Us", href: "/about" },
-                { label: "Career Quiz", href: "/quiz" },
+                { label: "Career Quiz", href: "/onboarding" },
                 { label: "Career Roadmap", href: "/career-roadmap" },
-                { label: "Major Selection", href: "/onboarding" },
+                { label: "Major Selection", href: "/major-selection" },
                 { label: "Resume Builder", href: "/resume-builder" },
                 { label: "Resume Review", href: "/resume-review" }
               ].map((link, index) => (
@@ -387,19 +387,22 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
+            className="mt-6"
           >
             <motion.div 
               className="bg-slate-800/30 rounded-xl p-6 border border-cyan-500/20 backdrop-blur-sm relative overflow-hidden"
               whileHover={{ borderColor: 'rgba(0, 255, 255, 0.4)' }}
             >
-              {/* Floating badge */}
+
+
+              {/* EXCLUSIVE Badge */}
               <motion.div 
-                className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full"
+                className="inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full mb-3"
                 animate={{ 
-                  y: [0, -2, 0],
+                  y: [0, -1, 0],
                   boxShadow: [
                     '0 0 10px rgba(255, 193, 7, 0.3)',
-                    '0 0 20px rgba(255, 193, 7, 0.5)',
+                    '0 0 15px rgba(255, 193, 7, 0.5)',
                     '0 0 10px rgba(255, 193, 7, 0.3)'
                   ]
                 }}
@@ -416,46 +419,28 @@ const Footer = () => {
                 Limited Spots
               </motion.div>
               
-              <h4 className="text-xl font-bold text-white mb-3 leading-tight">
-                Join the Pro Community &
-                <motion.span 
-                  className="block text-cyan-400"
-                  animate={{ y: [0, -1, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                >
-                  Shape JARVUS AI's Future
-                </motion.span>
+              <h4 className="text-lg font-bold text-white mb-3 leading-tight">
+                <span className="text-cyan-400">Get Pro Free</span>
+                <span className="block text-white">Shape JARVUS AI</span>
               </h4>
               
               <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                Get free Pro access now and be first in line for JARVUS AI Premium when it launches.
+                Free Pro access + early AI features when we launch.
               </p>
               
-              <ul className="text-gray-400 text-xs space-y-2 mb-6">
-                <motion.li 
-                  className="flex items-center"
-                  animate={{ x: [0, 2, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                >
+              <ul className="text-gray-400 text-xs space-y-1.5 mb-4">
+                <li className="flex items-center">
                   <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Free Pro features: News Hub, Analytics, Salary Tools
-                </motion.li>
-                <motion.li 
-                  className="flex items-center"
-                  animate={{ x: [0, 2, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                >
+                  News Hub & Analytics
+                </li>
+                <li className="flex items-center">
                   <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Early access to JARVUS AI Premium preview
-                </motion.li>
-                <motion.li 
-                  className="flex items-center"
-                  animate={{ x: [0, 2, 0] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                >
+                  Early AI access
+                </li>
+                <li className="flex items-center">
                   <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Special pricing when JARVUS AI Premium launches
-                </motion.li>
+                  Launch day pricing
+                </li>
               </ul>
               
               <form onSubmit={handleNewsletterSubmit} className="space-y-3">
@@ -515,7 +500,7 @@ const Footer = () => {
               animate={{ y: [0, -1, 0] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              © 2024 JARVUS. All rights reserved. Built with 💙 for ambitious professionals.
+              © 2025 JARVUS. All rights reserved. Built with 💙 for ambitious professionals.
             </motion.div>
             
             <motion.div 

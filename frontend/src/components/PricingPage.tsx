@@ -299,11 +299,11 @@ const PricingPage = () => {
         { name: 'Voting & Comments System', status: 'hot' },
         { name: 'Major Salary Comparison Tool', status: 'new' },
         { name: 'Career Analytics Dashboard', status: 'new' },
-        { name: 'Basic AI Resume Review', status: 'ai' },
         { name: 'Interview Question Bank', status: 'new' },
         { name: 'Exclusive Founding Member Community', status: 'hot' },
         { name: 'Priority Support' },
-        { name: 'University Directory & Marketplace', status: 'coming-soon' }
+        { name: 'University Directory & Marketplace', status: 'coming-soon' },
+        { name: 'Demo Access to JARVUS Concepts', status: 'coming-soon' }
       ],
       buttonText: user?.accountType === 'EXPLORER' ? 'Upgrade to Pro' : 'Get Pro Free',
       buttonVariant: 'primary',
@@ -430,10 +430,10 @@ const PricingPage = () => {
           </span>
         </h1>
         <p className="text-xl text-[#71ADBA] max-w-3xl mx-auto mb-4 font-semibold">
-          From basic tools to advanced AI career assistant
+          From basic tools to concept demos for future AI features
         </p>
         <p className="text-lg text-gray-300 max-w-4xl mx-auto mb-6">
-          Start free with Explorer, upgrade to Pro for advanced features, or preview the future with JARVUS AI - artificial intelligence designed specifically for career advancement.
+          Start free with Explorer, upgrade to Pro for advanced features, or help us test JARVUS AI concepts - your feedback shapes what we build next.
         </p>
       </motion.div>
 
@@ -446,34 +446,34 @@ const PricingPage = () => {
       >
         <div className="bg-gradient-to-r from-[#FFD700]/10 via-[#FFA500]/10 to-[#FF6347]/10 rounded-2xl p-6 border-2 border-[#FFD700]/30 shadow-xl shadow-[#FFD700]/20">
           <h3 className="text-center text-2xl font-bold text-[#FFD700] mb-4">
-            <FontAwesomeIcon icon={faRobot} className="mr-3" />
-            JARVUS AI - Artificial Intelligence For Your Career
+            <FontAwesomeIcon icon={faEye} className="mr-3" />
+            JARVUS AI Concepts - What We're Considering Building
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 text-center">
             <div className="flex flex-col items-center gap-2 p-3 bg-[#FFD700]/5 rounded-lg">
               <FontAwesomeIcon icon={faEnvelope} className="text-[#FFD700] text-2xl" />
               <span className="text-sm text-gray-300">Gmail AI Analysis</span>
-              <span className="text-xs text-[#FFD700]">Reads & scores emails</span>
+              <span className="text-xs text-[#FFD700]">Concept Demo</span>
             </div>
             <div className="flex flex-col items-center gap-2 p-3 bg-[#FFA500]/5 rounded-lg">
               <FontAwesomeIcon icon={faFileText} className="text-[#FFA500] text-2xl" />
-              <span className="text-sm text-gray-300">Live Resume AI</span>
-              <span className="text-xs text-[#FFA500]">73% → 94% ATS Score</span>
+              <span className="text-sm text-gray-300">AI Resume Builder</span>
+              <span className="text-xs text-[#FFA500]">Future Feature</span>
             </div>
             <div className="flex flex-col items-center gap-2 p-3 bg-[#FF6347]/5 rounded-lg">
               <FontAwesomeIcon icon={faCalendarDays} className="text-[#FF6347] text-2xl" />
               <span className="text-sm text-gray-300">Calendar AI</span>
-              <span className="text-xs text-[#FF6347]">Smart scheduling</span>
+              <span className="text-xs text-[#FF6347]">Mockup Only</span>
             </div>
             <div className="flex flex-col items-center gap-2 p-3 bg-[#9C71BA]/5 rounded-lg">
               <FontAwesomeIcon icon={faBrain} className="text-[#9C71BA] text-2xl" />
               <span className="text-sm text-gray-300">Career Intelligence</span>
-              <span className="text-xs text-[#9C71BA]">Salary & negotiation</span>
+              <span className="text-xs text-[#9C71BA]">Planned Feature</span>
             </div>
             <div className="flex flex-col items-center gap-2 p-3 bg-[#71ADBA]/5 rounded-lg">
               <FontAwesomeIcon icon={faMicrophone} className="text-[#71ADBA] text-2xl" />
               <span className="text-sm text-gray-300">Voice Commands</span>
-              <span className="text-xs text-[#71ADBA]">"JARVUS, help me"</span>
+              <span className="text-xs text-[#71ADBA]">Vision Demo</span>
             </div>
           </div>
         </div>
