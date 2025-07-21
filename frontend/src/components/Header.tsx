@@ -26,6 +26,7 @@ import NotificationsCenter from './NotificationsCenter';
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isProToolsOpen, setIsProToolsOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [shouldShowHeader, setShouldShowHeader] = useState(true);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
@@ -36,6 +37,7 @@ const Header = () => {
   const { scrollY } = useScroll();
   
   const profileRef = useRef<HTMLDivElement>(null);
+  const proToolsRef = useRef<HTMLDivElement>(null);
   
   // Handle scroll behavior
   useEffect(() => {
@@ -61,11 +63,14 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
-  // Handle click outside profile dropdown
+  // Handle click outside dropdowns
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
         setIsProfileOpen(false);
+      }
+      if (proToolsRef.current && !proToolsRef.current.contains(event.target as Node)) {
+        setIsProToolsOpen(false);
       }
     };
 
@@ -122,29 +127,79 @@ const Header = () => {
           <div className="flex justify-between items-center h-28">
             
             {/* Logo */}
-            <Link to="/" className="flex items-center group">
-              <div className="relative">
+            <Link to="/" className="flex items-center group relative">
+              {/* Epic Multi-Layer Glow Effect */}
+              <div className="absolute -inset-8 opacity-0 group-hover:opacity-100 transition-all duration-700">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-emerald-400 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute inset-2 bg-gradient-to-r from-emerald-400 via-cyan-400 to-purple-500 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                <div className="absolute inset-4 bg-gradient-to-r from-purple-500 via-emerald-400 to-cyan-400 rounded-full blur-xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+              </div>
+              
+              {/* Rotating Ring Effect */}
+              <motion.div 
+                className="absolute -inset-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              >
+                <div className="w-full h-full border-2 border-gradient-to-r from-cyan-400 via-transparent to-emerald-400 rounded-full"></div>
+                <div className="absolute inset-2 border border-gradient-to-r from-purple-500 via-transparent to-cyan-400 rounded-full"></div>
+              </motion.div>
+
+              {/* Logo Container */}
+              <div className="relative z-10">
                 <motion.div 
-                  className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity"
-                  whileHover={{ scale: 1.1 }}
+                  className="absolute inset-0 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] rounded-xl blur-lg opacity-0 group-hover:opacity-70 transition-all duration-500"
+                  whileHover={{ scale: 1.2 }}
                 />
-                <img 
+                <motion.img 
                   src="/rocket-logo.svg" 
                   alt="JARVUS"
-                  className="h-10 w-10"
+                  className="h-10 w-10 relative z-10 group-hover:scale-110 transition-all duration-500 group-hover:drop-shadow-[0_0_20px_rgba(34,197,94,0.8)]"
+                  whileHover={{ rotate: [0, -10, 10, 0] }}
+                  transition={{ duration: 0.6 }}
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <span className="ml-2 sm:ml-3 text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent">
-                  JARVUS
-                </span>
+              
+              {/* Text with Enhanced Effects */}
+              <div className="flex items-center gap-2 relative z-10">
                 <motion.span 
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="px-1.5 py-0.5 sm:px-2 sm:py-1 bg-gradient-to-r from-emerald-400 to-emerald-600 text-white text-xs font-bold rounded-full shadow-lg"
+                  className="ml-2 sm:ml-3 text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] bg-clip-text text-transparent group-hover:drop-shadow-[0_0_10px_rgba(113,173,186,0.8)] transition-all duration-500"
+                  whileHover={{ scale: 1.05 }}
                 >
-                  BETA
+                  JARVUS
                 </motion.span>
+                
+                {/* Enhanced BETA Badge with Special Effects */}
+                <motion.div
+                  className="relative"
+                  whileHover={{ scale: 1.1, rotate: [0, -5, 5, 0] }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {/* Glow Ring for BETA */}
+                  <div className="absolute -inset-2 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full opacity-0 group-hover:opacity-60 blur-md transition-all duration-500"></div>
+                  
+                  <motion.span 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="relative px-1.5 py-0.5 sm:px-2 sm:py-1 bg-gradient-to-r from-emerald-400 to-emerald-600 text-white text-xs font-bold rounded-full shadow-lg group-hover:shadow-[0_0_20px_rgba(34,197,94,0.8)] transition-all duration-500 group-hover:from-emerald-300 group-hover:to-cyan-400"
+                  >
+                    BETA
+                  </motion.span>
+                  
+                  {/* Sparkle Effect */}
+                  <motion.div
+                    className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100"
+                    animate={{ 
+                      scale: [0, 1, 0],
+                      rotate: [0, 180, 360]
+                    }}
+                    transition={{ 
+                      duration: 2, 
+                      repeat: Infinity,
+                      delay: 1
+                    }}
+                  />
+                </motion.div>
               </div>
             </Link>
 
@@ -168,46 +223,105 @@ const Header = () => {
               </Link>
 
               {isPro && (
-                <>
-                  <Link 
-                    to="/news" 
+                <div className="relative" ref={proToolsRef}>
+                  <button
+                    onClick={() => setIsProToolsOpen(!isProToolsOpen)}
                     className="text-gray-300 hover:text-[#71ADBA] transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-[#71ADBA] hover:shadow-[0_0_25px_rgba(113,173,186,0.8)] hover:bg-[#71ADBA]/10 backdrop-blur-sm"
                   >
-                    <FontAwesomeIcon icon={faNewspaper} className="text-sm" />
-                    <span className="hidden lg:inline">News Hub</span>
-                    <span className="lg:hidden">News</span>
-                    <span className="px-2 py-0.5 bg-[#71ADBA]/20 text-[#71ADBA] text-xs rounded-full font-semibold">
+                    Pro Tools
+                    <span className="px-2 py-0.5 bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 text-[#71ADBA] text-xs rounded-full font-semibold border border-[#71ADBA]/30">
                       Pro
                     </span>
-                  </Link>
-                  
-                  <Link 
-                    to="/analytics" 
-                    className="text-gray-300 hover:text-[#9C71BA] transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-[#9C71BA] hover:shadow-[0_0_25px_rgba(156,113,186,0.8)] hover:bg-[#9C71BA]/10 backdrop-blur-sm"
-                  >
-                    <FontAwesomeIcon icon={faChartLine} className="text-sm" />
-                    <span className="hidden lg:inline">Analytics</span>
-                    <span className="lg:hidden">Analytics</span>
-                    <span className="px-2 py-0.5 bg-[#9C71BA]/20 text-[#9C71BA] text-xs rounded-full font-semibold">
-                      Pro
-                    </span>
-                  </Link>
-                </>
+                    <FontAwesomeIcon 
+                      icon={faChevronDown} 
+                      className={`text-xs transform transition-transform ${isProToolsOpen ? 'rotate-180' : ''}`} 
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {isProToolsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                        className="absolute top-full left-0 w-72 mt-3 bg-[#1a2234] rounded-xl border border-[#71ADBA]/20 shadow-2xl backdrop-blur-xl z-50"
+                      >
+                        {/* Header */}
+                        <div className="p-4 border-b border-[#71ADBA]/10">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] flex items-center justify-center">
+                              <FontAwesomeIcon icon={faCrown} className="text-white" />
+                            </div>
+                            <div>
+                              <h3 className="font-semibold text-white">Pro Tools</h3>
+                              <p className="text-xs text-gray-400">Premium features & insights</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Menu Items */}
+                        <div className="p-2">
+                          <Link
+                            to="/news"
+                            onClick={() => setIsProToolsOpen(false)}
+                            className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#71ADBA]/10 transition-colors text-gray-300 hover:text-white group"
+                          >
+                            <FontAwesomeIcon icon={faNewspaper} className="text-[#71ADBA] text-sm" />
+                            <div className="flex-1">
+                              <div className="font-medium">News Hub</div>
+                              <div className="text-xs text-gray-400">Curated industry news & insights</div>
+                            </div>
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[#71ADBA] text-xs">→</span>
+                          </Link>
+                          
+                          <Link
+                            to="/analytics"
+                            onClick={() => setIsProToolsOpen(false)}
+                            className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#9C71BA]/10 transition-colors text-gray-300 hover:text-white group"
+                          >
+                            <FontAwesomeIcon icon={faChartLine} className="text-[#9C71BA] text-sm" />
+                            <div className="flex-1">
+                              <div className="font-medium">Analytics</div>
+                              <div className="text-xs text-gray-400">Salary data & career insights</div>
+                            </div>
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[#9C71BA] text-xs">→</span>
+                          </Link>
+                          
+                          <Link
+                            to="/campus-life"
+                            onClick={() => setIsProToolsOpen(false)}
+                            className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-[#EDEAB1]/10 transition-colors text-gray-300 hover:text-white group"
+                          >
+                            <FontAwesomeIcon icon={faUniversity} className="text-[#EDEAB1] text-sm" />
+                            <div className="flex-1">
+                              <div className="font-medium">Campus Marketplace</div>
+                              <div className="text-xs text-gray-400">Student community & resources</div>
+                            </div>
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[#EDEAB1] text-xs">→</span>
+                          </Link>
+
+                          <div className="border-t border-[#71ADBA]/10 my-2"></div>
+                          
+                          <Link
+                            to="/pro-dashboard"
+                            onClick={() => setIsProToolsOpen(false)}
+                            className="flex items-center gap-3 px-3 py-3 rounded-lg bg-gradient-to-r from-[#71ADBA]/10 to-[#9C71BA]/10 border border-[#71ADBA]/20 hover:border-[#71ADBA]/40 transition-all text-white group"
+                          >
+                            <FontAwesomeIcon icon={faRocket} className="text-[#FFD700] text-sm" />
+                            <div className="flex-1">
+                              <div className="font-semibold">Pro Dashboard</div>
+                              <div className="text-xs text-gray-300">Your command center</div>
+                            </div>
+                            <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[#FFD700] text-xs">→</span>
+                          </Link>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               )}
 
-              {isPro ? (
-                <Link 
-                  to="/campus-life" 
-                  className="text-gray-300 hover:text-[#EDEAB1] transition-all duration-500 font-medium flex items-center gap-2 px-3 py-2 rounded-lg border border-transparent hover:border-[#EDEAB1] hover:shadow-[0_0_25px_rgba(237,234,177,0.8)] hover:bg-[#EDEAB1]/10 backdrop-blur-sm"
-                >
-                  <FontAwesomeIcon icon={faUniversity} className="text-sm" />
-                  <span className="hidden lg:inline">Campus Marketplace</span>
-                  <span className="lg:hidden">Campus</span>
-                  <span className="px-2 py-0.5 bg-[#EDEAB1]/20 text-[#EDEAB1] text-xs rounded-full font-semibold">
-                    Pro
-                  </span>
-                </Link>
-              ) : (
+                            {!isPro && (
                 <Link 
                   to="/pricing" 
                   className="text-gray-300 hover:text-white transition-all duration-500 font-medium px-3 py-2 rounded-lg border border-transparent hover:border-purple-400 hover:shadow-[0_0_25px_rgba(168,85,247,0.8)] hover:bg-purple-400/10 backdrop-blur-sm"
@@ -508,36 +622,46 @@ const Header = () => {
                 </Link>
                 
                 {isPro && (
-                  <>
+                  <div className="space-y-3">
+                    <div className="text-sm font-semibold text-[#71ADBA] border-b border-[#71ADBA]/20 pb-2">
+                      Pro Tools
+                    </div>
                     <Link
                       to="/news"
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+                      className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors pl-4"
                     >
-                      <FontAwesomeIcon icon={faNewspaper} />
+                      <FontAwesomeIcon icon={faNewspaper} className="text-[#71ADBA]" />
                       News Hub
                     </Link>
                     <Link
                       to="/analytics"
                       onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+                      className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors pl-4"
                     >
-                      <FontAwesomeIcon icon={faChartLine} />
+                      <FontAwesomeIcon icon={faChartLine} className="text-[#9C71BA]" />
                       Analytics
                     </Link>
-                  </>
+                    <Link
+                      to="/campus-life"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors pl-4"
+                    >
+                      <FontAwesomeIcon icon={faUniversity} className="text-[#EDEAB1]" />
+                      Campus Marketplace
+                    </Link>
+                    <Link
+                      to="/pro-dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 text-white bg-gradient-to-r from-[#71ADBA]/20 to-[#9C71BA]/20 rounded-lg p-3 border border-[#71ADBA]/30"
+                    >
+                      <FontAwesomeIcon icon={faRocket} className="text-[#FFD700]" />
+                      Pro Dashboard
+                    </Link>
+                  </div>
                 )}
                 
-                {isPro ? (
-                  <Link
-                    to="/campus-life"
-                    onClick={() => setIsOpen(false)}
-                    className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
-                  >
-                    <FontAwesomeIcon icon={faUniversity} />
-                    Campus Marketplace
-                  </Link>
-                ) : (
+                {!isPro && (
                   <Link
                     to="/pricing"
                     onClick={() => setIsOpen(false)}

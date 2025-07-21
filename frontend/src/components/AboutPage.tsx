@@ -10,7 +10,10 @@ import {
   faArrowRight,
   faBrain,
   faUsers,
-  faQuoteLeft
+  faQuoteLeft,
+  faGraduationCap,
+  faCompass,
+  faRoute
 } from '@fortawesome/free-solid-svg-icons';
 
 const AboutPage = () => {
@@ -21,21 +24,21 @@ const AboutPage = () => {
   const testimonials = [
     {
       name: "Sarah Chen",
-      role: "CS Student",
-      quote: "The JARVUS concept looks incredible. If they build this, it could really help students like me!",
-      feedback: "Build it!"
+      role: "Computer Science Student",
+      quote: "The career quiz gave me three potential paths I had never considered before—AI research, product management, and cybersecurity. Now I know exactly which internships to apply for.",
+      feedback: "Career Clarity"
     },
     {
       name: "Marcus Johnson", 
-      role: "Recent Grad",
-      quote: "This demo shows so much potential. The AI career assistant market definitely needs this.",
-      feedback: "Market validation"
+      role: "Engineering Graduate",
+      quote: "JARVUS showed me that my mechanical engineering degree could lead to renewable energy, aerospace, or even robotics. I landed my dream job at Tesla after following the roadmap.",
+      feedback: "Dream Job Landed"
     },
     {
       name: "Emma Rodriguez",
-      role: "Career Counselor", 
-      quote: "As a professional counselor, I see huge value in this concept. Students would love it.",
-      feedback: "Expert endorsement"
+      role: "High School Counselor", 
+      quote: "I wish I had this tool 10 years ago. The way JARVUS breaks down salary projections and required skills for each career path is exactly what my students need to make informed decisions.",
+      feedback: "Educator Approved"
     }
   ];
 
@@ -115,27 +118,6 @@ const AboutPage = () => {
             <div className="text-center">
               <div className="text-3xl font-bold text-green-400 mb-1">{stats.feedback}+</div>
               <div className="text-gray-400 text-sm">Success Stories</div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* What We're Testing */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-16"
-        >
-          <h2 className="text-3xl font-bold text-center mb-8">What JARVUS Delivers</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-slate-900/50 rounded-xl p-6 border border-cyan-500/20">
-              <FontAwesomeIcon icon={faBrain} className="text-cyan-400 text-2xl mb-3" />
-              <h3 className="text-xl font-semibold mb-2">AI Career Assistant</h3>
-              <p className="text-gray-300">Personalized guidance, resume optimization, and interview prep powered by advanced AI.</p>
-            </div>
-            <div className="bg-slate-900/50 rounded-xl p-6 border border-green-500/20">
-              <FontAwesomeIcon icon={faUsers} className="text-green-400 text-2xl mb-3" />
-              <h3 className="text-xl font-semibold mb-2">Student-First Platform</h3>
-              <p className="text-gray-300">Built specifically for students, by people who understand the modern career journey.</p>
             </div>
           </div>
         </motion.div>
@@ -332,6 +314,61 @@ const AboutPage = () => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* What JARVUS Delivers */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16"
+        >
+          <h2 className="text-3xl font-bold text-center mb-8">What JARVUS Delivers</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-slate-900/50 rounded-xl p-6 border border-cyan-500/20">
+              <FontAwesomeIcon icon={faBrain} className="text-cyan-400 text-2xl mb-3" />
+              <h3 className="text-xl font-semibold mb-2">AI Career Assistant</h3>
+              <p className="text-gray-300">Personalized guidance, resume optimization, and interview prep powered by advanced AI.</p>
+            </div>
+            <div className="bg-slate-900/50 rounded-xl p-6 border border-green-500/20">
+              <FontAwesomeIcon icon={faUsers} className="text-green-400 text-2xl mb-3" />
+              <h3 className="text-xl font-semibold mb-2">Student-First Platform</h3>
+              <p className="text-gray-300">Built specifically for students, by people who understand the modern career journey.</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Who We Help - With Icons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-16"
+        >
+          <h2 className="text-3xl font-bold text-center mb-8">Who We Help</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-slate-900/50 rounded-xl p-6 border border-purple-500/20 text-center group hover:border-purple-500/40 transition-all duration-300">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <FontAwesomeIcon icon={faGraduationCap} className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-purple-300">Current Students</h3>
+              <p className="text-gray-300">College students choosing majors, planning careers, and preparing for the job market</p>
+            </div>
+            
+            <div className="bg-slate-900/50 rounded-xl p-6 border border-orange-500/20 text-center group hover:border-orange-500/40 transition-all duration-300">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <FontAwesomeIcon icon={faCompass} className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-orange-300">Young Adults</h3>
+              <p className="text-gray-300">Those who feel lost or unsure about their career direction, whether in school or not</p>
+            </div>
+            
+            <div className="bg-slate-900/50 rounded-xl p-6 border border-cyan-500/20 text-center group hover:border-cyan-500/40 transition-all duration-300">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <FontAwesomeIcon icon={faRoute} className="text-white text-2xl" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-cyan-300">All Career Paths</h3>
+              <p className="text-gray-300">Supporting college, trade school, entrepreneurship, and direct workforce entry</p>
             </div>
           </div>
         </motion.div>

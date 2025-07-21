@@ -202,7 +202,7 @@ const HowItWorks = () => {
                   onMouseEnter={() => setActiveStep(index)}
                   onMouseLeave={() => setActiveStep(-1)}
                 >
-                  <div className={`glass-panel p-8 relative z-10 h-full min-h-[280px] rounded-xl transition-all duration-300 transform-gpu ${step.bgGlow} hover:-translate-y-2 backdrop-blur-sm bg-[rgba(26,34,52,0.4)] border border-[rgba(113,173,186,0.1)] flex flex-col`}>
+                  <div className={`glass-panel p-8 relative z-10 h-full min-h-[320px] rounded-xl transition-all duration-300 transform-gpu ${step.bgGlow} hover:-translate-y-2 backdrop-blur-sm bg-[rgba(26,34,52,0.4)] border border-[rgba(113,173,186,0.1)] flex flex-col`}>
                     {/* Animated gradient border */}
                     <motion.div
                       className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-500"

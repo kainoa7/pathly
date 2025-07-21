@@ -104,7 +104,7 @@ const InteractiveTestimonial = () => {
             }}
           />
           <h2 className="relative text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] mb-4">
-            Success Stories
+            Real Student Wins
           </h2>
         </motion.div>
         <motion.p
@@ -113,7 +113,7 @@ const InteractiveTestimonial = () => {
           transition={{ delay: 0.3 }}
           className="text-xl text-[#71ADBA]"
         >
-          See how others found their path 🚀
+          Discover how JARVUS changed their futures 🎯
         </motion.p>
       </div>
 

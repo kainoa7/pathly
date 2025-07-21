@@ -2,6 +2,7 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAuth } from '../context/AuthContext';
 import { 
   faRobot,
   faBrain,
@@ -15,14 +16,18 @@ import {
   faEnvelope,
   faGlobe,
   faFileText,
-  faCalendarDays
+  faCalendarDays,
+  faUsers,
+  faHandshake
 } from '@fortawesome/free-solid-svg-icons';
+import { faDiscord } from '@fortawesome/free-brands-svg-icons';
 import Analytics from '../utils/analytics';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const location = useLocation();
+  const { isAuthenticated, user } = useAuth();
 
   // Mouse tracking for floating effects
   const mouseX = useMotionValue(0);
@@ -66,13 +71,6 @@ const Footer = () => {
     if (!email.trim()) return;
 
     try {
-      // Analytics tracking
-      Analytics.track('newsletter_signup', {
-        email: email,
-        source: 'footer',
-        timestamp: new Date().toISOString()
-      });
-
       // Here you would typically send to your backend/email service
       console.log('Newsletter signup:', email);
       
@@ -89,11 +87,286 @@ const Footer = () => {
   };
 
   const handleSocialClick = (platform: string) => {
-    Analytics.track('footer_social_click', {
+    Analytics.trackEvent('footer_social_click', {
       platform,
       timestamp: new Date().toISOString()
     });
   };
+
+  const isPro = user?.accountType === 'PRO' || user?.accountType === 'PREMIUM';
+
+  // Render different CTAs based on user status
+  const renderUserCTA = () => {
+    if (!isAuthenticated || !user) {
+      // Not logged in - show founding member signup
+      return renderFoundingMemberCTA();
+    }
+
+    if (isPro) {
+      // Pro user - show community engagement
+      return renderProCommunitySection();
+    }
+
+    // Explorer user - show upgrade
+    return renderUpgradeSection();
+  };
+
+  const renderFoundingMemberCTA = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      viewport={{ once: true }}
+      className="mt-6"
+    >
+      <motion.div 
+        className="bg-slate-800/30 rounded-xl p-6 border border-cyan-500/20 backdrop-blur-sm relative overflow-hidden"
+        whileHover={{ borderColor: 'rgba(0, 255, 255, 0.4)' }}
+      >
+        <motion.div 
+          className="inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full mb-3"
+          animate={{ 
+            y: [0, -1, 0],
+            boxShadow: [
+              '0 0 10px rgba(255, 193, 7, 0.3)',
+              '0 0 15px rgba(255, 193, 7, 0.5)',
+              '0 0 10px rgba(255, 193, 7, 0.3)'
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          👑 EXCLUSIVE
+        </motion.div>
+
+        <motion.div 
+          className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent text-xs font-semibold mb-2"
+          animate={{ opacity: [0.7, 1, 0.7] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          Limited Spots
+        </motion.div>
+        
+        <h4 className="text-lg font-bold text-white mb-3 leading-tight">
+          <span className="text-cyan-400">Get Pro Free</span>
+          <span className="block text-white">Shape JARVUS AI</span>
+        </h4>
+        
+        <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+          Free Pro access + early AI features when we launch.
+        </p>
+        
+        <ul className="text-gray-400 text-xs space-y-1.5 mb-4">
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
+            News Hub & Analytics
+          </li>
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
+            Early AI access
+          </li>
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
+            Launch day pricing
+          </li>
+        </ul>
+        
+        <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+          <motion.input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Your email for exclusive access"
+            className="w-full px-3 py-2 bg-slate-700/50 border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:border-cyan-400/50 transition-all backdrop-blur-sm"
+            whileFocus={{ 
+              borderColor: 'rgba(0, 255, 255, 0.5)',
+              boxShadow: '0 0 10px rgba(0, 255, 255, 0.2)'
+            }}
+          />
+          
+          <motion.button
+            type="submit"
+            disabled={isSubmitted}
+            className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 px-4 rounded-lg font-semibold text-sm disabled:opacity-50 transition-all"
+            whileHover={{ 
+              scale: 1.02,
+              boxShadow: '0 5px 15px rgba(0, 255, 255, 0.3)'
+            }}
+            whileTap={{ scale: 0.98 }}
+            animate={isSubmitted ? { 
+              backgroundColor: ['#10b981', '#06b6d4', '#10b981']
+            } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            <FontAwesomeIcon icon={faRocket} className="mr-2" />
+            {isSubmitted ? 'Welcome Aboard!' : 'Get Pro Free Now'}
+          </motion.button>
+        </form>
+        
+        <motion.p 
+          className="text-center text-gray-500 text-xs mt-3"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          Join 3,200+ Pro members already using advanced features
+        </motion.p>
+      </motion.div>
+    </motion.div>
+  );
+
+  const renderProCommunitySection = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      viewport={{ once: true }}
+      className="mt-6"
+    >
+      <motion.div 
+        className="bg-gradient-to-br from-[#FFD700]/10 via-[#FFA500]/10 to-[#71ADBA]/10 rounded-xl p-6 border border-[#FFD700]/30 backdrop-blur-sm relative overflow-hidden"
+        whileHover={{ borderColor: 'rgba(255, 215, 0, 0.5)' }}
+      >
+        <motion.div 
+          className="inline-flex items-center gap-1 bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black text-xs font-bold px-3 py-1 rounded-full mb-3"
+          animate={{ 
+            y: [0, -1, 0],
+            boxShadow: [
+              '0 0 10px rgba(255, 215, 0, 0.3)',
+              '0 0 15px rgba(255, 215, 0, 0.5)',
+              '0 0 10px rgba(255, 215, 0, 0.3)'
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          👑 PRO MEMBER
+        </motion.div>
+
+        <h4 className="text-lg font-bold text-white mb-3 leading-tight">
+          <span className="text-[#FFD700]">Elite Professional</span>
+          <span className="block text-white">Community</span>
+        </h4>
+        
+        <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+          Connect with executives, share insights, and accelerate your career.
+        </p>
+        
+        <ul className="text-gray-400 text-xs space-y-1.5 mb-4">
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-[#FFD700] rounded-full mr-2" />
+            5000+ verified executives
+          </li>
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-[#FFD700] rounded-full mr-2" />
+            Exclusive industry insights
+          </li>
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-[#FFD700] rounded-full mr-2" />
+            Career acceleration programs
+          </li>
+        </ul>
+        
+        <div className="space-y-3">
+          <motion.button
+            onClick={() => window.open('https://discord.gg/jarvus-pro', '_blank')}
+            className="w-full bg-[#5865F2] hover:bg-[#4752C4] text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all flex items-center justify-center gap-2"
+            whileHover={{ 
+              scale: 1.02,
+              boxShadow: '0 5px 15px rgba(88, 101, 242, 0.3)'
+            }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <FontAwesomeIcon icon={faDiscord} />
+            Join Elite Discord
+          </motion.button>
+          
+          <Link 
+            to="/network"
+            className="block w-full bg-gradient-to-r from-[#FFD700] to-[#FFA500] text-black py-2 px-4 rounded-lg font-semibold text-sm transition-all text-center hover:opacity-90"
+          >
+            <FontAwesomeIcon icon={faHandshake} className="mr-2" />
+            Explore Network
+          </Link>
+        </div>
+        
+        <motion.p 
+          className="text-center text-gray-500 text-xs mt-3"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          127 executives online now • 4.9/5 satisfaction
+        </motion.p>
+      </motion.div>
+    </motion.div>
+  );
+
+  const renderUpgradeSection = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      viewport={{ once: true }}
+      className="mt-6"
+    >
+      <motion.div 
+        className="bg-gradient-to-br from-[#71ADBA]/10 to-[#9C71BA]/10 rounded-xl p-6 border border-[#71ADBA]/30 backdrop-blur-sm relative overflow-hidden"
+        whileHover={{ borderColor: 'rgba(113, 173, 186, 0.5)' }}
+      >
+        <motion.div 
+          className="inline-flex items-center gap-1 bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xs font-bold px-3 py-1 rounded-full mb-3"
+          animate={{ 
+            y: [0, -1, 0],
+            boxShadow: [
+              '0 0 10px rgba(113, 173, 186, 0.3)',
+              '0 0 15px rgba(113, 173, 186, 0.5)',
+              '0 0 10px rgba(113, 173, 186, 0.3)'
+            ]
+          }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          ⭐ UPGRADE AVAILABLE
+        </motion.div>
+
+        <h4 className="text-lg font-bold text-white mb-3 leading-tight">
+          <span className="text-[#71ADBA]">Unlock Pro Features</span>
+          <span className="block text-white">Advanced Career Tools</span>
+        </h4>
+        
+        <p className="text-gray-400 text-sm mb-4 leading-relaxed">
+          Get access to News Hub, Analytics, and premium career insights.
+        </p>
+        
+        <ul className="text-gray-400 text-xs space-y-1.5 mb-4">
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-[#71ADBA] rounded-full mr-2" />
+            Executive News Hub
+          </li>
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-[#71ADBA] rounded-full mr-2" />
+            Salary Intelligence
+          </li>
+          <li className="flex items-center">
+            <span className="w-1 h-1 bg-[#71ADBA] rounded-full mr-2" />
+            Professional Network
+          </li>
+        </ul>
+        
+        <Link 
+          to="/upgrade-to-pro"
+          className="block w-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white py-2 px-4 rounded-lg font-semibold text-sm transition-all text-center hover:opacity-90"
+        >
+          <FontAwesomeIcon icon={faRocket} className="mr-2" />
+          Upgrade to Pro
+        </Link>
+        
+        <motion.p 
+          className="text-center text-gray-500 text-xs mt-3"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 3, repeat: Infinity }}
+        >
+          Join 3,200+ professionals using Pro features
+        </motion.p>
+      </motion.div>
+    </motion.div>
+  );
 
   return (
     <footer className={`relative ${theme.background} border-t ${theme.border} overflow-hidden`}>
@@ -381,109 +654,8 @@ const Footer = () => {
             </div>
           </motion.div>
 
-          {/* Founding Member Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-            className="mt-6"
-          >
-            <motion.div 
-              className="bg-slate-800/30 rounded-xl p-6 border border-cyan-500/20 backdrop-blur-sm relative overflow-hidden"
-              whileHover={{ borderColor: 'rgba(0, 255, 255, 0.4)' }}
-            >
-
-
-              {/* EXCLUSIVE Badge */}
-              <motion.div 
-                className="inline-flex items-center gap-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-black text-xs font-bold px-3 py-1 rounded-full mb-3"
-                animate={{ 
-                  y: [0, -1, 0],
-                  boxShadow: [
-                    '0 0 10px rgba(255, 193, 7, 0.3)',
-                    '0 0 15px rgba(255, 193, 7, 0.5)',
-                    '0 0 10px rgba(255, 193, 7, 0.3)'
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                👑 EXCLUSIVE
-              </motion.div>
-
-              <motion.div 
-                className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent text-xs font-semibold mb-2"
-                animate={{ opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Limited Spots
-              </motion.div>
-              
-              <h4 className="text-lg font-bold text-white mb-3 leading-tight">
-                <span className="text-cyan-400">Get Pro Free</span>
-                <span className="block text-white">Shape JARVUS AI</span>
-              </h4>
-              
-              <p className="text-gray-400 text-sm mb-4 leading-relaxed">
-                Free Pro access + early AI features when we launch.
-              </p>
-              
-              <ul className="text-gray-400 text-xs space-y-1.5 mb-4">
-                <li className="flex items-center">
-                  <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  News Hub & Analytics
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Early AI access
-                </li>
-                <li className="flex items-center">
-                  <span className="w-1 h-1 bg-cyan-400 rounded-full mr-2" />
-                  Launch day pricing
-                </li>
-              </ul>
-              
-              <form onSubmit={handleNewsletterSubmit} className="space-y-3">
-                <motion.input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Your email for exclusive access"
-                  className="w-full px-3 py-2 bg-slate-700/50 border border-cyan-500/30 rounded-lg text-white placeholder-gray-400 text-sm focus:outline-none focus:border-cyan-400/50 transition-all backdrop-blur-sm"
-                  whileFocus={{ 
-                    borderColor: 'rgba(0, 255, 255, 0.5)',
-                    boxShadow: '0 0 10px rgba(0, 255, 255, 0.2)'
-                  }}
-                />
-                
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitted}
-                  className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 text-white py-2 px-4 rounded-lg font-semibold text-sm disabled:opacity-50 transition-all"
-                  whileHover={{ 
-                    scale: 1.02,
-                    boxShadow: '0 5px 15px rgba(0, 255, 255, 0.3)'
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  animate={isSubmitted ? { 
-                    backgroundColor: ['#10b981', '#06b6d4', '#10b981']
-                  } : {}}
-                  transition={{ duration: 0.5 }}
-                >
-                  <FontAwesomeIcon icon={faRocket} className="mr-2" />
-                  {isSubmitted ? 'Welcome Aboard!' : 'Get Pro Free Now'}
-                </motion.button>
-              </form>
-              
-              <motion.p 
-                className="text-center text-gray-500 text-xs mt-3"
-                animate={{ opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                Join 3,200+ Pro members already using advanced features
-              </motion.p>
-            </motion.div>
-          </motion.div>
+          {/* Dynamic User CTA Section */}
+          {renderUserCTA()}
         </div>
 
         {/* Bottom Bar */}
