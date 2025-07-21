@@ -1,178 +1,121 @@
-import express from 'express';
+import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
-import jwt from 'jsonwebtoken';
+import { z } from 'zod';
 
-const router = express.Router();
+const router = Router();
 const prisma = new PrismaClient();
 
-// Helper function to get user from token (optional)
-const getOptionalUser = async (req: express.Request) => {
+// Validation schema for feedback submission
+const feedbackSchema = z.object({
+  voteType: z.enum(['LOVE_IT', 'WOULD_USE', 'NOT_INTERESTED']),
+  feedback: z.string().optional().nullable(),
+  userId: z.string().optional().nullable()
+});
+
+// Submit feedback
+router.post('/', async (req, res) => {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '');
-    if (!token) return null;
+    const validatedData = feedbackSchema.parse(req.body);
     
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret') as { userId: string };
-    return await prisma.user.findUnique({ where: { id: decoded.userId } });
-  } catch {
-    return null;
-  }
-};
-
-// Helper function to get client IP
-const getClientIP = (req: express.Request): string => {
-  return (req.headers['x-forwarded-for'] as string)?.split(',')[0] || 
-         req.connection.remoteAddress || 
-         req.socket.remoteAddress || 
-         req.ip || 
-         'unknown';
-};
-
-// POST /api/feedback/vote - Submit platform feedback vote
-router.post('/vote', async (req, res) => {
-  try {
-    const { voteType, feedback } = req.body;
-    const user = await getOptionalUser(req);
-    const ipAddress = getClientIP(req);
-
-    if (!['LOVE_IT', 'WOULD_USE', 'NOT_INTERESTED'].includes(voteType)) {
-      return res.status(400).json({ error: 'Invalid vote type' });
-    }
-
-    // Check if user/IP has already voted with this vote type
-    const existingVote = await prisma.platformFeedback.findFirst({
-      where: {
-        OR: [
-          user ? { userId: user.id, voteType } : { ipAddress, voteType }
-        ]
-      }
-    });
-
-    if (existingVote) {
-      return res.status(400).json({ error: 'You have already submitted this type of feedback' });
-    }
-
-    // Create the feedback vote
-    const vote = await prisma.platformFeedback.create({
+    // Get IP address
+    const ipAddress = req.ip || req.connection.remoteAddress || 'unknown';
+    
+    // Create feedback entry
+    const feedback = await prisma.platformFeedback.create({
       data: {
-        userId: user?.id || null,
+        voteType: validatedData.voteType,
+        feedback: validatedData.feedback,
         ipAddress,
-        voteType,
-        feedback: feedback || null
+        userId: validatedData.userId || null
       }
     });
 
-    res.json({ 
-      success: true, 
-      message: 'Thank you for your feedback!',
-      voteId: vote.id 
+    res.status(201).json({
+      message: 'Feedback submitted successfully',
+      id: feedback.id
     });
-
   } catch (error) {
-    console.error('Platform feedback vote error:', error);
-    res.status(500).json({ error: 'Failed to submit feedback' });
+    console.error('Error submitting feedback:', error);
+    
+    if (error instanceof z.ZodError) {
+      return res.status(400).json({
+        message: 'Invalid feedback data',
+        errors: error.errors
+      });
+    }
+    
+    res.status(500).json({
+      message: 'Failed to submit feedback'
+    });
   }
 });
 
-// GET /api/feedback/stats - Get platform feedback statistics
+// Get feedback stats for admin dashboard
 router.get('/stats', async (req, res) => {
   try {
-    const stats = await prisma.platformFeedback.groupBy({
-      by: ['voteType'],
-      _count: {
-        id: true
-      }
-    });
-
+    // Get total counts
     const totalVotes = await prisma.platformFeedback.count();
     
-    const formattedStats = {
-      totalVotes,
-      breakdown: {
-        LOVE_IT: 0,
-        WOULD_USE: 0,
-        NOT_INTERESTED: 0
-      },
-      percentages: {
-        LOVE_IT: 0,
-        WOULD_USE: 0,
-        NOT_INTERESTED: 0
+    // Get breakdown by vote type
+    const voteBreakdown = await prisma.platformFeedback.groupBy({
+      by: ['voteType'],
+      _count: {
+        voteType: true
       }
+    });
+
+    // Convert to the format expected by frontend
+    const breakdown = {
+      LOVE_IT: 0,
+      WOULD_USE: 0,
+      NOT_INTERESTED: 0
     };
 
-    stats.forEach(stat => {
-      formattedStats.breakdown[stat.voteType] = stat._count.id;
-      formattedStats.percentages[stat.voteType] = totalVotes > 0 
-        ? Math.round((stat._count.id / totalVotes) * 100) 
-        : 0;
+    voteBreakdown.forEach(item => {
+      breakdown[item.voteType as keyof typeof breakdown] = item._count.voteType;
     });
 
-    // Calculate engagement score (Love It + Would Use vs Not Interested)
-    const positiveVotes = formattedStats.breakdown.LOVE_IT + formattedStats.breakdown.WOULD_USE;
-    const engagementScore = totalVotes > 0 
-      ? Math.round((positiveVotes / totalVotes) * 100) 
-      : 0;
+    // Calculate percentages
+    const percentages = {
+      LOVE_IT: totalVotes > 0 ? Math.round((breakdown.LOVE_IT / totalVotes) * 100) : 0,
+      WOULD_USE: totalVotes > 0 ? Math.round((breakdown.WOULD_USE / totalVotes) * 100) : 0,
+      NOT_INTERESTED: totalVotes > 0 ? Math.round((breakdown.NOT_INTERESTED / totalVotes) * 100) : 0
+    };
 
-    res.json({
-      ...formattedStats,
-      engagementScore,
-      positiveVotes,
-      recommendation: engagementScore >= 70 ? 'Continue Development' : 
-                     engagementScore >= 50 ? 'Improve & Iterate' : 
-                     'Major Changes Needed'
-    });
+    // Calculate engagement score (positive votes / total votes)
+    const positiveVotes = breakdown.LOVE_IT + breakdown.WOULD_USE;
+    const engagementScore = totalVotes > 0 ? Math.round((positiveVotes / totalVotes) * 100) : 0;
 
-  } catch (error) {
-    console.error('Platform feedback stats error:', error);
-    res.status(500).json({ error: 'Failed to get feedback stats' });
-  }
-});
-
-// GET /api/feedback/my-vote - Get current user's vote
-router.get('/my-vote', async (req, res) => {
-  try {
-    const user = await getOptionalUser(req);
-    const ipAddress = getClientIP(req);
-
-    const votes = await prisma.platformFeedback.findMany({
-      where: {
-        OR: [
-          user ? { userId: user.id } : { ipAddress }
-        ]
-      },
-      select: {
-        voteType: true,
-        feedback: true,
-        createdAt: true
-      }
-    });
-
-    res.json({ votes });
-
-  } catch (error) {
-    console.error('Get my vote error:', error);
-    res.status(500).json({ error: 'Failed to get your votes' });
-  }
-});
-
-// GET /api/feedback/recent - Get recent feedback with comments (admin only)
-router.get('/recent', async (req, res) => {
-  try {
-    // Check for admin authentication header or simple admin check
-    const adminAuth = req.headers['x-admin-auth'] || req.headers['admin-auth'];
-    const authHeader = req.headers.authorization;
-    
-    // For development, allow access if admin token is present or if it's a simple admin request
-    // In production, you'd want more secure admin authentication
-    const isAdminRequest = adminAuth === 'true' || 
-                          authHeader === 'Bearer admin-token' ||
-                          req.headers['user-agent']?.includes('admin') ||
-                          true; // Temporarily allow all for testing - REMOVE IN PRODUCTION
-
-    if (!isAdminRequest) {
-      return res.status(403).json({ error: 'Admin access required' });
+    // Generate recommendation
+    let recommendation = 'Gathering Feedback';
+    if (engagementScore >= 70) {
+      recommendation = 'Continue Development';
+    } else if (engagementScore >= 50) {
+      recommendation = 'Improve & Iterate';
     }
 
-    const recentFeedback = await prisma.platformFeedback.findMany({
+    res.json({
+      totalVotes,
+      breakdown,
+      percentages,
+      engagementScore,
+      positiveVotes,
+      recommendation
+    });
+  } catch (error) {
+    console.error('Error fetching feedback stats:', error);
+    res.status(500).json({
+      message: 'Failed to fetch feedback stats'
+    });
+  }
+});
+
+// Get recent feedback comments for admin dashboard
+router.get('/recent', async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit as string) || 50;
+    
+    const feedback = await prisma.platformFeedback.findMany({
       where: {
         feedback: {
           not: null
@@ -191,33 +134,69 @@ router.get('/recent', async (req, res) => {
       orderBy: {
         createdAt: 'desc'
       },
-      take: 50
+      take: limit
     });
 
-    res.json({ feedback: recentFeedback });
-
+    res.json({
+      feedback: feedback.map(item => ({
+        id: item.id,
+        voteType: item.voteType,
+        feedback: item.feedback,
+        createdAt: item.createdAt,
+        ipAddress: item.ipAddress,
+        user: item.user
+      }))
+    });
   } catch (error) {
-    console.error('Recent feedback error:', error);
-    res.status(500).json({ error: 'Failed to get recent feedback' });
+    console.error('Error fetching recent feedback:', error);
+    res.status(500).json({
+      message: 'Failed to fetch recent feedback'
+    });
   }
 });
 
-// GET /api/feedback/test - Simple endpoint to see all feedback (development only)
-router.get('/test', async (req, res) => {
+// Get all feedback (admin only)
+router.get('/all', async (req, res) => {
   try {
-    const allFeedback = await prisma.platformFeedback.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 20
-    });
-    
-    res.json({ 
-      total: allFeedback.length,
-      feedback: allFeedback,
-      message: 'This is a test endpoint for development'
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 20;
+    const skip = (page - 1) * limit;
+
+    const [feedback, total] = await Promise.all([
+      prisma.platformFeedback.findMany({
+        include: {
+          user: {
+            select: {
+              firstName: true,
+              lastName: true,
+              email: true,
+              accountType: true
+            }
+          }
+        },
+        orderBy: {
+          createdAt: 'desc'
+        },
+        skip,
+        take: limit
+      }),
+      prisma.platformFeedback.count()
+    ]);
+
+    res.json({
+      feedback,
+      pagination: {
+        page,
+        limit,
+        total,
+        pages: Math.ceil(total / limit)
+      }
     });
   } catch (error) {
-    console.error('Test endpoint error:', error);
-    res.status(500).json({ error: 'Failed to get test data' });
+    console.error('Error fetching all feedback:', error);
+    res.status(500).json({
+      message: 'Failed to fetch feedback'
+    });
   }
 });
 

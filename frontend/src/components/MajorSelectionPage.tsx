@@ -276,7 +276,7 @@ const MajorSelectionPage = () => {
     },
     {
       id: 'biology',
-      name: 'Biology',
+    name: 'Biology',
       icon: faFlask,
       color: 'from-green-600 to-lime-500',
       description: 'Study living organisms and their interactions with the environment.',
@@ -643,7 +643,7 @@ const MajorSelectionPage = () => {
   const selectedMajor = majorId ? majors.find(m => m.id === majorId) : null;
 
   if (selectedMajor) {
-    return (
+  return (
       <div className="min-h-screen bg-black text-white">
         {/* Simple background */}
         <div className="absolute inset-0 opacity-5">
@@ -686,13 +686,13 @@ const MajorSelectionPage = () => {
                 <h1 className="text-4xl sm:text-5xl font-bold">{selectedMajor.name}</h1>
                 <p className="text-gray-400 text-lg">{selectedMajor.description}</p>
               </div>
-            </div>
+        </div>
           </motion.div>
 
           {/* Quick Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
             className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
           >
             <div className="bg-slate-900/50 rounded-xl p-6 border border-gray-600/30 text-center">
@@ -784,7 +784,7 @@ const MajorSelectionPage = () => {
               <FontAwesomeIcon icon={faArrowRight} className="mr-2" />
               Take Career Quiz
             </motion.button>
-          </motion.div>
+        </motion.div>
         </div>
       </div>
     );
@@ -868,14 +868,14 @@ const MajorSelectionPage = () => {
         </div>
 
         {filteredMajors.length === 0 && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
             className="text-center py-12"
           >
             <p className="text-gray-400 text-lg">No majors found matching "{searchTerm}"</p>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
       </div>
     </div>
   );

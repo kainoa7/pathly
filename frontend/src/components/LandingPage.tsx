@@ -12,6 +12,8 @@ import MobileAppVoting from './MobileAppVoting';
 import RemainingSpots from './RemainingSpots';
 import CommunityGrowthSection from './CommunityGrowthSection';
 import NewsFeeds from './NewsFeeds';
+import BetaSignupForm from './BetaSignupForm';
+import FeedbackWidget from './FeedbackWidget';
 import { useEffect, useState, useRef } from 'react';
 import Analytics from '../utils/analytics';
 import PeopleIcon from '@mui/icons-material/People';
@@ -623,11 +625,13 @@ const LandingPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
+    layoutEffect: false
   });
 
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   const [userCount, setUserCount] = useState(3224); // Current active users
+  const [showBetaSignup, setShowBetaSignup] = useState(false);
 
   const painPoints = [
     "tired of random career TikToks? 🤔",
@@ -755,25 +759,25 @@ const LandingPage = () => {
           {/* Main Hero Content - SIMPLIFIED */}
           <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-12 relative text-center flex flex-col items-center justify-center" style={{ minHeight: '60vh' }}>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-[#71ADBA] via-[#9C71BA] to-[#EDEAB1] text-center">
-              Stuck picking a career?
+              Meet JARVUS AI
             </h1>
-            <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-6 text-center tracking-wide">
-              We're building an AI career assistant that actually gets you.
+            <div className="text-xl md:text-2xl text-[#71ADBA] font-semibold mb-8 text-center tracking-wide">
+              An AI career mentor that helps students choose, plan, and land their dream job—faster.
             </div>
             <div className="text-lg md:text-xl text-gray-300 font-medium mb-12 h-24 flex items-center justify-center">
               <TypewriterText texts={[
-                "No more endless Googling 'what career is right for me'",
-                "Get matched with careers that fit your personality and goals",
-                "Help us test if students actually want this AI career assistant"
+                "Experience the future of career guidance with our interactive demo.",
+                "Join thousands of students already using JARVUS to plan their careers.",
+                "Get personalized career insights powered by AI—starting today."
               ]} />
             </div>
-            {/* Primary CTA - Try the Demo */}
+            {/* Primary CTA - Experience JARVUS */}
             <button
               onClick={() => navigate('/jarvus-ai-demo')}
               className="inline-flex items-center gap-2 px-10 py-5 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white text-xl font-bold shadow-lg hover:scale-105 transition-transform duration-200 mb-6"
             >
-              <span role='img' aria-label='test' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>🧪</span>
-              Try Our Demo — 2 Minutes
+              <span role='img' aria-label='rocket' style={{ fontSize: '1.5rem', marginRight: '-0.25rem' }}>🚀</span>
+              Experience JARVUS AI
             </button>
             
             {/* Secondary CTA - Learn More */}
@@ -782,24 +786,24 @@ const LandingPage = () => {
               className="inline-flex items-center gap-2 px-8 py-4 rounded-full border-2 border-[#71ADBA] text-[#71ADBA] text-lg font-semibold hover:bg-[#71ADBA] hover:text-white transition-all duration-200 mb-6"
             >
               <span role='img' aria-label='eyes' style={{ fontSize: '1.2rem', marginRight: '-0.25rem' }}>👀</span>
-              See What We're Building
+              See Our Vision
             </button>
             
             <div className="mt-4 text-base text-[#EDEAB1] opacity-80 font-medium">
-              We're testing the market — should we build this AI career assistant?
+              Beta access available — help us perfect the AI career mentor that gets you.
             </div>
             <div className="mt-4 flex items-center justify-center gap-6 text-sm text-gray-400">
               <div className="flex items-center gap-2">
                 <span className="text-green-400">✓</span>
-                <span>2-minute demo</span>
+                <span>AI resume feedback improves ATS score by 70%</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-green-400">✓</span>
-                <span>See career matches</span>
+                <span>Match with companies that fit your values</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-green-400">✓</span>
-                <span>Help shape the product</span>
+                <span>Track offers & get personalized interview prep</span>
               </div>
             </div>
           </div>
@@ -851,27 +855,27 @@ const LandingPage = () => {
           >
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Think this could help you? 🤔
+                Ready to Get Early Access? 🎯
               </h2>
               <p className="text-xl text-gray-300 mb-8">
-                Try our demo and help us decide if we should build this AI career assistant
+                Join 3,000+ students already signed up for JARVUS AI beta access
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
                 <button
-                  onClick={() => navigate('/jarvus-ai-demo')}
+                  onClick={() => setShowBetaSignup(true)}
                   className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-4 rounded-full text-xl font-bold hover:scale-105 transition-transform"
                 >
-                  🧪 Try Demo — 2 Minutes
+                  🚀 Get Early Access
                 </button>
                 <button
-                  onClick={() => navigate('/vision')}
+                  onClick={() => navigate('/jarvus-ai-demo')}
                   className="border border-[#71ADBA] text-[#71ADBA] px-8 py-3 rounded-full font-semibold hover:bg-[#71ADBA] hover:text-white transition-colors"
                 >
-                  👀 See What We're Building
+                  🎮 Try Demo First
                 </button>
               </div>
               <div className="text-sm text-gray-400 mb-8">
-                🧪 Testing market interest • 🎯 Your feedback shapes the product • ⚡ Takes 2 minutes
+                🎯 Be first to access the AI career mentor • 📧 Get launch notifications • 🎁 Exclusive beta features
               </div>
               
               {/* Mobile App Interest Tracker - Enhanced Bottom Version */}
@@ -905,6 +909,34 @@ const LandingPage = () => {
           </motion.div>
         </div>
       </main>
+
+      {/* Beta Signup Modal */}
+      {showBetaSignup && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <BetaSignupForm
+              source="landing_page_bottom_cta"
+              onSuccess={() => {
+                setShowBetaSignup(false);
+                // Optional: Show success toast or redirect
+              }}
+              onClose={() => setShowBetaSignup(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Widget */}
+      <FeedbackWidget 
+        onSubmit={(feedback) => {
+          console.log('Feedback submitted:', feedback);
+          Analytics.track('Feedback Submitted', {
+            voteType: feedback.voteType,
+            hasComment: !!feedback.feedback,
+            source: 'landing_page_widget'
+          });
+        }}
+      />
     </div>
   );
 };

@@ -1,234 +1,332 @@
-import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { TextField, Autocomplete } from '@mui/material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { majorsData, type Major } from '../data/majorsData';
-
-interface Interest {
-  id: string;
-  label: string;
-}
-
-const interests: Interest[] = [
-  { id: 'tech', label: 'Technology' },
-  { id: 'science', label: 'Science' },
-  { id: 'art', label: 'Art & Design' },
-  { id: 'business', label: 'Business' },
-  { id: 'health', label: 'Healthcare' },
-  { id: 'education', label: 'Education' },
-  { id: 'social', label: 'Social Sciences' },
-  { id: 'engineering', label: 'Engineering' },
-  { id: 'environment', label: 'Environment' },
-  { id: 'law', label: 'Law & Policy' },
-];
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faExchangeAlt, 
+  faLightbulb,
+  faQuestionCircle,
+  faClock,
+  faMoneyBillWave,
+  faHeart,
+  faRocket,
+  faArrowRight,
+  faCheckCircle,
+  faExclamationTriangle
+} from '@fortawesome/free-solid-svg-icons';
 
 const SwitchingMajorPage = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState(1);
-  const [currentMajor, setCurrentMajor] = useState<Major | null>(null);
-  const [selectedInterests, setSelectedInterests] = useState<Interest[]>([]);
-  const [showNoRoadmap, setShowNoRoadmap] = useState(false);
+  const [selectedReason, setSelectedReason] = useState<string>('');
 
-  const handleNext = () => {
-    if (step === 1 && currentMajor) {
-      setStep(2);
-    } else if (step === 2 && selectedInterests.length > 0) {
-      // Find recommended majors based on interests
-      const recommendedMajors = majorsData.filter(major => 
-        major.id !== currentMajor?.id && // Exclude current major
-        selectedInterests.some(interest => 
-          interest.id === major.id.split('-')[0] // Simple matching logic
-        )
-      );
-
-      // Check if we have any majors with roadmaps
-      const hasRoadmaps = recommendedMajors.some(major => major.hasRoadmap);
-
-      if (hasRoadmaps) {
-        navigate('/results', {
-          state: {
-            currentMajor: currentMajor?.name,
-            interests: selectedInterests.map(i => i.id),
-            isSwitching: true
-          }
-        });
-      } else {
-        setShowNoRoadmap(true);
-      }
+  const reasons = [
+    {
+      id: 'not_interested',
+      title: "I'm not interested in my current major anymore",
+      description: "Lost passion or discovered it's not what you expected",
+      icon: faHeart,
+      color: 'from-red-500 to-pink-500'
+    },
+    {
+      id: 'poor_job_prospects',
+      title: "Poor job prospects or low salary potential",
+      description: "Worried about career opportunities after graduation",
+      icon: faMoneyBillWave,
+      color: 'from-yellow-500 to-orange-500'
+    },
+    {
+      id: 'too_difficult',
+      title: "It's too difficult or not a good fit",
+      description: "Struggling with coursework or doesn't match your strengths",
+      icon: faExclamationTriangle,
+      color: 'from-red-600 to-red-400'
+    },
+    {
+      id: 'found_new_passion',
+      title: "I discovered a new field I'm passionate about",
+      description: "Found something more exciting through classes or experiences",
+      icon: faLightbulb,
+      color: 'from-blue-500 to-purple-500'
     }
+  ];
+
+  const considerations = [
+    {
+      icon: faClock,
+      title: "Time Investment",
+      description: "How much additional time will switching add to your degree?",
+      details: [
+        "Will you need extra semesters?",
+        "Can previous credits transfer?",
+        "What's the new graduation timeline?"
+      ]
+    },
+    {
+      icon: faMoneyBillWave,
+      title: "Financial Impact",
+      description: "Consider the costs and future earning potential",
+      details: [
+        "Additional tuition costs",
+        "Starting salary differences",
+        "Long-term career earnings"
+      ]
+    },
+    {
+      icon: faHeart,
+      title: "Personal Fulfillment",
+      description: "Will this change make you happier and more motivated?",
+      details: [
+        "Genuine interest in new field",
+        "Better alignment with values",
+        "Improved work-life satisfaction"
+      ]
+    }
+  ];
+
+  const steps = [
+    {
+      number: 1,
+      title: "Reflect & Research",
+      description: "Understand why you want to switch and research the new field thoroughly"
+    },
+    {
+      number: 2,
+      title: "Talk to Advisors",
+      description: "Meet with academic advisors and career counselors for guidance"
+    },
+    {
+      number: 3,
+      title: "Explore the Field",
+      description: "Take intro courses, shadow professionals, or do informational interviews"
+    },
+    {
+      number: 4,
+      title: "Create a Plan",
+      description: "Map out your new academic path and timeline to graduation"
+    },
+    {
+      number: 5,
+      title: "Make the Switch",
+      description: "Officially change your major and commit to your new path"
+    }
+  ];
+
+  const handleReasonSelect = (reasonId: string) => {
+    setSelectedReason(reasonId);
   };
 
-  const handleInterestToggle = (interest: Interest) => {
-    setSelectedInterests(prev => {
-      const isSelected = prev.find(i => i.id === interest.id);
-      if (isSelected) {
-        return prev.filter(i => i.id !== interest.id);
-      } else {
-        return [...prev, interest];
-      }
+  const handleGetGuidance = () => {
+    // Navigate to quiz with switching context
+    navigate('/quiz/college', { 
+      state: { 
+        context: 'switching',
+        reason: selectedReason 
+      } 
     });
-    setShowNoRoadmap(false);
-  };
-
-  const slideVariants = {
-    enter: { x: 1000, opacity: 0 },
-    center: { x: 0, opacity: 1 },
-    exit: { x: -1000, opacity: 0 }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-500 via-fuchsia-500 to-pink-500 py-12 px-4 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        className="max-w-2xl mx-auto mb-8"
-      >
-        <button
-          onClick={() => step === 1 ? navigate('/onboarding') : setStep(1)}
-          className="p-2 rounded-full text-white hover:bg-white/20 transition-colors duration-200"
+    <div className="min-h-screen bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white py-12 px-4">
+      <div className="max-w-6xl mx-auto">
+        
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-16"
         >
-          <ArrowBackIcon className="w-6 h-6" />
-        </button>
-      </motion.div>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/20 border border-orange-500/30 rounded-full mb-6">
+            <FontAwesomeIcon icon={faExchangeAlt} className="text-orange-400" />
+            <span className="text-orange-300 font-medium">Major Change Guide</span>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#71ADBA] to-[#EDEAB1] bg-clip-text text-transparent mb-6">
+            Thinking About Switching Majors?
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            You're not alone! About 80% of students change their major at least once. 
+            Let's help you make the right decision for your future.
+          </p>
+        </motion.div>
 
-      <div className="max-w-2xl mx-auto">
-        <AnimatePresence mode="sync">
-          {step === 1 ? (
-            <motion.div
-              key="step1"
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              <div className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-6">
-                  What's your current major?
-                </h1>
-                <p className="text-gray-600 mb-8">
-                  Tell us what you're studying now, and we'll help you explore other options
-                  that might better match your interests.
-                </p>
-
-                <div className="space-y-6">
-                  <Autocomplete
-                    options={majorsData}
-                    value={currentMajor}
-                    onChange={(_, newValue) => setCurrentMajor(newValue)}
-                    getOptionLabel={(option) => option.name}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="Current Major"
-                        variant="outlined"
-                        fullWidth
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            '& fieldset': {
-                              borderColor: 'rgb(209 213 219)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgb(192 132 252)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: 'rgb(192 132 252)',
-                            },
-                          },
-                        }}
-                      />
-                    )}
-                    className="mb-6"
-                  />
-
-                  <button
-                    onClick={handleNext}
-                    disabled={!currentMajor}
-                    className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-xl shadow-md hover:brightness-110 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:brightness-100 disabled:hover:scale-100 transform transition-all duration-200"
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="step2"
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              <div className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-lg p-8">
-                <h1 className="text-3xl font-bold text-gray-900 mb-6">
-                  What interests you now?
-                </h1>
-                <p className="text-gray-600 mb-8">
-                  Select the areas that excite you the most. We'll use this to suggest
-                  majors that might be a better fit.
-                </p>
-
-                <div className="space-y-8">
-                  <div className="flex flex-wrap gap-3">
-                    {interests.map((interest) => {
-                      const isSelected = selectedInterests.find(i => i.id === interest.id);
-                      return (
-                        <button
-                          key={interest.id}
-                          onClick={() => handleInterestToggle(interest)}
-                          className={`px-4 py-2 rounded-full text-lg font-medium transition-all duration-200 ${
-                            isSelected 
-                              ? 'bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white shadow-md hover:brightness-110 hover:scale-[1.02]' 
-                              : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-fuchsia-300 hover:bg-fuchsia-50'
-                          }`}
-                        >
-                          {interest.label}
-                        </button>
-                      );
-                    })}
+        {/* Why Switch Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-16"
+        >
+          <h2 className="text-3xl font-bold text-center mb-8 text-[#71ADBA]">
+            Why are you considering switching?
+          </h2>
+          <p className="text-center text-gray-400 mb-8">
+            Understanding your motivation helps us give you better guidance
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {reasons.map((reason, index) => (
+              <motion.div
+                key={reason.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + index * 0.1 }}
+                className={`bg-[#1e293b] rounded-lg p-6 border-2 cursor-pointer transition-all duration-300 hover:scale-105 ${
+                  selectedReason === reason.id 
+                    ? 'border-[#71ADBA] bg-[#71ADBA]/10' 
+                    : 'border-gray-600 hover:border-[#71ADBA]/50'
+                }`}
+                onClick={() => handleReasonSelect(reason.id)}
+              >
+                <div className="flex items-start gap-4">
+                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-r ${reason.color} flex items-center justify-center`}>
+                    <FontAwesomeIcon icon={reason.icon} className="text-white text-lg" />
                   </div>
-
-                  <button
-                    onClick={handleNext}
-                    disabled={selectedInterests.length === 0}
-                    className="w-full py-4 px-6 text-lg font-semibold text-white bg-gradient-to-r from-indigo-500 to-fuchsia-500 rounded-xl shadow-md hover:brightness-110 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:brightness-100 disabled:hover:scale-100 transform transition-all duration-200"
-                  >
-                    Show Recommendations
-                  </button>
-
-                  {showNoRoadmap && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-4 p-4 bg-gradient-to-r from-indigo-50 to-fuchsia-50 rounded-xl border border-indigo-100 text-center"
-                    >
-                      <p className="text-gray-800 font-medium">
-                        Coming soon — we're working on roadmaps for your recommended majors!
-                      </p>
-                      <p className="text-gray-600 text-sm mt-2">
-                        Try selecting different interests or check back later for more options.
-                      </p>
-                    </motion.div>
-                  )}
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-2">{reason.title}</h3>
+                    <p className="text-gray-400">{reason.description}</p>
+                    {selectedReason === reason.id && (
+                      <div className="mt-3 flex items-center gap-2 text-[#71ADBA]">
+                        <FontAwesomeIcon icon={faCheckCircle} />
+                        <span className="font-medium">Selected</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
+        {/* Key Considerations */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mb-16"
+        >
+          <h2 className="text-3xl font-bold text-center mb-12 text-[#71ADBA]">
+            Key Things to Consider
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {considerations.map((consideration, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 + index * 0.1 }}
+                className="bg-[#1e293b] rounded-lg p-6 border border-gray-600"
+              >
+                <div className="w-12 h-12 rounded-lg bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] flex items-center justify-center mb-4">
+                  <FontAwesomeIcon icon={consideration.icon} className="text-white text-lg" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{consideration.title}</h3>
+                <p className="text-gray-400 mb-4">{consideration.description}</p>
+                <ul className="space-y-2">
+                  {consideration.details.map((detail, idx) => (
+                    <li key={idx} className="text-sm text-gray-500 flex items-center gap-2">
+                      <span className="w-1 h-1 bg-[#71ADBA] rounded-full"></span>
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Step-by-Step Process */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="mb-16"
+        >
+          <h2 className="text-3xl font-bold text-center mb-12 text-[#71ADBA]">
+            Your Step-by-Step Process
+          </h2>
+          
+          <div className="relative">
+            {/* Progress Line */}
+            <div className="absolute left-8 top-8 bottom-8 w-0.5 bg-gradient-to-b from-[#71ADBA] to-[#9C71BA] hidden md:block"></div>
+            
+            <div className="space-y-8">
+              {steps.map((step, index) => (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="mt-8 p-4 bg-gradient-to-r from-indigo-50 to-fuchsia-50 rounded-xl border border-indigo-100"
+                  key={index}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.7 + index * 0.1 }}
+                  className="flex items-start gap-6"
                 >
-                  <p className="text-sm text-gray-600">
-                    Select at least one interest to help us provide personalized major
-                    recommendations that align with your new interests.
-                  </p>
+                  <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] flex items-center justify-center font-bold text-xl text-white flex-shrink-0">
+                    {step.number}
+                  </div>
+                  <div className="bg-[#1e293b] rounded-lg p-6 border border-gray-600 flex-1">
+                    <h3 className="text-xl font-bold text-white mb-2">{step.title}</h3>
+                    <p className="text-gray-400">{step.description}</p>
+                  </div>
                 </motion.div>
-              </div>
-            </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Call to Action */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
+          className="text-center bg-[#1e293b] rounded-lg p-8 border border-[#71ADBA]/20"
+        >
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Ready to Explore Your Options?
+          </h2>
+          <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Take our specialized quiz to discover majors that might be a better fit for your interests, 
+            goals, and personality. Get personalized recommendations based on your unique situation.
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={handleGetGuidance}
+              className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] text-white px-8 py-4 rounded-lg font-bold text-lg hover:scale-105 transition-transform flex items-center justify-center gap-3"
+              disabled={!selectedReason}
+            >
+              <FontAwesomeIcon icon={faRocket} />
+              Get Personalized Guidance
+              <FontAwesomeIcon icon={faArrowRight} />
+            </button>
+            
+            <button
+              onClick={() => navigate('/major-selection')}
+              className="border border-[#71ADBA] text-[#71ADBA] px-8 py-4 rounded-lg font-bold hover:bg-[#71ADBA] hover:text-white transition-colors"
+            >
+              Browse All Majors
+            </button>
+          </div>
+          
+          {!selectedReason && (
+            <p className="text-yellow-400 text-sm mt-4">
+              Please select a reason above to get personalized guidance
+            </p>
           )}
-        </AnimatePresence>
+        </motion.div>
+
+        {/* Beta Notice */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="text-center mt-8"
+        >
+          <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+            <p className="text-blue-300 text-sm">
+              💡 <strong>Coming Soon:</strong> AI-powered major switching advisor that analyzes your transcript, 
+              interests, and career goals to create a personalized switching plan.
+            </p>
+          </div>
+        </motion.div>
       </div>
     </div>
   );

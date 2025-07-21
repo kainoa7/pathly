@@ -11,9 +11,12 @@ import TermsOfService from './components/TermsOfService';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import ContactPage from './components/ContactPage';
 import MajorSelectionPage from './components/MajorSelectionPage';
+import SwitchingMajorPage from './components/SwitchingMajorPage';
 import OnboardingPage from './components/OnboardingPage';
 import QuizPage from './components/QuizPage';
 import ResultsPage from './components/ResultsPage';
+import HighSchoolResultsPage from './components/HighSchoolResultsPage';
+import CollegeResultsPage from './components/CollegeResultsPage';
 import ComingSoonPage from './components/ComingSoonPage';
 import AnnouncementsPage from './components/AnnouncementsPage';
 import PricingPage from './components/PricingPage';
@@ -102,6 +105,7 @@ function AppLayout() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/major-selection" element={<MajorSelectionPage />} />
               <Route path="/major-selection/:majorId" element={<MajorSelectionPage />} />
+              <Route path="/switching-major" element={<SwitchingMajorPage />} />
               <Route path="/tech-stack" element={<TechStackPage />} />
               <Route path="/system-design" element={<SystemDesignPage />} />
               <Route path="/onboarding" element={<OnboardingPage />} />
@@ -111,6 +115,10 @@ function AppLayout() {
               <Route path="/quiz/:type" element={<QuizPageWrapper />} />
               <Route path="/adaptive-quiz" element={<AdaptiveQuizPage />} />
               <Route path="/results" element={<ResultsPage />} />
+              <Route path="/results/highschool" element={<HighSchoolResultsPage />} />
+              <Route path="/results/college" element={<CollegeResultsPage />} />
+              <Route path="/results/graduated" element={<ResultsPage />} />
+              <Route path="/results/:quizType" element={<ResultsPage />} />
               <Route path="/campus-life" element={<CampusLifePage />} />
               <Route path="/internships" element={<CareerDiscoveryPage />} />
               <Route path="/login" element={<LoginPage />} />

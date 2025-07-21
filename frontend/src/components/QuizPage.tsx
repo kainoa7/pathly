@@ -3,23 +3,40 @@ import { useNavigate } from 'react-router-dom';
 import type { QuizAnswer, QuizState, QuizQuestion } from '../types/quizTypes';
 import { calculateMajorMatches } from '../utils/quizLogic';
 import { motion } from 'framer-motion';
-import { quizQuestions } from '../data/quizQuestions';
+import { highSchoolQuestions, collegeQuestions, graduatedQuestions } from '../data/quizQuestions';
 
 interface QuizPageProps {
-  quizType: 'highschool' | 'college';
+  quizType: 'highschool' | 'college' | 'graduated';
 }
 
 const QuizPage = ({ quizType }: QuizPageProps) => {
   const navigate = useNavigate();
+  
+  // Get the appropriate question set based on quiz type
+  const getQuestions = (type: string): QuizQuestion[] => {
+    switch (type) {
+      case 'highschool':
+        return highSchoolQuestions;
+      case 'college':
+        return collegeQuestions;
+      case 'graduated':
+        return graduatedQuestions;
+      default:
+        return highSchoolQuestions;
+    }
+  };
+
+  const questions = getQuestions(quizType);
+  
   const [quizState, setQuizState] = useState<QuizState>({
-    currentQuestionId: quizQuestions[0]?.id || '', // Initialize with first question ID
+    currentQuestionId: questions[0]?.id || '',
     answers: [],
     majorMatches: [],
     completed: false
   });
 
-  // Get total questions directly from the questions array
-  const TOTAL_QUESTIONS = quizQuestions.length;
+  // Get total questions from the selected question set
+  const TOTAL_QUESTIONS = questions.length;
 
   const handleAnswer = (value: string, weight: number) => {
     const newAnswer: QuizAnswer = {
@@ -31,8 +48,8 @@ const QuizPage = ({ quizType }: QuizPageProps) => {
     const newAnswers = [...quizState.answers, newAnswer];
     
     // Get the next question index
-    const currentIndex = quizQuestions.findIndex(q => q.id === quizState.currentQuestionId);
-    const nextQuestion = currentIndex < quizQuestions.length - 1 ? quizQuestions[currentIndex + 1] : null;
+    const currentIndex = questions.findIndex(q => q.id === quizState.currentQuestionId);
+    const nextQuestion = currentIndex < questions.length - 1 ? questions[currentIndex + 1] : null;
 
     if (nextQuestion) {
       setQuizState(prev => ({
@@ -41,7 +58,7 @@ const QuizPage = ({ quizType }: QuizPageProps) => {
         answers: newAnswers
       }));
     } else {
-      // Quiz is complete
+      // Quiz is complete - navigate to demo results based on quiz type
       const matches = calculateMajorMatches(newAnswers);
       setQuizState(prev => ({
         ...prev,
@@ -49,13 +66,21 @@ const QuizPage = ({ quizType }: QuizPageProps) => {
         majorMatches: matches,
         completed: true
       }));
-      navigate('/results', { state: { matches } });
+      
+      // Navigate to different demo results based on the quiz type
+      navigate(`/results/${quizType}`, { 
+        state: { 
+          matches, 
+          quizType, 
+          answers: newAnswers 
+        } 
+      });
     }
   };
 
-  // Get current question directly from the array
-  const currentQuestionIndex = Math.max(0, quizQuestions.findIndex(q => q.id === quizState.currentQuestionId));
-  const currentQuestion = quizQuestions[currentQuestionIndex];
+  // Get current question from the selected question set
+  const currentQuestionIndex = Math.max(0, questions.findIndex(q => q.id === quizState.currentQuestionId));
+  const currentQuestion = questions[currentQuestionIndex];
 
   if (!currentQuestion) {
     return (
@@ -64,6 +89,20 @@ const QuizPage = ({ quizType }: QuizPageProps) => {
       </div>
     );
   }
+
+  // Get title based on quiz type
+  const getQuizTitle = (type: string): string => {
+    switch (type) {
+      case 'highschool':
+        return 'High School Career Explorer';
+      case 'college':
+        return 'College Major Finder';
+      case 'graduated':
+        return 'Next Steps Planning';
+      default:
+        return 'Career Quiz';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0f172a] to-[#1e293b] text-white py-12 px-4">
@@ -74,9 +113,16 @@ const QuizPage = ({ quizType }: QuizPageProps) => {
           transition={{ duration: 0.5 }}
           className="bg-[#1e293b] rounded-lg p-8 shadow-xl"
         >
+          {/* Quiz Title */}
+          <div className="text-center mb-4">
+            <h1 className="text-2xl font-bold text-[#EDEAB1] mb-2">
+              {getQuizTitle(quizType)}
+            </h1>
+          </div>
+
           {/* Question Counter */}
           <div className="text-center mb-6">
-            <span className="text-[#EDEAB1] text-lg">
+            <span className="text-[#71ADBA] text-lg">
               Question {currentQuestionIndex + 1} of {TOTAL_QUESTIONS}
             </span>
           </div>
@@ -98,24 +144,21 @@ const QuizPage = ({ quizType }: QuizPageProps) => {
                 <div className="w-6 h-6 rounded-full border-2 border-[#71ADBA] flex items-center justify-center">
                   <span className="text-sm">{String.fromCharCode(65 + index)}</span>
                 </div>
-                <span>{option.text}</span>
+                <span className="text-lg">{option.text}</span>
               </motion.button>
             ))}
           </div>
 
-          {/* Progress Indicator */}
+          {/* Progress Bar */}
           <div className="mt-8">
-            <div className="h-2 bg-[#2d3a4f] rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] transition-all duration-300"
-                style={{ 
-                  width: `${((currentQuestionIndex + 1) / TOTAL_QUESTIONS) * 100}%`
-                }}
+            <div className="bg-[#374357] rounded-full h-3">
+              <motion.div
+                className="bg-gradient-to-r from-[#71ADBA] to-[#9C71BA] h-3 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${((currentQuestionIndex + 1) / TOTAL_QUESTIONS) * 100}%` }}
+                transition={{ duration: 0.5 }}
               />
             </div>
-            <p className="text-center mt-2 text-gray-400">
-              {Math.round(((currentQuestionIndex + 1) / TOTAL_QUESTIONS) * 100)}% Complete
-            </p>
           </div>
         </motion.div>
       </div>

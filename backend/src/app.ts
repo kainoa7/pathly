@@ -15,6 +15,7 @@ import foundingMembersRoutes from './api/founding-members/routes';
 import notificationsRoutes from './api/notifications/routes';
 import aiRoutes from './api/ai/routes';
 import gmailRoutes from './api/gmail/routes';
+import betaSignupsRoutes from './api/beta-signups/routes';
 
 // Load environment variables
 config();
@@ -40,6 +41,7 @@ app.use('/api/founding-members', foundingMembersRoutes);
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/gmail', gmailRoutes);
+app.use('/api/beta-signups', betaSignupsRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {

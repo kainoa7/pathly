@@ -54,6 +54,24 @@ enum NotificationPriority {
   URGENT
 }
 
+model BetaSignup {
+  id                String   @id @default(cuid())
+  email             String   @unique
+  firstName         String
+  lastName          String?
+  currentStatus     String   // "high_school", "college_freshman", "college_sophomore", etc.
+  interestArea      String?  // "technology", "business", "healthcare", etc.
+  university        String?
+  graduationYear    String?
+  phoneNumber       String?
+  howHeardAboutUs   String?  // "social_media", "friend", "search", etc.
+  specificInterests String?  // Text field for what they're most interested in
+  quizResults       String?  // JSON string of their quiz results if they took it
+  source            String?  // Which page/button they signed up from
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
 model User {
   id            String      @id @default(cuid())
   email         String      @unique
@@ -258,10 +276,6 @@ model PlatformFeedback {
   voteType    PlatformVoteType
   feedback    String?           // Optional text feedback
   createdAt   DateTime          @default(now())
-  
-  // Ensure one vote per user/IP combination
-  @@unique([userId, voteType])
-  @@unique([ipAddress, voteType])
 }
 
 model MobileAppVote {

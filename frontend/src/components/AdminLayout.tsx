@@ -7,6 +7,7 @@ import AdminNewsManagement from './AdminNewsManagement';
 import AdminPlatformFeedback from './admin/AdminPlatformFeedback';
 import AdminFoundingMembers from './AdminFoundingMembers';
 import AdminNotifications from './AdminNotifications';
+import AdminBetaSignups from './AdminBetaSignups';
 
 const AdminLayout = () => {
   return (
@@ -19,6 +20,7 @@ const AdminLayout = () => {
         <Route path="feedback" element={<AdminPlatformFeedback />} />
         <Route path="founding-members" element={<AdminFoundingMembers />} />
         <Route path="notifications" element={<AdminNotifications />} />
+        <Route path="beta-signups" element={<AdminBetaSignups />} />
       </Routes>
     </div>
   );

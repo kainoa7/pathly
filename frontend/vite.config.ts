@@ -11,5 +11,14 @@ export default defineConfig({
     commonjsOptions: {
       include: [/mixpanel-browser/, /node_modules/]
     }
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        secure: false
+      }
+    }
   }
 })
