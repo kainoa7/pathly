@@ -1,0 +1,166 @@
+Admin News Import Implementation Summary
+========================================
+
+✅ COMPLETED: Secure Admin Import Endpoint for News Curation
+
+🔧 FILES CREATED/MODIFIED:
+- backend/prisma/schema.prisma (added url unique constraint, source field to NewsArticle)
+- backend/src/utils/adminAuth.ts (NEW - API key + HMAC authentication utilities)
+- backend/src/utils/newsValidation.ts (NEW - Zod validation schema for news import)
+- backend/src/api/news/adminImport.ts (NEW - admin import routes with authentication)
+- backend/src/app.ts (added raw body parser for admin routes, registered admin routes)
+
+📋 NEW DEPENDENCIES:
+- zod (for robust input validation)
+
+🗄️ DATABASE CHANGES:
+- Added url field (unique) to NewsArticle model for upsert operations
+- Added source field to NewsArticle model for publication name
+- Migration: 20250808044200_add_news_admin_import
+
+⚙️ ENVIRONMENT VARIABLES (add to .env):
+- ADMIN_API_KEY="<random-long-secret>" (REQUIRED)
+- ADMIN_HMAC_SECRET="<random-long-secret>" (OPTIONAL - enables HMAC verification)
+
+🛡️ SECURITY FEATURES:
+✅ API Key Authentication with constant-time comparison
+✅ Optional HMAC-SHA256 signature verification (if ADMIN_HMAC_SECRET set)
+✅ Raw body parser for consistent HMAC verification
+✅ Rate limiting (100 requests/15min for bulk imports)
+✅ Input validation with detailed error messages
+✅ Minimal error disclosure (no internal details leaked)
+
+🔐 AUTHENTICATION METHODS:
+1. **API Key (Required)**:
+   - Header: x-api-key
+   - Value: Must match ADMIN_API_KEY environment variable
+   - Uses crypto.timingSafeEqual() for timing attack prevention
+
+2. **HMAC Signature (Optional - if ADMIN_HMAC_SECRET set)**:
+   - Header: x-signature  
+   - Formats supported: "sha256=<hex>" or "<base64>"
+   - HMAC-SHA256 over raw request body using ADMIN_HMAC_SECRET
+   - Constant-time signature verification
+
+📡 ADMIN ENDPOINTS:
+✅ POST /api/news/admin/import
+   - Authentication: requireAdminAuth (API key + optional HMAC)
+   - Rate limited: 100 requests/15min
+   - Input validation with Zod schema
+   - Upserts articles by unique URL (no duplicates)
+   - Returns 201 with created/updated article
+
+✅ GET /api/news/admin/health  
+   - Authentication: requireAdminAuth
+   - Rate limited: 100 requests/15min
+   - Database connectivity test
+   - Returns article count and operational status
+
+📋 REQUEST FORMAT:
+```json
+{
+  "title": "string (1-500 chars)",
+  "url": "string (valid URL, max 1000 chars)",
+  "summary": "string (1-2000 chars)", 
+  "category": "string (maps to NewsCategory enum)",
+  "source": "string (1-200 chars)",
+  "publishedAt": "string (ISO date format)"
+}
+```
+
+🔄 RESPONSE FORMATS:
+**Success (201):**
+```json
+{
+  "message": "Article imported successfully",
+  "article": {
+    "id": "cuid",
+    "title": "...",
+    "url": "...",
+    "summary": "...",
+    "category": "TECH|BUSINESS|FINANCE|SPORTS|AI",
+    "source": "...",
+    "publishedAt": "2025-01-01T00:00:00.000Z",
+    "createdAt": "2025-01-01T00:00:00.000Z",
+    "updatedAt": "2025-01-01T00:00:00.000Z"
+  }
+}
+```
+
+**Error (400/401/500):**
+```json
+{
+  "error": "Error type",
+  "message": "Human readable message",
+  "details": ["Validation errors..."] // Only for validation failures
+}
+```
+
+📝 VALIDATION FEATURES:
+✅ Title: 1-500 characters, required, trimmed
+✅ URL: Valid URL format, max 1000 characters, unique constraint
+✅ Summary: 1-2000 characters, required, trimmed
+✅ Category: Maps to NewsCategory enum (TECH, BUSINESS, FINANCE, SPORTS, AI)
+✅ Source: 1-200 characters, required, trimmed
+✅ PublishedAt: Valid ISO date string, converted to Date object
+✅ Unknown categories default to TECH with warning log
+
+🔧 DATABASE OPERATIONS:
+✅ Upsert by URL (no duplicates created)
+✅ Automatic content field population (uses summary)
+✅ Proper DateTime handling for publishedAt
+✅ Category enum validation and mapping
+✅ Comprehensive error handling for database conflicts
+
+🧪 ACCEPTANCE TESTS - ALL PASSED:
+✅ Call without x-api-key → 401 "Missing x-api-key header"
+✅ Call with wrong x-api-key → 401 "Invalid API key"  
+✅ Call with correct key + valid payload → 201 + article returned
+✅ Second call with same URL → upsert (no duplicate)
+✅ Invalid JSON → 400 "Invalid JSON"
+✅ Invalid data → 400 with validation details
+✅ Database errors handled gracefully
+
+🔮 HMAC TESTING (when ADMIN_HMAC_SECRET configured):
+✅ Missing x-signature header → 401 "Missing x-signature header"
+✅ Invalid signature → 401 "Invalid HMAC signature"
+✅ Correct signature → 201 success
+✅ Supports both hex (sha256=...) and base64 formats
+
+🚀 PRODUCTION DEPLOYMENT:
+1. Set ADMIN_API_KEY to cryptographically secure random string (64+ chars)
+2. Optionally set ADMIN_HMAC_SECRET for additional signature verification
+3. Configure monitoring for 401/403 responses (potential attacks)
+4. Set up log aggregation for import success/failure tracking
+5. Consider IP allowlisting for additional security
+
+🤖 N8N INTEGRATION EXAMPLE:
+```javascript
+// N8N HTTP Request Node Configuration
+{
+  "method": "POST",
+  "url": "https://api.jarvus.com/api/news/admin/import",
+  "headers": {
+    "Content-Type": "application/json",
+    "x-api-key": "{{ $env.ADMIN_API_KEY }}"
+    // Optional: "x-signature": "{{ $calculateHMAC(...) }}"
+  },
+  "body": {
+    "title": "{{ $node.title }}",
+    "url": "{{ $node.url }}",
+    "summary": "{{ $node.summary }}",
+    "category": "{{ $node.category }}",
+    "source": "{{ $node.source }}",
+    "publishedAt": "{{ $node.publishedAt }}"
+  }
+}
+```
+
+🔍 MONITORING & DEBUGGING:
+- All operations logged with article ID and title
+- Rate limit violations logged with IP and timestamp
+- Database conflicts handled with specific error codes
+- HMAC verification failures logged (without exposing secrets)
+- Comprehensive error responses for debugging
+
+This implementation provides a secure, scalable way for external automation tools (like n8n) to import curated news articles while maintaining strong authentication and data validation standards.

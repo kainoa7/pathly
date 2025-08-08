@@ -1,26 +1,11 @@
 import { Router } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { requireUser, requireProUser } from '../../middleware/auth';
 
 const router = Router();
 const prisma = new PrismaClient();
 
-// Middleware to check if user is Pro (you'll want to implement proper auth middleware)
-const requireProUser = (req: any, res: any, next: any) => {
-  // For now, we'll assume the user data is passed in the request
-  // In a real implementation, you'd extract this from JWT or session
-  const userAccountType = req.headers['x-account-type'];
-  
-  if (userAccountType !== 'PRO' && userAccountType !== 'PREMIUM') {
-    return res.status(403).json({
-      message: 'Access denied. Pro subscription required.',
-      error: 'INSUFFICIENT_PERMISSIONS'
-    });
-  }
-  
-  next();
-};
-
-// Middleware to check if user is Admin
+// Middleware to check if user is Admin - using header for now until admin system is built
 const requireAdminUser = (req: any, res: any, next: any) => {
   const userRole = req.headers['x-user-role'];
   
@@ -37,12 +22,10 @@ const requireAdminUser = (req: any, res: any, next: any) => {
 // GET /api/news/saved - Get user's saved articles (Pro users only)
 router.get('/saved', requireProUser, async (req, res) => {
   try {
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
     const { page = '1', limit = '10', category } = req.query;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     const pageNum = parseInt(page as string);
     const limitNum = parseInt(limit as string);
@@ -131,11 +114,9 @@ router.get('/saved', requireProUser, async (req, res) => {
 // GET /api/news/user/activity - Get user's news activity (Pro users only)  
 router.get('/user/activity', requireProUser, async (req, res) => {
   try {
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     // Get user's comments
     const comments = await prisma.newsComment.findMany({
@@ -239,7 +220,7 @@ router.get('/', requireProUser, async (req, res) => {
       where.category = category;
     }
 
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
     const articles = await prisma.newsArticle.findMany({
       where,
@@ -316,7 +297,7 @@ router.get('/', requireProUser, async (req, res) => {
 router.get('/:id', requireProUser, async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
     const article = await prisma.newsArticle.findUnique({
       where: { id },
@@ -411,11 +392,9 @@ router.post('/:id/vote', requireProUser, async (req, res) => {
   try {
     const { id } = req.params;
     const { voteType } = req.body;
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     if (!['UPVOTE', 'DOWNVOTE', 'LIKE'].includes(voteType)) {
       return res.status(400).json({ message: 'Invalid vote type' });
@@ -474,11 +453,9 @@ router.post('/:id/comments', requireProUser, async (req, res) => {
   try {
     const { id } = req.params;
     const { content, parentId } = req.body;
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     if (!content || content.trim().length === 0) {
       return res.status(400).json({ message: 'Comment content required' });
@@ -520,11 +497,9 @@ router.post('/:id/comments', requireProUser, async (req, res) => {
 router.post('/:id/save', requireProUser, async (req, res) => {
   try {
     const { id } = req.params;
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     // Check if article exists
     const article = await prisma.newsArticle.findUnique({
@@ -564,9 +539,15 @@ router.post('/:id/save', requireProUser, async (req, res) => {
         }
       });
       
+      // Get total saves count for analytics
+      const totalSaves = await prisma.savedArticle.count({
+        where: { userId }
+      });
+      
       return res.json({ 
         message: 'Article saved', 
-        saved: true 
+        saved: true,
+        totalSaves
       });
     }
 
@@ -581,12 +562,10 @@ router.post('/:id/save', requireProUser, async (req, res) => {
 // GET /api/news/saved - Get user's saved articles (Pro users only)
 router.get('/saved', requireProUser, async (req, res) => {
   try {
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
     const { page = '1', limit = '10', category } = req.query;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     const pageNum = parseInt(page as string);
     const limitNum = parseInt(limit as string);
@@ -675,11 +654,9 @@ router.get('/saved', requireProUser, async (req, res) => {
 // GET /api/news/user/activity - Get user's news activity (Pro users only)
 router.get('/user/activity', requireProUser, async (req, res) => {
   try {
-    const userId = req.headers['x-user-id'] as string;
+    const userId = req.user!.id;
 
-    if (!userId) {
-      return res.status(401).json({ message: 'User ID required' });
-    }
+
 
     // Get user's comments
     const comments = await prisma.newsComment.findMany({
@@ -1082,6 +1059,99 @@ router.get('/admin/analytics', requireAdminUser, async (req, res) => {
     console.error('Error fetching analytics:', error);
     res.status(500).json({
       message: 'Error fetching analytics'
+    });
+  }
+});
+
+// GET /api/news/for-you - Get personalized news articles (authenticated users)
+router.get('/for-you', requireUser, async (req, res) => {
+  try {
+    const userId = req.user!.id;
+    const limit = Math.min(parseInt(req.query.limit as string) || 10, 20); // Max 20 articles
+
+    // Get user profile for personalization
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        major: true,
+        interests: true,
+        goals: true,
+      }
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Parse interests from JSON string
+    const userInterests = JSON.parse(user.interests || '[]') as string[];
+
+    // Get recent articles
+    const articles = await prisma.newsArticle.findMany({
+      take: 50, // Get more than we need for scoring
+      orderBy: { publishedAt: 'desc' },
+      select: {
+        id: true,
+        title: true,
+        summary: true,
+        category: true,
+        source: true,
+        publishedAt: true,
+      }
+    });
+
+    // Score articles for relevance
+    const scoredArticles = articles.map(article => {
+      let relevance = 0;
+
+      // +2 if category matches any user interest (case-insensitive)
+      if (userInterests.some(interest => 
+        interest.toLowerCase().includes(article.category.toLowerCase()) ||
+        article.category.toLowerCase().includes(interest.toLowerCase())
+      )) {
+        relevance += 2;
+      }
+
+      // +1 if title or summary matches major or goals (case-insensitive contains)
+      const searchText = `${article.title} ${article.summary}`.toLowerCase();
+      
+      if (user.major && searchText.includes(user.major.toLowerCase())) {
+        relevance += 1;
+      }
+      
+      if (user.goals && searchText.includes(user.goals.toLowerCase())) {
+        relevance += 1;
+      }
+
+      // Additional interest matching in title/summary
+      userInterests.forEach(interest => {
+        if (searchText.includes(interest.toLowerCase())) {
+          relevance += 1;
+        }
+      });
+
+      return {
+        ...article,
+        relevance
+      };
+    });
+
+    // Sort by relevance desc, then by publishedAt desc
+    const sortedArticles = scoredArticles
+      .sort((a, b) => {
+        if (a.relevance !== b.relevance) {
+          return b.relevance - a.relevance;
+        }
+        return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+      })
+      .slice(0, limit);
+
+    res.json(sortedArticles);
+
+  } catch (error) {
+    console.error('Error fetching personalized news:', error);
+    res.status(500).json({
+      message: 'Error fetching personalized news'
     });
   }
 });

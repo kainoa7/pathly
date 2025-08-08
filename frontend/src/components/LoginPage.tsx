@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import LockIcon from '@mui/icons-material/Lock';
 import { useAuth } from '../context/AuthContext';
+import { track, identify } from '../lib/analytics';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -67,6 +68,11 @@ const LoginPage = () => {
       if (response.ok) {
         // Login successful
         login(data.user);
+        
+        // Track login completion
+        track('Login Complete');
+        identify(data.user.id);
+        
         navigate('/dashboard');
       } else {
         // Login failed

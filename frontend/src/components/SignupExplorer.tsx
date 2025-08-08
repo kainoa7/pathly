@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { track, identify } from '../lib/analytics';
 
 const SignupExplorer = () => {
   const navigate = useNavigate();
@@ -141,6 +142,10 @@ const SignupExplorer = () => {
         // Success - login user and redirect appropriately
         console.log('Success! Logging in user and redirecting...');
         login(data.user);
+        
+        // Track signup completion
+        track('Signup Complete');
+        identify(data.user.id);
         
         // If user came from quiz, redirect back to results
         if (isFromQuiz) {

@@ -13,12 +13,15 @@ const VideoShowcase = () => {
   };
 
   return (
-    <section className="min-h-screen py-24 px-4 flex items-center bg-gradient-to-br from-[#0f172a] via-[#1a2234] to-[#0f172a] relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
-        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-r from-emerald-400/20 to-cyan-400/20 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+    <section className="min-h-screen py-24 px-4 flex items-center relative">
+      {/* Subtle overlay for video section emphasis */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/10 to-transparent"></div>
+      
+      {/* Minimal animated background elements that complement global background */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-gradient-to-r from-[#71ADBA]/15 to-[#9C71BA]/15 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-40 h-40 bg-gradient-to-r from-[#9C71BA]/15 to-[#EDEAB1]/15 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-r from-[#EDEAB1]/15 to-[#71ADBA]/15 rounded-full blur-2xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
@@ -48,7 +51,7 @@ const VideoShowcase = () => {
             transition={{ delay: 0.2 }}
             className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-400 bg-clip-text text-transparent"
           >
-            See JARVUS in Action
+            Watch Career Confusion Disappear
           </motion.h2>
           
           <motion.p
@@ -58,8 +61,7 @@ const VideoShowcase = () => {
             transition={{ delay: 0.4 }}
             className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
           >
-            Watch how our AI career mentor transforms confusion into clarity, 
-            guiding students from uncertainty to their dream careers in minutes.
+            See how Sarah went from "I have no idea what to do" to landing her dream job in 3 weeks.
           </motion.p>
         </motion.div>
 
@@ -226,16 +228,12 @@ const VideoShowcase = () => {
           transition={{ delay: 1 }}
           className="text-center mt-16"
         >
-          <p className="text-xl text-gray-300 mb-8">
-            Ready to discover your perfect career path?
-          </p>
-          
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-cyan-400/25 transition-all duration-300"
+            className="bg-gradient-to-r from-cyan-500 to-purple-600 text-white px-10 py-5 rounded-xl font-bold text-xl shadow-lg hover:shadow-cyan-400/25 transition-all duration-300"
           >
-            Start Your Journey Now 🚀
+            Watch Sarah's Story
           </motion.button>
         </motion.div>
       </div>

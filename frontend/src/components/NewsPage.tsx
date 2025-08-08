@@ -12,6 +12,7 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import InfoIcon from '@mui/icons-material/Info';
+import { track } from '../lib/analytics';
 
 interface NewsArticle {
   id: string;
@@ -169,6 +170,12 @@ const NewsPage = () => {
 
       if (response.ok) {
         const result = await response.json();
+        
+        // Track first save if user just saved their first article
+        if (result.saved && result.totalSaves === 1) {
+          track('First Save');
+        }
+        
         // Update the article's saved status in the current list
         setArticles(articles.map(article => 
           article.id === articleId 

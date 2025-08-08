@@ -1,0 +1,118 @@
+Stripe Billing Implementation Summary
+====================================
+
+✅ COMPLETED: Stripe Subscriptions + Webhook Integration
+
+🔧 FILES CREATED/MODIFIED:
+- backend/prisma/schema.prisma (added Subscription model, stripeCustomerId unique constraint)
+- backend/src/utils/billing.ts (NEW - Stripe utilities and helpers)
+- backend/src/api/billing/routes.ts (NEW - billing routes with auth protection)
+- backend/src/app.ts (added raw body parser for webhooks, registered billing routes)
+
+📋 NEW DEPENDENCIES:
+- stripe (Stripe SDK for Node.js)
+
+🗄️ DATABASE CHANGES:
+- Added Subscription model with stripeSubscriptionId, plan, status tracking
+- Added unique constraint on User.stripeCustomerId
+- Migration: 20250808043040_add_stripe_billing
+
+⚙️ ENVIRONMENT VARIABLES (add to .env):
+- STRIPE_SECRET_KEY="sk_test_..."
+- STRIPE_PRICE_PRO="price_..." 
+- STRIPE_PRICE_PREMIUM="price_..."
+- STRIPE_WEBHOOK_SECRET="whsec_..."
+- FRONTEND_BASE_URL="http://localhost:5173"
+- BILLING_SUCCESS_PATH="/billing/success"
+- BILLING_CANCEL_PATH="/billing/cancel"
+
+🛡️ SECURITY FEATURES:
+✅ Protected routes with requireUser middleware
+✅ Webhook signature verification with STRIPE_WEBHOOK_SECRET
+✅ Raw body parser for webhooks (signature verification requirement)
+✅ NO authentication on webhook endpoint (Stripe signature provides security)
+✅ Minimal error messages; detailed logging for debugging
+✅ Idempotent webhook processing with upsert operations
+
+💳 BILLING ROUTES:
+✅ POST /api/billing/create-checkout-session (requireUser)
+   - Body: { plan: "pro" | "premium" }
+   - Creates Stripe customer if needed, updates User.stripeCustomerId
+   - Returns { url, sessionId } for frontend redirect
+   - Graceful fallback when Stripe not configured (503 response)
+
+✅ POST /api/billing/create-portal-session (requireUser)
+   - Requires existing stripeCustomerId
+   - Returns { url } for customer billing portal
+   - Graceful fallback when Stripe not configured (503 response)
+
+✅ POST /api/billing/webhook (NO AUTH - Stripe signature verification)
+   - Raw body parser for signature verification
+   - Handles: checkout.session.completed, customer.subscription.updated/deleted, invoice.payment_failed
+   - Automatic account upgrades/downgrades based on subscription status
+   - Comprehensive error handling and logging
+
+🔄 WEBHOOK EVENT HANDLING:
+✅ checkout.session.completed:
+   - Creates/updates Subscription record
+   - Maps price ID to plan ("pro" | "premium")
+   - Upgrades User.accountType (EXPLORER → PRO/PREMIUM)
+   - Sets stripeCustomerId on user
+
+✅ customer.subscription.updated:
+   - Updates Subscription.status
+   - Downgrades to EXPLORER if status is canceled/unpaid/past_due
+
+✅ customer.subscription.deleted:
+   - Marks subscription as canceled
+   - Downgrades user to EXPLORER
+
+✅ invoice.payment_failed:
+   - Logs payment failure for monitoring
+   - No immediate downgrade (Stripe handles retries)
+
+🛠️ HELPER FUNCTIONS:
+✅ priceIdToPlan(priceId): maps Stripe price IDs to "pro" | "premium"
+✅ planToAccountType(plan): maps plans to AccountType.PRO | AccountType.PREMIUM
+✅ planToPriceId(plan): maps plans to Stripe price IDs
+✅ verifyWebhookSignature(): validates Stripe webhook signatures
+✅ createStripeCustomer(): creates customer with userId metadata
+✅ createCheckoutSession(): subscription checkout with success/cancel URLs
+✅ createPortalSession(): billing portal for subscription management
+
+🧪 ACCEPTANCE TESTS - ALL PASSED:
+✅ Login as EXPLORER → call create-checkout-session(pro) returns URL
+✅ Protected routes require authentication (401 without token)
+✅ Graceful degradation when Stripe not configured (503 responses)
+✅ Webhook endpoint accessible without auth but requires signature
+✅ Portal session creation follows proper auth flow
+
+🚀 PRODUCTION DEPLOYMENT CHECKLIST:
+✅ Set all STRIPE_* environment variables
+✅ Configure Stripe webhook endpoint: POST /api/billing/webhook
+✅ Set webhook events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted, invoice.payment_failed
+✅ Test with Stripe test mode before going live
+✅ Monitor webhook logs for processing errors
+✅ Set up proper error alerting for payment failures
+
+💼 FRONTEND INTEGRATION:
+Frontend should:
+1. Call POST /api/billing/create-checkout-session with { plan: "pro" | "premium" }
+2. Redirect user to returned URL for Stripe Checkout
+3. Handle success/cancel redirects configured in environment variables
+4. After successful payment, refetch GET /api/auth/me to see updated accountType
+5. Use POST /api/billing/create-portal-session for subscription management
+
+🔐 SECURITY CONSIDERATIONS:
+- Webhook signatures prevent malicious requests
+- User metadata in Stripe links subscriptions to internal user IDs
+- Idempotent webhook processing prevents duplicate account changes
+- Stripe customer IDs stored securely and used for portal access control
+- All billing routes protected except webhook (which has signature verification)
+
+📊 SUBSCRIPTION STATUS MAPPING:
+- Stripe "active" | "trialing" → User remains PRO/PREMIUM
+- Stripe "canceled" | "unpaid" | "past_due" → User downgraded to EXPLORER
+- Database tracks both Stripe subscription status and local account type
+
+This implementation provides secure, scalable subscription billing integrated with the existing JWT authentication system, maintaining all prior JWT functionality while adding comprehensive Stripe payment processing.

@@ -1,0 +1,264 @@
+Weekly Updates Implementation Summary
+====================================
+
+✅ COMPLETED: Secure Weekly Digest System for External Workers
+
+🔧 FILES CREATED/MODIFIED:
+- backend/prisma/schema.prisma (updated WeeklyUpdate model with summary, html, openedAt, index)
+- backend/src/utils/weeklyValidation.ts (NEW - Zod validation schemas for weekly updates)
+- backend/src/api/weeklyUpdates/routes.ts (NEW - weekly update routes with admin & user auth)
+- backend/src/app.ts (added conditional raw body parser, registered weekly update routes)
+
+🗄️ DATABASE CHANGES:
+- Updated WeeklyUpdate model:
+  - Changed `content` (JSON) to `summary` (text, ≤2k chars) + `html` (≤100k chars)
+  - Changed `readAt` to `openedAt` for better semantics
+  - Added composite index: @@index([userId, createdAt])
+  - Added cascade delete: onDelete: Cascade
+- Migration: 20250808044913_update_weekly_updates_model
+
+⚙️ ENVIRONMENT VARIABLES (reused from admin import):
+- ADMIN_API_KEY="<same as news import>" (REQUIRED for admin endpoints)
+- ADMIN_HMAC_SECRET="<same as news import>" (OPTIONAL - enables HMAC verification)
+
+🛡️ SECURITY FEATURES:
+✅ Admin Authentication: Same API key + optional HMAC as news admin import
+✅ User Authentication: JWT-based with requireUser middleware
+✅ Ownership Verification: Users can only mark their own updates as opened
+✅ Rate Limiting: 200 req/15min (admin), 100 req/15min (user)
+✅ Input Validation: Comprehensive Zod schemas with detailed error messages
+✅ Raw Body Parser: Conditional for admin endpoints (HMAC verification)
+
+📡 WEEKLY UPDATE ENDPOINTS:
+
+🔐 ADMIN ENDPOINTS (for n8n/external workers):
+
+✅ POST /api/weekly-updates
+   - Authentication: requireAdminAuth (API key + optional HMAC)
+   - Rate limited: 200 requests/15min
+   - Request body:
+     ```json
+     {
+       "userId": "string (required)",
+       "summary": "string (1-2000 chars)",
+       "html": "string (1-100000 chars)"
+     }
+     ```
+   - Optional: Idempotency-Key header for safe retries
+   - Validates user existence before creation
+   - Returns 201 with created weekly update
+   - Idempotency: Reuses existing update if same summary within 24h
+
+✅ GET /api/weekly-updates/users/:id/activity
+   - Authentication: requireAdminAuth (API key + optional HMAC)
+   - Rate limited: 200 requests/15min
+   - Returns user activity summary for digest generation:
+     ```json
+     {
+       "savesCount": 42,
+       "votesCount": 18,
+       "commentsCount": 7,
+       "last7d": {
+         "saves": 5,
+         "votes": 3,
+         "comments": 1
+       },
+       "profile": {
+         "major": null,
+         "interests": [],
+         "goals": [],
+         "graduationYear": "2025"
+       }
+     }
+     ```
+
+👤 USER ENDPOINTS (for frontend):
+
+✅ GET /api/weekly-updates/latest
+   - Authentication: requireUser (JWT)
+   - Rate limited: 100 requests/15min
+   - Returns latest weekly update for authenticated user
+   - 200 with update data OR 204 No Content if none exists
+   - Does NOT modify openedAt timestamp
+
+✅ POST /api/weekly-updates/:id/open
+   - Authentication: requireUser (JWT)
+   - Rate limited: 100 requests/15min
+   - Security: User can only mark their own updates as opened
+   - Sets openedAt = now() if not already set
+   - Returns 200 with success message and openedAt timestamp
+   - 403 if trying to mark another user's update
+   - 404 if update doesn't exist
+
+📋 REQUEST/RESPONSE FORMATS:
+
+**Admin Create Weekly Update (POST /api/weekly-updates):**
+```json
+Request:
+{
+  "userId": "clxyz123",
+  "summary": "This week you saved 3 articles and voted on 2 discussions...",
+  "html": "<div><h2>Your Weekly Digest</h2><p>This week you...</p></div>"
+}
+
+Response (201):
+{
+  "message": "Weekly update created successfully",
+  "weeklyUpdate": {
+    "id": "clxyz456", 
+    "userId": "clxyz123",
+    "summary": "This week you saved...",
+    "html": "<div><h2>Your Weekly...",
+    "createdAt": "2025-01-08T04:49:13.000Z",
+    "openedAt": null
+  }
+}
+```
+
+**User Get Latest (GET /api/weekly-updates/latest):**
+```json
+Response (200):
+{
+  "weeklyUpdate": {
+    "id": "clxyz456",
+    "summary": "This week you saved...",
+    "html": "<div><h2>Your Weekly...",
+    "createdAt": "2025-01-08T04:49:13.000Z",
+    "openedAt": null
+  }
+}
+
+Response (204): No Content (if no updates exist)
+```
+
+**User Mark Opened (POST /api/weekly-updates/:id/open):**
+```json
+Response (200):
+{
+  "message": "Weekly update marked as opened",
+  "openedAt": "2025-01-08T10:30:00.000Z"
+}
+```
+
+**User Activity Summary (GET /api/weekly-updates/users/:id/activity):**
+```json
+Response (200):
+{
+  "savesCount": 42,
+  "votesCount": 18, 
+  "commentsCount": 7,
+  "last7d": {
+    "saves": 5,
+    "votes": 3,
+    "comments": 1
+  },
+  "profile": {
+    "major": null,
+    "interests": [],
+    "goals": [],
+    "graduationYear": "2025"
+  }
+}
+```
+
+🔧 VALIDATION FEATURES:
+✅ userId: Required string, validates user exists in database
+✅ summary: 1-2000 characters, required, trimmed
+✅ html: 1-100,000 characters, required, trimmed (for rich digest content)
+✅ Comprehensive error messages for all validation failures
+✅ JSON parsing with graceful error handling
+✅ User existence validation before creation
+
+🧪 ACCEPTANCE TESTS - ALL PASSED:
+✅ Admin call to POST /api/weekly-updates without key → 401 "Missing x-api-key header"
+✅ Admin call with wrong x-api-key → 401 "Invalid API key"
+✅ Admin call with correct key + valid body → 201 returns weekly update
+✅ GET /api/weekly-updates/latest without auth → 401 "Access token required"
+✅ POST /api/weekly-updates/:id/open without auth → 401 "Access token required"
+✅ GET /api/weekly-updates/users/:id/activity without auth → 401 "Missing x-api-key header"
+✅ Invalid JSON → 400 "Invalid JSON"
+✅ Invalid data → 400 with validation details
+✅ User ownership verification for opening updates
+
+🔮 ADDITIONAL FEATURES:
+✅ Idempotency Support: Optional Idempotency-Key header prevents duplicate digest creation
+✅ Efficient Database Queries: Composite index on [userId, createdAt] for fast lookups
+✅ Activity Metrics: Comprehensive user engagement data for personalized digest generation
+✅ Scalable Architecture: Rate limiting and validation ready for high-volume digest creation
+
+🤖 N8N INTEGRATION EXAMPLE:
+```javascript
+// N8N Workflow: Create Weekly Digest
+{
+  // Step 1: Get User Activity
+  "method": "GET",
+  "url": "https://api.jarvus.com/api/weekly-updates/users/{{ $node.userId }}/activity",
+  "headers": {
+    "x-api-key": "{{ $env.ADMIN_API_KEY }}"
+  }
+}
+
+// Step 2: Generate Digest Content (AI/Template)
+// ... process activity data into summary and HTML ...
+
+// Step 3: Create Weekly Update
+{
+  "method": "POST", 
+  "url": "https://api.jarvus.com/api/weekly-updates",
+  "headers": {
+    "Content-Type": "application/json",
+    "x-api-key": "{{ $env.ADMIN_API_KEY }}",
+    "Idempotency-Key": "{{ $node.userId }}-{{ $now.format('YYYY-MM-DD') }}"
+  },
+  "body": {
+    "userId": "{{ $node.userId }}",
+    "summary": "{{ $generated.summary }}",
+    "html": "{{ $generated.html }}"
+  }
+}
+```
+
+🎯 FRONTEND INTEGRATION:
+```typescript
+// Fetch latest digest
+const response = await fetch('/api/weekly-updates/latest', {
+  headers: { Authorization: `Bearer ${accessToken}` }
+});
+
+if (response.status === 204) {
+  // No digest available
+} else {
+  const { weeklyUpdate } = await response.json();
+  // Display digest...
+  
+  // Mark as opened when user views it
+  await fetch(`/api/weekly-updates/${weeklyUpdate.id}/open`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${accessToken}` }
+  });
+}
+```
+
+📊 MONITORING & ANALYTICS:
+- Track digest creation success/failure rates
+- Monitor user engagement (openedAt timestamps)
+- User activity trends for digest personalization
+- Rate limit violations and authentication failures
+- Database performance on composite index queries
+
+🚀 PRODUCTION DEPLOYMENT:
+1. Reuse existing ADMIN_API_KEY from news import system
+2. Configure monitoring for digest creation workflows
+3. Set up log aggregation for user engagement tracking
+4. Consider adding digest preferences/frequency settings
+5. Implement digest archiving for storage optimization
+
+🔄 WORKFLOW INTEGRATION:
+This implementation enables external automation systems (n8n, Zapier, etc.) to:
+1. Fetch user activity data for personalization
+2. Generate personalized weekly digests using AI/templates
+3. Securely create digest entries with idempotency protection
+4. Allow users to view and mark digests as read via frontend
+5. Track engagement metrics for optimization
+
+The system maintains the same security standards as the existing news admin import while providing a complete digest management solution for enhanced user engagement.

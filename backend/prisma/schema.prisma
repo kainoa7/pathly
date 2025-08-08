@@ -82,6 +82,11 @@ model User {
   githubId      String?     @unique
   university    String?
   graduationYear String?
+  major         String?
+  interests     String      @default("[]") // JSON array stored as string
+  goals         String?
+  onboardingComplete Boolean @default(false)
+  stripeCustomerId String?  @unique
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   
@@ -113,6 +118,12 @@ model User {
   
   // Notification Relations (Pro Users Only)
   userNotifications   UserNotification[]
+  
+  // Auth Relations
+  refreshTokens       RefreshToken[]
+  
+  // Billing Relations
+  subscriptions       Subscription[]
 }
 
 model CareerQuizResult {
@@ -182,21 +193,26 @@ model SalaryTrend {
 model WeeklyUpdate {
   id          String   @id @default(cuid())
   userId      String
-  user        User     @relation(fields: [userId], references: [id])
-  content     String   // JSON string of weekly update content
+  summary     String   // Short text summary (<= 2k chars)
+  html        String   // Full HTML content for render
   createdAt   DateTime @default(now())
-  readAt      DateTime?
+  openedAt    DateTime?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, createdAt])
 }
 
 // News Feature Models (Pro Users Only)
 model NewsArticle {
   id          String        @id @default(cuid())
   title       String
+  url         String        @unique // Unique URL for upsert operations
   content     String        // Full article content
   summary     String        // Brief summary for cards
   category    NewsCategory
+  source      String        // Source publication/site name
   imageUrl    String?       // Optional featured image
-  sourceUrl   String?       // Link to original article
+  sourceUrl   String?       // Link to original article (legacy field)
   authorName  String?       // Original author name
   publishedAt DateTime      @default(now())
   createdAt   DateTime      @default(now())
@@ -328,4 +344,33 @@ model UserNotification {
   
   // Ensure one record per user per notification
   @@unique([userId, notificationId])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+}
+
+model Subscription {
+  id                   String   @id @default(cuid())
+  userId               String
+  stripeSubscriptionId String   @unique
+  plan                 String   // "pro" | "premium"
+  status               String   // "active" | "trialing" | "canceled" | etc.
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  
+  // Relations
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([stripeSubscriptionId])
 }

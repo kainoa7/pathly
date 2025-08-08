@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 import prisma from './config/database';
 import authRoutes from './api/auth/routes';
@@ -16,6 +17,9 @@ import notificationsRoutes from './api/notifications/routes';
 import aiRoutes from './api/ai/routes';
 import gmailRoutes from './api/gmail/routes';
 import betaSignupsRoutes from './api/beta-signups/routes';
+import billingRoutes from './api/billing/routes';
+import newsAdminRoutes from './api/news/adminImport';
+import weeklyUpdatesRoutes from './api/weeklyUpdates/routes';
 
 // Load environment variables
 config();
@@ -26,6 +30,24 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(morgan('dev'));
+app.use(cookieParser());
+
+// Raw body parser for Stripe webhooks (must be before express.json())
+app.use('/api/billing/webhook', express.raw({ type: 'application/json' }));
+
+// Raw body parser for admin endpoints (for HMAC verification)
+app.use('/api/news/admin', express.raw({ type: 'application/json' }));
+
+// Raw body parser for weekly updates admin endpoints
+app.use('/api/weekly-updates', (req, res, next) => {
+  // Only apply raw parser for admin POST endpoint (creation)
+  if (req.method === 'POST' && req.path === '/') {
+    express.raw({ type: 'application/json' })(req, res, next);
+  } else {
+    next();
+  }
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -42,6 +64,9 @@ app.use('/api/notifications', notificationsRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api/gmail', gmailRoutes);
 app.use('/api/beta-signups', betaSignupsRoutes);
+app.use('/api/billing', billingRoutes);
+app.use('/api/news/admin', newsAdminRoutes);
+app.use('/api/weekly-updates', weeklyUpdatesRoutes);
 
 // Basic health check route
 app.get('/health', (req, res) => {

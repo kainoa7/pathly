@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, createBrowserRouter, RouterProvider, useParams, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LandingPage from './components/LandingPage';
@@ -36,8 +37,10 @@ import CareerRoadmap from './pages/services/CareerRoadmap';
 import DemoPage from './components/DemoPage';
 import BreakingIntoTechPage from './components/BreakingIntoTechPage';
 import DiscordWaitlistPage from './components/DiscordWaitlistPage';
+import DashboardPage from './components/DashboardPage';
 import ComingSoonFeaturePage from './components/ComingSoonFeaturePage';
 import Analytics from './utils/analytics';
+import { init as initAnalytics } from './lib/analytics';
 import ActiveUsersBanner from './components/ActiveUsersBanner';
 import TechStackPage from './components/TechStackPage';
 import SystemDesignPage from './components/SystemDesignPage';
@@ -51,6 +54,8 @@ import HowItWorks from './components/HowItWorks';
 import HowItWorksPage from './components/HowItWorksPage';
 import PlatformGuidePage from './components/PlatformGuidePage';
 import { ThemeProvider } from './context/ThemeContext';
+import { useUserStore } from './state/user';
+import { OnboardingModal } from './components/onboarding/OnboardingModal';
 import { AuthProvider } from './context/AuthContext';
 import AdminLogin from './components/AdminLogin';
 import AdminDashboard from './components/AdminDashboard';
@@ -84,6 +89,37 @@ const QuizPageWrapper = () => {
 function AppLayout() {
   const location = useLocation();
   const hideHeader = location.pathname === '/ai-assistant' || location.pathname === '/jarvus-ai-demo';
+  
+  // User state management
+  const { user, fetchUser, isLoading } = useUserStore();
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
+  // Initialize analytics and fetch user on app load
+  useEffect(() => {
+    // Initialize analytics first
+    initAnalytics();
+    
+    // Then fetch user if token exists
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      fetchUser();
+    }
+  }, [fetchUser]);
+
+  // Show onboarding modal if user is logged in but hasn't completed onboarding
+  useEffect(() => {
+    if (user && !user.onboardingComplete && !isLoading) {
+      setShowOnboarding(true);
+    } else {
+      setShowOnboarding(false);
+    }
+  }, [user, isLoading]);
+
+  const handleOnboardingClose = () => {
+    // Re-fetch user to get updated onboardingComplete status
+    fetchUser();
+    setShowOnboarding(false);
+  };
 
   return (
     <div className={`${hideHeader ? '' : 'p-2 sm:p-4 lg:p-6'} min-h-screen ${hideHeader ? 'bg-slate-900' : 'bg-black/5 dark:bg-black/20'}`}>
@@ -93,6 +129,11 @@ function AppLayout() {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<SmartLandingPage />} />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <DashboardPage />
+                </ProtectedRoute>
+              } />
               <Route path="/explorer-landing" element={
                 <ProtectedRoute requiredAccountType="EXPLORER">
                   <ExplorerLandingPage />
@@ -191,6 +232,12 @@ function AppLayout() {
           {!hideHeader && <Footer />}
         </div>
       </div>
+      
+      {/* Onboarding Modal */}
+      <OnboardingModal 
+        open={showOnboarding} 
+        onClose={handleOnboardingClose} 
+      />
     </div>
   );
 }
